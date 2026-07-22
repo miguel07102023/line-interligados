@@ -839,7 +839,7 @@ function shell(content){
  const u=currentUser;return `<div class="shell">
  <aside class="sidebar">
   <div class="brand"><div class="logo-box">${icon("zap")}</div><div><strong>LINE</strong><small>Interligados</small></div></div>
-  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes"?'<span class="nav-badge">3</span>':""}</a>`).join("")}</nav>
+  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
  </aside>
  <main class="main"><div class="topbar"><div class="welcome"><h1>${titles()[route]}</h1><p>${subtitles()[route]}</p></div><div class="top-actions"><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
@@ -1325,9 +1325,40 @@ window.availabilityFor = function(eventId,userId=currentUser.id){
 }
 
 window.updateMyScheduleStatus = async function(scheduleId,status){
-  const {error}=await supabaseClient.rpc("update_my_schedule_status",{p_schedule_id:Number(scheduleId),p_status:status});
-  if(error){console.error(error);alert("Não foi possível atualizar a escala.");return}
-  await loadV8State();await render();
+  const id=Number(scheduleId);
+
+  // Primeira opção: RPC segura no Supabase.
+  const {error:rpcError}=await supabaseClient.rpc("update_my_schedule_status",{
+    p_schedule_id:id,
+    p_status:status
+  });
+
+  if(!rpcError){
+    await loadV8State();
+    await render();
+    return;
+  }
+
+  console.warn("RPC update_my_schedule_status falhou, tentando update protegido por RLS:",rpcError);
+
+  // Fallback: update direto. Só funciona para a própria escala, conforme policy RLS do patch v8.3.
+  const {error:updateError}=await supabaseClient
+    .from("schedules")
+    .update({status})
+    .eq("id",id)
+    .eq("user_id",currentUser.id);
+
+  if(updateError){
+    console.error("Não foi possível atualizar a escala:",updateError);
+    alert(
+      "Não foi possível confirmar a escala. Atualize a página e tente novamente. " +
+      "Se continuar, o administrador precisa executar o patch SQL v8.3 no Supabase."
+    );
+    return;
+  }
+
+  await loadV8State();
+  await render();
 }
 
 window.memberHome = async function(){
@@ -1588,7 +1619,7 @@ window.render = async function(){
 
 addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v8.2 navy iniciado");
+ console.info("LINE Interligados v8.3 hotfix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
