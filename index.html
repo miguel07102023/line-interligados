@@ -353,7 +353,7 @@ async function loadCurrentUser(userOverride=null){
    .maybeSingle();
 
  if(error){
-   console.error("Erro ao carregar profile:",error);
+   console.error("Erro ao carregar profile no Supabase:",error);
    currentUser=null;
    return null;
  }
@@ -503,11 +503,7 @@ function authPage(){
         <h2>Bem-vindo 👋</h2><p>Entre na sua conta ou crie seu acesso.</p>
         <div class="auth-tabs"><button class="auth-tab active" onclick="showAuth('login',this)">Entrar</button><button class="auth-tab" onclick="showAuth('register',this)">Criar conta</button></div>
         <div id="authForm">${loginForm()}</div><div id="authMessage" class="auth-message"></div>
-        <div class="demo-login">
-          <b>Login conectado ao Supabase</b><br><br>
-          Use o e-mail e a senha cadastrados no Authentication.<br>
-          Miguel: 
-        </div>
+        
       </div>
     </section>
   </div>`;
@@ -541,33 +537,81 @@ async function login(e){
  setAuthMessage("","error");
 
  try{
-   const {data,error}=await withTimeout(
-     supabaseClient.auth.signInWithPassword({email,password}),
-     8000
-   );
+   // No mobile, a autenticação pode levar mais de 8s.
+   // Não usamos mais o timeout curto que gerava falso erro.
+   const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
 
    if(error)throw error;
 
-   if(!data?.user){
-     throw new Error("Usuário não retornado pelo Supabase.");
+   let user=data?.user||null;
+
+   // Caso o retorno imediato venha incompleto, consulta a sessão já criada.
+   if(!user){
+     const {data:{session}}=await supabaseClient.auth.getSession();
+     user=session?.user||null;
    }
 
-   await withTimeout(loadCurrentUser(data.user),7000);
+   if(!user){
+     throw new Error("Não foi possível recuperar a sessão após o login.");
+   }
 
-   if(!currentUser){
-     throw new Error("Seu login existe, mas o perfil não foi encontrado em profiles.");
+   // Tenta carregar o perfil até 3 vezes para tolerar atraso de rede/RLS.
+   let profileLoaded=false;
+   let lastProfileError=null;
+
+   for(let attempt=0;attempt<3;attempt++){
+     try{
+       await loadCurrentUser(user);
+       if(currentUser){
+         profileLoaded=true;
+         break;
+       }
+     }catch(err){
+       lastProfileError=err;
+     }
+     await new Promise(resolve=>setTimeout(resolve,700));
+   }
+
+   if(!profileLoaded){
+     console.error("Falha ao carregar perfil:",lastProfileError);
+     throw new Error("Login realizado, mas o perfil não pôde ser carregado.");
    }
 
    route="dashboard";
    location.hash="dashboard";
-   render();
+   await render();
 
  }catch(error){
    console.error("Erro no login:",error);
 
-   const message=error?.message==="TIMEOUT"
-     ? "A conexão está demorando mais que o esperado. Tente novamente."
-     : "Não foi possível entrar. Confira seu e-mail, senha e conexão.";
+   // Verifica se a autenticação foi concluída apesar de eventual falha/atraso.
+   try{
+     const {data:{session}}=await supabaseClient.auth.getSession();
+     if(session?.user){
+       await loadCurrentUser(session.user);
+       if(currentUser){
+         route="dashboard";
+         location.hash="dashboard";
+         await render();
+         return;
+       }
+     }
+   }catch(sessionError){
+     console.error("Erro ao recuperar sessão:",sessionError);
+   }
+
+   let message="Não foi possível entrar. Confira seu e-mail e sua senha.";
+   const raw=(error?.message||"").toLowerCase();
+
+   if(raw.includes("invalid login credentials")){
+     message="E-mail ou senha incorretos.";
+   }else if(raw.includes("email not confirmed")){
+     message="Seu e-mail ainda precisa ser confirmado.";
+   }else if(raw.includes("profile")){
+     message="O login foi aceito, mas houve um problema ao carregar seu perfil.";
+   }else if(raw.includes("network") || raw.includes("fetch")){
+     message="A conexão com o servidor falhou. Tente novamente.";
+   }
 
    setAuthMessage(message,"error");
 
@@ -1363,7 +1407,7 @@ window.render = async function(){
 
 addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v8 homologação iniciado");
+ console.info("LINE Interligados v8.1 hotfix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
