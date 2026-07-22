@@ -210,7 +210,7 @@ const seed = {
   teams:["Story","Fotos","Design","Projeção","Reels"],
   schedulesByEvent:{},
   notifications:{
-    "miguelmkt.grupoconexao@gmail.com":[
+    "":[
       {id:101,icon:"calendar-check",title:"Escala confirmada",text:"Sua escala da Festa na Roça está confirmada.",time:"Agora",read:false,details:"Você foi incluído na programação da Festa na Roça. Confira horário, local e orientações no evento."},
       {id:102,icon:"users",title:"Gestão de equipe",text:"Revise novos cadastros e permissões.",time:"Hoje",read:false,details:"Como Master Admin, você pode revisar membros, ajustar equipes e permissões dentro da plataforma."}
     ],
@@ -506,14 +506,14 @@ function authPage(){
         <div class="demo-login">
           <b>Login conectado ao Supabase</b><br><br>
           Use o e-mail e a senha cadastrados no Authentication.<br>
-          Miguel: miguelmkt.grupoconexao@gmail.com
+          Miguel: 
         </div>
       </div>
     </section>
   </div>`;
 }
 function loginForm(){return `<form onsubmit="login(event)">
-  <div class="field"><label>E-mail</label><input id="loginEmail" type="email" value="miguelmkt.grupoconexao@gmail.com" autocomplete="email" required></div>
+  <div class="field"><label>E-mail</label><input id="loginEmail" type="email" autocomplete="email" required></div>
   <div class="field"><label>Senha</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha do Supabase" required></div>
   <button id="loginButton" class="auth-submit">Entrar</button>
 </form>`}
