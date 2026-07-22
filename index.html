@@ -365,18 +365,116 @@ body{
 }
 
 
-/* Logo oficial LINE */
-.logo-box{
+/* ===== LOGO OFICIAL LINE NA SIDEBAR ===== */
+.logo-box.brand-logo-image,
+.brand-logo.brand-logo-image{
   overflow:hidden !important;
   padding:0 !important;
   background:#07101c !important;
+  border:1px solid rgba(255,255,255,.06) !important;
 }
-.app-logo-img{
+.logo-box.brand-logo-image img,
+.brand-logo.brand-logo-image img,
+.brand-logo-img{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  object-fit:cover !important;
+  border-radius:inherit !important;
+}
+
+
+/* ===== V8.6 — EDITOR DE FOTO DE PERFIL ===== */
+.avatar-editor{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  margin:4px 0 16px;
+  border:1px solid rgba(77,129,176,.18);
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(16,37,61,.92),rgba(8,20,34,.92));
+}
+.avatar-preview{
+  width:74px;
+  height:74px;
+  flex:0 0 74px;
+  border-radius:50%;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:#142237;
+  border:2px solid rgba(143,184,220,.25);
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  font-size:18px;
+  font-weight:800;
+}
+.avatar-preview img{
   width:100%;
   height:100%;
-  display:block;
   object-fit:cover;
-  border-radius:inherit;
+  display:block;
+}
+.avatar-editor-info{
+  min-width:0;
+  flex:1;
+}
+.avatar-editor-info b{
+  display:block;
+  font-size:11px;
+  margin-bottom:5px;
+}
+.avatar-editor-info small{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.5;
+  margin-top:6px;
+}
+.avatar-file-input{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.change-photo-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:1px solid rgba(117,165,207,.28);
+  background:linear-gradient(145deg,#1f5f9b,#123a6d);
+  color:#fff;
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:9px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.change-photo-btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+}
+.change-photo-btn svg{
+  width:14px;
+  height:14px;
+}
+.photo-file-name{
+  font-size:8px;
+  color:#8fb8dc;
+  margin-top:7px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:300px;
+}
+@media(max-width:560px){
+  .avatar-editor{align-items:flex-start}
+  .avatar-preview{width:62px;height:62px;flex-basis:62px}
+  .change-photo-btn{width:100%;margin-top:4px}
 }
 
 </style>
@@ -508,13 +606,46 @@ async function updateMemberAdminFields(userId,{role,leadership_role,active}){
 }
 
 async function uploadAvatarFile(file){
-  if(!file||!currentUser)return null;
-  const extension=(file.name.split(".").pop()||"jpg").toLowerCase();
-  const path=`${currentUser.id}/avatar-${Date.now()}.${extension}`;
-  const {error}=await supabaseClient.storage.from("avatars").upload(path,file,{upsert:true});
-  if(error){console.error("Erro no upload:",error);alert("Não foi possível enviar a foto.");return null}
-  const {data}=supabaseClient.storage.from("avatars").getPublicUrl(path);
-  return data?.publicUrl||null;
+  if(!file || !currentUser)return null;
+
+  if(!file.type || !file.type.startsWith("image/")){
+    alert("Selecione um arquivo de imagem.");
+    return null;
+  }
+
+  const maxSize=5*1024*1024;
+  if(file.size>maxSize){
+    alert("A foto deve ter no máximo 5 MB.");
+    return null;
+  }
+
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"");
+  const path=`${currentUser.id}/avatar-${Date.now()}.${ext||"jpg"}`;
+
+  const {data:uploadData,error:uploadError}=await supabaseClient
+    .storage
+    .from("avatars")
+    .upload(path,file,{
+      cacheControl:"3600",
+      contentType:file.type,
+      upsert:false
+    });
+
+  if(uploadError){
+    console.error("Erro no upload do avatar:",uploadError);
+    alert(`Não foi possível enviar a foto: ${uploadError.message||"erro no Storage"}`);
+    return null;
+  }
+
+  const storedPath=uploadData?.path||path;
+  const {data:publicData}=supabaseClient.storage.from("avatars").getPublicUrl(storedPath);
+
+  if(!publicData?.publicUrl){
+    alert("A foto foi enviada, mas não foi possível gerar a URL pública.");
+    return null;
+  }
+
+  return `${publicData.publicUrl}?v=${Date.now()}`;
 }
 
 
@@ -682,7 +813,7 @@ document.addEventListener("click",(e)=>{
 function authPage(){
   return `<div class="auth-page">
     <section class="auth-art">
-      <div class="auth-logo"><div class="logo-box">${icon("zap")}</div><div><strong>LINE</strong><small>Interligados</small></div></div>
+      <div class="auth-logo"><div class="logo-box brand-logo-image"><img src="line-logo.png" alt="LINE" class="brand-logo-img"></div><div><strong>LINE</strong><small>Interligados</small></div></div>
       <div class="auth-copy">
         <div class="eyebrow">Equipe de mídia • Interligados</div>
         <h1>Organize a equipe.<br>Sirva com excelência.</h1>
@@ -855,7 +986,7 @@ const nav=[["dashboard","house","Dashboard"],["eventos","calendar-days","Eventos
 function shell(content){
  const u=currentUser;return `<div class="shell">
  <aside class="sidebar">
-  <div class="brand"><div class="logo-box">${icon("zap")}</div><div><strong>LINE</strong><small>Interligados</small></div></div>
+  <div class="brand"><div class="logo-box"><img src="line-logo.png" alt="LINE" class="brand-logo-img"></div><div><strong>LINE</strong><small>Interligados</small></div></div>
   <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
  </aside>
@@ -1002,7 +1133,16 @@ async function openRealProfileModal(userId=null){
   const currentTeam=teams.find(t=>userTeams.includes(t.name));
   document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg profile-popover" onclick="if(event.target===this)closeModal()"><div class="modal">
     <div class="profile-header">${avatarHTML({...u,photo:u.photo_url||""},"profile-photo")}<div><h3 style="margin:0 0 4px">${u.name||"Perfil"}</h3><div style="font-size:9px;color:var(--muted)">${u.name==="Michel Macedo"?"Líder Geral do Departamento":u.leadership_role||(u.role==="master"?"Master Admin":(userTeams.join(" / ")||"Membro"))}</div></div></div>
-    ${own?`<div class="member-avatar-upload"><div class="file-input-wrap"><label style="font-size:10px">Alterar foto</label><input id="realAvatarFile" type="file" accept="image/*"><small>A imagem será enviada para o bucket avatars do Supabase.</small></div></div>`:""}
+    ${own?`<div class="avatar-editor">
+      <div class="avatar-preview" id="avatarPreview">${u.photo_url?`<img src="${u.photo_url}" alt="${u.name}">`:initials(u.name||"?")}</div>
+      <div class="avatar-editor-info">
+        <b>Foto de perfil</b>
+        <label class="change-photo-btn" for="realAvatarFile">${icon("camera")} Trocar foto</label>
+        <input class="avatar-file-input" id="realAvatarFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" onchange="previewSelectedAvatar(this)">
+        <div class="photo-file-name" id="avatarFileName">PNG, JPG, WEBP ou GIF • até 5 MB</div>
+        <small>A nova foto será enviada ao seu perfil quando você clicar em “Salvar alterações”.</small>
+      </div>
+    </div>`:""}
     <div class="form-grid">
       <div class="field full"><label>Nome</label><input id="rpName" value="${u.name||""}" ${own||canAdmin?"":"disabled"}></div>
       <div class="field full"><label>E-mail</label><input value="${u.email||""}" disabled></div>
@@ -1017,6 +1157,36 @@ async function openRealProfileModal(userId=null){
   refreshIcons();
 }
 
+
+function previewSelectedAvatar(input){
+  const file=input?.files?.[0];
+  if(!file)return;
+
+  const maxSize=5*1024*1024;
+  if(!file.type?.startsWith("image/")){
+    alert("Selecione uma imagem válida.");
+    input.value="";
+    return;
+  }
+  if(file.size>maxSize){
+    alert("A foto deve ter no máximo 5 MB.");
+    input.value="";
+    return;
+  }
+
+  const nameEl=document.getElementById("avatarFileName");
+  if(nameEl)nameEl.textContent=file.name;
+
+  const preview=document.getElementById("avatarPreview");
+  if(!preview)return;
+
+  const reader=new FileReader();
+  reader.onload=()=>{
+    preview.innerHTML=`<img src="${reader.result}" alt="Prévia da nova foto">`;
+  };
+  reader.readAsDataURL(file);
+}
+
 async function saveRealProfile(userId){
   const members=await fetchMembersReal();
   const u=members.find(x=>x.id===userId); if(!u)return;
@@ -1028,7 +1198,8 @@ async function saveRealProfile(userId){
     const file=document.getElementById("realAvatarFile")?.files?.[0];
     if(file){
       const uploaded=await uploadAvatarFile(file);
-      if(uploaded)photoUrl=uploaded;
+      if(!uploaded)return;
+      photoUrl=uploaded;
     }
     const {error}=await supabaseClient.rpc("update_my_profile",{
       p_name:document.getElementById("rpName").value.trim()||u.name,
@@ -1636,7 +1807,7 @@ window.render = async function(){
 
 addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v8.3 hotfix iniciado");
+ console.info("LINE Interligados v8.6 avatar iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
