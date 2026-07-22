@@ -1,0 +1,1377 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070d18">
+<title>LINE Interligados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#060b13;--bg2:#09111f;--sidebar:#07101c;--card:#0d1727;--card2:#111d30;
+  --border:rgba(255,255,255,.075);--text:#f8fafc;--soft:#cbd5e1;--muted:#8ea0b8;
+  --purple:#8b5cf6;--purple2:#6d28d9;--blue:#3b82f6;--green:#22c55e;--yellow:#f59e0b;
+  --red:#ef4444;--cyan:#06b6d4;--radius:18px;--sidebar-w:232px;--shadow:0 18px 48px rgba(0,0,0,.22)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;color:var(--text);min-height:100vh;background:
+ radial-gradient(circle at 86% 12%,rgba(91,33,182,.13),transparent 28%),
+ radial-gradient(circle at 25% 90%,rgba(37,99,235,.06),transparent 30%),var(--bg)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.hidden{display:none!important}
+svg{width:18px;height:18px}
+.auth-page{min-height:100vh;display:grid;grid-template-columns:1.08fr .92fr;padding:28px}
+.auth-art{border:1px solid var(--border);border-radius:28px;background:
+ linear-gradient(145deg,rgba(109,40,217,.22),rgba(10,18,31,.92)),
+ radial-gradient(circle at 20% 20%,rgba(139,92,246,.35),transparent 30%);padding:54px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}
+.auth-art:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;border:1px solid rgba(255,255,255,.06);right:-140px;bottom:-160px;box-shadow:0 0 0 50px rgba(255,255,255,.015),0 0 0 100px rgba(255,255,255,.01)}
+.auth-logo{display:flex;align-items:center;gap:13px}.logo-box{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#a855f7,#6d28d9);box-shadow:0 12px 32px rgba(124,58,237,.35)}
+.auth-logo strong{font-size:26px;letter-spacing:1px}.auth-logo small{display:block;color:#a8b5c7;font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.auth-copy{max-width:590px;position:relative;z-index:1}.auth-copy .eyebrow{color:#c4b5fd;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.auth-copy h1{font-size:48px;line-height:1.04;letter-spacing:-2px;margin-bottom:18px}.auth-copy p{font-size:15px;line-height:1.7;color:#aab8cb;max-width:520px}
+.auth-features{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.auth-chip{border:1px solid rgba(255,255,255,.08);background:rgba(7,13,24,.34);padding:10px 13px;border-radius:12px;font-size:11px;color:#d7deea;display:flex;align-items:center;gap:7px}
+.auth-panel{display:grid;place-items:center;padding:20px}.auth-card{width:min(440px,100%);background:rgba(11,19,33,.94);border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.auth-card h2{font-size:25px;margin-bottom:6px}.auth-card>p{font-size:12px;color:var(--muted);margin-bottom:22px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#08111e;border-radius:11px;padding:4px;margin-bottom:20px}.auth-tab{border:0;background:transparent;color:#8fa0b6;padding:10px;border-radius:8px;font-size:12px;font-weight:600}.auth-tab.active{background:#162237;color:#fff}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:13px}.field label{font-size:11px;color:#b7c2d3}.field input,.field select,.field textarea{width:100%;background:#08111e;color:#fff;border:1px solid var(--border);outline:0;border-radius:11px;padding:12px 13px}.field input:focus,.field select:focus{border-color:rgba(139,92,246,.5);box-shadow:0 0 0 3px rgba(139,92,246,.08)}
+.auth-submit,.primary{border:0;background:linear-gradient(145deg,#8b5cf6,#6d28d9);color:#fff;font-weight:700;border-radius:11px;padding:12px 15px;box-shadow:0 8px 22px rgba(109,40,217,.25)}
+.auth-submit{width:100%;margin-top:5px}.helper{margin-top:14px;color:#718198;font-size:10px;line-height:1.5}
+.demo-login{margin-top:17px;padding:12px;background:#08111e;border:1px solid var(--border);border-radius:11px;font-size:10px;color:#91a0b4}.demo-login b{color:#c4b5fd}
+
+.shell{display:flex;min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar-w);background:linear-gradient(180deg,#07101c,#050c16);border-right:1px solid var(--border);padding:20px 15px;display:flex;flex-direction:column;z-index:30}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 9px 26px}.brand .logo-box{width:42px;height:42px}.brand strong{font-size:23px;letter-spacing:1px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.nav{display:flex;flex-direction:column;gap:5px}.nav a{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:11px;color:#b9c5d5;font-size:13px;font-weight:500;transition:.18s}.nav a:hover{background:rgba(255,255,255,.035);color:#fff}.nav a.active{background:linear-gradient(90deg,rgba(124,58,237,.40),rgba(91,33,182,.22));border:1px solid rgba(139,92,246,.14);color:#fff}.nav a.active svg{color:#c4b5fd}.nav-badge{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:#7c3aed;display:grid;place-items:center;font-size:10px;font-weight:800}
+.sidebar-bottom{margin-top:auto}.user-card{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.02)}.avatar{width:39px;height:39px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:linear-gradient(145deg,#293447,#101827);border:2px solid rgba(255,255,255,.10)}.user-card b{font-size:12px}.user-card small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.online{font-size:9px;color:#b7c2d3;margin-top:4px}.online:before{content:"";display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;margin-right:5px}.logout{width:100%;display:flex;align-items:center;gap:10px;margin-top:10px;padding:12px;border:0;border-radius:11px;background:#111b2b;color:#fff;font-weight:600}
+.main{margin-left:var(--sidebar-w);width:calc(100% - var(--sidebar-w));padding:24px 26px 90px}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:24px}.welcome h1{font-size:28px;letter-spacing:-1px;margin-bottom:6px}.welcome p{font-size:12px;color:var(--muted)}.top-actions{display:flex;align-items:center;gap:10px}.search{width:250px;height:42px;background:#0b1524;border:1px solid var(--border);border-radius:11px;display:flex;align-items:center;padding:0 12px;gap:8px}.search input{background:transparent;border:0;outline:0;color:#fff;flex:1;font-size:12px}.icon-btn{width:42px;height:42px;border-radius:11px;border:1px solid var(--border);background:#0b1524;color:#fff;display:grid;place-items:center}.top-user{display:flex;align-items:center;gap:9px}.top-user b{font-size:12px}.top-user small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.page-toolbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px}.page-title h2{font-size:21px;margin-bottom:5px}.page-title p{font-size:11px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.stat{padding:17px;border-radius:16px;border:1px solid var(--border);min-height:112px;display:flex;align-items:flex-start;gap:13px;box-shadow:var(--shadow)}.stat.purple{background:linear-gradient(135deg,rgba(91,33,182,.38),rgba(27,18,67,.92))}.stat.blue{background:linear-gradient(135deg,rgba(30,64,175,.42),rgba(6,29,64,.95))}.stat.yellow{background:linear-gradient(135deg,rgba(146,88,8,.40),rgba(64,35,5,.95))}.stat.green{background:linear-gradient(135deg,rgba(22,101,52,.42),rgba(6,54,35,.95))}.stat-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.10)}.stat label{font-size:11px;color:#dce5f1}.stat strong{display:block;font-size:25px;margin-top:3px}.stat small{display:block;margin-top:7px;font-size:9px;color:#aeb9ca}
+.dash-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:14px;margin-bottom:14px}.panel{background:linear-gradient(180deg,rgba(15,24,39,.96),rgba(10,18,31,.96));border:1px solid var(--border);border-radius:17px;padding:15px;box-shadow:var(--shadow)}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.panel-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}.panel-title svg{color:#a78bfa}.ghost-btn{border:0;border-radius:9px;padding:8px 10px;background:rgba(91,33,182,.34);color:#fff;font-size:10px}
+.event-hero{display:grid;grid-template-columns:150px 1fr;gap:14px}.cover{min-height:145px;border-radius:13px;padding:14px;background:radial-gradient(circle at 70% 20%,rgba(245,158,11,.28),transparent 30%),linear-gradient(145deg,#452909,#1c1308);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.cover span{font-size:36px}.cover b{font-size:20px;line-height:1;text-transform:uppercase;color:#f7d69a}.event-info h3{font-size:19px;margin-bottom:8px}.status{display:inline-flex;align-items:center;padding:5px 8px;border-radius:99px;font-size:9px;font-weight:700}.green{background:rgba(34,197,94,.14);color:#4ade80}.yellow{background:rgba(245,158,11,.14);color:#fbbf24}.purple-tag{background:rgba(139,92,246,.17);color:#c4b5fd}.gray{background:rgba(148,163,184,.12);color:#cbd5e1}.info{display:flex;align-items:center;gap:7px;font-size:10px;color:#c7d1df;margin:8px 0}.info svg{width:14px;height:14px}
+.availability{margin-top:13px;padding:12px;background:#0b1524;border:1px solid rgba(255,255,255,.045);border-radius:12px}.availability-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.availability-top b{font-size:11px}.availability-toggle{display:flex;gap:6px}.avail-btn{border:1px solid var(--border);background:#101c2e;color:#9dafc4;padding:7px 9px;border-radius:8px;font-size:9px}.avail-btn.active-yes{background:rgba(34,197,94,.13);color:#4ade80;border-color:rgba(34,197,94,.18)}.avail-btn.active-no{background:rgba(239,68,68,.13);color:#f87171;border-color:rgba(239,68,68,.18)}
+.schedule{margin-top:13px;border-radius:12px;overflow:hidden;background:#101a2b}.schedule-row{display:grid;grid-template-columns:1fr 1.1fr auto;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.045);font-size:10px}.role,.person{display:flex;align-items:center;gap:7px}.mini{width:25px;height:25px;border-radius:7px;display:grid;place-items:center}.mini.purple{background:#6d28d9}.mini.orange{background:#f59e0b}.mini.pink{background:#ec4899}.person .avatar{width:25px;height:25px;font-size:9px}.check{width:18px;height:18px;border-radius:50%;background:rgba(34,197,94,.14);color:#4ade80;display:grid;place-items:center}
+.upcoming{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}.date-box{width:52px;height:52px;border-radius:11px;background:#08111e;display:grid;place-items:center;text-align:center}.date-box b{display:block;color:#a855f7;font-size:20px}.date-box small{font-size:9px;color:#cbd5e1}.upcoming h4{font-size:11px;margin-bottom:5px}.upcoming p{font-size:9px;color:var(--muted)}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.activity{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.045)}.act-icon{width:20px;height:20px;border-radius:50%;display:grid;place-items:center}.act-icon.ok{background:#22c55e}.act-icon.wait{border:2px solid #f59e0b;color:#fbbf24}.activity p{font-size:10px}.activity small{font-size:9px;color:#6f8199}
+.indicators{display:grid;grid-template-columns:140px 1fr;align-items:center;min-height:135px}.donut{width:105px;height:105px;border-radius:50%;margin:auto;position:relative;background:conic-gradient(#22c55e 0 67%,#f59e0b 67% 84%,#ef4444 84%)}.donut:after{content:"";position:absolute;inset:14px;border-radius:50%;background:#0c1625}.donut-copy{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center}.donut-copy strong{font-size:17px}.donut-copy small{font-size:8px;color:#aab8c9}.legend{display:flex;flex-direction:column;gap:11px}.legend-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;font-size:10px}.swatch{width:12px;height:12px;border-radius:4px}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:13px 11px;text-align:left;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px}.table th{font-size:9px;color:#88a0bc;text-transform:uppercase;letter-spacing:.04em}.member-cell{display:flex;align-items:center;gap:8px}.member-cell .avatar{width:29px;height:29px;font-size:9px}.action-btn{border:0;border-radius:8px;background:#142033;color:#d9e2ef;padding:7px 9px;font-size:9px}
+.calendar-shell{display:grid;grid-template-columns:1fr 260px;gap:14px}.calendar-panel{padding:15px}.calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.calendar-header h3{font-size:16px}.cal-nav{display:flex;gap:7px}.cal-nav button{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:#0a1422;color:#fff;display:grid;place-items:center}.weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr)}.weekdays div{text-align:center;color:#7890ad;font-size:9px;font-weight:700;padding:8px}.day{min-height:105px;border-top:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.04);padding:8px;position:relative;transition:.15s}.day:hover{background:rgba(255,255,255,.018)}.day.muted{opacity:.34}.day.today .day-num{background:#7c3aed;color:#fff}.day-num{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:700}.cal-event{margin-top:6px;padding:6px 7px;border-radius:7px;font-size:8px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cal-event.purple{background:rgba(139,92,246,.17);color:#d8ccff;border-left:2px solid #8b5cf6}.cal-event.blue{background:rgba(59,130,246,.14);color:#bfdbfe;border-left:2px solid #3b82f6}.cal-event.yellow{background:rgba(245,158,11,.12);color:#fde68a;border-left:2px solid #f59e0b}.cal-side h3{font-size:13px;margin-bottom:12px}.side-event{padding:11px;border:1px solid rgba(255,255,255,.05);border-radius:11px;background:#0a1422;margin-bottom:9px}.side-event b{font-size:10px}.side-event p{font-size:9px;color:var(--muted);margin-top:5px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.settings-section h3{font-size:13px;margin-bottom:12px}.setting-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}.setting-line b{font-size:10px}.setting-line small{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:grid;place-items:center;padding:20px;z-index:100}.modal{width:min(560px,100%);background:#0c1625;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow)}.modal h3{font-size:16px;margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.secondary{border:0;background:#162236;color:#dce5f0;border-radius:10px;padding:10px 12px;font-size:10px}
+.mobile-nav{display:none}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}.dash-grid,.bottom-grid{grid-template-columns:1fr}.calendar-shell{grid-template-columns:1fr}}
+@media(max-width:760px){
+ .auth-page{grid-template-columns:1fr;padding:14px}.auth-art{display:none}.auth-panel{padding:0}.auth-card{margin-top:5vh}
+ .sidebar{display:none}.main{margin-left:0;width:100%;padding:18px 13px 82px}.search,.top-user>div:last-child{display:none}.welcome h1{font-size:23px}
+ .stats{grid-template-columns:repeat(2,1fr);gap:9px}.stat{min-height:102px;padding:13px}.stat-icon{width:38px;height:38px}.stat strong{font-size:22px}
+ .event-hero{grid-template-columns:105px 1fr}.cover{min-height:120px}.cover b{font-size:15px}.cover span{font-size:29px}
+ .upcoming{grid-template-columns:50px 1fr}.upcoming>.status{display:none}.bottom-grid{grid-template-columns:1fr}.indicators{grid-template-columns:1fr}
+ .calendar-shell{grid-template-columns:1fr}.calendar-panel{padding:10px}.day{min-height:73px;padding:5px}.cal-event{font-size:7px;padding:4px}.calendar-side{display:none}
+ .profile-grid{grid-template-columns:1fr}.mobile-nav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;bottom:0;left:0;right:0;height:66px;background:rgba(5,12,22,.97);border-top:1px solid var(--border);z-index:40}.mobile-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#7f8fa6;font-size:8px}.mobile-nav a.active{color:#a78bfa}
+ .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+}
+
+.notification-popover{
+ position:fixed;top:72px;right:96px;width:min(360px,calc(100vw - 28px));z-index:95;
+ background:#0c1625;border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.38);
+ overflow:hidden
+}
+.notification-popover-head{display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.05)}
+.notification-popover-head b{font-size:12px}.notification-popover-head small{font-size:9px;color:var(--muted)}
+.notification-list{max-height:390px;overflow:auto}
+.notification-item{display:grid;grid-template-columns:auto 1fr auto;gap:9px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.045);align-items:start}
+.notification-item:last-child{border-bottom:0}.notification-item:hover{background:rgba(255,255,255,.02)}
+.notification-icon{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;background:rgba(139,92,246,.14);color:#c4b5fd}
+.notification-item b{font-size:10px;display:block;margin-bottom:4px}.notification-item p{font-size:9px;line-height:1.45;color:#a9b6c8}
+.notification-time{font-size:8px;color:#6f8199;white-space:nowrap}
+.notification-empty{padding:28px 16px;text-align:center;color:var(--muted);font-size:10px}
+.notification-footer{padding:10px 12px;background:#09121f;display:flex;justify-content:flex-end}
+.notification-footer button{border:0;background:transparent;color:#bda7ff;font-size:9px}
+@media(max-width:760px){.notification-popover{top:62px;right:14px;left:14px;width:auto}}
+
+
+.search-results-popover{
+ position:fixed;top:72px;right:180px;width:min(440px,calc(100vw - 28px));z-index:96;
+ background:#0c1625;border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.40);overflow:hidden
+}
+.search-results-head{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.search-results-head b{font-size:11px}.search-results-head small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.search-result{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.045);cursor:pointer}
+.search-result:hover{background:rgba(139,92,246,.07)}
+.search-result-icon{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;background:rgba(139,92,246,.12);color:#c4b5fd}
+.search-result b{font-size:10px;display:block;margin-bottom:3px}.search-result p{font-size:9px;color:var(--muted)}
+.search-result span{font-size:8px;color:#7f90a7}
+.search-empty{padding:26px 14px;text-align:center;color:var(--muted);font-size:10px}
+@media(max-width:760px){.search-results-popover{top:62px;left:14px;right:14px;width:auto}}
+
+
+.clickable{cursor:pointer}
+.profile-popover .modal{width:min(620px,100%)}
+.profile-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.profile-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;display:grid;place-items:center;background:linear-gradient(145deg,#293447,#101827);border:2px solid rgba(255,255,255,.12);font-weight:800;font-size:18px;overflow:hidden}
+.profile-photo img{width:100%;height:100%;object-fit:cover}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.team-card{padding:15px;border:1px solid var(--border);border-radius:15px;background:#0b1524}
+.team-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:12px;background:rgba(139,92,246,.12);color:#c4b5fd}
+.team-card h3{font-size:12px;margin-bottom:5px}.team-card p{font-size:9px;color:var(--muted);margin-bottom:10px}
+.team-members{display:flex;flex-direction:column;gap:7px}.team-member{display:flex;align-items:center;gap:7px;padding:7px;border-radius:9px;background:#08111e;font-size:9px}.team-empty{font-size:9px;color:#6f8199;padding:7px 0}
+.event-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.event-detail-item{padding:11px;border-radius:11px;background:#08111e;border:1px solid rgba(255,255,255,.04)}.event-detail-item small{display:block;color:#74859c;font-size:8px;margin-bottom:5px;text-transform:uppercase}.event-detail-item b{font-size:10px}
+.scaled-list{margin-top:12px}.scaled-list h4{font-size:11px;margin-bottom:9px}.scaled-person{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:9px}
+.danger-btn{border:0;background:rgba(239,68,68,.14);color:#f87171;border-radius:10px;padding:10px 12px;font-size:10px;font-weight:700}
+.ai-panel{border:1px solid rgba(139,92,246,.18);background:linear-gradient(145deg,rgba(91,33,182,.12),rgba(10,18,31,.96))}
+.ai-hero{display:flex;align-items:center;gap:12px;margin-bottom:14px}.ai-orb{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#8b5cf6,#6d28d9);box-shadow:0 10px 28px rgba(109,40,217,.28)}.ai-hero h3{font-size:14px;margin-bottom:4px}.ai-hero p{font-size:9px;color:var(--muted)}
+.ai-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ai-result{margin-top:13px;padding:12px;border-radius:12px;background:#08111e;border:1px solid rgba(255,255,255,.05)}.ai-result h4{font-size:10px;margin-bottom:9px}
+.ai-assignment{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:9px}
+.integration-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.integration-btn{border:1px solid var(--border);background:#101c2e;color:#cbd5e1;padding:8px 9px;border-radius:9px;font-size:9px;display:flex;align-items:center;gap:6px}
+.notification-item.read{opacity:.58}.notification-item.unread{background:rgba(139,92,246,.055)}.notification-dot{width:7px;height:7px;background:#8b5cf6;border-radius:50%;margin-top:5px}.notification-detail{padding:8px 0 2px;color:#b7c4d6;font-size:10px;line-height:1.6}.notification-detail strong{color:#fff}
+@media(max-width:1200px){.team-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.team-grid,.event-detail-grid,.ai-controls{grid-template-columns:1fr}}
+
+
+.app-loading{
+ min-height:100vh;display:grid;place-items:center;text-align:center;
+ background:radial-gradient(circle at 50% 35%,rgba(124,58,237,.13),transparent 32%),#060b13;
+ color:#f8fafc
+}
+.app-loading-box{display:flex;flex-direction:column;align-items:center;gap:12px}
+.app-loading-logo{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#a855f7,#6d28d9);box-shadow:0 12px 35px rgba(124,58,237,.30)}
+.app-loading p{font-size:11px;color:#8ea0b8}
+.auth-message{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:10px;line-height:1.5;display:none}
+.auth-message.error{display:block;background:rgba(239,68,68,.10);color:#fca5a5;border:1px solid rgba(239,68,68,.15)}
+.auth-message.success{display:block;background:rgba(34,197,94,.10);color:#86efac;border:1px solid rgba(34,197,94,.15)}
+
+
+/* ===== V7 REAL MEMBERS / TEAMS / AVATAR UPLOAD ===== */
+.member-avatar-upload{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.member-avatar-upload .profile-photo{flex:none}
+.file-input-wrap{display:flex;flex-direction:column;gap:7px}
+.file-input-wrap input[type=file]{font-size:10px;color:#cbd5e1}
+.file-input-wrap small{font-size:8px;color:var(--muted);line-height:1.5}
+.member-team-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border-radius:999px;background:rgba(139,92,246,.12);color:#c4b5fd;font-size:8px;margin:2px 4px 2px 0}
+.member-team-chip button{border:0;background:transparent;color:#fca5a5;padding:0;font-size:10px}
+.member-actions{display:flex;gap:6px;flex-wrap:wrap}
+.loading-inline{padding:24px;text-align:center;color:var(--muted);font-size:10px}
+.real-data-note{font-size:8px;color:#6f8199;margin-top:8px}
+
+
+/* ===== V8 HOMOLOGAÇÃO COMPLETA ===== */
+.v8-kpi-note{font-size:8px;color:var(--muted);margin-top:6px}
+.avail-summary{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.avail-pill{padding:6px 8px;border-radius:999px;font-size:8px;background:#101c2e;color:#cbd5e1}
+.schedule-card{padding:11px;border:1px solid rgba(255,255,255,.05);border-radius:11px;background:#09121f;margin-bottom:8px}
+.schedule-card-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:7px}
+.schedule-card h4{font-size:10px}.schedule-card p{font-size:9px;color:var(--muted);line-height:1.5}
+.schedule-actions{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.confirm-btn{border:0;background:rgba(34,197,94,.14);color:#4ade80;border-radius:8px;padding:7px 9px;font-size:9px;font-weight:700}
+.decline-btn{border:0;background:rgba(239,68,68,.12);color:#f87171;border-radius:8px;padding:7px 9px;font-size:9px;font-weight:700}
+.status-pending{background:rgba(245,158,11,.14);color:#fbbf24}
+.status-confirmed{background:rgba(34,197,94,.14);color:#4ade80}
+.status-declined{background:rgba(239,68,68,.13);color:#f87171}
+.status-replaced{background:rgba(148,163,184,.12);color:#cbd5e1}
+.ai-preview{margin-top:12px}
+.ai-preview-row{display:grid;grid-template-columns:1fr 1.25fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:9px}
+.integration-note{margin-top:11px;padding:10px;border-radius:10px;background:#08111e;color:var(--muted);font-size:8px;line-height:1.55}
+.event-modal-description{white-space:pre-wrap;font-size:9px;color:#aebacc;line-height:1.6;padding:10px 0}
+.log-list{display:flex;flex-direction:column}
+.log-item{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.log-item p{font-size:9px}.log-item small{font-size:8px;color:#708198}
+.search-result small{display:block;color:#788aa1;font-size:8px;margin-top:2px}
+.pwa-install{display:none}
+@media(max-width:760px){
+ .ai-preview-row{grid-template-columns:1fr 1fr}
+ .ai-preview-row>:last-child{grid-column:1/-1}
+}
+
+</style>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LINE">
+</head>
+<body>
+<div id="app"></div>
+<script>
+const seed = {
+  users:[
+    {id:1,name:"Miguel Silva",email:"miguel@line.app",password:"MIGUEL2026",role:"master",area:"Administração",functions:["Administração"],status:"Ativo",participation:100,schedules:0,leadership:"Master Admin",phone:"",photo:""},
+    {id:2,name:"Michel Macedo",email:"michel.macedo@line.app",password:"MICHEL2026",role:"master",area:"Liderança Geral",functions:[],status:"Ativo",participation:100,schedules:0,leadership:"Líder Geral do Departamento",phone:"",photo:""},
+    {id:3,name:"Gleyce",email:"gleyce@line.app",password:"GLEYCE2026",role:"master",area:"Administração",functions:["Administração"],status:"Ativa",participation:100,schedules:0,leadership:"Master Admin"}
+  ],
+  events:[
+    {id:1,name:"Festa na Roça",date:"2026-07-25",time:"19:00",place:"Salão Principal",status:"Escala confirmada",color:"purple"},
+    {id:2,name:"Culto Interligados",date:"2026-07-28",time:"18:30",place:"Auditório",status:"Escala aberta",color:"blue"},
+    {id:3,name:"Super Quarta",date:"2026-08-05",time:"19:30",place:"Templo",status:"Escala aberta",color:"yellow"},
+    {id:4,name:"Festival de Inverno",date:"2026-08-11",time:"20:00",place:"Salão Principal",status:"Planejamento",color:"purple"},
+    {id:5,name:"Inter Campus",date:"2026-08-18",time:"19:00",place:"Auditório",status:"Planejamento",color:"blue"}
+  ],
+  schedule:[],
+  teams:["Story","Fotos","Design","Projeção","Reels"],
+  schedulesByEvent:{},
+  notifications:{
+    "miguelmkt.grupoconexao@gmail.com":[
+      {id:101,icon:"calendar-check",title:"Escala confirmada",text:"Sua escala da Festa na Roça está confirmada.",time:"Agora",read:false,details:"Você foi incluído na programação da Festa na Roça. Confira horário, local e orientações no evento."},
+      {id:102,icon:"users",title:"Gestão de equipe",text:"Revise novos cadastros e permissões.",time:"Hoje",read:false,details:"Como Master Admin, você pode revisar membros, ajustar equipes e permissões dentro da plataforma."}
+    ],
+    "michel.macedo@line.app":[
+      {id:201,icon:"shield-check",title:"Acesso de Líder Geral",text:"Seu acesso administrativo está ativo.",time:"Agora",read:false,details:"Você está cadastrado como Líder Geral do Departamento e não possui função operacional nas escalas."}
+    ],
+    "gleyce@line.app":[
+      {id:301,icon:"calendar-days",title:"Calendário disponível",text:"As próximas programações estão organizadas por data.",time:"Hoje",read:false,details:"Abra o calendário para acompanhar todas as programações cadastradas pela equipe."}
+    ]
+  }
+};
+const DB_VERSION="8";
+if(localStorage.getItem("lineDBVersion")!==DB_VERSION){
+ localStorage.setItem("lineDB",JSON.stringify(seed));
+ localStorage.setItem("lineDBVersion",DB_VERSION);
+}
+let db = JSON.parse(localStorage.getItem("lineDB")||"null") || structuredClone(seed);
+let currentUser = null;
+let authUser = null;
+let route = location.hash.slice(1)||"dashboard";
+let calendarCursor = new Date(2026,6,1);
+
+const $=s=>document.querySelector(s);
+const icon=n=>`<i data-lucide="${n}"></i>`;
+const save=()=>localStorage.setItem("lineDB",JSON.stringify(db));
+const initials=n=>n.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();
+const isMaster=()=>currentUser?.role==="master";
+function avatarHTML(u,cls="avatar"){return `<div class="${cls}">${u?.photo?`<img src="${u.photo}" alt="${u.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:initials(u?.name||"?")}</div>`}
+function syncCurrentUser(){
+ if(!currentUser)return;
+ currentUser.photo=currentUser.photo_url||currentUser.photo||"";
+ currentUser.area=currentUser.area||authUser?.user_metadata?.area||currentUser.leadership_role||"Membro";
+ currentUser.functions=currentUser.functions||[];
+ currentUser.schedules=currentUser.schedules||0;
+ currentUser.status=currentUser.active===false?"Inativo":"Ativo";
+}
+
+function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
+
+async function fetchMembersReal(){
+  const {data,error}=await supabaseClient
+    .from("profiles")
+    .select("id,name,email,phone,photo_url,role,leadership_role,active,created_at")
+    .order("name",{ascending:true});
+  if(error){console.error("Erro ao buscar profiles:",error);return []}
+  return data||[];
+}
+
+async function fetchTeamsReal(){
+  const {data,error}=await supabaseClient
+    .from("teams")
+    .select("id,name,active,created_at")
+    .eq("active",true)
+    .order("name",{ascending:true});
+  if(error){console.error("Erro ao buscar teams:",error);return []}
+  return data||[];
+}
+
+async function fetchMemberTeamsReal(){
+  const {data,error}=await supabaseClient
+    .from("member_teams")
+    .select("user_id,team_id,teams(id,name)");
+  if(error){console.error("Erro ao buscar member_teams:",error);return []}
+  return data||[];
+}
+
+function teamsForMember(userId,memberTeams){
+  return memberTeams
+    .filter(mt=>mt.user_id===userId)
+    .map(mt=>mt.teams?.name)
+    .filter(Boolean);
+}
+
+async function setMemberPrimaryTeam(userId,teamId){
+  if(!isMaster())return;
+  const {error:delError}=await supabaseClient
+    .from("member_teams")
+    .delete()
+    .eq("user_id",userId);
+  if(delError){console.error(delError);alert("Não foi possível remover a equipe anterior.");return}
+  if(teamId){
+    const {error:insError}=await supabaseClient
+      .from("member_teams")
+      .insert({user_id:userId,team_id:Number(teamId)});
+    if(insError){console.error(insError);alert("Não foi possível atribuir a equipe.");return}
+  }
+}
+
+async function updateMemberAdminFields(userId,{role,leadership_role,active}){
+  if(!isMaster())return;
+  const payload={};
+  if(role!==undefined)payload.role=role;
+  if(leadership_role!==undefined)payload.leadership_role=leadership_role||null;
+  if(active!==undefined)payload.active=active;
+  const {error}=await supabaseClient.from("profiles").update(payload).eq("id",userId);
+  if(error){console.error(error);alert("Não foi possível atualizar as permissões.");}
+}
+
+async function uploadAvatarFile(file){
+  if(!file||!currentUser)return null;
+  const extension=(file.name.split(".").pop()||"jpg").toLowerCase();
+  const path=`${currentUser.id}/avatar-${Date.now()}.${extension}`;
+  const {error}=await supabaseClient.storage.from("avatars").upload(path,file,{upsert:true});
+  if(error){console.error("Erro no upload:",error);alert("Não foi possível enviar a foto.");return null}
+  const {data}=supabaseClient.storage.from("avatars").getPublicUrl(path);
+  return data?.publicUrl||null;
+}
+
+
+const SUPABASE_URL="https://whhdpreupvfoxiazwrjs.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_Cpl-MC6vMbQi3G3jeU8vrw_0yWzHrvs";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
+
+function checkLocalFileProtocol(){
+ if(location.protocol==="file:"){
+   console.warn("LINE aberto via file://. Para autenticação mais confiável, use um servidor local ou publique o app em HTTPS.");
+ }
+}
+
+function showAppLoading(message="Conectando ao LINE..."){
+ document.getElementById("app").innerHTML=`<div class="app-loading"><div class="app-loading-box"><div class="app-loading-logo">${icon("zap")}</div><strong>LINE Interligados</strong><p>${message}</p></div></div>`;
+ refreshIcons();
+}
+function setAuthMessage(message,type="error"){
+ const box=document.getElementById("authMessage");
+ if(!box)return;
+ box.className=`auth-message ${type}`;
+ box.textContent=message;
+}
+async function loadCurrentUser(userOverride=null){
+ const user=userOverride || (await supabaseClient.auth.getSession()).data.session?.user;
+ if(!user){authUser=null;currentUser=null;return null}
+ authUser=user;
+
+ const {data:profile,error}=await supabaseClient
+   .from("profiles")
+   .select("id,name,email,phone,photo_url,role,leadership_role,active,created_at")
+   .eq("id",user.id)
+   .maybeSingle();
+
+ if(error){
+   console.error("Erro ao carregar profile:",error);
+   currentUser=null;
+   return null;
+ }
+
+ if(!profile){
+   console.warn("Perfil não encontrado para o usuário autenticado.");
+   currentUser=null;
+   return null;
+ }
+
+ currentUser={
+   ...profile,
+   photo:profile.photo_url||"",
+   area:user.user_metadata?.area||profile.leadership_role||(profile.role==="master"?"Administração":"Membro"),
+   functions:[],
+   schedules:0,
+   status:profile.active===false?"Inativo":"Ativo"
+ };
+ return currentUser;
+}
+
+function withTimeout(promise,ms=7000){
+ return Promise.race([
+   promise,
+   new Promise((_,reject)=>setTimeout(()=>reject(new Error("TIMEOUT")),ms))
+ ]);
+}
+
+async function initializeApp(){
+ // Renderiza uma interface imediatamente, sem segurar a tela em loading.
+ document.getElementById("app").innerHTML=authPage();
+ refreshIcons();
+
+ try{
+   const {data:{session},error}=await withTimeout(supabaseClient.auth.getSession(),5000);
+   if(error)console.error("Erro ao recuperar sessão:",error);
+
+   if(session?.user){
+     showAppLoading("Carregando seu perfil...");
+     await withTimeout(loadCurrentUser(session.user),7000);
+   }else{
+     currentUser=null;
+     authUser=null;
+   }
+ }catch(error){
+   console.error("Inicialização do Supabase:",error);
+   currentUser=null;
+   authUser=null;
+ }
+
+ render();
+}
+
+// IMPORTANTE: não fazemos await de chamadas Supabase dentro do callback.
+// Isso evita travamento/deadlock do fluxo de autenticação.
+supabaseClient.auth.onAuthStateChange((event,session)=>{
+ setTimeout(async()=>{
+   try{
+     if(event==="SIGNED_OUT"){
+       authUser=null;
+       currentUser=null;
+       render();
+       return;
+     }
+
+     if((event==="SIGNED_IN"||event==="TOKEN_REFRESHED"||event==="INITIAL_SESSION") && session?.user){
+       await loadCurrentUser(session.user);
+       render();
+     }
+   }catch(error){
+     console.error("Auth state change:",error);
+   }
+ },0);
+});
+
+
+function userNotifications(){if(!db.notifications)db.notifications={};if(!db.notifications[currentUser.email])db.notifications[currentUser.email]=[];return db.notifications[currentUser.email]}
+function unreadCount(){return userNotifications().filter(n=>!n.read).length}
+function toggleNotifications(ev){ev?.stopPropagation();const old=document.querySelector(".notification-popover");if(old){old.remove();return}const items=userNotifications();const el=document.createElement("div");el.className="notification-popover";el.innerHTML=`<div class="notification-popover-head"><div><b>Notificações</b><small>${currentUser.name} • ${unreadCount()} não lida(s)</small></div><button class="action-btn" onclick="document.querySelector('.notification-popover')?.remove()">Fechar</button></div><div class="notification-list">${items.length?items.map(n=>`<div class="notification-item ${n.read?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.icon)}</div><div><b>${n.title}</b><p>${n.text}</p></div>${n.read?`<span class="notification-time">${n.time}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</div>`;document.body.appendChild(el);refreshIcons()}
+function openNotificationDetail(id){const n=userNotifications().find(x=>x.id===id);if(!n)return;n.read=true;save();document.querySelector(".notification-popover")?.remove();document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="panel-head"><div class="panel-title">${icon(n.icon)}${n.title}</div><span class="status green">Lida</span></div><div class="notification-detail"><strong>${n.text}</strong><br><br>${n.details||""}</div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button></div></div></div>`);refreshIcons()}
+
+
+
+function getSearchIndex(){
+ const pages=[
+  {type:"Página",title:"Dashboard",subtitle:isMaster()?"Visão administrativa":"Minha página inicial",route:"dashboard",icon:"house"},
+  {type:"Página",title:"Eventos",subtitle:"Programações cadastradas",route:"eventos",icon:"calendar-days"},
+  {type:"Página",title:"Calendário",subtitle:"Datas e agenda",route:"calendario",icon:"calendar"},
+  {type:"Página",title:"Escalas",subtitle:"Escalas e confirmações",route:"escalas",icon:"calendar-check"},
+  {type:"Página",title:"Notificações",subtitle:"Avisos da sua conta",route:"notificacoes",icon:"bell"},
+  {type:"Página",title:"Configurações",subtitle:"Preferências da conta",route:"configuracoes",icon:"settings"}
+ ];
+ if(isMaster()){
+   pages.push(
+    {type:"Página",title:"Membros",subtitle:"Gestão de membros",route:"membros",icon:"users"},
+    {type:"Página",title:"Equipes",subtitle:"Gestão de equipes",route:"equipes",icon:"users-round"},
+    {type:"Página",title:"Indicadores",subtitle:"Visão administrativa",route:"indicadores",icon:"chart-no-axes-combined"}
+   );
+ }
+ const users=isMaster()?db.users.map(u=>({type:"Membro",title:u.name,subtitle:u.name==="Michel Macedo"?"Líder Geral do Departamento":u.leadership||"Master Admin",route:"membros",icon:"user"})):[];
+ const events=db.events.map(e=>({type:"Evento",title:e.name,subtitle:`${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")} • ${e.time} • ${e.place}`,route:"eventos",icon:"calendar-days"}));
+ return [...pages,...users,...events];
+}
+function globalSearch(value){
+ const q=(value||"").trim().toLowerCase();
+ document.querySelector(".search-results-popover")?.remove();
+ const all=getSearchIndex();
+ const results=(q?all.filter(x=>(x.title+" "+x.subtitle+" "+x.type).toLowerCase().includes(q)):all.slice(0,8)).slice(0,12);
+ const el=document.createElement("div");
+ el.className="search-results-popover";
+ el.innerHTML=`<div class="search-results-head"><b>Pesquisa na plataforma</b><small>${q?`Resultados para “${value}”`:"Pesquise páginas, eventos e conteúdos disponíveis"}</small></div>
+ ${results.length?results.map((r,i)=>`<div class="search-result" onclick="selectSearchResult('${r.route}')"><div class="search-result-icon">${icon(r.icon)}</div><div><b>${r.title}</b><p>${r.subtitle}</p></div><span>${r.type}</span></div>`).join(""):`<div class="search-empty">Nenhum resultado encontrado.</div>`}`;
+ document.body.appendChild(el);
+ refreshIcons();
+}
+function selectSearchResult(targetRoute){
+ document.querySelector(".search-results-popover")?.remove();
+ const input=document.getElementById("globalSearch"); if(input) input.value="";
+ location.hash=targetRoute;
+}
+document.addEventListener("click",(e)=>{
+ const p=document.querySelector(".search-results-popover");
+ if(p && !p.contains(e.target) && !e.target.closest(".search")) p.remove();
+});
+
+
+
+function authPage(){
+  return `<div class="auth-page">
+    <section class="auth-art">
+      <div class="auth-logo"><div class="logo-box">${icon("zap")}</div><div><strong>LINE</strong><small>Interligados</small></div></div>
+      <div class="auth-copy">
+        <div class="eyebrow">Equipe de mídia • Interligados</div>
+        <h1>Organize a equipe.<br>Sirva com excelência.</h1>
+        <p>Escalas, disponibilidade, calendário e participação em um único lugar. Cada integrante poderá criar sua própria conta e acompanhar sua rotina na equipe. Neste momento, apenas os três administradores Master já possuem acesso confirmado.</p>
+        <div class="auth-features">
+          <span class="auth-chip">${icon("calendar-check")} Escalas</span>
+          <span class="auth-chip">${icon("users")} Equipe</span>
+          <span class="auth-chip">${icon("bell")} Lembretes</span>
+          <span class="auth-chip">${icon("chart-no-axes-combined")} Indicadores</span>
+        </div>
+      </div>
+      <div style="color:#697b94;font-size:10px">LINE Interligados • 2026</div>
+    </section>
+    <section class="auth-panel">
+      <div class="auth-card">
+        <h2>Bem-vindo 👋</h2><p>Entre na sua conta ou crie seu acesso.</p>
+        <div class="auth-tabs"><button class="auth-tab active" onclick="showAuth('login',this)">Entrar</button><button class="auth-tab" onclick="showAuth('register',this)">Criar conta</button></div>
+        <div id="authForm">${loginForm()}</div><div id="authMessage" class="auth-message"></div>
+        <div class="demo-login">
+          <b>Login conectado ao Supabase</b><br><br>
+          Use o e-mail e a senha cadastrados no Authentication.<br>
+          Miguel: miguelmkt.grupoconexao@gmail.com
+        </div>
+      </div>
+    </section>
+  </div>`;
+}
+function loginForm(){return `<form onsubmit="login(event)">
+  <div class="field"><label>E-mail</label><input id="loginEmail" type="email" value="miguelmkt.grupoconexao@gmail.com" autocomplete="email" required></div>
+  <div class="field"><label>Senha</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha do Supabase" required></div>
+  <button id="loginButton" class="auth-submit">Entrar</button>
+</form>`}
+function registerForm(){return `<form onsubmit="register(event)">
+  <div class="field"><label>Nome completo</label><input id="regName" required></div>
+  <div class="field"><label>E-mail</label><input id="regEmail" type="email" required></div>
+  <div class="field"><label>Área principal</label><select id="regArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option></select></div>
+  <div class="field"><label>Senha</label><input id="regPassword" type="password" minlength="4" required></div>
+  <button class="auth-submit">Criar minha conta</button>
+  <p class="helper">Contas criadas por aqui entram como <b>membro</b>. Os únicos Masters pré-confirmados são Miguel Silva, Michel Macedo e Gleyce. Permissão Master adicional somente pode ser definida por um administrador.</p>
+</form>`}
+function showAuth(type,btn){document.querySelectorAll(".auth-tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");$("#authForm").innerHTML=type==="login"?loginForm():registerForm()}
+async function login(e){
+ e.preventDefault();
+
+ const email=$("#loginEmail").value.trim().toLowerCase();
+ const password=$("#loginPassword").value;
+ const button=$("#loginButton");
+
+ if(button){
+   button.disabled=true;
+   button.textContent="Entrando...";
+ }
+
+ setAuthMessage("","error");
+
+ try{
+   const {data,error}=await withTimeout(
+     supabaseClient.auth.signInWithPassword({email,password}),
+     8000
+   );
+
+   if(error)throw error;
+
+   if(!data?.user){
+     throw new Error("Usuário não retornado pelo Supabase.");
+   }
+
+   await withTimeout(loadCurrentUser(data.user),7000);
+
+   if(!currentUser){
+     throw new Error("Seu login existe, mas o perfil não foi encontrado em profiles.");
+   }
+
+   route="dashboard";
+   location.hash="dashboard";
+   render();
+
+ }catch(error){
+   console.error("Erro no login:",error);
+
+   const message=error?.message==="TIMEOUT"
+     ? "A conexão está demorando mais que o esperado. Tente novamente."
+     : "Não foi possível entrar. Confira seu e-mail, senha e conexão.";
+
+   setAuthMessage(message,"error");
+
+   if(button){
+     button.disabled=false;
+     button.textContent="Entrar";
+   }
+ }
+}
+async function register(e){
+ e.preventDefault();
+ const name=$("#regName").value.trim();
+ const email=$("#regEmail").value.trim().toLowerCase();
+ const password=$("#regPassword").value;
+ const area=$("#regArea").value;
+ const {data,error}=await supabaseClient.auth.signUp({
+   email,
+   password,
+   options:{data:{name,area}}
+ });
+ if(error){
+   console.error("Erro ao criar conta:",error);
+   setAuthMessage(error.message||"Não foi possível criar a conta.","error");
+   return;
+ }
+ if(data.session){
+   await loadCurrentUser();
+   route="dashboard";
+   location.hash="dashboard";
+   render();
+ }else{
+   setAuthMessage("Conta criada. Verifique seu e-mail para confirmar o cadastro e depois faça login.","success");
+ }
+}
+async function logout(){
+ await supabaseClient.auth.signOut();
+ authUser=null;
+ currentUser=null;
+ location.hash="";
+ render();
+}
+const nav=[["dashboard","house","Dashboard"],["eventos","calendar-days","Eventos"],["calendario","calendar","Calendário"],["escalas","calendar-check","Escalas"],["membros","users","Membros"],["equipes","users-round","Equipes"],["indicadores","chart-no-axes-combined","Indicadores"],["notificacoes","bell","Notificações"],["configuracoes","settings","Configurações"]];
+function shell(content){
+ const u=currentUser;return `<div class="shell">
+ <aside class="sidebar">
+  <div class="brand"><div class="logo-box">${icon("zap")}</div><div><strong>LINE</strong><small>Interligados</small></div></div>
+  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes"?'<span class="nav-badge">3</span>':""}</a>`).join("")}</nav>
+  <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
+ </aside>
+ <main class="main"><div class="topbar"><div class="welcome"><h1>${titles()[route]}</h1><p>${subtitles()[route]}</p></div><div class="top-actions"><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
+}
+function titles(){return{dashboard:`Olá, ${currentUser.name.split(" ")[0]}! 👋`,eventos:"Eventos",calendario:"Calendário",escalas:"Escalas",membros:"Membros",equipes:"Equipes",indicadores:"Indicadores",notificacoes:"Notificações",configuracoes:"Configurações"}}
+function subtitles(){return{dashboard:"Sua visão geral da equipe Line.",eventos:"Organize todas as programações da equipe.",calendario:"Veja datas, eventos e escalas em um calendário real.",escalas:"Acompanhe responsáveis e confirmações.",membros:"Gerencie integrantes, áreas e permissões.",equipes:"Organize os membros por área.",indicadores:"Acompanhe participação e desempenho.",notificacoes:"Veja avisos e confirmações pendentes.",configuracoes:"Ajuste sua conta e preferências."}}
+function mobileNav(){return `<nav class="mobile-nav"><a href="#dashboard" class="${route==="dashboard"?"active":""}">${icon("house")}Home</a><a href="#eventos">${icon("calendar-days")}Eventos</a><a href="#calendario">${icon("calendar")}Agenda</a><a href="#escalas">${icon("calendar-check")}Escalas</a><a href="#membros">${icon("users")}Equipe</a></nav>`}
+
+function memberHome(){
+ const next=db.events.slice().sort((a,b)=>a.date.localeCompare(b.date))[0];
+ return `<section class="stats">
+   <div class="stat purple"><div class="stat-icon">${icon("user")}</div><div><label>Minha conta</label><strong>${currentUser.area||"Membro"}</strong><small>Perfil de membro</small></div></div>
+   <div class="stat blue"><div class="stat-icon">${icon("calendar-days")}</div><div><label>Próximo evento</label><strong>${next?new Date(next.date+"T12:00:00").getDate():"--"}</strong><small>${next?next.name:"Sem evento"}</small></div></div>
+   <div class="stat yellow"><div class="stat-icon">${icon("clock-3")}</div><div><label>Minha disponibilidade</label><strong>?</strong><small>Confirme para os próximos eventos</small></div></div>
+   <div class="stat green"><div class="stat-icon">${icon("check-circle")}</div><div><label>Minhas escalas</label><strong>${currentUser.schedules||0}</strong><small>Acompanhe suas participações</small></div></div>
+ </section>
+ <section class="dash-grid">
+   <article class="panel">
+     <div class="panel-head"><div class="panel-title">${icon("calendar-check")}Minha próxima programação</div><a class="ghost-btn" href="#calendario">Abrir calendário</a></div>
+     ${next?`<div class="event-hero"><div class="cover"><span>📅</span><b>${next.name}</b></div><div class="event-info"><h3>${next.name}</h3><span class="status ${next.status.includes("confirmada")?"green":next.status.includes("aberta")?"yellow":"gray"}">${next.status}</span><div class="info">${icon("calendar-days")}${new Date(next.date+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"})}</div><div class="info">${icon("clock-3")}${next.time}</div><div class="info">${icon("map-pin")}${next.place}</div></div></div>`:`<p style="font-size:10px;color:var(--muted)">Nenhuma programação cadastrada.</p>`}
+     <div class="availability"><div class="availability-top"><b>Minha disponibilidade</b><div class="availability-toggle"><button class="avail-btn" onclick="setAvailability(this,true)">✓ Disponível</button><button class="avail-btn" onclick="setAvailability(this,false)">Indisponível</button></div></div><div style="font-size:9px;color:var(--muted)">Sua resposta ajuda os administradores a montar a escala.</div></div>
+   </article>
+   <article class="panel">
+     <div class="panel-head"><div class="panel-title">${icon("bell")}Meus avisos</div><button class="ghost-btn" onclick="toggleNotifications(event)">Ver notificações</button></div>
+     <div style="padding:10px 0;color:var(--muted);font-size:10px;line-height:1.7">
+       Aqui aparecerão apenas suas escalas, confirmações, lembretes e avisos pessoais.
+     </div>
+   </article>
+ </section>`;
+}
+
+function dashboard(){
+ const upcoming=db.events.slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const first=upcoming[0];
+ const stats=[
+  ["users","Usuários cadastrados",db.users.length,"3 Masters confirmados","purple"],
+  ["calendar-days","Próximos eventos",upcoming.length,"agenda cadastrada","blue"],
+  ["clock-3","Escalas pendentes",7,"aguardando confirmação","yellow"],
+  ["circle-check","Confirmados",28,"67% do total","green"]
+ ];
+ const schedule=db.schedule.length
+   ? db.schedule.map(s=>`<div class="schedule-row"><div class="role"><span class="mini ${s.color}">${icon(s.icon)}</span>${s.role}</div><div class="person"><span class="avatar">${s.initial}</span>${s.member}</div><span class="check">${icon("check")}</span></div>`).join("")
+   : `<div style="padding:16px;color:var(--muted);font-size:10px;text-align:center">Nenhum membro operacional cadastrado ainda.</div>`;
+ const ups=upcoming.map(e=>{const d=new Date(e.date+"T12:00:00");return `<div class="upcoming"><div class="date-box"><div><b>${String(d.getDate()).padStart(2,"0")}</b><small>${d.toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase()}</small></div></div><div><h4>${e.name}</h4><p>${e.time} • ${e.place}</p></div><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></div>`}).join("");
+ return `<section class="stats">${stats.map(s=>`<div class="stat ${s[4]}"><div class="stat-icon">${icon(s[0])}</div><div><label>${s[1]}</label><strong>${s[2]}</strong><small>${s[3]}</small></div></div>`).join("")}</section>
+ <section class="dash-grid">
+  <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-range")}Próximo evento</div><a class="ghost-btn" href="#calendario">Abrir calendário</a></div>
+   <div class="event-hero"><div class="cover"><span>🤠</span><b>${first.name.replace(" ","<br>")}</b></div><div class="event-info"><h3>${first.name}</h3><span class="status green">${first.status}</span><div class="info">${icon("calendar-days")}${new Date(first.date+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"})}</div><div class="info">${icon("clock-3")}${first.time}</div><div class="info">${icon("map-pin")}${first.place}</div></div></div>
+   <div class="availability"><div class="availability-top"><b>Minha disponibilidade para o próximo evento</b><div class="availability-toggle"><button class="avail-btn active-yes" onclick="setAvailability(this,true)">✓ Disponível</button><button class="avail-btn" onclick="setAvailability(this,false)">Indisponível</button></div></div><div style="font-size:9px;color:var(--muted)">Você pode alterar sua disponibilidade a qualquer momento antes do fechamento da escala.</div></div>
+   <div class="schedule">${schedule}</div>
+  </article>
+  <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Próximas programações</div><a class="ghost-btn" href="#eventos">Ver eventos</a></div>${ups}</article>
+ </section>
+ <section class="bottom-grid">
+  <article class="panel"><div class="panel-head"><div class="panel-title">${icon("activity")}Atividade recente</div></div>
+   ${[
+      ["ok","Miguel acessou o painel administrativo","Hoje, 10:24"],
+      ["ok","Michel Macedo está cadastrado como Líder Geral","Hoje, 09:15"],
+      ["ok","Gleyce está com acesso Master ativo","Ontem, 22:30"]
+    ].map(a=>`<div class="activity"><span class="act-icon ${a[0]}">${icon("check")}</span><p>${a[1]}</p><small>${a[2]}</small></div>`).join("")}
+  </article>
+  <article class="panel"><div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Indicadores rápidos</div></div><div class="indicators"><div class="donut"><div class="donut-copy"><strong>67%</strong><small>participação</small></div></div><div class="legend"><div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmados</span><b>28</b></div><div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>7</b></div><div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Indisponíveis</span><b>7</b></div></div></div></article>
+ </section>`
+}
+function setAvailability(btn,yes){btn.parentElement.querySelectorAll(".avail-btn").forEach(x=>x.className="avail-btn");btn.classList.add(yes?"active-yes":"active-no")}
+function eventsPage(){
+ const rows=db.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${e.time}</td><td>${e.place}</td><td><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></td><td><button class="action-btn" onclick="openEventDetail(${e.id})">Abrir</button></td></tr>`).join("");
+ return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Programações cadastradas no LINE.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div><article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>${rows}</tbody></table></div></article>`
+}
+
+async function membersPageReal(){
+  const [members,memberTeams]=await Promise.all([fetchMembersReal(),fetchMemberTeamsReal()]);
+  const rows=members.map(u=>{
+    const names=teamsForMember(u.id,memberTeams);
+    const area=u.name==="Michel Macedo"?"Liderança Geral":(names.join(" / ")||"Sem equipe");
+    const funcs=u.name==="Michel Macedo"?"Sem função operacional":(names.join(" / ")||"Sem função");
+    const permission=u.name==="Michel Macedo"?"Líder Geral":(u.role==="master"?"Master Admin":"Membro");
+    return `<tr>
+      <td><div class="member-cell clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<b>${u.name||"Sem nome"}</b></div></td>
+      <td>${area}</td>
+      <td>${funcs}</td>
+      <td><span class="status ${u.active?"green":"gray"}">${u.active?"Ativo":"Inativo"}</span></td>
+      <td><span class="status ${u.role==="master"?"purple-tag":"gray"}">${permission}</span></td>
+      <td>—</td>
+      <td>—</td>
+    </tr>`;
+  }).join("");
+  return `<div class="page-toolbar">
+    <div class="page-title"><h2>Equipe Line</h2><p>Dados reais carregados do Supabase.</p></div>
+    ${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}
+  </div>
+  <article class="panel">
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead>
+        <tbody>${rows||`<tr><td colspan="7">Nenhum membro cadastrado.</td></tr>`}</tbody>
+      </table>
+    </div>
+    <div class="real-data-note">Membros, permissões e equipes agora vêm do Supabase.</div>
+  </article>`;
+}
+
+function membersPage(){
+ const rows=db.users.map(u=>`<tr><td><div class="member-cell clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<b>${u.name}</b></div></td><td>${u.name==="Michel Macedo"?"Liderança Geral":u.area}</td><td>${u.functions?.length?u.functions.join(" / "):"Sem função operacional"}</td><td><span class="status green">${u.status}</span></td><td><span class="status purple-tag">${u.name==="Michel Macedo"?"Líder Geral":"Master Admin"}</span></td><td>${u.schedules}</td><td>${u.participation}%</td></tr>`).join("");
+ return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>${isMaster()?"Como Master, você pode adicionar novos membros.":"Acompanhe os integrantes e suas áreas."}</p></div>${isMaster()?`<button class="primary" onclick="openMemberModal()">+ Novo membro</button>`:""}</div><article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead><tbody>${rows}</tbody></table></div></article>`
+}
+function calendarPage(){
+ const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
+ const prevLast=new Date(y,m,0).getDate();let cells=[];
+ for(let i=0;i<42;i++){let day,cm=m,cy=y,muted=false;if(i<start){day=prevLast-start+i+1;cm=m-1;muted=true}else if(i>=start+last.getDate()){day=i-(start+last.getDate())+1;cm=m+1;muted=true}else day=i-start+1;let d=new Date(cy,cm,day);let iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;let evs=db.events.filter(e=>e.date===iso);cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.color}">${e.time} ${e.name}</div>`).join("")}</div>`)}
+ const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+ const thisMonth=db.events.filter(e=>{const d=new Date(e.date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
+ return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Eventos aparecem automaticamente na data correta.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
+ <section class="calendar-shell"><article class="panel calendar-panel"><div class="calendar-header"><h3 style="text-transform:capitalize">${month}</h3><div class="cal-nav"><button onclick="moveMonth(-1)">${icon("chevron-left")}</button><button onclick="goToday()">Hoje</button><button onclick="moveMonth(1)">${icon("chevron-right")}</button></div></div><div class="weekdays">${["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(x=>`<div>${x}</div>`).join("")}</div><div class="calendar-grid">${cells.join("")}</div></article>
+ <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event"><b>${e.name}</b><p>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")} • ${e.time}</p><p>${e.place}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`
+}
+function moveMonth(n){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+n,1);render()}
+function goToday(){calendarCursor=new Date(2026,6,1);render()}
+function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Atualize sua senha de acesso</small></div><button class="action-btn">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article></div>`}
+function generic(title,copy){return `<article class="panel" style="min-height:320px;display:grid;place-items:center;text-align:center"><div><div style="color:#a78bfa;margin-bottom:10px">${icon("sparkles")}</div><h3 style="font-size:15px;margin-bottom:7px">${title}</h3><p style="font-size:10px;color:var(--muted)">${copy}</p></div></article>`}
+function notificationsPage(){const items=userNotifications();return `<div class="page-toolbar"><div class="page-title"><h2>Minhas notificações</h2><p>Clique para abrir; ela será marcada como lida automaticamente.</p></div></div><article class="panel">${items.length?items.map(n=>`<div class="notification-item ${n.read?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.icon)}</div><div><b>${n.title}</b><p>${n.text}</p></div>${n.read?`<span class="notification-time">${n.time}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</article>`}
+async function page(){
+ if(route==="dashboard")return isMaster()?dashboard():memberHome();
+ if(route==="eventos")return eventsPage();
+ if(route==="escalas")return isMaster()?schedulesPage():memberHome();
+ if(route==="membros")return isMaster()?await membersPageReal():generic("Acesso restrito","A gestão de membros é exclusiva dos administradores Master.");
+ if(route==="calendario")return calendarPage();
+ if(route==="equipes")return isMaster()?await teamsPageReal():generic("Acesso restrito","A gestão de equipes é exclusiva dos administradores Master.");
+ if(route==="configuracoes")return configPage();
+ if(route==="notificacoes")return notificationsPage();
+ if(route==="indicadores" && !isMaster())return generic("Acesso restrito","Os indicadores gerais são exclusivos dos administradores Master.");
+ return generic(titles()[route],"Esta área já está preparada para receber os próximos recursos do aplicativo.");
+}
+
+
+async function openRealProfileModal(userId=null){
+  const [members,teams,memberTeams]=await Promise.all([fetchMembersReal(),fetchTeamsReal(),fetchMemberTeamsReal()]);
+  const u=userId?members.find(x=>x.id===userId):members.find(x=>x.id===currentUser.id);
+  if(!u)return;
+  const own=u.id===currentUser.id;
+  const canAdmin=isMaster();
+  const userTeams=teamsForMember(u.id,memberTeams);
+  const currentTeam=teams.find(t=>userTeams.includes(t.name));
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg profile-popover" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <div class="profile-header">${avatarHTML({...u,photo:u.photo_url||""},"profile-photo")}<div><h3 style="margin:0 0 4px">${u.name||"Perfil"}</h3><div style="font-size:9px;color:var(--muted)">${u.name==="Michel Macedo"?"Líder Geral do Departamento":u.leadership_role||(u.role==="master"?"Master Admin":(userTeams.join(" / ")||"Membro"))}</div></div></div>
+    ${own?`<div class="member-avatar-upload"><div class="file-input-wrap"><label style="font-size:10px">Alterar foto</label><input id="realAvatarFile" type="file" accept="image/*"><small>A imagem será enviada para o bucket avatars do Supabase.</small></div></div>`:""}
+    <div class="form-grid">
+      <div class="field full"><label>Nome</label><input id="rpName" value="${u.name||""}" ${own||canAdmin?"":"disabled"}></div>
+      <div class="field full"><label>E-mail</label><input value="${u.email||""}" disabled></div>
+      <div class="field"><label>Telefone / WhatsApp</label><input id="rpPhone" value="${u.phone||""}" ${own||canAdmin?"":"disabled"}></div>
+      <div class="field"><label>Status</label><select id="rpActive" ${canAdmin?"":"disabled"}><option value="true" ${u.active?"selected":""}>Ativo</option><option value="false" ${!u.active?"selected":""}>Inativo</option></select></div>
+      ${canAdmin?`<div class="field"><label>Permissão</label><select id="rpRole"><option value="member" ${u.role==="member"?"selected":""}>Membro</option><option value="master" ${u.role==="master"?"selected":""}>Master Admin</option></select></div>`:""}
+      ${canAdmin?`<div class="field"><label>Equipe</label><select id="rpTeam"><option value="">Sem equipe</option>${teams.map(t=>`<option value="${t.id}" ${currentTeam?.id===t.id?"selected":""}>${t.name}</option>`).join("")}</select></div>`:""}
+      ${canAdmin?`<div class="field full"><label>Cargo de liderança</label><input id="rpLeadership" value="${u.leadership_role||""}" placeholder="Ex.: Líder Geral do Departamento"></div>`:""}
+    </div>
+    <div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button>${own||canAdmin?`<button class="primary" onclick="saveRealProfile('${u.id}')">Salvar alterações</button>`:""}</div>
+  </div></div>`);
+  refreshIcons();
+}
+
+async function saveRealProfile(userId){
+  const members=await fetchMembersReal();
+  const u=members.find(x=>x.id===userId); if(!u)return;
+  const own=u.id===currentUser.id;
+  const canAdmin=isMaster();
+
+  let photoUrl=u.photo_url||null;
+  if(own){
+    const file=document.getElementById("realAvatarFile")?.files?.[0];
+    if(file){
+      const uploaded=await uploadAvatarFile(file);
+      if(uploaded)photoUrl=uploaded;
+    }
+    const {error}=await supabaseClient.rpc("update_my_profile",{
+      p_name:document.getElementById("rpName").value.trim()||u.name,
+      p_phone:document.getElementById("rpPhone").value.trim(),
+      p_photo_url:photoUrl
+    });
+    if(error){console.error(error);alert("Não foi possível salvar seu perfil.");return}
+  }else if(canAdmin){
+    const {error}=await supabaseClient.from("profiles").update({
+      name:document.getElementById("rpName").value.trim()||u.name,
+      phone:document.getElementById("rpPhone").value.trim(),
+      role:document.getElementById("rpRole").value,
+      leadership_role:document.getElementById("rpLeadership").value.trim()||null,
+      active:document.getElementById("rpActive").value==="true"
+    }).eq("id",userId);
+    if(error){console.error(error);alert("Não foi possível atualizar o membro.");return}
+  }
+
+  if(canAdmin){
+    await setMemberPrimaryTeam(userId,document.getElementById("rpTeam")?.value||"");
+  }
+
+  if(own)await loadCurrentUser(authUser);
+  closeModal();
+  await render();
+}
+
+function openProfileModal(userId=null){
+ const u=userId?db.users.find(x=>x.id===userId):db.users.find(x=>x.id===currentUser.id);if(!u)return;
+ const canEdit=u.id===currentUser.id||isMaster();
+ document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg profile-popover" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="profile-header">${avatarHTML(u,"profile-photo")}<div><h3 style="margin:0">${u.name}</h3><div style="font-size:9px;color:var(--muted)">${u.name==="Michel Macedo"?"Líder Geral do Departamento":u.leadership||u.area}</div></div></div><div class="form-grid"><div class="field full"><label>Nome</label><input id="pName" value="${u.name}" ${canEdit?"":"disabled"}></div><div class="field full"><label>E-mail</label><input id="pEmail" value="${u.email}" ${u.id===currentUser.id?"":"disabled"}></div><div class="field"><label>WhatsApp</label><input id="pPhone" value="${u.phone||""}" placeholder="5584999999999" ${canEdit?"":"disabled"}></div><div class="field"><label>Área</label><input id="pArea" value="${u.name==="Michel Macedo"?"Liderança Geral":u.area||""}" ${isMaster()&&u.name!=="Michel Macedo"?"":"disabled"}></div><div class="field full"><label>URL da foto</label><input id="pPhoto" value="${u.photo||""}" placeholder="Cole a URL da foto" ${canEdit?"":"disabled"}></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button>${canEdit?`<button class="primary" onclick="saveProfile(${u.id})">Salvar</button>`:""}</div></div></div>`);refreshIcons()
+}
+async function saveProfile(id){
+ const isSelf=String(id)===String(currentUser?.id);
+ if(isSelf){
+   const name=$("#pName").value.trim()||currentUser.name;
+   const phone=$("#pPhone").value.trim();
+   const photo_url=$("#pPhoto").value.trim();
+   const email=$("#pEmail").value.trim().toLowerCase()||currentUser.email;
+
+   const {error:profileError}=await supabaseClient
+     .from("profiles")
+     .update({name,phone,photo_url})
+     .eq("id",currentUser.id);
+
+   if(profileError){
+     console.error(profileError);
+     alert("Não foi possível salvar o perfil.");
+     return;
+   }
+
+   if(email!==currentUser.email){
+     const {error:emailError}=await supabaseClient.auth.updateUser({email});
+     if(emailError){
+       console.error(emailError);
+       alert("Perfil salvo, mas não foi possível alterar o e-mail.");
+     }
+   }
+
+   await loadCurrentUser();
+   closeModal();
+   render();
+   return;
+ }
+
+ const u=db.users.find(x=>x.id===id);
+ if(!u||!isMaster())return;
+ u.name=$("#pName").value.trim()||u.name;
+ u.phone=$("#pPhone").value.trim();
+ u.photo=$("#pPhoto").value.trim();
+ u.area=$("#pArea").value.trim()||u.area;
+ save();
+ closeModal();
+ render();
+}
+function openEventDetail(id){const e=db.events.find(x=>x.id===id);if(!e)return;const assigned=db.schedulesByEvent?.[id]||[];document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}${e.name}</div><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></div><div class="event-detail-grid"><div class="event-detail-item"><small>Data</small><b>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</b></div><div class="event-detail-item"><small>Horário</small><b>${e.time}</b></div><div class="event-detail-item"><small>Localização</small><b>${e.place}</b></div></div><div class="scaled-list"><h4>Escalados</h4>${assigned.length?assigned.map(a=>`<div class="scaled-person"><span>${a.role}</span><b>${a.memberName}</b></div>`).join(""):`<div style="font-size:9px;color:var(--muted)">Nenhum escalado.</div>`}</div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button>${isMaster()?`<button class="danger-btn" onclick="deleteEvent(${e.id})">Apagar evento</button>`:""}</div></div></div>`);refreshIcons()}
+function deleteEvent(id){const e=db.events.find(x=>x.id===id);if(!e||!confirm(`Apagar o evento "${e.name}"?`))return;db.events=db.events.filter(x=>x.id!==id);delete db.schedulesByEvent[id];save();closeModal();render()}
+
+async function teamsPageReal(){
+  const [teams,members,memberTeams]=await Promise.all([fetchTeamsReal(),fetchMembersReal(),fetchMemberTeamsReal()]);
+  const icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};
+  return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels</p></div></div>
+  <section class="team-grid">${teams.map(t=>{
+    const relations=memberTeams.filter(mt=>mt.team_id===t.id);
+    const ms=relations.map(r=>members.find(m=>m.id===r.user_id)).filter(Boolean);
+    return `<article class="team-card">
+      <div class="team-icon">${icon(icons[t.name]||"users")}</div>
+      <h3>${t.name}</h3><p>${ms.length} membro(s)</p>
+      <div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div>
+    </article>`;
+  }).join("")}</section>
+  <article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div></article>`;
+}
+
+function teamsPage(){const teams=["Story","Fotos","Design","Projeção","Reels"],icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels</p></div></div><section class="team-grid">${teams.map(t=>{const ms=db.users.filter(u=>u.role==="member"&&(u.area===t||u.functions?.includes(t)));return `<article class="team-card"><div class="team-icon">${icon(icons[t])}</div><h3>${t}</h3><p>${ms.length} membro(s)</p><div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div></article>`}).join("")}</section><article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> é o Líder Geral e não integra equipe operacional.</div></article>`}
+function schedulesPage(){const members=db.users.filter(u=>u.role==="member");return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A IA local equilibra equipe, disponibilidade e carga.</p></div></div><article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Motor local de sugestão automática de escala.</p></div></div><div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join("")}</select></div><div class="field"><label>Critério</label><select><option>Equilibrar carga e disponibilidade</option></select></div></div><div class="integration-row"><button class="primary" onclick="runAIScheduler()">Gerar escala</button></div><div id="aiOutput" class="ai-result"><h4>${members.length?members.length+" membro(s) disponível(is) para análise.":"Aguardando membros operacionais."}</h4></div></article>`}
+function runAIScheduler(){const eventId=Number($("#aiEvent").value),event=db.events.find(e=>e.id===eventId),roles=["Story","Fotos","Design","Projeção","Reels"],candidates=db.users.filter(u=>u.role==="member"&&u.availability!==false);let a=[];roles.forEach(role=>{const pool=candidates.filter(u=>u.area===role||u.functions?.includes(role)).sort((x,y)=>(x.schedules||0)-(y.schedules||0));if(pool[0])a.push({role,memberId:pool[0].id,memberName:pool[0].name,email:pool[0].email,phone:pool[0].phone||""})});db.schedulesByEvent[eventId]=a;a.forEach(x=>{if(!db.notifications[x.email])db.notifications[x.email]=[];db.notifications[x.email].unshift({id:Date.now()+Math.random(),icon:"calendar-check",title:"Você foi escalado",text:`${x.role} • ${event.name}`,time:"Agora",read:false,details:`Evento: ${event.name}. Data: ${new Date(event.date+"T12:00:00").toLocaleDateString("pt-BR")}. Horário: ${event.time}. Local: ${event.place}.`})});save();$("#aiOutput").innerHTML=a.length?`<h4>Escala sugerida</h4>${a.map(x=>`<div class="ai-assignment"><span>${x.role}</span><b>${x.memberName}</b><span class="status green">Selecionado</span></div>`).join("")}<div style="font-size:8px;color:var(--muted);margin-top:10px">Atalhos de e-mail, WhatsApp e Google Agenda podem ser preparados, mas envio automático real exige backend, credenciais e autorização das APIs.</div>`:`<h4>Nenhum membro elegível.</h4>`;refreshIcons()}
+
+
+function openInviteMemberModal(){
+  if(!isMaster())return;
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <h3>Novo membro</h3>
+    <div style="font-size:10px;line-height:1.7;color:var(--muted)">
+      Nesta etapa, novos membros devem criar a própria conta pela tela <b style="color:#fff">Criar conta</b>.
+      O trigger do Supabase cria o perfil automaticamente como <b style="color:#fff">member</b>.
+      Depois do cadastro, o Master pode abrir o perfil aqui e atribuir equipe e permissões.
+    </div>
+    <div class="modal-actions"><button class="secondary" onclick="closeModal()">Entendi</button></div>
+  </div></div>`);
+}
+
+function openMemberModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Adicionar novo membro</h3><div class="form-grid"><div class="field full"><label>Nome completo</label><input id="mName"></div><div class="field full"><label>E-mail</label><input id="mEmail" type="email"></div><div class="field"><label>Área</label><select id="mArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option></select></div><div class="field"><label>Permissão</label><select id="mRole"><option value="member">Membro</option><option value="master">Master Admin</option></select></div><div class="field full"><label>Senha temporária</label><input id="mPass" value="1234"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createMember()">Adicionar membro</button></div></div></div>`) }
+function createMember(){const name=$("#mName").value.trim(),email=$("#mEmail").value.trim().toLowerCase(),area=$("#mArea").value,role=$("#mRole").value,pass=$("#mPass").value;if(!name||!email||!pass)return alert("Preencha os campos obrigatórios.");if(db.users.some(x=>x.email.toLowerCase()===email))return alert("E-mail já cadastrado.");db.users.push({id:Date.now(),name,email,password:pass,role,area,functions:[area],status:"Ativo",participation:0,schedules:0});save();closeModal();render()}
+function openEventModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Novo evento</h3><div class="form-grid"><div class="field full"><label>Nome</label><input id="eName"></div><div class="field"><label>Data</label><input id="eDate" type="date"></div><div class="field"><label>Horário</label><input id="eTime" type="time"></div><div class="field full"><label>Local</label><input id="ePlace"></div><div class="field full"><label>Status</label><select id="eStatus"><option>Planejamento</option><option>Escala aberta</option><option>Escala confirmada</option></select></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createEvent()">Criar evento</button></div></div></div>`) }
+function createEvent(){const name=$("#eName").value.trim(),date=$("#eDate").value,time=$("#eTime").value,place=$("#ePlace").value.trim(),status=$("#eStatus").value;if(!name||!date||!time||!place)return alert("Preencha todos os campos.");const colors=["purple","blue","yellow"];db.events.push({id:Date.now(),name,date,time,place,status,color:colors[db.events.length%3]});save();closeModal();render()}
+function closeModal(){document.querySelector(".modal-bg")?.remove()}
+async function render(){
+ if(currentUser)syncCurrentUser();
+ const app=document.getElementById("app");
+ if(!currentUser){
+   app.innerHTML=authPage();
+   refreshIcons();
+   return;
+ }
+ app.innerHTML=shell(`<div class="loading-inline">Carregando...</div>`);
+ refreshIcons();
+ const content=await page();
+ app.innerHTML=shell(content);
+ refreshIcons();
+}
+
+/* =========================================================
+   V8 — camada real Supabase para homologação
+   ========================================================= */
+const V8 = {
+  events: [],
+  teams: [],
+  members: [],
+  memberTeams: [],
+  availability: [],
+  schedules: [],
+  notifications: [],
+  logs: [],
+  aiPreview: []
+};
+
+window.eventStatusLabel = function(status){
+  return ({
+    planning:"Planejamento",
+    open_schedule:"Escala aberta",
+    confirmed:"Confirmado",
+    finished:"Finalizado",
+    cancelled:"Cancelado"
+  })[status] || status || "Planejamento";
+}
+window.eventStatusClass = function(status){
+  return status==="confirmed"?"green":status==="open_schedule"?"yellow":status==="cancelled"?"status-declined":"gray";
+}
+window.scheduleStatusLabel = function(status){
+  return ({pending:"Pendente",confirmed:"Confirmada",declined:"Recusada",replaced:"Substituída"})[status]||status;
+}
+window.scheduleStatusClass = function(status){return "status-"+(status||"pending")}
+window.formatEventDate = function(date){
+  if(!date)return "";
+  return new Date(date+"T12:00:00").toLocaleDateString("pt-BR");
+}
+window.formatEventLong = function(date){
+  if(!date)return "";
+  return new Date(date+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"});
+}
+window.eventDateTimeValue = function(e){
+  return new Date(`${e.event_date}T${e.start_time||"00:00"}`).getTime();
+}
+window.futureEvents = function(){
+  const now=new Date();
+  now.setHours(0,0,0,0);
+  return V8.events.filter(e=>new Date(e.event_date+"T12:00:00")>=now).sort((a,b)=>eventDateTimeValue(a)-eventDateTimeValue(b));
+}
+window.teamNamesForUser = function(userId){
+  return V8.memberTeams.filter(mt=>mt.user_id===userId).map(mt=>V8.teams.find(t=>t.id===mt.team_id)?.name).filter(Boolean);
+}
+window.memberById = function(id){return V8.members.find(m=>m.id===id)}
+window.eventById = function(id){return V8.events.find(e=>Number(e.id)===Number(id))}
+window.teamById = function(id){return V8.teams.find(t=>Number(t.id)===Number(id))}
+
+window.loadV8State = async function(){
+  if(!currentUser)return;
+  const requests=[
+    supabaseClient.from("events").select("*").order("event_date",{ascending:true}).order("start_time",{ascending:true}),
+    supabaseClient.from("teams").select("*").eq("active",true).order("name"),
+    supabaseClient.from("profiles").select("id,name,email,phone,photo_url,role,leadership_role,active,created_at").order("name"),
+    supabaseClient.from("member_teams").select("user_id,team_id"),
+    isMaster()
+      ? supabaseClient.from("availability").select("*")
+      : supabaseClient.from("availability").select("*").eq("user_id",currentUser.id),
+    isMaster()
+      ? supabaseClient.from("schedules").select("*")
+      : supabaseClient.from("schedules").select("*").eq("user_id",currentUser.id),
+    supabaseClient.from("notifications").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}),
+    isMaster()
+      ? supabaseClient.from("activity_logs").select("*").order("created_at",{ascending:false}).limit(20)
+      : Promise.resolve({data:[],error:null})
+  ];
+  const [events,teams,members,memberTeams,availability,schedules,notifications,logs]=await Promise.all(requests);
+  for(const item of [events,teams,members,memberTeams,availability,schedules,notifications,logs]){
+    if(item?.error)console.error("V8 load error:",item.error);
+  }
+  V8.events=events.data||[];
+  V8.teams=teams.data||[];
+  V8.members=members.data||[];
+  V8.memberTeams=memberTeams.data||[];
+  V8.availability=availability.data||[];
+  V8.schedules=schedules.data||[];
+  V8.notifications=notifications.data||[];
+  V8.logs=logs.data||[];
+}
+
+window.userNotifications = function(){return V8.notifications||[]}
+window.unreadCount = function(){return (V8.notifications||[]).filter(n=>!n.read_at).length}
+
+window.writeLog = async function(action,entityType="",entityId="",metadata={}){
+  if(!isMaster())return;
+  const {error}=await supabaseClient.from("activity_logs").insert({
+    user_id:currentUser.id,
+    action,
+    entity_type:entityType||null,
+    entity_id:entityId?String(entityId):null,
+    metadata
+  });
+  if(error)console.warn("Log não gravado:",error.message);
+}
+
+window.getSearchIndex = function(){
+  const pages=[
+    {type:"Página",title:"Dashboard",subtitle:isMaster()?"Visão administrativa":"Minha página inicial",route:"dashboard",icon:"house"},
+    {type:"Página",title:"Eventos",subtitle:"Programações cadastradas",route:"eventos",icon:"calendar-days"},
+    {type:"Página",title:"Calendário",subtitle:"Datas e agenda",route:"calendario",icon:"calendar"},
+    {type:"Página",title:"Escalas",subtitle:"Escalas e confirmações",route:"escalas",icon:"calendar-check"},
+    {type:"Página",title:"Notificações",subtitle:"Avisos da sua conta",route:"notificacoes",icon:"bell"},
+    {type:"Página",title:"Configurações",subtitle:"Preferências da conta",route:"configuracoes",icon:"settings"}
+  ];
+  if(isMaster())pages.push(
+    {type:"Página",title:"Membros",subtitle:"Gestão de membros",route:"membros",icon:"users"},
+    {type:"Página",title:"Equipes",subtitle:"Gestão de equipes",route:"equipes",icon:"users-round"},
+    {type:"Página",title:"Indicadores",subtitle:"Visão administrativa",route:"indicadores",icon:"chart-no-axes-combined"}
+  );
+  const users=isMaster()?V8.members.map(u=>({
+    type:"Membro",title:u.name,subtitle:u.name==="Michel Macedo"?"Líder Geral do Departamento":(teamNamesForUser(u.id).join(" / ")||u.role),
+    route:"membros",icon:"user",entity:"member",id:u.id
+  })):[];
+  const events=V8.events.map(e=>({
+    type:"Evento",title:e.name,subtitle:`${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""} • ${e.location||""}`,
+    route:"eventos",icon:"calendar-days",entity:"event",id:e.id
+  }));
+  return [...pages,...users,...events];
+}
+window.globalSearch = function(value){
+  const q=(value||"").trim().toLowerCase();
+  document.querySelector(".search-results-popover")?.remove();
+  const all=getSearchIndex();
+  const results=(q?all.filter(x=>(x.title+" "+x.subtitle+" "+x.type).toLowerCase().includes(q)):all.slice(0,8)).slice(0,12);
+  const el=document.createElement("div");
+  el.className="search-results-popover";
+  el.innerHTML=`<div class="search-results-head"><b>Pesquisa na plataforma</b><small>${q?`Resultados para “${value}”`:"Pesquise páginas, eventos e membros"}</small></div>
+  ${results.length?results.map(r=>`<div class="search-result" onclick="selectSearchResult('${r.route}','${r.entity||""}','${r.id||""}')"><div class="search-result-icon">${icon(r.icon)}</div><div><b>${r.title}</b><p>${r.subtitle}</p></div><span>${r.type}</span></div>`).join(""):`<div class="search-empty">Nenhum resultado encontrado.</div>`}`;
+  document.body.appendChild(el);refreshIcons();
+}
+window.selectSearchResult = function(targetRoute,entity="",id=""){
+  document.querySelector(".search-results-popover")?.remove();
+  const input=document.getElementById("globalSearch");if(input)input.value="";
+  location.hash=targetRoute;
+  setTimeout(()=>{if(entity==="event")openEventDetail(Number(id));if(entity==="member")openRealProfileModal(id)},120);
+}
+
+window.toggleNotifications = function(ev){
+  ev?.stopPropagation();
+  const old=document.querySelector(".notification-popover");
+  if(old){old.remove();return}
+  const items=V8.notifications;
+  const el=document.createElement("div");
+  el.className="notification-popover";
+  el.innerHTML=`<div class="notification-popover-head"><div><b>Notificações</b><small>${currentUser.name} • ${unreadCount()} não lida(s)</small></div><button class="action-btn" onclick="document.querySelector('.notification-popover')?.remove()">Fechar</button></div>
+  <div class="notification-list">${items.length?items.map(n=>`<div class="notification-item ${n.read_at?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.type==="schedule"?"calendar-check":"bell")}</div><div><b>${n.title}</b><p>${n.message}</p></div>${n.read_at?`<span class="notification-time">${new Date(n.created_at).toLocaleDateString("pt-BR")}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</div>
+  <div class="notification-footer"><button onclick="location.hash='notificacoes';document.querySelector('.notification-popover')?.remove()">Ver central de notificações</button></div>`;
+  document.body.appendChild(el);refreshIcons();
+}
+window.openNotificationDetail = async function(id){
+  const n=V8.notifications.find(x=>Number(x.id)===Number(id));if(!n)return;
+  if(!n.read_at){
+    const {error}=await supabaseClient.from("notifications").update({read_at:new Date().toISOString()}).eq("id",id).eq("user_id",currentUser.id);
+    if(!error)n.read_at=new Date().toISOString();
+  }
+  document.querySelector(".notification-popover")?.remove();
+  const related=n.related_event_id?eventById(n.related_event_id):null;
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <div class="panel-head"><div class="panel-title">${icon(n.type==="schedule"?"calendar-check":"bell")}${n.title}</div><span class="status green">Lida</span></div>
+    <div class="notification-detail"><strong>${n.message}</strong>${related?`<br><br><b>Evento:</b> ${related.name}<br><b>Data:</b> ${formatEventDate(related.event_date)}<br><b>Horário:</b> ${related.start_time?.slice(0,5)||""}<br><b>Local:</b> ${related.location||"—"}`:""}</div>
+    <div class="modal-actions">${related?`<button class="secondary" onclick="closeModal();location.hash='eventos';setTimeout(()=>openEventDetail(${related.id}),100)">Abrir evento</button>`:""}<button class="primary" onclick="closeModal()">Fechar</button></div>
+  </div></div>`);
+  refreshIcons();
+}
+
+window.setAvailabilityForEvent = async function(eventId,status){
+  const {error}=await supabaseClient.rpc("set_my_availability",{p_event_id:Number(eventId),p_status:status});
+  if(error){console.error(error);alert("Não foi possível salvar sua disponibilidade.");return}
+  await loadV8State();await render();
+}
+window.availabilityFor = function(eventId,userId=currentUser.id){
+  return V8.availability.find(a=>Number(a.event_id)===Number(eventId)&&a.user_id===userId)?.status||"pending";
+}
+
+window.updateMyScheduleStatus = async function(scheduleId,status){
+  const {error}=await supabaseClient.rpc("update_my_schedule_status",{p_schedule_id:Number(scheduleId),p_status:status});
+  if(error){console.error(error);alert("Não foi possível atualizar a escala.");return}
+  await loadV8State();await render();
+}
+
+window.memberHome = async function(){
+  const next=futureEvents()[0];
+  const mySchedules=V8.schedules.filter(s=>s.user_id===currentUser.id).sort((a,b)=>{
+    const ea=eventById(a.event_id),eb=eventById(b.event_id);
+    return (ea?eventDateTimeValue(ea):0)-(eb?eventDateTimeValue(eb):0)
+  });
+  const nextSchedule=mySchedules.find(s=>eventById(s.event_id)&&new Date(eventById(s.event_id).event_date+"T12:00:00")>=new Date(new Date().setHours(0,0,0,0)));
+  const av=next?availabilityFor(next.id):"pending";
+  return `<section class="stats">
+    <div class="stat purple"><div class="stat-icon">${icon("user")}</div><div><label>Minha conta</label><strong>${teamNamesForUser(currentUser.id).join(" / ")||"Membro"}</strong><small>Perfil pessoal</small></div></div>
+    <div class="stat blue"><div class="stat-icon">${icon("calendar-days")}</div><div><label>Próximo evento</label><strong>${next?new Date(next.event_date+"T12:00:00").getDate():"--"}</strong><small>${next?next.name:"Sem evento"}</small></div></div>
+    <div class="stat yellow"><div class="stat-icon">${icon("clock-3")}</div><div><label>Disponibilidade</label><strong>${av==="available"?"✓":av==="unavailable"?"✕":"?"}</strong><small>${av==="available"?"Disponível":av==="unavailable"?"Indisponível":"Pendente"}</small></div></div>
+    <div class="stat green"><div class="stat-icon">${icon("check-circle")}</div><div><label>Minhas escalas</label><strong>${mySchedules.length}</strong><small>${mySchedules.filter(s=>s.status==="confirmed").length} confirmada(s)</small></div></div>
+  </section>
+  <section class="member-home-grid">
+    <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Próxima programação</div><a class="ghost-btn" href="#calendario">Calendário</a></div>
+      ${next?`<div class="event-info"><h3>${next.name}</h3><span class="status ${eventStatusClass(next.status)}">${eventStatusLabel(next.status)}</span><div class="info">${icon("calendar-days")}${formatEventLong(next.event_date)}</div><div class="info">${icon("clock-3")}${next.start_time?.slice(0,5)||""}</div><div class="info">${icon("map-pin")}${next.location||"—"}</div></div>
+      <div class="availability"><div class="availability-top"><b>Minha disponibilidade</b><div class="availability-toggle"><button class="avail-btn ${av==="available"?"active-yes":""}" onclick="setAvailabilityForEvent(${next.id},'available')">✓ Disponível</button><button class="avail-btn ${av==="unavailable"?"active-no":""}" onclick="setAvailabilityForEvent(${next.id},'unavailable')">Indisponível</button></div></div></div>`:`<div class="empty-state">Nenhuma programação futura.</div>`}
+    </article>
+    <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Minha escala</div><a class="ghost-btn" href="#escalas">Ver todas</a></div>
+      ${nextSchedule?renderMemberScheduleCard(nextSchedule):`<div class="empty-state">Você ainda não possui escala futura.</div>`}
+    </article>
+  </section>`;
+}
+window.renderMemberScheduleCard = function(s){
+  const e=eventById(s.event_id);const team=teamById(s.team_id);
+  return `<div class="schedule-card"><div class="schedule-card-top"><h4>${s.role_name}</h4><span class="status ${scheduleStatusClass(s.status)}">${scheduleStatusLabel(s.status)}</span></div><p>${e?.name||"Evento"}<br>${e?formatEventDate(e.event_date):""} • ${e?.start_time?.slice(0,5)||""}<br>${e?.location||""}</p>
+  ${s.status==="pending"?`<div class="schedule-actions"><button class="confirm-btn" onclick="updateMyScheduleStatus(${s.id},'confirmed')">✓ Confirmar</button><button class="decline-btn" onclick="updateMyScheduleStatus(${s.id},'declined')">Não posso</button></div>`:""}</div>`;
+}
+
+window.dashboard = async function(){
+  const upcoming=futureEvents();
+  const first=upcoming[0];
+  const pending=V8.schedules.filter(s=>s.status==="pending").length;
+  const confirmed=V8.schedules.filter(s=>s.status==="confirmed").length;
+  const members=V8.members.filter(m=>m.active).length;
+  const stats=[
+    ["users","Usuários cadastrados",members,"perfis ativos","purple"],
+    ["calendar-days","Próximos eventos",upcoming.length,"agenda futura","blue"],
+    ["clock-3","Escalas pendentes",pending,"aguardando resposta","yellow"],
+    ["circle-check","Confirmados",confirmed,"escalas confirmadas","green"]
+  ];
+  const nextSchedules=V8.schedules.filter(s=>s.status!=="replaced").slice(0,8);
+  const logs=V8.logs.slice(0,6);
+  return `<section class="stats">${stats.map(s=>`<div class="stat ${s[4]}"><div class="stat-icon">${icon(s[0])}</div><div><label>${s[1]}</label><strong>${s[2]}</strong><small>${s[3]}</small></div></div>`).join("")}</section>
+  <section class="dash-grid">
+   <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-range")}Próximo evento</div><a class="ghost-btn" href="#calendario">Calendário</a></div>
+    ${first?`<div class="event-hero"><div class="cover"><span>📅</span><b>${first.name}</b></div><div class="event-info"><h3>${first.name}</h3><span class="status ${eventStatusClass(first.status)}">${eventStatusLabel(first.status)}</span><div class="info">${icon("calendar-days")}${formatEventLong(first.event_date)}</div><div class="info">${icon("clock-3")}${first.start_time?.slice(0,5)||""}</div><div class="info">${icon("map-pin")}${first.location||"—"}</div></div></div>
+    <div class="avail-summary">${["available","unavailable","pending"].map(st=>`<span class="avail-pill">${st==="available"?"Disponíveis":st==="unavailable"?"Indisponíveis":"Pendentes"}: ${V8.availability.filter(a=>Number(a.event_id)===Number(first.id)&&a.status===st).length}</span>`).join("")}</div>`:`<div class="empty-state">Crie o primeiro evento para começar.</div>`}
+   </article>
+   <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Escalas recentes</div><a class="ghost-btn" href="#escalas">Abrir LINE IA</a></div>
+    ${nextSchedules.length?nextSchedules.map(s=>{const e=eventById(s.event_id),m=memberById(s.user_id);return `<div class="upcoming"><div class="date-box"><div><b>${e?String(new Date(e.event_date+"T12:00:00").getDate()).padStart(2,"0"):"--"}</b><small>${e?new Date(e.event_date+"T12:00:00").toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase():""}</small></div></div><div><h4>${m?.name||"Membro"} • ${s.role_name}</h4><p>${e?.name||""}</p></div><span class="status ${scheduleStatusClass(s.status)}">${scheduleStatusLabel(s.status)}</span></div>`}).join(""):`<div class="empty-state">Nenhuma escala criada.</div>`}
+   </article>
+  </section>
+  <section class="bottom-grid">
+   <article class="panel"><div class="panel-head"><div class="panel-title">${icon("activity")}Atividade recente</div></div><div class="log-list">${logs.length?logs.map(l=>`<div class="log-item"><span class="act-icon ok">${icon("check")}</span><p>${l.action}</p><small>${new Date(l.created_at).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</small></div>`).join(""):`<div class="empty-state">Sem atividade registrada ainda.</div>`}</div></article>
+   <article class="panel"><div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Resumo</div></div><div class="legend">
+     <div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></div>
+     <div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></div>
+     <div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${V8.schedules.filter(s=>s.status==="declined").length}</b></div>
+   </div></article>
+  </section>`;
+}
+
+window.eventsPage = async function(){
+  return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Eventos reais salvos no Supabase.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div>
+  <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>
+  ${V8.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${formatEventDate(e.event_date)}</td><td>${e.start_time?.slice(0,5)||""}</td><td>${e.location||"—"}</td><td><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></td><td><button class="action-btn" onclick="openEventDetail(${e.id})">Abrir</button></td></tr>`).join("")||`<tr><td colspan="6">Nenhum evento cadastrado.</td></tr>`}
+  </tbody></table></div></article>`;
+}
+window.openEventModal = function(eventId=null){
+  if(!isMaster())return;
+  const e=eventId?eventById(eventId):null;
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h3>${e?"Editar evento":"Novo evento"}</h3><div class="form-grid">
+    <div class="field full"><label>Nome</label><input id="eName" value="${e?.name||""}"></div>
+    <div class="field"><label>Data</label><input id="eDate" type="date" value="${e?.event_date||""}"></div>
+    <div class="field"><label>Início</label><input id="eTime" type="time" value="${e?.start_time?.slice(0,5)||""}"></div>
+    <div class="field"><label>Fim</label><input id="eEndTime" type="time" value="${e?.end_time?.slice(0,5)||""}"></div>
+    <div class="field full"><label>Localização</label><input id="ePlace" value="${e?.location||""}"></div>
+    <div class="field full"><label>Descrição</label><textarea id="eDescription" rows="3">${e?.description||""}</textarea></div>
+    <div class="field full"><label>Status</label><select id="eStatus">${[["planning","Planejamento"],["open_schedule","Escala aberta"],["confirmed","Confirmado"],["finished","Finalizado"],["cancelled","Cancelado"]].map(([v,l])=>`<option value="${v}" ${e?.status===v?"selected":""}>${l}</option>`).join("")}</select></div>
+  </div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveEvent(${eventId||"null"})">${e?"Salvar":"Criar evento"}</button></div></div></div>`);
+}
+window.saveEvent = async function(eventId=null){
+  const payload={
+    name:document.getElementById("eName").value.trim(),
+    event_date:document.getElementById("eDate").value,
+    start_time:document.getElementById("eTime").value,
+    end_time:document.getElementById("eEndTime").value||null,
+    location:document.getElementById("ePlace").value.trim(),
+    description:document.getElementById("eDescription").value.trim()||null,
+    status:document.getElementById("eStatus").value,
+    created_by:currentUser.id
+  };
+  if(!payload.name||!payload.event_date||!payload.start_time)return alert("Preencha nome, data e horário.");
+  let response;
+  if(eventId)response=await supabaseClient.from("events").update(payload).eq("id",eventId);
+  else response=await supabaseClient.from("events").insert(payload);
+  if(response.error){console.error(response.error);alert("Não foi possível salvar o evento.");return}
+  await writeLog(eventId?`Atualizou o evento ${payload.name}`:`Criou o evento ${payload.name}`,"event",eventId||"",payload);
+  closeModal();await loadV8State();await render();
+}
+window.openEventDetail = async function(id){
+  const e=eventById(id);if(!e)return;
+  const assigned=V8.schedules.filter(s=>Number(s.event_id)===Number(id));
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <div class="panel-head"><div class="panel-title">${icon("calendar-days")}${e.name}</div><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></div>
+    <div class="event-detail-grid"><div class="event-detail-item"><small>Data</small><b>${formatEventDate(e.event_date)}</b></div><div class="event-detail-item"><small>Horário</small><b>${e.start_time?.slice(0,5)||""}${e.end_time?` às ${e.end_time.slice(0,5)}`:""}</b></div><div class="event-detail-item"><small>Localização</small><b>${e.location||"—"}</b></div></div>
+    ${e.description?`<div class="event-modal-description">${e.description}</div>`:""}
+    <div class="scaled-list"><h4>Escalados</h4>${assigned.length?assigned.map(s=>{const m=memberById(s.user_id);return `<div class="scaled-person"><span>${s.role_name}</span><b>${m?.name||"Membro"} • ${scheduleStatusLabel(s.status)}</b></div>`}).join(""):`<div style="font-size:9px;color:var(--muted)">Nenhuma escala publicada ainda.</div>`}</div>
+    <div class="modal-actions">${isMaster()?`<button class="danger-btn" onclick="deleteEvent(${e.id})">Apagar</button><button class="secondary" onclick="closeModal();setTimeout(()=>openEventModal(${e.id}),50)">Editar</button>`:""}<button class="primary" onclick="closeModal()">Fechar</button></div>
+  </div></div>`);refreshIcons();
+}
+window.deleteEvent = async function(id){
+  const e=eventById(id);if(!e||!confirm(`Apagar o evento "${e.name}"?`))return;
+  const {error}=await supabaseClient.from("events").delete().eq("id",id);
+  if(error){console.error(error);alert("Não foi possível apagar o evento.");return}
+  await writeLog(`Apagou o evento ${e.name}`,"event",id,{name:e.name});
+  closeModal();await loadV8State();await render();
+}
+
+window.calendarPage = async function(){
+  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7,prevLast=new Date(y,m,0).getDate();
+  let cells=[];
+  for(let i=0;i<42;i++){
+    let day,cm=m,cy=y,muted=false;
+    if(i<start){day=prevLast-start+i+1;cm=m-1;muted=true}
+    else if(i>=start+last.getDate()){day=i-(start+last.getDate())+1;cm=m+1;muted=true}
+    else day=i-start+1;
+    const d=new Date(cy,cm,day),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const evs=V8.events.filter(e=>e.event_date===iso);
+    cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" onclick="openEventDetail(${e.id})">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
+  }
+  const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+  const thisMonth=V8.events.filter(e=>{const d=new Date(e.event_date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
+  return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Eventos reais do Supabase nas datas corretas.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
+  <section class="calendar-shell"><article class="panel calendar-panel"><div class="calendar-header"><h3 style="text-transform:capitalize">${month}</h3><div class="cal-nav"><button onclick="moveMonth(-1)">${icon("chevron-left")}</button><button onclick="goToday()">Hoje</button><button onclick="moveMonth(1)">${icon("chevron-right")}</button></div></div><div class="weekdays">${["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(x=>`<div>${x}</div>`).join("")}</div><div class="calendar-grid">${cells.join("")}</div></article>
+  <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event clickable" onclick="openEventDetail(${e.id})"><b>${e.name}</b><p>${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""}</p><p>${e.location||"—"}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`;
+}
+
+window.schedulesPage = async function(){
+  if(!isMaster()){
+    const own=V8.schedules.filter(s=>s.user_id===currentUser.id);
+    return `<div class="page-toolbar"><div class="page-title"><h2>Minhas escalas</h2><p>Confirme ou recuse suas participações.</p></div></div><article class="panel">${own.length?own.map(renderMemberScheduleCard).join(""):`<div class="empty-state">Você ainda não possui escalas.</div>`}</article>`
+  }
+  return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A LINE IA cruza equipe, disponibilidade e carga de escalas.</p></div></div>
+  <article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Gere uma sugestão e revise antes de publicar.</p></div></div>
+   <div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${futureEvents().map(e=>`<option value="${e.id}">${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")}</select></div><div class="field"><label>Regra</label><select><option>Equilibrar carga + disponibilidade</option></select></div></div>
+   <div class="integration-row"><button class="primary" onclick="generateAIPreview()">Gerar sugestão</button></div>
+   <div id="aiOutput" class="ai-result"><h4>Selecione um evento e gere a escala.</h4></div>
+  </article>`;
+}
+window.memberScheduleCount = function(userId){
+  return V8.schedules.filter(s=>s.user_id===userId&&s.status!=="replaced").length;
+}
+window.availabilityScore = function(eventId,userId){
+  const st=availabilityFor(eventId,userId);
+  return st==="available"?100:st==="unavailable"?-1000:20;
+}
+window.generateAIPreview = function(){
+  const eventId=Number(document.getElementById("aiEvent").value);
+  const event=eventById(eventId);if(!event)return;
+  const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels"].includes(t.name));
+  const preview=[];
+  operational.forEach(team=>{
+    const ids=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(team.id)).map(mt=>mt.user_id);
+    const candidates=V8.members.filter(m=>ids.includes(m.id)&&m.active&&m.role==="member"&&m.name!=="Michel Macedo");
+    const ranked=candidates.map(m=>({
+      m,
+      score:availabilityScore(eventId,m.id)-memberScheduleCount(m.id)*3
+    })).filter(x=>x.score>-900).sort((a,b)=>b.score-a.score);
+    if(ranked[0])preview.push({teamId:team.id,role:team.name,userId:ranked[0].m.id,memberName:ranked[0].m.name,score:ranked[0].score})
+  });
+  V8.aiPreview=preview;
+  document.getElementById("aiOutput").innerHTML=preview.length?`<h4>Sugestão para ${event.name}</h4><div class="ai-preview">${preview.map(a=>`<div class="ai-preview-row"><span>${a.role}</span><b>${a.memberName}</b><span class="status green">Score ${a.score}</span></div>`).join("")}</div><div class="integration-row"><button class="primary" onclick="publishAISchedule(${eventId})">Aprovar e publicar</button></div><div class="integration-note">Ao publicar, cada escalado recebe notificação interna. Depois da confirmação, o app oferece atalhos para e-mail, WhatsApp e Google Agenda.</div>`:`<h4>Nenhum membro elegível encontrado.</h4><p style="font-size:9px;color:var(--muted)">Cadastre membros nas equipes e informe disponibilidade.</p>`;
+}
+window.publishAISchedule = async function(eventId){
+  if(!V8.aiPreview.length)return;
+  const rows=V8.aiPreview.map(a=>({
+    event_id:Number(eventId),user_id:a.userId,team_id:a.teamId,role_name:a.role,status:"pending",generated_by_ai:true
+  }));
+  // Remove apenas sugestões IA pendentes antigas para o mesmo evento.
+  await supabaseClient.from("schedules").delete().eq("event_id",eventId).eq("generated_by_ai",true).eq("status","pending");
+  const {data,error}=await supabaseClient.from("schedules").insert(rows).select();
+  if(error){console.error(error);alert("Não foi possível publicar a escala.");return}
+  const event=eventById(eventId);
+  // Notificações internas
+  const notifications=(data||[]).map(s=>({
+    user_id:s.user_id,title:"Você foi escalado",message:`${s.role_name} • ${event.name} • ${formatEventDate(event.event_date)} às ${event.start_time?.slice(0,5)||""}`,
+    type:"schedule",related_event_id:event.id
+  }));
+  if(notifications.length){
+    const nres=await supabaseClient.from("notifications").insert(notifications);
+    if(nres.error)console.warn("Notificação não inserida:",nres.error.message);
+  }
+  await writeLog(`Publicou escala automática de ${event.name}`,"schedule",event.id,{assignments:rows.length});
+  V8.aiPreview=[];await loadV8State();alert("Escala publicada. Os membros já receberam notificação interna.");await render();
+}
+
+window.notificationsPage = async function(){
+  return `<div class="page-toolbar"><div class="page-title"><h2>Minhas notificações</h2><p>Clique para abrir; a leitura é salva automaticamente.</p></div></div><article class="panel">${V8.notifications.length?V8.notifications.map(n=>`<div class="notification-item ${n.read_at?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.type==="schedule"?"calendar-check":"bell")}</div><div><b>${n.title}</b><p>${n.message}</p></div>${n.read_at?`<span class="notification-time">${new Date(n.created_at).toLocaleDateString("pt-BR")}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</article>`;
+}
+
+window.indicatorsPage = async function(){
+  if(!isMaster())return generic("Acesso restrito","Indicadores são exclusivos dos administradores.");
+  const total=V8.schedules.length||1,confirmed=V8.schedules.filter(s=>s.status==="confirmed").length,pending=V8.schedules.filter(s=>s.status==="pending").length,declined=V8.schedules.filter(s=>s.status==="declined").length;
+  const pct=Math.round(confirmed/total*100);
+  return `<section class="stats"><div class="stat purple"><div class="stat-icon">${icon("users")}</div><div><label>Membros ativos</label><strong>${V8.members.filter(m=>m.active).length}</strong><small>cadastros ativos</small></div></div><div class="stat blue"><div class="stat-icon">${icon("calendar-days")}</div><div><label>Eventos</label><strong>${V8.events.length}</strong><small>total cadastrado</small></div></div><div class="stat yellow"><div class="stat-icon">${icon("clock-3")}</div><div><label>Pendentes</label><strong>${pending}</strong><small>aguardando resposta</small></div></div><div class="stat green"><div class="stat-icon">${icon("circle-check")}</div><div><label>Confirmação</label><strong>${pct}%</strong><small>${confirmed} confirmadas</small></div></div></section>
+  <article class="panel"><div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Escalas por status</div></div><div class="legend"><div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></div><div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></div><div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${declined}</b></div></div></article>`;
+}
+
+window.externalIntegrationLinks = function(scheduleId){
+  const s=V8.schedules.find(x=>Number(x.id)===Number(scheduleId));if(!s)return "";
+  const e=eventById(s.event_id),u=memberById(s.user_id);if(!e||!u)return "";
+  const body=encodeURIComponent(`Olá ${u.name}! Sua escala está confirmada: ${s.role_name} no evento ${e.name}, dia ${formatEventDate(e.event_date)} às ${e.start_time?.slice(0,5)||""}, em ${e.location||"local a confirmar"}.`);
+  const mail=`mailto:${u.email}?subject=${encodeURIComponent("Escala LINE • "+e.name)}&body=${body}`;
+  const wa=u.phone?`https://wa.me/${u.phone.replace(/\D/g,"")}?text=${body}`:"#";
+  const start=e.event_date.replaceAll("-","")+e.start_time.replace(":","")+"00";
+  const endTime=e.end_time||e.start_time;
+  const end=e.event_date.replaceAll("-","")+endTime.replace(":","")+"00";
+  const gcal=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(e.name+" • "+s.role_name)}&dates=${start}/${end}&details=${body}&location=${encodeURIComponent(e.location||"")}`;
+  return `<div class="integration-row"><a class="integration-btn" href="${mail}">${icon("mail")}E-mail</a><a class="integration-btn" href="${wa}" target="_blank" ${u.phone?"":'onclick="alert(\'Cadastre o WhatsApp no perfil.\');return false;"'}>${icon("message-circle")}WhatsApp</a><a class="integration-btn" href="${gcal}" target="_blank">${icon("calendar-plus")}Google Agenda</a></div>`;
+}
+
+window.page = async function(){
+  if(route==="dashboard")return isMaster()?await dashboard():await memberHome();
+  if(route==="eventos")return await eventsPage();
+  if(route==="calendario")return await calendarPage();
+  if(route==="escalas")return await schedulesPage();
+  if(route==="membros")return isMaster()?await membersPageReal():generic("Acesso restrito","A gestão de membros é exclusiva dos administradores Master.");
+  if(route==="equipes")return isMaster()?await teamsPageReal():generic("Acesso restrito","A gestão de equipes é exclusiva dos administradores Master.");
+  if(route==="indicadores")return await indicatorsPage();
+  if(route==="notificacoes")return await notificationsPage();
+  if(route==="configuracoes")return configPage();
+  return generic(titles()[route],"Área em preparação.");
+}
+
+window.mobileNav = function(){
+  const items=isMaster()
+    ?[["dashboard","house","Home"],["eventos","calendar-days","Eventos"],["calendario","calendar","Agenda"],["escalas","calendar-check","Escalas"],["membros","users","Equipe"]]
+    :[["dashboard","house","Home"],["eventos","calendar-days","Eventos"],["calendario","calendar","Agenda"],["escalas","calendar-check","Escalas"],["notificacoes","bell","Avisos"]];
+  return `<nav class="mobile-nav">${items.map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}</a>`).join("")}</nav>`;
+}
+
+window.render = async function(){
+  if(currentUser)syncCurrentUser();
+  const app=document.getElementById("app");
+  if(!currentUser){app.innerHTML=authPage();refreshIcons();return}
+  app.innerHTML=shell(`<div class="loading-inline">Atualizando dados...</div>`);
+  refreshIcons();
+  await loadV8State();
+  const content=await page();
+  app.innerHTML=shell(content);
+  refreshIcons();
+}
+
+addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
+addEventListener("DOMContentLoaded",()=>{
+ console.info("LINE Interligados v8 homologação iniciado");
+ checkLocalFileProtocol();
+ initializeApp();
+});
+
+if("serviceWorker" in navigator && location.protocol!=="file:"){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.warn));
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "LINE Interligados",
+  "short_name": "LINE",
+  "description": "Gestão de eventos, equipes e escalas do LINE Interligados",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#060b13",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
