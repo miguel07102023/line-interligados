@@ -654,6 +654,70 @@ body{
   .team-member{padding:9px!important}
 }
 
+
+/* ===== V9.6 — abertura das equipes no mobile ===== */
+.team-board-back{margin-bottom:12px}
+@media(max-width:760px){
+  .team-grid{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:12px!important;
+  }
+  .team-card.board-enabled{
+    width:100%!important;
+    min-height:112px!important;
+    cursor:pointer!important;
+    touch-action:manipulation!important;
+    -webkit-tap-highlight-color:rgba(47,106,163,.16)!important;
+    position:relative!important;
+  }
+  .team-card.board-enabled:active{
+    transform:scale(.992)!important;
+    background:#0f1d2f!important;
+  }
+  .team-board-open{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:7px!important;
+    min-height:42px!important;
+    margin-top:12px!important;
+    position:relative!important;
+    z-index:3!important;
+  }
+  .team-board-back .action-btn{
+    min-height:40px!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    gap:6px!important;
+  }
+  .kanban-board{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:10px!important;
+  }
+  .kanban-col{
+    width:100%!important;
+    min-height:0!important;
+  }
+}
+
+
+/* ===== V9.7 — PERFORMANCE / FEEDBACK DE CARREGAMENTO ===== */
+.fast-loading{
+  min-height:180px;display:grid;place-items:center;text-align:center;
+  color:var(--muted);font-size:9px
+}
+.fast-loading-spinner{
+  width:28px;height:28px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.08);
+  border-top-color:#4f8cc2;
+  animation:lineSpin .7s linear infinite;
+  margin:0 auto 9px;
+}
+@keyframes lineSpin{to{transform:rotate(360deg)}}
+.team-grid .team-card{content-visibility:auto;contain-intrinsic-size:180px}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -1269,37 +1333,24 @@ function eventsPage(){
 }
 
 async function membersPageReal(){
-  const [members,memberTeams]=await Promise.all([fetchMembersReal(),fetchMemberTeamsReal()]);
+  const members=V8.members||[];
+  const memberTeams=V8.memberTeams||[];
   const rows=members.map(u=>{
-    const names=teamsForMember(u.id,memberTeams);
+    const names=memberTeams.filter(mt=>mt.user_id===u.id).map(mt=>V8.teams.find(t=>Number(t.id)===Number(mt.team_id))?.name).filter(Boolean);
     const area=u.name==="Michel Macedo"?"Liderança Geral":(names.join(" / ")||"Sem equipe");
     const funcs=u.name==="Michel Macedo"?"Sem função operacional":(names.join(" / ")||"Sem função");
     const permission=u.name==="Michel Macedo"?"Líder Geral":(u.role==="master"?"Master Admin":"Membro");
     return `<tr>
-      <td><div class="member-cell clickable" onclick="event.stopPropagation();openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<b>${u.name||"Sem nome"}</b></div></td>
-      <td>${area}</td>
-      <td>${funcs}</td>
+      <td><div class="member-cell clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<b>${u.name||"Sem nome"}</b></div></td>
+      <td>${area}</td><td>${funcs}</td>
       <td><span class="status ${u.active?"green":"gray"}">${u.active?"Ativo":"Inativo"}</span></td>
       <td><span class="status ${u.role==="master"?"purple-tag":"gray"}">${permission}</span></td>
-      <td>—</td>
-      <td>—</td>
+      <td>—</td><td>—</td>
     </tr>`;
   }).join("");
-  return `<div class="page-toolbar">
-    <div class="page-title"><h2>Equipe Line</h2><p>Dados reais carregados do Supabase.</p></div>
-    ${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}
-  </div>
-  <article class="panel">
-    <div class="table-wrap">
-      <table class="table">
-        <thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead>
-        <tbody>${rows||`<tr><td colspan="7">Nenhum membro cadastrado.</td></tr>`}</tbody>
-      </table>
-    </div>
-    <div class="real-data-note">Membros, permissões e equipes agora vêm do Supabase.</div>
-  </article>`;
+  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>Perfis carregados do estado atual do aplicativo.</p></div>${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}</div>
+  <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead><tbody>${rows||`<tr><td colspan="7">Nenhum membro cadastrado.</td></tr>`}</tbody></table></div></article>`;
 }
-
 function membersPage(){
  const rows=db.users.map(u=>`<tr><td><div class="member-cell clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<b>${u.name}</b></div></td><td>${u.name==="Michel Macedo"?"Liderança Geral":u.area}</td><td>${u.functions?.length?u.functions.join(" / "):"Sem função operacional"}</td><td><span class="status green">${u.status}</span></td><td><span class="status purple-tag">${u.name==="Michel Macedo"?"Líder Geral":"Master Admin"}</span></td><td>${u.schedules}</td><td>${u.participation}%</td></tr>`).join("");
  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>${isMaster()?"Como Master, você pode adicionar novos membros.":"Acompanhe os integrantes e suas áreas."}</p></div>${isMaster()?`<button class="primary" onclick="openMemberModal()">+ Novo membro</button>`:""}</div><article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead><tbody>${rows}</tbody></table></div></article>`
@@ -1507,22 +1558,32 @@ function openEventDetail(id){const e=db.events.find(x=>x.id===id);if(!e)return;c
 function deleteEvent(id){const e=db.events.find(x=>x.id===id);if(!e||!confirm(`Apagar o evento "${e.name}"?`))return;db.events=db.events.filter(x=>x.id!==id);delete db.schedulesByEvent[id];save();closeModal();render()}
 
 async function teamsPageReal(){
-  const [teams,members,memberTeams]=await Promise.all([fetchTeamsReal(),fetchMembersReal(),fetchMemberTeamsReal()]);
+  const teams=V8.teams||[];
+  const members=V8.members||[];
+  const memberTeams=V8.memberTeams||[];
   const icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard",Edição:"scissors","Social Media":"send"};
-  return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels | Edição | Social Media</p></div></div>
+
+  return `<div class="page-toolbar">
+    <div class="page-title"><h2>Equipes</h2><p>Toque em uma equipe para abrir o quadro de produção.</p></div>
+  </div>
   <section class="team-grid">${teams.map(t=>{
-    const relations=memberTeams.filter(mt=>mt.team_id===t.id);
+    const relations=memberTeams.filter(mt=>Number(mt.team_id)===Number(t.id));
     const ms=relations.map(r=>members.find(m=>m.id===r.user_id)).filter(Boolean);
-    return `<article class="team-card board-enabled" onclick="openTeamBoard(${t.id})">
+    return `<article class="team-card board-enabled" onclick="event.preventDefault();openTeamBoard(${t.id})">
       <div class="team-icon">${icon(icons[t.name]||"users")}</div>
-      <h3>${t.name}</h3><p>${ms.length} membro(s) • abrir quadro</p>
-      <div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="event.stopPropagation();openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div>
-      <button class="team-board-open" onclick="event.stopPropagation();openTeamBoard(${t.id})">${icon("layout-dashboard")} Abrir quadro</button>
+      <h3>${t.name}</h3>
+      <p>${ms.length} membro(s) • abrir quadro</p>
+      <div class="team-members">${ms.length
+        ?ms.map(u=>`<div class="team-member clickable" onclick="event.stopPropagation();openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join("")
+        :`<div class="team-empty">Nenhum membro nesta equipe.</div>`}
+      </div>
+      <button class="team-board-open" onclick="event.preventDefault();event.stopPropagation();openTeamBoard(${t.id})">${icon("layout-dashboard")} Abrir quadro</button>
     </article>`;
   }).join("")}</section>
-  <article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div></article>`;
+  <article class="panel" style="margin-top:14px">
+    <div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div>
+  </article>`;
 }
-
 function teamsPage(){const teams=["Story","Fotos","Design","Projeção","Reels"],icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels | Edição | Social Media</p></div></div><section class="team-grid">${teams.map(t=>{const ms=db.users.filter(u=>u.role==="member"&&(u.area===t||u.functions?.includes(t)));return `<article class="team-card"><div class="team-icon">${icon(icons[t])}</div><h3>${t}</h3><p>${ms.length} membro(s)</p><div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div></article>`}).join("")}</section><article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> é o Líder Geral e não integra equipe operacional.</div></article>`}
 function schedulesPage(){const members=db.users.filter(u=>u.role==="member");return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A IA local equilibra equipe, disponibilidade e carga.</p></div></div><article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Motor local de sugestão automática de escala.</p></div></div><div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join("")}</select></div><div class="field"><label>Critério</label><select><option>Equilibrar carga e disponibilidade</option></select></div></div><div class="integration-row"><button class="primary" onclick="runAIScheduler()">Gerar escala</button></div><div id="aiOutput" class="ai-result"><h4>${members.length?members.length+" membro(s) disponível(is) para análise.":"Aguardando membros operacionais."}</h4></div></article>`}
 function runAIScheduler(){const eventId=Number($("#aiEvent").value),event=db.events.find(e=>e.id===eventId),roles=["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"],candidates=db.users.filter(u=>u.role==="member"&&u.availability!==false);let a=[];roles.forEach(role=>{const pool=candidates.filter(u=>u.area===role||u.functions?.includes(role)).sort((x,y)=>(x.schedules||0)-(y.schedules||0));if(pool[0])a.push({role,memberId:pool[0].id,memberName:pool[0].name,email:pool[0].email,phone:pool[0].phone||""})});db.schedulesByEvent[eventId]=a;a.forEach(x=>{if(!db.notifications[x.email])db.notifications[x.email]=[];db.notifications[x.email].unshift({id:Date.now()+Math.random(),icon:"calendar-check",title:"Você foi escalado",text:`${x.role} • ${event.name}`,time:"Agora",read:false,details:`Evento: ${event.name}. Data: ${new Date(event.date+"T12:00:00").toLocaleDateString("pt-BR")}. Horário: ${event.time}. Local: ${event.place}.`})});save();$("#aiOutput").innerHTML=a.length?`<h4>Escala sugerida</h4>${a.map(x=>`<div class="ai-assignment"><span>${x.role}</span><b>${x.memberName}</b><span class="status green">Selecionado</span></div>`).join("")}<div style="font-size:8px;color:var(--muted);margin-top:10px">Atalhos de e-mail, WhatsApp e Google Agenda podem ser preparados, mas envio automático real exige backend, credenciais e autorização das APIs.</div>`:`<h4>Nenhum membro elegível.</h4>`;refreshIcons()}
@@ -1615,36 +1676,82 @@ window.memberById = function(id){return V8.members.find(m=>m.id===id)}
 window.eventById = function(id){return V8.events.find(e=>Number(e.id)===Number(id))}
 window.teamById = function(id){return V8.teams.find(t=>Number(t.id)===Number(id))}
 
+
+/* ===== V9.7 — cache de estado do Supabase ===== */
+let V8_LAST_LOAD=0;
+let V8_LOADING_PROMISE=null;
+const V8_CACHE_MS=20000;
+
+function v8HasBaseData(){
+  return Array.isArray(V8.teams) && Array.isArray(V8.members) && Array.isArray(V8.memberTeams)
+    && (V8.teams.length>0 || V8.members.length>0);
+}
+
+async function ensureV8State(force=false){
+  const fresh=Date.now()-V8_LAST_LOAD < V8_CACHE_MS;
+  if(!force && fresh && v8HasBaseData())return V8;
+
+  if(V8_LOADING_PROMISE)return V8_LOADING_PROMISE;
+
+  V8_LOADING_PROMISE=(async()=>{
+    try{
+      await loadV8State();
+      V8_LAST_LOAD=Date.now();
+      return V8;
+    }finally{
+      V8_LOADING_PROMISE=null;
+    }
+  })();
+
+  return V8_LOADING_PROMISE;
+}
+
+function refreshV8InBackground(){
+  if(Date.now()-V8_LAST_LOAD < V8_CACHE_MS)return;
+  ensureV8State(true).catch(err=>console.warn("Atualização em segundo plano:",err));
+}
+
 window.loadV8State = async function(){
   if(!currentUser)return;
+  const safeQuery=async(promise,label)=>{
+    try{
+      return await Promise.race([
+        promise,
+        new Promise(resolve=>setTimeout(()=>resolve({data:[],error:new Error(label+" timeout")}),6500))
+      ]);
+    }catch(error){
+      return {data:[],error};
+    }
+  };
   const requests=[
-    supabaseClient.from("events").select("*").order("event_date",{ascending:true}).order("start_time",{ascending:true}),
-    supabaseClient.from("teams").select("*").eq("active",true).order("name"),
-    supabaseClient.from("profiles").select("id,name,email,phone,photo_url,role,leadership_role,active,created_at").order("name"),
-    supabaseClient.from("member_teams").select("user_id,team_id"),
-    isMaster()
+    safeQuery(supabaseClient.from("events").select("*").order("event_date",{ascending:true}).order("start_time",{ascending:true}),"events"),
+    safeQuery(supabaseClient.from("teams").select("*").eq("active",true).order("name"),"teams"),
+    safeQuery(supabaseClient.from("profiles").select("id,name,email,phone,photo_url,role,leadership_role,active,created_at").order("name"),"profiles"),
+    safeQuery(supabaseClient.from("member_teams").select("user_id,team_id"),"member_teams"),
+    safeQuery(isMaster()
       ? supabaseClient.from("availability").select("*")
-      : supabaseClient.from("availability").select("*").eq("user_id",currentUser.id),
-    isMaster()
+      : supabaseClient.from("availability").select("*").eq("user_id",currentUser.id),"availability"),
+    safeQuery(isMaster()
       ? supabaseClient.from("schedules").select("*")
-      : supabaseClient.from("schedules").select("*").eq("user_id",currentUser.id),
-    supabaseClient.from("notifications").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}),
+      : supabaseClient.from("schedules").select("*").eq("user_id",currentUser.id),"schedules"),
+    safeQuery(supabaseClient.from("notifications").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}),"notifications"),
     isMaster()
-      ? supabaseClient.from("activity_logs").select("*").order("created_at",{ascending:false}).limit(20)
+      ? safeQuery(supabaseClient.from("activity_logs").select("*").order("created_at",{ascending:false}).limit(20),"activity_logs")
       : Promise.resolve({data:[],error:null})
   ];
   const [events,teams,members,memberTeams,availability,schedules,notifications,logs]=await Promise.all(requests);
   for(const item of [events,teams,members,memberTeams,availability,schedules,notifications,logs]){
     if(item?.error)console.error("V8 load error:",item.error);
   }
-  V8.events=events.data||[];
-  V8.teams=teams.data||[];
-  V8.members=members.data||[];
-  V8.memberTeams=memberTeams.data||[];
-  V8.availability=availability.data||[];
-  V8.schedules=schedules.data||[];
-  V8.notifications=notifications.data||[];
-  V8.logs=logs.data||[];
+  if(!events.error)V8.events=events.data||[];
+  if(!teams.error)V8.teams=teams.data||[];
+  if(!members.error)V8.members=members.data||[];
+  if(!memberTeams.error)V8.memberTeams=memberTeams.data||[];
+  if(!availability.error)V8.availability=availability.data||[];
+  if(!schedules.error)V8.schedules=schedules.data||[];
+  if(!notifications.error)V8.notifications=notifications.data||[];
+  if(!logs.error)V8.logs=logs.data||[];
+  V8_LAST_LOAD=Date.now();
 }
 
 window.userNotifications = function(){return V8.notifications||[]}
@@ -1735,7 +1842,7 @@ window.openNotificationDetail = async function(id){
 window.setAvailabilityForEvent = async function(eventId,status){
   const {error}=await supabaseClient.rpc("set_my_availability",{p_event_id:Number(eventId),p_status:status});
   if(error){console.error(error);alert("Não foi possível salvar sua disponibilidade.");return}
-  await loadV8State();await render();
+  await ensureV8State(true);await render();
 }
 window.availabilityFor = function(eventId,userId=currentUser.id){
   return V8.availability.find(a=>Number(a.event_id)===Number(eventId)&&a.user_id===userId)?.status||"pending";
@@ -1878,7 +1985,7 @@ window.saveEvent = async function(eventId=null){
   else response=await supabaseClient.from("events").insert(payload);
   if(response.error){console.error(response.error);alert("Não foi possível salvar o evento.");return}
   await writeLog(eventId?`Atualizou o evento ${payload.name}`:`Criou o evento ${payload.name}`,"event",eventId||"",payload);
-  closeModal();await loadV8State();await render();
+  closeModal();await ensureV8State(true);await render();
 }
 window.openEventDetail = async function(id){
   const e=eventById(id);if(!e)return;
@@ -1896,7 +2003,7 @@ window.deleteEvent = async function(id){
   const {error}=await supabaseClient.from("events").delete().eq("id",id);
   if(error){console.error(error);alert("Não foi possível apagar o evento.");return}
   await writeLog(`Apagou o evento ${e.name}`,"event",id,{name:e.name});
-  closeModal();await loadV8State();await render();
+  closeModal();await ensureV8State(true);await render();
 }
 
 window.calendarPage = async function(){
@@ -1974,7 +2081,7 @@ window.publishAISchedule = async function(eventId){
     if(nres.error)console.warn("Notificação não inserida:",nres.error.message);
   }
   await writeLog(`Publicou escala automática de ${event.name}`,"schedule",event.id,{assignments:rows.length});
-  V8.aiPreview=[];await loadV8State();alert("Escala publicada. Os membros já receberam notificação interna.");await render();
+  V8.aiPreview=[];await ensureV8State(true);alert("Escala publicada. Os membros já receberam notificação interna.");await render();
 }
 
 window.notificationsPage = async function(){
@@ -2004,6 +2111,10 @@ window.externalIntegrationLinks = function(scheduleId){
 
 
 
+
+const TEAM_TASK_CACHE=new Map();
+const TEAM_TASK_CACHE_MS=12000;
+
 const TASK_STATUS_LABELS={
   ideas:"Ideias",
   todo:"A fazer",
@@ -2014,16 +2125,47 @@ const TASK_STATUS_LABELS={
 };
 const TASK_STATUS_ORDER=["ideas","todo","production","review","publishing","done"];
 
-window.openTeamBoard=function(teamId){location.hash=`team-${teamId}`}
 
-window.fetchTeamTasks=async function(teamId){
-  const {data,error}=await supabaseClient
-    .from("team_tasks")
-    .select("*")
-    .eq("team_id",Number(teamId))
-    .order("created_at",{ascending:false});
-  if(error){console.warn("team_tasks:",error.message);return []}
-  return data||[];
+
+
+/* ===== V9.6 — navegação robusta para iPhone/PWA ===== */
+window.navigateLine = async function(targetRoute){
+  if(!targetRoute)return;
+  route=targetRoute;
+  try{
+    history.pushState({lineRoute:targetRoute},"",`#${targetRoute}`);
+  }catch(e){
+    location.hash=targetRoute;
+  }
+  await render();
+  window.scrollTo({top:0,behavior:"instant"});
+};
+
+window.openTeamBoard = async function(teamId){
+  const id=Number(teamId);
+  if(!id)return;
+  await navigateLine(`team-${id}`);
+};
+
+window.addEventListener("popstate",()=>{
+  route=location.hash.slice(1)||"dashboard";
+  render();
+});
+
+window.fetchTeamTasks=async function(teamId,force=false){
+  const id=Number(teamId);
+  const cached=TEAM_TASK_CACHE.get(id);
+  if(!force && cached && Date.now()-cached.at<TEAM_TASK_CACHE_MS)return cached.data;
+
+  const result=await Promise.race([
+    supabaseClient.from("team_tasks").select("*").eq("team_id",id).order("created_at",{ascending:false}),
+    new Promise(resolve=>setTimeout(()=>resolve({data:cached?.data||[],error:new Error("tasks timeout")}),5000))
+  ]);
+
+  if(!result.error){
+    TEAM_TASK_CACHE.set(id,{data:result.data||[],at:Date.now()});
+  }
+  return result.data||cached?.data||[];
 }
 
 window.fetchMyTasks=async function(){
@@ -2046,7 +2188,8 @@ window.teamBoardPage=async function(teamId){
   if(!team)return generic("Equipe não encontrada","Esta equipe não está disponível.");
   const tasks=await fetchTeamTasks(teamId);
   const cols=["ideas","todo","production","review","publishing"];
-  return `<div class="team-board-head">
+  return `<div class="team-board-back"><button class="action-btn" onclick="navigateLine('equipe')">${icon("chevron-left")} Voltar para Equipes</button></div>
+  <div class="team-board-head">
     <div class="team-board-title"><h2>${team.name}</h2><p>Produção, responsáveis, arquivos, prazos e entregas.</p></div>
     ${isMaster()?`<button class="primary" onclick="openTaskModal(${team.id})">+ Nova tarefa</button>`:""}
   </div>
@@ -2124,7 +2267,7 @@ window.createTeamTask=async function(teamId){
     });
   }
   await writeLog(`Criou a tarefa ${payload.title}`,"task",data.id,{team_id:teamId});
-  closeModal();await render();
+  TEAM_TASK_CACHE.delete(Number(teamId));closeModal();await render();
 }
 
 window.uploadTaskFile=async function(taskId){
@@ -2325,20 +2468,34 @@ window.mobileNav = function(){
     ["notificacoes","bell","Avisos"]
   ];
   const items=isMaster()?masterItems:memberItems;
-  return `<nav class="mobile-nav">${items.map(([r,i,l,special])=>`<a href="#${r}" class="${route===r?"active":""} ${special==="home"?"mobile-home":""}">${icon(i)}<span>${l}</span></a>`).join("")}</nav>`;
+  return `<nav class="mobile-nav">${items.map(([r,i,l,special])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""} ${special==="home"?"mobile-home":""}">${icon(i)}<span>${l}</span></a>`).join("")}</nav>`;
 }
 
 window.render = async function(){
   if(currentUser)syncCurrentUser();
   const app=document.getElementById("app");
-  if(!currentUser){app.innerHTML=authPage();refreshIcons();return}
-  app.innerHTML=shell(`<div class="loading-inline">Atualizando dados...</div>`);
-  refreshIcons();
-  await loadV8State();
+
+  if(!currentUser){
+    app.innerHTML=authPage();
+    refreshIcons();
+    return;
+  }
+
+  // Só bloqueia a interface se ainda não houver dados básicos.
+  if(!v8HasBaseData()){
+    app.innerHTML=shell(`<div class="fast-loading"><div><div class="fast-loading-spinner"></div>Carregando dados da LINE...</div></div>`);
+    refreshIcons();
+    await ensureV8State(true);
+  }
+
+  // A partir daqui, troca de páginas é imediata usando o estado em memória.
   const content=await page();
   app.innerHTML=shell(content);
   refreshIcons();
   initMobileSwipe();
+
+  // Atualiza discretamente em segundo plano, sem travar a navegação.
+  refreshV8InBackground();
 }
 
 
@@ -2370,9 +2527,14 @@ function initMobileSwipe(){
   },{passive:true});
 }
 
-addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
+addEventListener("hashchange",()=>{
+  const newRoute=location.hash.slice(1)||"dashboard";
+  if(newRoute===route)return;
+  route=newRoute;
+  render();
+});
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v9.5 multi-equipe iniciado");
+ console.info("LINE Interligados v9.7 performance iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -2380,7 +2542,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=9.5",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=9.7",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
