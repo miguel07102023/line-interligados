@@ -1117,6 +1117,75 @@ html[data-theme="light"] .auth-sheet-close{background:#eef4f8;color:#0b1520}
   }
 }
 
+
+/* V10.3 — LINE NEON SYSTEM */
+html[data-theme="dark"]{--ng:#43a8ff;--nb:rgba(67,168,255,.42);--ns:0 0 9px rgba(67,168,255,.20),0 0 25px rgba(67,168,255,.08);--na:0 0 11px rgba(67,168,255,.38),0 0 30px rgba(67,168,255,.14),inset 0 0 16px rgba(67,168,255,.07)}
+html[data-theme="dark"] :is(.panel,.team-card,.stat,.user-card,.search,.icon-btn,.calendar-panel,.calendar-side,.auth-card,.modal,.notification-popover,.search-results-popover,.home-modal-item,.home-modal-kpi,.setting-line,.task-card,.member-task-item,.event-detail-item,.mobile-home-search,.date-box,.cover,.side-event,.notification-item,.search-result,.field input,.field select,.field textarea,.task-status-select,.social-publish-box textarea,.social-publish-box input){
+ border-color:rgba(67,168,255,.22)!important;box-shadow:0 0 0 1px rgba(67,168,255,.025),0 0 16px rgba(67,168,255,.045),0 14px 34px rgba(0,0,0,.14)!important;transition:.18s ease!important}
+html[data-theme="dark"] :is(.panel.dashboard-clickable,.team-card,.stat.dashboard-clickable,.home-modal-item.clickable,.upcoming.clickable):hover{border-color:var(--nb)!important;box-shadow:var(--ns)!important;transform:translateY(-1px)}
+html[data-theme="dark"] .nav a{border:1px solid transparent!important;border-radius:12px!important;transition:.18s ease!important}
+html[data-theme="dark"] .nav a:hover{color:#eef8ff!important;background:linear-gradient(90deg,rgba(32,112,184,.14),rgba(8,25,42,.28))!important;border-color:rgba(67,168,255,.34)!important;box-shadow:0 0 9px rgba(67,168,255,.18),inset 0 0 12px rgba(67,168,255,.04)!important}
+html[data-theme="dark"] .nav a.active{color:#fff!important;background:linear-gradient(90deg,rgba(31,112,184,.27),rgba(8,26,44,.48))!important;border-color:rgba(83,178,255,.68)!important;box-shadow:var(--na)!important}
+html[data-theme="dark"] .nav a.active svg{color:#8dccff!important;filter:drop-shadow(0 0 5px rgba(77,174,255,.62))}
+html[data-theme="dark"] :is(.search,.mobile-home-search):focus-within{border-color:rgba(86,184,255,.70)!important;box-shadow:0 0 9px rgba(67,168,255,.34),0 0 27px rgba(67,168,255,.13),inset 0 0 15px rgba(67,168,255,.035)!important}
+html[data-theme="dark"] :is(.field input,.field select,.field textarea,.task-status-select,.social-publish-box textarea,.social-publish-box input):focus{outline:none!important;border-color:rgba(86,184,255,.68)!important;box-shadow:0 0 8px rgba(67,168,255,.27),0 0 21px rgba(67,168,255,.09)!important}
+html[data-theme="dark"] :is(.action-btn,.ghost-btn,.secondary,.theme-pill,.integration-btn,.team-board-open){border:1px solid rgba(67,168,255,.18)!important;transition:.18s ease!important}
+html[data-theme="dark"] :is(.action-btn,.ghost-btn,.secondary,.theme-pill,.integration-btn,.team-board-open):hover{color:#eef8ff!important;background:rgba(25,85,138,.18)!important;border-color:var(--nb)!important;box-shadow:var(--ns)!important}
+html[data-theme="dark"] .primary{border:1px solid rgba(92,190,255,.58)!important;box-shadow:0 0 9px rgba(48,145,226,.18)!important}
+html[data-theme="dark"] .primary:hover{box-shadow:var(--na)!important;transform:translateY(-1px)}
+html[data-theme="dark"] .team-card:hover,html[data-theme="dark"] .stat.dashboard-clickable:hover{background:linear-gradient(145deg,rgba(12,29,47,.98),rgba(8,21,35,.98))!important}
+html[data-theme="dark"] .modal{border-color:rgba(74,173,255,.36)!important;box-shadow:0 0 17px rgba(67,168,255,.13),0 0 56px rgba(67,168,255,.055),0 30px 90px rgba(0,0,0,.55)!important}
+html[data-theme="dark"] .notification-item:hover,html[data-theme="dark"] .search-result:hover{border-color:rgba(67,168,255,.36)!important;box-shadow:0 0 16px rgba(67,168,255,.09)!important}
+html[data-theme="dark"] :is(.auth-main-btn,.auth-outline-btn){transition:.2s ease!important}
+html[data-theme="dark"] .auth-main-btn{border:1px solid rgba(92,190,255,.40)!important;box-shadow:0 0 12px rgba(67,168,255,.13)!important}
+html[data-theme="dark"] .auth-main-btn:hover{box-shadow:var(--na)!important}
+html[data-theme="dark"] .auth-outline-btn:hover{border-color:rgba(92,190,255,.55)!important;box-shadow:var(--ns)!important}
+html[data-theme="dark"] .auth-sheet{border-color:rgba(73,173,255,.38)!important;box-shadow:0 -8px 25px rgba(67,168,255,.08),0 -28px 70px rgba(0,0,0,.55)!important}
+html[data-theme="dark"] :is(button,a,input,select,textarea):focus-visible{outline:1px solid rgba(112,199,255,.75)!important;outline-offset:2px!important;box-shadow:0 0 0 3px rgba(67,168,255,.10),0 0 16px rgba(67,168,255,.19)!important}
+@media(max-width:760px){
+ html[data-theme="dark"] .mobile-nav{border:1px solid rgba(83,178,255,.34)!important;box-shadow:0 0 11px rgba(67,168,255,.18),0 0 34px rgba(67,168,255,.075),0 18px 45px rgba(0,0,0,.42)!important}
+ html[data-theme="dark"] .mobile-nav a{border:1px solid transparent!important;border-radius:17px!important}
+ html[data-theme="dark"] .mobile-nav a:hover{background:rgba(44,117,181,.12)!important;box-shadow:0 0 13px rgba(67,168,255,.11)!important}
+ html[data-theme="dark"] .mobile-nav a.active,html[data-theme="dark"] .mobile-nav a.mobile-home{border-color:rgba(104,196,255,.54)!important;box-shadow:var(--na)!important}
+ html[data-theme="dark"] .mobile-nav a.active svg,html[data-theme="dark"] .mobile-nav a.mobile-home svg{filter:drop-shadow(0 0 5px rgba(112,199,255,.72))}
+ html[data-theme="dark"] .mobile-quick-tabs button{border-color:rgba(67,168,255,.20)!important}
+ html[data-theme="dark"] .mobile-quick-tabs button:active{border-color:rgba(89,188,255,.56)!important;box-shadow:var(--ns)!important}
+}
+
+
+/* V10.4 — Agenda em primeiro plano */
+.dashboard-calendar-first{margin-bottom:14px}
+.hero-calendar-card{padding:18px!important;overflow:hidden}
+.calendar-first-subtitle{margin-top:4px;font-size:8px;color:var(--muted)}
+.calendar-first-content{display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:18px;align-items:center;margin-top:10px;padding:16px;border-radius:18px;border:1px solid rgba(79,155,220,.14);background:linear-gradient(135deg,rgba(19,49,79,.54),rgba(8,22,38,.62))}
+.calendar-first-date{width:76px;height:76px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(91,178,250,.25);background:rgba(17,48,78,.62)}
+.calendar-first-date span{font-size:27px;font-weight:900;line-height:1}
+.calendar-first-date b{font-size:9px;letter-spacing:1.5px;margin-top:5px;color:#88bce6}
+.calendar-first-info h3{font-size:20px;margin:7px 0 8px}
+.calendar-first-info>p{font-size:8px;color:var(--muted);margin-top:8px;line-height:1.5}
+.calendar-first-meta{display:flex;gap:12px;flex-wrap:wrap}
+.calendar-first-meta span{display:flex;align-items:center;gap:5px;font-size:8px;color:#a5b8c9}
+.calendar-first-meta svg{width:14px;height:14px}
+.calendar-first-cta{display:flex;align-items:center}
+.calendar-first-empty{padding:28px!important}
+html[data-theme="light"] .calendar-first-content{background:linear-gradient(135deg,#eef6fc,#f9fcff)!important;border-color:rgba(37,91,134,.12)!important}
+html[data-theme="light"] .calendar-first-date{background:#e5f1fb!important;border-color:#c8dfef!important}
+html[data-theme="light"] .calendar-first-date span,html[data-theme="light"] .calendar-first-info h3{color:#0b1520!important}
+html[data-theme="light"] .calendar-first-date b{color:#315c80!important}
+html[data-theme="light"] .calendar-first-meta span{color:#42566b!important}
+@media(max-width:760px){
+ .dashboard-calendar-first{margin-top:2px;margin-bottom:12px}
+ .hero-calendar-card{padding:14px!important}
+ .hero-calendar-card .panel-head{align-items:flex-start!important;gap:8px!important}
+ .hero-calendar-card .ghost-btn{font-size:7px!important;padding:7px 8px!important}
+ .calendar-first-content{grid-template-columns:64px 1fr;gap:12px;padding:12px}
+ .calendar-first-date{width:60px;height:60px;border-radius:16px}
+ .calendar-first-date span{font-size:22px}.calendar-first-date b{font-size:7px}
+ .calendar-first-info h3{font-size:16px;margin:6px 0}
+ .calendar-first-meta{gap:7px}.calendar-first-meta span{font-size:7px}
+ .calendar-first-cta{grid-column:1/-1}.calendar-first-cta .primary{width:100%}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -2437,7 +2506,7 @@ window.dashboard = async function(){
     ["circle-check","Confirmados",confirmed,"escalas confirmadas","green"]
   ];
   const nextSchedules=V8.schedules.filter(s=>s.status!=="replaced").slice(0,8);
-  const logs=V8.logs.slice(0,6);
+
   const mobileQuick=`<div class="mobile-home-search">
     ${icon("search")}<input placeholder="Buscar no LINE..." oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">
     <button onclick="navigateLine('notificacoes')">${icon("sliders-horizontal")}</button>
@@ -2448,23 +2517,71 @@ window.dashboard = async function(){
     <button onclick="navigateLine('equipe')">Equipes</button>
     <button onclick="openHomeInsight('recent-schedules')">Tarefas</button>
   </div>`;
-  return `<section class="stats">${stats.map(s=>`<div class="stat ${s[4]}"><div class="stat-icon">${icon(s[0])}</div><div><label>${s[1]}</label><strong>${s[2]}</strong><small>${s[3]}</small></div></div>`).join("")}</section>
-  <section class="dash-grid">
-   <article class="panel dashboard-clickable" onclick="openHomeInsight('next-event')"><div class="panel-head"><div class="panel-title">${icon("calendar-range")}Próximo evento</div><a class="ghost-btn" href="#calendario" onclick="event.stopPropagation()">Calendário</a></div>
-    ${first?`<div class="event-hero"><div class="cover"><span>📅</span><b>${first.name}</b></div><div class="event-info"><h3>${first.name}</h3><span class="status ${eventStatusClass(first.status)}">${eventStatusLabel(first.status)}</span><div class="info">${icon("calendar-days")}${formatEventLong(first.event_date)}</div><div class="info">${icon("clock-3")}${first.start_time?.slice(0,5)||""}</div><div class="info">${icon("map-pin")}${first.location||"—"}</div></div></div>
-    <div class="avail-summary">${["available","unavailable","pending"].map(st=>`<span class="avail-pill">${st==="available"?"Disponíveis":st==="unavailable"?"Indisponíveis":"Pendentes"}: ${V8.availability.filter(a=>Number(a.event_id)===Number(first.id)&&a.status===st).length}</span>`).join("")}</div>`:`<div class="empty-state">Crie o primeiro evento para começar.</div>`}
-   </article>
-   <article class="panel dashboard-clickable" onclick="openHomeInsight('recent-schedules')"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Escalas recentes</div><a class="ghost-btn" href="#escalas" onclick="event.stopPropagation()">Abrir LINE IA</a></div>
-    ${nextSchedules.length?nextSchedules.map(s=>{const e=eventById(s.event_id),m=memberById(s.user_id);return `<div class="upcoming"><div class="date-box"><div><b>${e?String(new Date(e.event_date+"T12:00:00").getDate()).padStart(2,"0"):"--"}</b><small>${e?new Date(e.event_date+"T12:00:00").toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase():""}</small></div></div><div><h4>${m?.name||"Membro"} • ${s.role_name}</h4><p>${e?.name||""}</p></div><span class="status ${scheduleStatusClass(s.status)}">${scheduleStatusLabel(s.status)}</span></div>`}).join(""):`<div class="empty-state">Nenhuma escala criada.</div>`}
-   </article>
+
+  return `${mobileQuick}
+  <section class="dashboard-calendar-first">
+    <article class="panel dashboard-clickable hero-calendar-card" onclick="openHomeInsight('next-event')">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">${icon("calendar-range")}Agenda da LINE</div>
+          <p class="calendar-first-subtitle">O que vem primeiro na programação.</p>
+        </div>
+        <a class="ghost-btn" href="#calendario" onclick="event.stopPropagation();event.preventDefault();navigateLine('calendario')">Calendário completo</a>
+      </div>
+
+      ${first?`<div class="calendar-first-content">
+        <div class="calendar-first-date">
+          <span>${formatEventDate(first.event_date).split("/")[0]}</span>
+          <b>${new Date(first.event_date+"T00:00:00").toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase()}</b>
+        </div>
+        <div class="calendar-first-info">
+          <span class="status ${eventStatusClass(first.status)}">${eventStatusLabel(first.status)}</span>
+          <h3>${first.name}</h3>
+          <div class="calendar-first-meta">
+            <span>${icon("clock-3")}${first.start_time?.slice(0,5)||"—"}</span>
+            <span>${icon("map-pin")}${first.location||"Local não informado"}</span>
+          </div>
+          ${first.description?`<p>${first.description}</p>`:""}
+        </div>
+        <div class="calendar-first-cta">
+          <button class="primary" onclick="event.stopPropagation();openEventDetail(${first.id})">Ver evento</button>
+        </div>
+      </div>`:`<div class="empty-state calendar-first-empty">
+        <div>${icon("calendar-x-2")}</div>
+        <b>Nenhum evento futuro</b>
+        <p>Quando um novo evento for criado, ele aparecerá aqui.</p>
+      </div>`}
+    </article>
   </section>
-  <section class="bottom-grid">
-   <article class="panel"><div class="panel-head"><div class="panel-title">${icon("activity")}Atividade recente</div></div><div class="log-list">${logs.length?logs.map(l=>`<div class="log-item"><span class="act-icon ok">${icon("check")}</span><p>${l.action}</p><small>${new Date(l.created_at).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</small></div>`).join(""):`<div class="empty-state">Sem atividade registrada ainda.</div>`}</div></article>
-   <article class="panel dashboard-clickable" onclick="openHomeInsight('summary')"><div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Resumo</div></div><div class="legend">
-     <div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></div>
-     <div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></div>
-     <div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${V8.schedules.filter(s=>s.status==="declined").length}</b></div>
-   </div></article>
+
+  <section class="stats">
+    ${stats.map((s,idx)=>`<div class="stat ${s[4]} dashboard-clickable" onclick="openHomeInsight(['members','events','pending','confirmed'][${idx}])">
+      <div class="stat-icon">${icon(s[0])}</div>
+      <div><label>${s[1]}</label><strong>${s[2]}</strong><small>${s[3]}</small><span class="interactive-hint">Toque para ver detalhes</span></div>
+    </div>`).join("")}
+  </section>
+
+  <section class="dash-grid">
+   <article class="panel dashboard-clickable" onclick="openHomeInsight('recent-schedules')">
+    <div class="panel-head">
+      <div class="panel-title">${icon("calendar-check")}Escalas recentes</div>
+      <a class="ghost-btn" href="#escalas" onclick="event.stopPropagation();event.preventDefault();navigateLine('escalas')">Abrir Escalas</a>
+    </div>
+    ${nextSchedules.length?nextSchedules.map(s=>{const e=eventById(s.event_id),m=memberById(s.user_id);return `<div class="upcoming clickable" onclick="event.stopPropagation();openHomeScheduleDetail(${s.id})">
+      <div class="date-box"><div><b>${e?String(new Date(e.event_date+"T12:00:00").getDate()).padStart(2,"0"):"--"}</b><small>${e?new Date(e.event_date+"T12:00:00").toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase():""}</small></div></div>
+      <div><h4>${m?.name||"Membro"} • ${s.role_name}</h4><p>${e?.name||""}</p></div>
+      <span class="status ${scheduleStatusClass(s.status)}">${scheduleStatusLabel(s.status)}</span>
+    </div>`}).join(""):`<div class="empty-state">Nenhuma escala criada.</div>`}
+   </article>
+
+   <article class="panel dashboard-clickable" onclick="openHomeInsight('summary')">
+    <div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Resumo</div></div>
+    <div class="legend">
+      <div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></div>
+      <div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></div>
+      <div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${V8.schedules.filter(s=>s.status==="declined").length}</b></div>
+    </div>
+   </article>
   </section>`;
 }
 
@@ -3086,7 +3203,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v10.2 mobile app iniciado");
+ console.info("LINE Interligados v10.4 calendar first iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -3094,7 +3211,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.2",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.4",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
