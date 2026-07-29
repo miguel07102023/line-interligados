@@ -1,10 +1,68 @@
-const CACHE="line-v8";
-const ASSETS=["./","./index.html","./manifest.json"];
-self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
-self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
-self.addEventListener("fetch",e=>{
-  if(e.request.method!=="GET")return;
-  e.respondWith(fetch(e.request).then(r=>{
-    const clone=r.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));return r;
-  }).catch(()=>caches.match(e.request).then(r=>r||caches.match("./index.html"))));
+const CACHE_NAME = "line-interligados-v9.3";
+const STATIC_ASSETS = [
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
+];
+
+self.addEventListener("install", event => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS)).catch(() => null)
+  );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("message", event => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  // Nunca cacheia chamadas Supabase/API.
+  if (
+    url.hostname.includes("supabase.co") ||
+    url.pathname.includes("/rest/") ||
+    url.pathname.includes("/auth/")
+  ) {
+    return;
+  }
+
+  // Para navegação e HTML: sempre tenta a rede primeiro.
+  if (request.mode === "navigate" || request.destination === "document") {
+    event.respondWith(
+      fetch(request, { cache: "no-store" })
+        .then(response => response)
+        .catch(() => caches.match("./index.html"))
+    );
+    return;
+  }
+
+  // Assets locais: cache com atualização em segundo plano.
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      caches.match(request).then(cached => {
+        const network = fetch(request).then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return response;
+        }).catch(() => cached);
+
+        return cached || network;
+      })
+    );
+  }
 });
