@@ -1186,6 +1186,454 @@ html[data-theme="light"] .calendar-first-meta span{color:#42566b!important}
  .calendar-first-cta{grid-column:1/-1}.calendar-first-cta .primary{width:100%}
 }
 
+
+/* ==========================================================
+   V10.5 — MOBILE: RESPIRO VISUAL + SELETOR DE TEMA
+   ========================================================== */
+@media(max-width:760px){
+
+  /* Mais margem geral */
+  .main{
+    padding-left:18px!important;
+    padding-right:18px!important;
+    padding-bottom:calc(116px + env(safe-area-inset-bottom))!important;
+  }
+
+  /* Topo mais espaçado */
+  .topbar{
+    padding-top:18px!important;
+    padding-bottom:14px!important;
+    min-height:78px!important;
+    align-items:center!important;
+  }
+
+  .welcome{
+    padding-top:0!important;
+    min-width:0!important;
+  }
+
+  .welcome h1{
+    font-size:27px!important;
+    line-height:1.08!important;
+    letter-spacing:-.5px!important;
+  }
+
+  .welcome p{
+    margin-top:6px!important;
+    line-height:1.45!important;
+  }
+
+  /* Mantém tema + sino + avatar no mobile */
+  .top-actions{
+    display:flex!important;
+    align-items:center!important;
+    gap:8px!important;
+    flex-shrink:0!important;
+  }
+
+  .top-actions>.theme-switch{
+    display:flex!important;
+  }
+
+  .theme-pill{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    padding:0!important;
+    border-radius:50%!important;
+    display:grid!important;
+    place-items:center!important;
+    font-size:0!important;
+    line-height:0!important;
+  }
+
+  .theme-pill svg{
+    width:18px!important;
+    height:18px!important;
+  }
+
+  .top-actions>.search{
+    display:none!important;
+  }
+
+  .top-user{
+    display:flex!important;
+  }
+
+  .top-user>div{
+    display:none!important;
+  }
+
+  .top-user .avatar,
+  .icon-btn{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+  }
+
+  /* Busca mobile: mais alta e respirada */
+  .mobile-home-search{
+    min-height:54px!important;
+    margin:8px 0 14px!important;
+    padding:6px 7px 6px 16px!important;
+    border-radius:19px!important;
+  }
+
+  .mobile-home-search input{
+    font-size:11px!important;
+    padding:11px 0!important;
+  }
+
+  .mobile-home-search button{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    border-radius:13px!important;
+  }
+
+  /* Atalhos não ficam espremidos */
+  .mobile-quick-tabs{
+    gap:9px!important;
+    margin:0 -2px 18px!important;
+    padding:2px 2px 5px!important;
+  }
+
+  .mobile-quick-tabs button{
+    min-height:38px!important;
+    padding:9px 16px!important;
+    font-size:8.5px!important;
+    border-radius:999px!important;
+  }
+
+  /* Calendário ganha mais respiro */
+  .dashboard-calendar-first{
+    margin-bottom:18px!important;
+  }
+
+  .hero-calendar-card{
+    padding:16px!important;
+    border-radius:24px!important;
+  }
+
+  .hero-calendar-card .panel-head{
+    margin-bottom:14px!important;
+  }
+
+  .calendar-first-content{
+    grid-template-columns:68px minmax(0,1fr)!important;
+    gap:14px!important;
+    padding:14px!important;
+    border-radius:19px!important;
+  }
+
+  .calendar-first-date{
+    width:64px!important;
+    height:64px!important;
+    border-radius:17px!important;
+  }
+
+  .calendar-first-info{
+    min-width:0!important;
+  }
+
+  .calendar-first-info h3{
+    font-size:17px!important;
+    line-height:1.18!important;
+    margin:7px 0 8px!important;
+  }
+
+  .calendar-first-meta{
+    gap:9px!important;
+    row-gap:7px!important;
+  }
+
+  .calendar-first-cta{
+    grid-column:1/-1!important;
+    margin-top:2px!important;
+  }
+
+  .calendar-first-cta .primary{
+    min-height:42px!important;
+    border-radius:13px!important;
+  }
+
+  /* KPI cards: deixam de parecer caixas apertadas */
+  .stats{
+    grid-template-columns:1fr 1fr!important;
+    gap:12px!important;
+    margin-bottom:18px!important;
+  }
+
+  .stat{
+    min-height:136px!important;
+    padding:17px!important;
+    border-radius:22px!important;
+    gap:12px!important;
+  }
+
+  .stat-icon{
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    border-radius:14px!important;
+  }
+
+  .stat label{
+    display:block!important;
+    font-size:9px!important;
+    line-height:1.35!important;
+    margin-bottom:5px!important;
+  }
+
+  .stat strong{
+    display:block!important;
+    font-size:27px!important;
+    line-height:1!important;
+    margin:3px 0 6px!important;
+  }
+
+  .stat small{
+    display:block!important;
+    font-size:7.5px!important;
+    line-height:1.4!important;
+  }
+
+  /* Painéis da home e demais páginas */
+  .dash-grid,
+  .bottom-grid,
+  .profile-grid,
+  .page-grid{
+    gap:14px!important;
+  }
+
+  .panel{
+    padding:16px!important;
+    border-radius:23px!important;
+    margin-bottom:0!important;
+  }
+
+  .panel-head{
+    margin-bottom:14px!important;
+    gap:10px!important;
+  }
+
+  .panel-title{
+    font-size:11.5px!important;
+    line-height:1.25!important;
+  }
+
+  /* Escalas recentes: itens separados visualmente */
+  .upcoming{
+    min-height:66px!important;
+    padding:11px 0!important;
+    gap:11px!important;
+  }
+
+  .upcoming + .upcoming{
+    border-top:1px solid var(--border)!important;
+  }
+
+  .date-box{
+    width:46px!important;
+    height:46px!important;
+    min-width:46px!important;
+    border-radius:14px!important;
+  }
+
+  .upcoming h4{
+    font-size:9.2px!important;
+    line-height:1.35!important;
+    margin-bottom:4px!important;
+  }
+
+  .upcoming p{
+    font-size:7.6px!important;
+    line-height:1.4!important;
+  }
+
+  /* Equipes: bem mais confortáveis */
+  .team-grid{
+    gap:14px!important;
+  }
+
+  .team-card{
+    padding:17px!important;
+    border-radius:22px!important;
+    min-height:150px!important;
+  }
+
+  .team-card h3{
+    font-size:14px!important;
+    margin-top:10px!important;
+    margin-bottom:5px!important;
+  }
+
+  .team-card>p{
+    margin-bottom:12px!important;
+    line-height:1.5!important;
+  }
+
+  .team-members{
+    gap:8px!important;
+  }
+
+  .team-member{
+    min-height:52px!important;
+    padding:9px 10px!important;
+    border-radius:13px!important;
+  }
+
+  .team-board-open{
+    min-height:44px!important;
+    margin-top:14px!important;
+    border-radius:12px!important;
+  }
+
+  /* Tarefas / Kanban */
+  .kanban-board{
+    gap:13px!important;
+  }
+
+  .kanban-col{
+    padding:13px!important;
+    border-radius:18px!important;
+  }
+
+  .task-card{
+    padding:14px!important;
+    border-radius:15px!important;
+    margin-bottom:11px!important;
+  }
+
+  .task-card h4{
+    font-size:10px!important;
+    line-height:1.4!important;
+  }
+
+  .task-card p{
+    font-size:8px!important;
+    line-height:1.55!important;
+  }
+
+  /* Formulários */
+  .form-grid{
+    gap:12px!important;
+  }
+
+  .field input,
+  .field select,
+  .field textarea{
+    min-height:44px!important;
+    border-radius:12px!important;
+    padding:11px 12px!important;
+  }
+
+  .field textarea{
+    min-height:96px!important;
+  }
+
+  /* Popups/bottom sheets menos apertados */
+  .modal{
+    width:calc(100% - 24px)!important;
+    max-height:88dvh!important;
+    padding:18px!important;
+    border-radius:24px!important;
+  }
+
+  .modal-actions{
+    gap:9px!important;
+    margin-top:17px!important;
+    flex-wrap:wrap!important;
+  }
+
+  .modal-actions button{
+    min-height:42px!important;
+  }
+
+  .event-detail-grid{
+    gap:10px!important;
+  }
+
+  .event-detail-item{
+    padding:12px!important;
+    border-radius:13px!important;
+  }
+
+  /* Homebar suspensa: vidro espesso, sem parecer vazada */
+  .mobile-nav{
+    left:16px!important;
+    right:16px!important;
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    height:72px!important;
+    padding:7px 9px!important;
+    border-radius:25px!important;
+    background:rgba(8,20,34,.84)!important;
+    backdrop-filter:blur(26px) saturate(155%)!important;
+    -webkit-backdrop-filter:blur(26px) saturate(155%)!important;
+    border:1px solid rgba(110,190,255,.22)!important;
+    box-shadow:
+      0 18px 42px rgba(0,0,0,.36),
+      0 0 22px rgba(67,168,255,.08),
+      inset 0 1px 0 rgba(255,255,255,.08)!important;
+  }
+
+  html[data-theme="light"] .mobile-nav{
+    background:rgba(250,253,255,.90)!important;
+    border-color:rgba(44,86,122,.16)!important;
+    box-shadow:
+      0 15px 38px rgba(27,58,83,.14),
+      inset 0 1px 0 rgba(255,255,255,.9)!important;
+  }
+
+  .mobile-nav a{
+    height:56px!important;
+    min-height:56px!important;
+    border-radius:18px!important;
+  }
+
+  .mobile-nav a.mobile-home{
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    margin:0!important;
+    transform:none!important;
+    border-radius:18px!important;
+  }
+}
+
+/* Telas muito estreitas */
+@media(max-width:390px){
+  .main{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+
+  .stats{
+    gap:10px!important;
+  }
+
+  .stat{
+    min-height:130px!important;
+    padding:14px!important;
+  }
+
+  .welcome h1{
+    font-size:24px!important;
+  }
+
+  .top-actions{
+    gap:6px!important;
+  }
+
+  .theme-pill,
+  .top-user .avatar,
+  .icon-btn{
+    width:39px!important;
+    height:39px!important;
+    min-width:39px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3203,7 +3651,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v10.4 calendar first iniciado");
+ console.info("LINE Interligados v10.5 mobile spacing theme iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -3211,7 +3659,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.4",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.5",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
