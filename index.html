@@ -477,6 +477,46 @@ body{
   .change-photo-btn{width:100%;margin-top:4px}
 }
 
+
+/* ===== V9.2 MOBILE ===== */
+@media(max-width:760px){
+  .main{padding-bottom:108px!important}
+  .mobile-nav{
+    display:grid!important;grid-template-columns:repeat(5,1fr)!important;
+    position:fixed!important;left:12px!important;right:12px!important;bottom:12px!important;
+    height:72px!important;padding:6px 8px!important;border:1px solid rgba(145,180,214,.16)!important;
+    border-radius:22px!important;background:rgba(7,16,28,.72)!important;
+    backdrop-filter:blur(18px) saturate(140%)!important;-webkit-backdrop-filter:blur(18px) saturate(140%)!important;
+    box-shadow:0 18px 45px rgba(0,0,0,.38)!important;z-index:80!important;overflow:visible!important
+  }
+  .mobile-nav a{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#7f94aa!important;font-size:8px!important;border-radius:14px}
+  .mobile-nav a svg{width:20px;height:20px}
+  .mobile-nav a.active{color:#9ec8ee!important}
+  .mobile-nav a.mobile-home{
+    width:68px;height:68px;justify-self:center;align-self:end;margin-bottom:10px;border-radius:50%;
+    color:#fff!important;background:linear-gradient(145deg,#2563a6,#123a6d);
+    border:1px solid rgba(151,201,244,.28);box-shadow:0 0 0 7px rgba(9,23,40,.88),0 14px 34px rgba(24,79,138,.42)
+  }
+  .mobile-nav a.mobile-home svg{width:27px;height:27px}
+  .mobile-nav a.mobile-home span{font-size:7px;font-weight:800}
+}
+
+
+/* ===== V9.2 QUADRO DE PRODUÇÃO ===== */
+.team-card.board-enabled{cursor:pointer;transition:.18s}.team-card.board-enabled:hover{transform:translateY(-2px);border-color:rgba(84,142,196,.28)}
+.team-board-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.team-board-title h2{font-size:24px;margin-bottom:5px}.team-board-title p{font-size:10px;color:var(--muted)}
+.board-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.board-kpi{background:#0b1727;border:1px solid var(--border);border-radius:13px;padding:12px}.board-kpi b{display:block;font-size:20px}.board-kpi small{font-size:8px;color:var(--muted)}
+.kanban-board{display:grid;grid-template-columns:repeat(5,minmax(225px,1fr));gap:11px;overflow-x:auto}
+.kanban-col{background:#08131f;border:1px solid var(--border);border-radius:14px;padding:10px;min-height:320px}
+.kanban-col-head{display:flex;justify-content:space-between;font-size:9px;font-weight:900;text-transform:uppercase;margin-bottom:9px}
+.task-card{background:#102036;border:1px solid #20354d;border-radius:12px;padding:11px;margin-bottom:9px}
+.task-card h4{font-size:10px;margin-bottom:6px}.task-card p{font-size:8px;color:#91a6ba;line-height:1.45}
+.task-chip{display:inline-block;font-size:7px;background:#13243a;color:#b4c4d3;border-radius:7px;padding:4px 6px;margin:4px 4px 0 0}
+.task-add{width:100%;border:1px dashed #2d4a66;background:transparent;color:#87a2ba;border-radius:9px;padding:8px;font-size:8px}
+@media(max-width:760px){.team-board-head{display:block}.team-board-head .primary{width:100%;margin-top:12px}.board-summary{grid-template-columns:repeat(2,1fr)}.kanban-board{display:block}.kanban-col{min-height:0;margin-bottom:10px}}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -503,7 +543,7 @@ const seed = {
     {id:5,name:"Inter Campus",date:"2026-08-18",time:"19:00",place:"Auditório",status:"Planejamento",color:"blue"}
   ],
   schedule:[],
-  teams:["Story","Fotos","Design","Projeção","Reels"],
+  teams:["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"],
   schedulesByEvent:{},
   notifications:{
     "":[
@@ -845,7 +885,7 @@ function loginForm(){return `<form onsubmit="login(event)">
 function registerForm(){return `<form onsubmit="register(event)">
   <div class="field"><label>Nome completo</label><input id="regName" required></div>
   <div class="field"><label>E-mail</label><input id="regEmail" type="email" required></div>
-  <div class="field"><label>Área principal</label><select id="regArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option></select></div>
+  <div class="field"><label>Área principal</label><select id="regArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option><option>Edição</option><option>Social Media</option></select></div>
   <div class="field"><label>Senha</label><input id="regPassword" type="password" minlength="4" required></div>
   <button class="auth-submit">Criar minha conta</button>
   <p class="helper">Contas criadas por aqui entram como <b>membro</b>. Os únicos Masters pré-confirmados são Miguel Silva, Michel Macedo e Gleyce. Permissão Master adicional somente pode ser definida por um administrador.</p>
@@ -1280,23 +1320,23 @@ function deleteEvent(id){const e=db.events.find(x=>x.id===id);if(!e||!confirm(`A
 
 async function teamsPageReal(){
   const [teams,members,memberTeams]=await Promise.all([fetchTeamsReal(),fetchMembersReal(),fetchMemberTeamsReal()]);
-  const icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};
-  return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels</p></div></div>
+  const icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard",Edição:"scissors","Social Media":"send"};
+  return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels | Edição | Social Media</p></div></div>
   <section class="team-grid">${teams.map(t=>{
     const relations=memberTeams.filter(mt=>mt.team_id===t.id);
     const ms=relations.map(r=>members.find(m=>m.id===r.user_id)).filter(Boolean);
-    return `<article class="team-card">
+    return `<article class="team-card board-enabled" onclick="openTeamBoard(${t.id})">
       <div class="team-icon">${icon(icons[t.name]||"users")}</div>
-      <h3>${t.name}</h3><p>${ms.length} membro(s)</p>
+      <h3>${t.name}</h3><p>${ms.length} membro(s) • abrir quadro</p>
       <div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div>
     </article>`;
   }).join("")}</section>
   <article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div></article>`;
 }
 
-function teamsPage(){const teams=["Story","Fotos","Design","Projeção","Reels"],icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels</p></div></div><section class="team-grid">${teams.map(t=>{const ms=db.users.filter(u=>u.role==="member"&&(u.area===t||u.functions?.includes(t)));return `<article class="team-card"><div class="team-icon">${icon(icons[t])}</div><h3>${t}</h3><p>${ms.length} membro(s)</p><div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div></article>`}).join("")}</section><article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> é o Líder Geral e não integra equipe operacional.</div></article>`}
+function teamsPage(){const teams=["Story","Fotos","Design","Projeção","Reels"],icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels | Edição | Social Media</p></div></div><section class="team-grid">${teams.map(t=>{const ms=db.users.filter(u=>u.role==="member"&&(u.area===t||u.functions?.includes(t)));return `<article class="team-card"><div class="team-icon">${icon(icons[t])}</div><h3>${t}</h3><p>${ms.length} membro(s)</p><div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div></article>`}).join("")}</section><article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> é o Líder Geral e não integra equipe operacional.</div></article>`}
 function schedulesPage(){const members=db.users.filter(u=>u.role==="member");return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A IA local equilibra equipe, disponibilidade e carga.</p></div></div><article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Motor local de sugestão automática de escala.</p></div></div><div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join("")}</select></div><div class="field"><label>Critério</label><select><option>Equilibrar carga e disponibilidade</option></select></div></div><div class="integration-row"><button class="primary" onclick="runAIScheduler()">Gerar escala</button></div><div id="aiOutput" class="ai-result"><h4>${members.length?members.length+" membro(s) disponível(is) para análise.":"Aguardando membros operacionais."}</h4></div></article>`}
-function runAIScheduler(){const eventId=Number($("#aiEvent").value),event=db.events.find(e=>e.id===eventId),roles=["Story","Fotos","Design","Projeção","Reels"],candidates=db.users.filter(u=>u.role==="member"&&u.availability!==false);let a=[];roles.forEach(role=>{const pool=candidates.filter(u=>u.area===role||u.functions?.includes(role)).sort((x,y)=>(x.schedules||0)-(y.schedules||0));if(pool[0])a.push({role,memberId:pool[0].id,memberName:pool[0].name,email:pool[0].email,phone:pool[0].phone||""})});db.schedulesByEvent[eventId]=a;a.forEach(x=>{if(!db.notifications[x.email])db.notifications[x.email]=[];db.notifications[x.email].unshift({id:Date.now()+Math.random(),icon:"calendar-check",title:"Você foi escalado",text:`${x.role} • ${event.name}`,time:"Agora",read:false,details:`Evento: ${event.name}. Data: ${new Date(event.date+"T12:00:00").toLocaleDateString("pt-BR")}. Horário: ${event.time}. Local: ${event.place}.`})});save();$("#aiOutput").innerHTML=a.length?`<h4>Escala sugerida</h4>${a.map(x=>`<div class="ai-assignment"><span>${x.role}</span><b>${x.memberName}</b><span class="status green">Selecionado</span></div>`).join("")}<div style="font-size:8px;color:var(--muted);margin-top:10px">Atalhos de e-mail, WhatsApp e Google Agenda podem ser preparados, mas envio automático real exige backend, credenciais e autorização das APIs.</div>`:`<h4>Nenhum membro elegível.</h4>`;refreshIcons()}
+function runAIScheduler(){const eventId=Number($("#aiEvent").value),event=db.events.find(e=>e.id===eventId),roles=["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"],candidates=db.users.filter(u=>u.role==="member"&&u.availability!==false);let a=[];roles.forEach(role=>{const pool=candidates.filter(u=>u.area===role||u.functions?.includes(role)).sort((x,y)=>(x.schedules||0)-(y.schedules||0));if(pool[0])a.push({role,memberId:pool[0].id,memberName:pool[0].name,email:pool[0].email,phone:pool[0].phone||""})});db.schedulesByEvent[eventId]=a;a.forEach(x=>{if(!db.notifications[x.email])db.notifications[x.email]=[];db.notifications[x.email].unshift({id:Date.now()+Math.random(),icon:"calendar-check",title:"Você foi escalado",text:`${x.role} • ${event.name}`,time:"Agora",read:false,details:`Evento: ${event.name}. Data: ${new Date(event.date+"T12:00:00").toLocaleDateString("pt-BR")}. Horário: ${event.time}. Local: ${event.place}.`})});save();$("#aiOutput").innerHTML=a.length?`<h4>Escala sugerida</h4>${a.map(x=>`<div class="ai-assignment"><span>${x.role}</span><b>${x.memberName}</b><span class="status green">Selecionado</span></div>`).join("")}<div style="font-size:8px;color:var(--muted);margin-top:10px">Atalhos de e-mail, WhatsApp e Google Agenda podem ser preparados, mas envio automático real exige backend, credenciais e autorização das APIs.</div>`:`<h4>Nenhum membro elegível.</h4>`;refreshIcons()}
 
 
 function openInviteMemberModal(){
@@ -1312,7 +1352,7 @@ function openInviteMemberModal(){
   </div></div>`);
 }
 
-function openMemberModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Adicionar novo membro</h3><div class="form-grid"><div class="field full"><label>Nome completo</label><input id="mName"></div><div class="field full"><label>E-mail</label><input id="mEmail" type="email"></div><div class="field"><label>Área</label><select id="mArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option></select></div><div class="field"><label>Permissão</label><select id="mRole"><option value="member">Membro</option><option value="master">Master Admin</option></select></div><div class="field full"><label>Senha temporária</label><input id="mPass" value="1234"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createMember()">Adicionar membro</button></div></div></div>`) }
+function openMemberModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Adicionar novo membro</h3><div class="form-grid"><div class="field full"><label>Nome completo</label><input id="mName"></div><div class="field full"><label>E-mail</label><input id="mEmail" type="email"></div><div class="field"><label>Área</label><select id="mArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option><option>Edição</option><option>Social Media</option></select></div><div class="field"><label>Permissão</label><select id="mRole"><option value="member">Membro</option><option value="master">Master Admin</option></select></div><div class="field full"><label>Senha temporária</label><input id="mPass" value="1234"></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createMember()">Adicionar membro</button></div></div></div>`) }
 function createMember(){const name=$("#mName").value.trim(),email=$("#mEmail").value.trim().toLowerCase(),area=$("#mArea").value,role=$("#mRole").value,pass=$("#mPass").value;if(!name||!email||!pass)return alert("Preencha os campos obrigatórios.");if(db.users.some(x=>x.email.toLowerCase()===email))return alert("E-mail já cadastrado.");db.users.push({id:Date.now(),name,email,password:pass,role,area,functions:[area],status:"Ativo",participation:0,schedules:0});save();closeModal();render()}
 function openEventModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Novo evento</h3><div class="form-grid"><div class="field full"><label>Nome</label><input id="eName"></div><div class="field"><label>Data</label><input id="eDate" type="date"></div><div class="field"><label>Horário</label><input id="eTime" type="time"></div><div class="field full"><label>Local</label><input id="ePlace"></div><div class="field full"><label>Status</label><select id="eStatus"><option>Planejamento</option><option>Escala aberta</option><option>Escala confirmada</option></select></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createEvent()">Criar evento</button></div></div></div>`) }
 function createEvent(){const name=$("#eName").value.trim(),date=$("#eDate").value,time=$("#eTime").value,place=$("#ePlace").value.trim(),status=$("#eStatus").value;if(!name||!date||!time||!place)return alert("Preencha todos os campos.");const colors=["purple","blue","yellow"];db.events.push({id:Date.now(),name,date,time,place,status,color:colors[db.events.length%3]});save();closeModal();render()}
@@ -1711,7 +1751,7 @@ window.availabilityScore = function(eventId,userId){
 window.generateAIPreview = function(){
   const eventId=Number(document.getElementById("aiEvent").value);
   const event=eventById(eventId);if(!event)return;
-  const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels"].includes(t.name));
+  const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name));
   const preview=[];
   operational.forEach(team=>{
     const ids=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(team.id)).map(mt=>mt.user_id);
@@ -1773,7 +1813,53 @@ window.externalIntegrationLinks = function(scheduleId){
   return `<div class="integration-row"><a class="integration-btn" href="${mail}">${icon("mail")}E-mail</a><a class="integration-btn" href="${wa}" target="_blank" ${u.phone?"":'onclick="alert(\'Cadastre o WhatsApp no perfil.\');return false;"'}>${icon("message-circle")}WhatsApp</a><a class="integration-btn" href="${gcal}" target="_blank">${icon("calendar-plus")}Google Agenda</a></div>`;
 }
 
+
+const TASK_STATUS_LABELS={ideas:"Ideias",todo:"A fazer",production:"Em produção",review:"Revisão",publishing:"Publicação",done:"Concluído"};
+
+window.openTeamBoard=function(teamId){location.hash=`team-${teamId}`}
+
+window.fetchTeamTasks=async function(teamId){
+  const {data,error}=await supabaseClient.from("team_tasks").select("*").eq("team_id",Number(teamId)).order("created_at",{ascending:false});
+  if(error){console.warn("team_tasks:",error.message);return []}
+  return data||[];
+}
+
+window.teamBoardPage=async function(teamId){
+  const team=teamById(teamId);
+  if(!team)return generic("Equipe não encontrada","Esta equipe não está disponível.");
+  const tasks=await fetchTeamTasks(teamId);
+  const cols=["ideas","todo","production","review","publishing"];
+  return `<div class="team-board-head"><div class="team-board-title"><h2>${team.name}</h2><p>Produção, responsáveis, prazos e entregas.</p></div>${isMaster()?`<button class="primary" onclick="openTaskModal(${team.id})">+ Nova tarefa</button>`:""}</div>
+  <div class="board-summary"><div class="board-kpi"><b>${tasks.filter(t=>t.status!=="done").length}</b><small>Abertas</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="production").length}</b><small>Produção</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="review").length}</b><small>Revisão</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="done").length}</b><small>Concluídas</small></div></div>
+  <div class="kanban-board">${cols.map(st=>{const list=tasks.filter(t=>t.status===st);return `<section class="kanban-col"><div class="kanban-col-head"><span>${TASK_STATUS_LABELS[st]}</span><span>${list.length}</span></div>${list.map(t=>`<article class="task-card"><h4>${t.title}</h4><p>${t.description||"Sem briefing."}</p>${t.due_at?`<span class="task-chip">Prazo ${new Date(t.due_at).toLocaleString("pt-BR")}</span>`:""}<span class="task-chip">${memberById(t.assignee_id)?.name||"Sem responsável"}</span></article>`).join("")||`<div class="team-empty">Sem tarefas.</div>`}${isMaster()?`<button class="task-add" onclick="openTaskModal(${team.id},'${st}')">+ Adicionar</button>`:""}</section>`}).join("")}</div>`;
+}
+
+window.openTaskModal=function(teamId,status="todo"){
+  if(!isMaster())return;
+  const members=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(teamId)).map(mt=>memberById(mt.user_id)).filter(Boolean);
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h3>Nova tarefa • ${teamById(teamId)?.name||"Equipe"}</h3><div class="form-grid">
+  <div class="field full"><label>Título</label><input id="taskTitle" placeholder="Ex.: Post do CDI"></div>
+  <div class="field"><label>Responsável</label><select id="taskAssignee"><option value="">Selecione</option>${members.map(m=>`<option value="${m.id}">${m.name}</option>`).join("")}</select></div>
+  <div class="field"><label>Status</label><select id="taskStatus"><option value="ideas">Ideias</option><option value="todo" ${status==="todo"?"selected":""}>A fazer</option><option value="production" ${status==="production"?"selected":""}>Em produção</option></select></div>
+  <div class="field"><label>Prazo</label><input id="taskDue" type="datetime-local"></div>
+  <div class="field"><label>Publicação</label><input id="taskPublish" type="datetime-local"></div>
+  <div class="field full"><label>Briefing / instruções</label><textarea id="taskDescription" rows="4" placeholder="Criar seguindo o manual visual..."></textarea></div>
+  <div class="field full"><label>Checklist</label><textarea id="taskChecklist" rows="4" placeholder="Separar referências&#10;Criar composição&#10;Revisar texto&#10;Enviar para aprovação"></textarea></div>
+  </div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createTeamTask(${teamId})">Criar tarefa</button></div></div></div>`);
+}
+
+window.createTeamTask=async function(teamId){
+  const assignee=document.getElementById("taskAssignee").value||null;
+  const payload={team_id:Number(teamId),title:document.getElementById("taskTitle").value.trim(),description:document.getElementById("taskDescription").value.trim()||null,assignee_id:assignee,created_by:currentUser.id,status:document.getElementById("taskStatus").value,due_at:document.getElementById("taskDue").value?new Date(document.getElementById("taskDue").value).toISOString():null,publish_at:document.getElementById("taskPublish").value?new Date(document.getElementById("taskPublish").value).toISOString():null,checklist_text:document.getElementById("taskChecklist").value.trim()||null};
+  if(!payload.title)return alert("Informe o título.");
+  const {error}=await supabaseClient.from("team_tasks").insert(payload);
+  if(error){console.error(error);alert("Rode o patch SQL V9.2 no Supabase antes de criar tarefas.");return}
+  if(assignee)await supabaseClient.from("notifications").insert({user_id:assignee,title:"Nova tarefa atribuída",message:payload.title,type:"task"});
+  closeModal();await render();
+}
+
 window.page = async function(){
+  if(route.startsWith("team-"))return await teamBoardPage(Number(route.split("-")[1]));
   if(route==="dashboard")return isMaster()?await dashboard():await memberHome();
   if(route==="eventos")return await eventsPage();
   if(route==="calendario")return await calendarPage();
@@ -1787,10 +1873,22 @@ window.page = async function(){
 }
 
 window.mobileNav = function(){
-  const items=isMaster()
-    ?[["dashboard","house","Home"],["eventos","calendar-days","Eventos"],["calendario","calendar","Agenda"],["escalas","calendar-check","Escalas"],["membros","users","Equipe"]]
-    :[["dashboard","house","Home"],["eventos","calendar-days","Eventos"],["calendario","calendar","Agenda"],["escalas","calendar-check","Escalas"],["notificacoes","bell","Avisos"]];
-  return `<nav class="mobile-nav">${items.map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}</a>`).join("")}</nav>`;
+  const masterItems=[
+    ["eventos","calendar-days","Eventos"],
+    ["calendario","calendar","Agenda"],
+    ["dashboard","house","Home","home"],
+    ["escalas","calendar-check","Escalas"],
+    ["membros","users","Equipe"]
+  ];
+  const memberItems=[
+    ["eventos","calendar-days","Eventos"],
+    ["calendario","calendar","Agenda"],
+    ["dashboard","house","Home","home"],
+    ["escalas","calendar-check","Escalas"],
+    ["notificacoes","bell","Avisos"]
+  ];
+  const items=isMaster()?masterItems:memberItems;
+  return `<nav class="mobile-nav">${items.map(([r,i,l,special])=>`<a href="#${r}" class="${route===r?"active":""} ${special==="home"?"mobile-home":""}">${icon(i)}<span>${l}</span></a>`).join("")}</nav>`;
 }
 
 window.render = async function(){
@@ -1803,6 +1901,36 @@ window.render = async function(){
   const content=await page();
   app.innerHTML=shell(content);
   refreshIcons();
+  initMobileSwipe();
+}
+
+
+let mobileSwipeStartX=0,mobileSwipeStartY=0;
+function mobileSwipeRoutes(){
+  return isMaster()?["eventos","calendario","dashboard","escalas","membros"]:["eventos","calendario","dashboard","escalas","notificacoes"];
+}
+function initMobileSwipe(){
+  if(window.innerWidth>760)return;
+  const main=document.querySelector(".main");
+  if(!main||main.dataset.swipeReady==="1")return;
+  main.dataset.swipeReady="1";
+  main.addEventListener("touchstart",e=>{
+    if(e.touches.length!==1)return;
+    if(e.target.closest("input,textarea,select,button,.modal,.table-wrap,.calendar-grid"))return;
+    mobileSwipeStartX=e.touches[0].clientX;
+    mobileSwipeStartY=e.touches[0].clientY;
+  },{passive:true});
+  main.addEventListener("touchend",e=>{
+    if(!e.changedTouches?.length)return;
+    const dx=e.changedTouches[0].clientX-mobileSwipeStartX;
+    const dy=e.changedTouches[0].clientY-mobileSwipeStartY;
+    if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.35)return;
+    const routes=mobileSwipeRoutes();
+    let idx=routes.indexOf(route);
+    if(idx<0)idx=routes.indexOf("dashboard");
+    const next=dx<0?idx+1:idx-1;
+    if(next>=0&&next<routes.length)location.hash=routes[next];
+  },{passive:true});
 }
 
 addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
