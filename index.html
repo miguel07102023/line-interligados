@@ -517,6 +517,143 @@ body{
 .task-add{width:100%;border:1px dashed #2d4a66;background:transparent;color:#87a2ba;border-radius:9px;padding:8px;font-size:8px}
 @media(max-width:760px){.team-board-head{display:block}.team-board-head .primary{width:100%;margin-top:12px}.board-summary{grid-template-columns:repeat(2,1fr)}.kanban-board{display:block}.kanban-col{min-height:0;margin-bottom:10px}}
 
+
+/* ===== V9.4 MOBILE + FLUXO DE PRODUÇÃO ===== */
+@media(max-width:760px){
+  .mobile-nav{
+    left:10px!important;right:10px!important;bottom:10px!important;
+    background:rgba(7,16,28,.80)!important;
+    border:1px solid rgba(143,184,220,.18)!important;
+    border-radius:22px!important;
+    backdrop-filter:blur(20px) saturate(145%)!important;
+    -webkit-backdrop-filter:blur(20px) saturate(145%)!important;
+  }
+  .mobile-nav a.mobile-home{
+    transform:translateY(-9px);
+    width:66px!important;height:66px!important;
+  }
+  .mobile-nav a.mobile-home span{font-size:7px!important}
+  .team-grid{grid-template-columns:1fr!important}
+  .team-card.board-enabled{
+    position:relative;
+    padding-right:42px;
+  }
+  .team-card.board-enabled:after{
+    content:"›";position:absolute;right:18px;top:50%;transform:translateY(-50%);
+    font-size:28px;color:#7fa8cd;font-weight:300;
+  }
+}
+.team-hub-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:4px;
+  padding:4px;background:#08111e;border:1px solid var(--border);
+  border-radius:12px;margin:0 0 16px;
+}
+.team-hub-tabs button{
+  border:0;background:transparent;color:#8295aa;border-radius:9px;padding:10px;font-size:9px;font-weight:800
+}
+.team-hub-tabs button.active{background:#153f6d;color:#fff}
+.flow-status{
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:10px 0;
+}
+.flow-step{
+  padding:5px 8px;border-radius:999px;font-size:7px;font-weight:800;
+  background:#13243a;color:#8297ad;border:1px solid transparent;
+}
+.flow-step.active{background:#143d67;color:#dceefe;border-color:#2e699f}
+.task-file-box{
+  margin-top:12px;padding:12px;border:1px solid #20364e;border-radius:12px;background:#081522
+}
+.task-file-box b{font-size:9px;display:block;margin-bottom:7px}
+.task-file-box p{font-size:8px;color:var(--muted);line-height:1.5}
+.task-file-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.task-file-actions a,.task-file-actions button{
+  border:1px solid #24435f;background:#10243b;color:#dbe9f6;border-radius:9px;
+  padding:8px 10px;font-size:8px;font-weight:800
+}
+.task-status-select{
+  width:100%;background:#08111e;color:white;border:1px solid var(--border);
+  border-radius:10px;padding:10px;font-size:9px
+}
+.social-publish-box{
+  margin-top:12px;padding:12px;border-radius:12px;background:#0b1929;border:1px solid #1d3854
+}
+.social-publish-box h4{font-size:10px;margin-bottom:8px}
+.social-publish-box textarea,.social-publish-box input{
+  width:100%;background:#07111e;border:1px solid #20364e;border-radius:10px;
+  color:white;padding:10px;margin-top:6px;font-size:9px
+}
+
+
+/* ===== V9.5 — LOGO INTERNA + AVATARES DEFINITIVOS ===== */
+.generic-line-logo{
+  position:relative!important;
+  width:42px!important;height:42px!important;min-width:42px!important;
+  display:grid!important;place-items:center!important;
+  overflow:hidden!important;border-radius:13px!important;
+  background:
+    radial-gradient(circle at 30% 25%,rgba(96,165,250,.36),transparent 32%),
+    linear-gradient(145deg,#174d82,#08182b)!important;
+  border:1px solid rgba(125,181,231,.28)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.12),0 10px 24px rgba(0,0,0,.28)!important;
+}
+.generic-line-logo span{
+  font-size:21px!important;font-weight:900!important;line-height:1!important;color:#fff!important;
+  letter-spacing:-1px!important;
+}
+.auth-logo .generic-line-logo{width:48px!important;height:48px!important;min-width:48px!important;border-radius:15px!important}
+
+/* círculos de foto */
+.avatar,.profile-photo,.avatar-preview,
+.user-card .avatar,.top-user .avatar,.member-cell .avatar,.team-member .avatar{
+  position:relative!important;
+  overflow:hidden!important;
+  border-radius:999px!important;
+  padding:0!important;
+  flex:0 0 auto!important;
+  aspect-ratio:1/1!important;
+  background:#142237!important;
+}
+.avatar img,.profile-photo img,.avatar-preview img,
+.user-card .avatar img,.top-user .avatar img,.member-cell .avatar img,.team-member .avatar img{
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;
+  max-width:none!important;max-height:none!important;
+  object-fit:cover!important;object-position:center!important;
+  border-radius:999px!important;margin:0!important;padding:0!important;
+}
+.user-card .avatar{width:39px!important;height:39px!important;min-width:39px!important}
+.top-user .avatar{width:39px!important;height:39px!important;min-width:39px!important}
+.member-cell .avatar{width:30px!important;height:30px!important;min-width:30px!important}
+.team-member .avatar{width:30px!important;height:30px!important;min-width:30px!important}
+.team-member{min-height:44px!important;overflow:hidden!important}
+.team-member>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:normal;line-height:1.25}
+
+/* múltiplas equipes */
+.multi-team-box{
+  grid-column:1/-1;
+  border:1px solid rgba(117,165,207,.18);
+  background:#081522;
+  border-radius:12px;
+  padding:12px;
+}
+.multi-team-box>label{display:block;font-size:9px;color:#b8c8d8;margin-bottom:8px;font-weight:700}
+.multi-team-options{display:flex;flex-wrap:wrap;gap:7px}
+.team-check{
+  display:flex;align-items:center;gap:6px;
+  border:1px solid #20364e;background:#0e1d30;color:#c5d5e4;
+  border-radius:999px;padding:7px 9px;font-size:8px;cursor:pointer;
+}
+.team-check input{accent-color:#2f6aa3}
+.multi-team-hint{font-size:8px;color:var(--muted);margin-top:8px;line-height:1.5}
+.team-board-open{
+  width:100%;margin-top:10px;border:1px solid #264968;background:#10243b;color:#cfe3f5;
+  border-radius:9px;padding:8px;font-size:8px;font-weight:800
+}
+@media(max-width:760px){
+  .team-member .avatar,.member-cell .avatar{width:34px!important;height:34px!important;min-width:34px!important}
+  .team-member{padding:9px!important}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -620,19 +757,37 @@ function teamsForMember(userId,memberTeams){
     .filter(Boolean);
 }
 
-async function setMemberPrimaryTeam(userId,teamId){
-  if(!isMaster())return;
+async function setMemberTeams(userId,teamIds){
+  const ids=[...new Set((teamIds||[]).map(Number).filter(Boolean))];
+
+  if(!isMaster() && userId!==currentUser.id)return;
+  if(!isMaster() && ids.length>2){
+    alert("Cada membro pode participar de no máximo 2 equipes.");
+    return false;
+  }
+
   const {error:delError}=await supabaseClient
     .from("member_teams")
     .delete()
     .eq("user_id",userId);
-  if(delError){console.error(delError);alert("Não foi possível remover a equipe anterior.");return}
-  if(teamId){
+
+  if(delError){
+    console.error(delError);
+    alert("Não foi possível atualizar suas equipes.");
+    return false;
+  }
+
+  if(ids.length){
     const {error:insError}=await supabaseClient
       .from("member_teams")
-      .insert({user_id:userId,team_id:Number(teamId)});
-    if(insError){console.error(insError);alert("Não foi possível atribuir a equipe.");return}
+      .insert(ids.map(team_id=>({user_id:userId,team_id})));
+    if(insError){
+      console.error(insError);
+      alert("Não foi possível salvar as equipes selecionadas.");
+      return false;
+    }
   }
+  return true;
 }
 
 async function updateMemberAdminFields(userId,{role,leadership_role,active}){
@@ -853,7 +1008,7 @@ document.addEventListener("click",(e)=>{
 function authPage(){
   return `<div class="auth-page">
     <section class="auth-art">
-      <div class="auth-logo"><div class="logo-box brand-logo-image"><img src="line-logo.png" alt="LINE" class="brand-logo-img"></div><div><strong>LINE</strong><small>Interligados</small></div></div>
+      <div class="auth-logo"><div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div><div><strong>LINE</strong><small>Interligados</small></div></div>
       <div class="auth-copy">
         <div class="eyebrow">Equipe de mídia • Interligados</div>
         <h1>Organize a equipe.<br>Sirva com excelência.</h1>
@@ -1023,14 +1178,29 @@ async function logout(){
  render();
 }
 const nav=[["dashboard","house","Dashboard"],["eventos","calendar-days","Eventos"],["calendario","calendar","Calendário"],["escalas","calendar-check","Escalas"],["membros","users","Membros"],["equipes","users-round","Equipes"],["indicadores","chart-no-axes-combined","Indicadores"],["notificacoes","bell","Notificações"],["configuracoes","settings","Configurações"]];
+
+function routeTitle(){
+  if(route.startsWith("team-")){
+    const t=teamById(Number(route.split("-")[1]));
+    return t?.name||"Equipe";
+  }
+  if(route==="equipe")return "Equipe";
+  return titles()[route]||"LINE";
+}
+function routeSubtitle(){
+  if(route.startsWith("team-"))return "Tarefas, produção e entregas da equipe.";
+  if(route==="equipe")return "Membros e equipes em um só lugar.";
+  return subtitles()[route]||"";
+}
+
 function shell(content){
  const u=currentUser;return `<div class="shell">
  <aside class="sidebar">
-  <div class="brand"><div class="logo-box"><img src="line-logo.png" alt="LINE" class="brand-logo-img"></div><div><strong>LINE</strong><small>Interligados</small></div></div>
+  <div class="brand"><div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div><div><strong>LINE</strong><small>Interligados</small></div></div>
   <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
  </aside>
- <main class="main"><div class="topbar"><div class="welcome"><h1>${titles()[route]}</h1><p>${subtitles()[route]}</p></div><div class="top-actions"><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
+ <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
 }
 function titles(){return{dashboard:`Olá, ${currentUser.name.split(" ")[0]}! 👋`,eventos:"Eventos",calendario:"Calendário",escalas:"Escalas",membros:"Membros",equipes:"Equipes",indicadores:"Indicadores",notificacoes:"Notificações",configuracoes:"Configurações"}}
 function subtitles(){return{dashboard:"Sua visão geral da equipe Line.",eventos:"Organize todas as programações da equipe.",calendario:"Veja datas, eventos e escalas em um calendário real.",escalas:"Acompanhe responsáveis e confirmações.",membros:"Gerencie integrantes, áreas e permissões.",equipes:"Organize os membros por área.",indicadores:"Acompanhe participação e desempenho.",notificacoes:"Veja avisos e confirmações pendentes.",configuracoes:"Ajuste sua conta e preferências."}}
@@ -1106,7 +1276,7 @@ async function membersPageReal(){
     const funcs=u.name==="Michel Macedo"?"Sem função operacional":(names.join(" / ")||"Sem função");
     const permission=u.name==="Michel Macedo"?"Líder Geral":(u.role==="master"?"Master Admin":"Membro");
     return `<tr>
-      <td><div class="member-cell clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<b>${u.name||"Sem nome"}</b></div></td>
+      <td><div class="member-cell clickable" onclick="event.stopPropagation();openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<b>${u.name||"Sem nome"}</b></div></td>
       <td>${area}</td>
       <td>${funcs}</td>
       <td><span class="status ${u.active?"green":"gray"}">${u.active?"Ativo":"Inativo"}</span></td>
@@ -1189,7 +1359,13 @@ async function openRealProfileModal(userId=null){
       <div class="field"><label>Telefone / WhatsApp</label><input id="rpPhone" value="${u.phone||""}" ${own||canAdmin?"":"disabled"}></div>
       <div class="field"><label>Status</label><select id="rpActive" ${canAdmin?"":"disabled"}><option value="true" ${u.active?"selected":""}>Ativo</option><option value="false" ${!u.active?"selected":""}>Inativo</option></select></div>
       ${canAdmin?`<div class="field"><label>Permissão</label><select id="rpRole"><option value="member" ${u.role==="member"?"selected":""}>Membro</option><option value="master" ${u.role==="master"?"selected":""}>Master Admin</option></select></div>`:""}
-      ${canAdmin?`<div class="field"><label>Equipe</label><select id="rpTeam"><option value="">Sem equipe</option>${teams.map(t=>`<option value="${t.id}" ${currentTeam?.id===t.id?"selected":""}>${t.name}</option>`).join("")}</select></div>`:""}
+      ${(own||canAdmin)&&u.name!=="Michel Macedo"?`<div class="multi-team-box">
+        <label>Equipes</label>
+        <div class="multi-team-options">
+          ${teams.map(t=>`<label class="team-check"><input type="checkbox" class="rpTeamCheck" value="${t.id}" ${userTeams.includes(t.name)?"checked":""} onchange="enforceTeamLimit(this)"> ${t.name}</label>`).join("")}
+        </div>
+        <div class="multi-team-hint">${canAdmin?"O Master pode organizar as equipes do membro.":"Você pode participar de até 2 equipes. Ex.: Design + Projeção."}</div>
+      </div>`:""}
       ${canAdmin?`<div class="field full"><label>Cargo de liderança</label><input id="rpLeadership" value="${u.leadership_role||""}" placeholder="Ex.: Líder Geral do Departamento"></div>`:""}
     </div>
     <div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button>${own||canAdmin?`<button class="primary" onclick="saveRealProfile('${u.id}')">Salvar alterações</button>`:""}</div>
@@ -1197,6 +1373,16 @@ async function openRealProfileModal(userId=null){
   refreshIcons();
 }
 
+
+
+function enforceTeamLimit(changed){
+  if(isMaster())return;
+  const selected=[...document.querySelectorAll(".rpTeamCheck:checked")];
+  if(selected.length>2){
+    changed.checked=false;
+    alert("Você pode escolher no máximo 2 equipes.");
+  }
+}
 
 function previewSelectedAvatar(input){
   const file=input?.files?.[0];
@@ -1259,7 +1445,9 @@ async function saveRealProfile(userId){
   }
 
   if(canAdmin){
-    await setMemberPrimaryTeam(userId,document.getElementById("rpTeam")?.value||"");
+    const selectedTeams=[...document.querySelectorAll(".rpTeamCheck:checked")].map(x=>x.value);
+    const teamsSaved=await setMemberTeams(userId,selectedTeams);
+    if(teamsSaved===false)return;
   }
 
   if(own)await loadCurrentUser(authUser);
@@ -1328,7 +1516,8 @@ async function teamsPageReal(){
     return `<article class="team-card board-enabled" onclick="openTeamBoard(${t.id})">
       <div class="team-icon">${icon(icons[t.name]||"users")}</div>
       <h3>${t.name}</h3><p>${ms.length} membro(s) • abrir quadro</p>
-      <div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div>
+      <div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="event.stopPropagation();openRealProfileModal('${u.id}')">${avatarHTML({...u,photo:u.photo_url||""})}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div>
+      <button class="team-board-open" onclick="event.stopPropagation();openTeamBoard(${t.id})">${icon("layout-dashboard")} Abrir quadro</button>
     </article>`;
   }).join("")}</section>
   <article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div></article>`;
@@ -1611,7 +1800,7 @@ window.memberHome = async function(){
     <article class="panel"><div class="panel-head"><div class="panel-title">${icon("calendar-check")}Minha escala</div><a class="ghost-btn" href="#escalas">Ver todas</a></div>
       ${nextSchedule?renderMemberScheduleCard(nextSchedule):`<div class="empty-state">Você ainda não possui escala futura.</div>`}
     </article>
-  </section>`;
+  </section>${await memberTasksWidget()}`;
 }
 window.renderMemberScheduleCard = function(s){
   const e=eventById(s.event_id);const team=teamById(s.team_id);
@@ -1814,14 +2003,42 @@ window.externalIntegrationLinks = function(scheduleId){
 }
 
 
-const TASK_STATUS_LABELS={ideas:"Ideias",todo:"A fazer",production:"Em produção",review:"Revisão",publishing:"Publicação",done:"Concluído"};
+
+const TASK_STATUS_LABELS={
+  ideas:"Ideias",
+  todo:"A fazer",
+  production:"Em produção",
+  review:"Revisão",
+  publishing:"Publicar",
+  done:"Publicado"
+};
+const TASK_STATUS_ORDER=["ideas","todo","production","review","publishing","done"];
 
 window.openTeamBoard=function(teamId){location.hash=`team-${teamId}`}
 
 window.fetchTeamTasks=async function(teamId){
-  const {data,error}=await supabaseClient.from("team_tasks").select("*").eq("team_id",Number(teamId)).order("created_at",{ascending:false});
+  const {data,error}=await supabaseClient
+    .from("team_tasks")
+    .select("*")
+    .eq("team_id",Number(teamId))
+    .order("created_at",{ascending:false});
   if(error){console.warn("team_tasks:",error.message);return []}
   return data||[];
+}
+
+window.fetchMyTasks=async function(){
+  const {data,error}=await supabaseClient
+    .from("team_tasks")
+    .select("*")
+    .or(`assignee_id.eq.${currentUser.id},publisher_id.eq.${currentUser.id}`)
+    .neq("status","done")
+    .order("due_at",{ascending:true});
+  if(error){console.warn("Minhas tarefas:",error.message);return []}
+  return data||[];
+}
+
+window.taskFlowHTML=function(status){
+  return `<div class="flow-status">${TASK_STATUS_ORDER.map(s=>`<span class="flow-step ${s===status?"active":""}">${TASK_STATUS_LABELS[s]}</span>`).join("")}</div>`;
 }
 
 window.teamBoardPage=async function(teamId){
@@ -1829,36 +2046,256 @@ window.teamBoardPage=async function(teamId){
   if(!team)return generic("Equipe não encontrada","Esta equipe não está disponível.");
   const tasks=await fetchTeamTasks(teamId);
   const cols=["ideas","todo","production","review","publishing"];
-  return `<div class="team-board-head"><div class="team-board-title"><h2>${team.name}</h2><p>Produção, responsáveis, prazos e entregas.</p></div>${isMaster()?`<button class="primary" onclick="openTaskModal(${team.id})">+ Nova tarefa</button>`:""}</div>
-  <div class="board-summary"><div class="board-kpi"><b>${tasks.filter(t=>t.status!=="done").length}</b><small>Abertas</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="production").length}</b><small>Produção</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="review").length}</b><small>Revisão</small></div><div class="board-kpi"><b>${tasks.filter(t=>t.status==="done").length}</b><small>Concluídas</small></div></div>
-  <div class="kanban-board">${cols.map(st=>{const list=tasks.filter(t=>t.status===st);return `<section class="kanban-col"><div class="kanban-col-head"><span>${TASK_STATUS_LABELS[st]}</span><span>${list.length}</span></div>${list.map(t=>`<article class="task-card"><h4>${t.title}</h4><p>${t.description||"Sem briefing."}</p>${t.due_at?`<span class="task-chip">Prazo ${new Date(t.due_at).toLocaleString("pt-BR")}</span>`:""}<span class="task-chip">${memberById(t.assignee_id)?.name||"Sem responsável"}</span></article>`).join("")||`<div class="team-empty">Sem tarefas.</div>`}${isMaster()?`<button class="task-add" onclick="openTaskModal(${team.id},'${st}')">+ Adicionar</button>`:""}</section>`}).join("")}</div>`;
+  return `<div class="team-board-head">
+    <div class="team-board-title"><h2>${team.name}</h2><p>Produção, responsáveis, arquivos, prazos e entregas.</p></div>
+    ${isMaster()?`<button class="primary" onclick="openTaskModal(${team.id})">+ Nova tarefa</button>`:""}
+  </div>
+  <div class="board-summary">
+    <div class="board-kpi"><b>${tasks.filter(t=>t.status!=="done").length}</b><small>Abertas</small></div>
+    <div class="board-kpi"><b>${tasks.filter(t=>t.status==="production").length}</b><small>Produção</small></div>
+    <div class="board-kpi"><b>${tasks.filter(t=>t.status==="review").length}</b><small>Revisão</small></div>
+    <div class="board-kpi"><b>${tasks.filter(t=>t.status==="publishing").length}</b><small>Prontas para publicar</small></div>
+  </div>
+  <div class="kanban-board">${cols.map(st=>{
+    const list=tasks.filter(t=>t.status===st);
+    return `<section class="kanban-col">
+      <div class="kanban-col-head"><span>${TASK_STATUS_LABELS[st]}</span><span>${list.length}</span></div>
+      ${list.map(renderTaskCard).join("")||`<div class="team-empty">Sem tarefas.</div>`}
+      ${isMaster()?`<button class="task-add" onclick="openTaskModal(${team.id},'${st}')">+ Adicionar</button>`:""}
+    </section>`;
+  }).join("")}</div>`;
+}
+
+window.renderTaskCard=function(t){
+  const assignee=memberById(t.assignee_id);
+  const publisher=memberById(t.publisher_id);
+  return `<article class="task-card clickable" onclick="openTaskDetail(${t.id})">
+    <h4>${t.title}</h4>
+    <p>${t.description||"Sem briefing."}</p>
+    ${t.attachment_url?`<span class="task-chip">📎 arquivo pronto</span>`:""}
+    ${t.due_at?`<span class="task-chip">Prazo ${new Date(t.due_at).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</span>`:""}
+    <span class="task-chip">${assignee?.name||"Sem responsável"}</span>
+    ${publisher?`<span class="task-chip">Publicação: ${publisher.name}</span>`:""}
+  </article>`;
 }
 
 window.openTaskModal=function(teamId,status="todo"){
   if(!isMaster())return;
   const members=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(teamId)).map(mt=>memberById(mt.user_id)).filter(Boolean);
-  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><h3>Nova tarefa • ${teamById(teamId)?.name||"Equipe"}</h3><div class="form-grid">
-  <div class="field full"><label>Título</label><input id="taskTitle" placeholder="Ex.: Post do CDI"></div>
-  <div class="field"><label>Responsável</label><select id="taskAssignee"><option value="">Selecione</option>${members.map(m=>`<option value="${m.id}">${m.name}</option>`).join("")}</select></div>
-  <div class="field"><label>Status</label><select id="taskStatus"><option value="ideas">Ideias</option><option value="todo" ${status==="todo"?"selected":""}>A fazer</option><option value="production" ${status==="production"?"selected":""}>Em produção</option></select></div>
-  <div class="field"><label>Prazo</label><input id="taskDue" type="datetime-local"></div>
-  <div class="field"><label>Publicação</label><input id="taskPublish" type="datetime-local"></div>
-  <div class="field full"><label>Briefing / instruções</label><textarea id="taskDescription" rows="4" placeholder="Criar seguindo o manual visual..."></textarea></div>
-  <div class="field full"><label>Checklist</label><textarea id="taskChecklist" rows="4" placeholder="Separar referências&#10;Criar composição&#10;Revisar texto&#10;Enviar para aprovação"></textarea></div>
-  </div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createTeamTask(${teamId})">Criar tarefa</button></div></div></div>`);
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <h3>Nova tarefa • ${teamById(teamId)?.name||"Equipe"}</h3>
+    <div class="form-grid">
+      <div class="field full"><label>Título</label><input id="taskTitle" placeholder="Ex.: Post do CDI"></div>
+      <div class="field"><label>Responsável pela produção</label><select id="taskAssignee"><option value="">Selecione</option>${members.map(m=>`<option value="${m.id}">${m.name}</option>`).join("")}</select></div>
+      <div class="field"><label>Evento</label><select id="taskEvent"><option value="">Sem evento específico</option>${V8.events.map(e=>`<option value="${e.id}">${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")}</select></div>
+      <div class="field"><label>Status inicial</label><select id="taskStatus">${["ideas","todo","production"].map(s=>`<option value="${s}" ${s===status?"selected":""}>${TASK_STATUS_LABELS[s]}</option>`).join("")}</select></div>
+      <div class="field"><label>Prazo da produção</label><input id="taskDue" type="datetime-local"></div>
+      <div class="field"><label>Data/hora da postagem</label><input id="taskPublish" type="datetime-local"></div>
+      <div class="field full"><label>Briefing / instruções</label><textarea id="taskDescription" rows="4" placeholder="Criar seguindo o manual visual, conferir as informações oficiais..."></textarea></div>
+      <div class="field full"><label>Checklist</label><textarea id="taskChecklist" rows="4" placeholder="Separar referências&#10;Criar composição&#10;Revisar texto&#10;Enviar para aprovação"></textarea></div>
+    </div>
+    <div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createTeamTask(${teamId})">Criar tarefa</button></div>
+  </div></div>`);
 }
 
 window.createTeamTask=async function(teamId){
+  if(!isMaster())return;
   const assignee=document.getElementById("taskAssignee").value||null;
-  const payload={team_id:Number(teamId),title:document.getElementById("taskTitle").value.trim(),description:document.getElementById("taskDescription").value.trim()||null,assignee_id:assignee,created_by:currentUser.id,status:document.getElementById("taskStatus").value,due_at:document.getElementById("taskDue").value?new Date(document.getElementById("taskDue").value).toISOString():null,publish_at:document.getElementById("taskPublish").value?new Date(document.getElementById("taskPublish").value).toISOString():null,checklist_text:document.getElementById("taskChecklist").value.trim()||null};
+  const payload={
+    team_id:Number(teamId),
+    event_id:document.getElementById("taskEvent").value?Number(document.getElementById("taskEvent").value):null,
+    title:document.getElementById("taskTitle").value.trim(),
+    description:document.getElementById("taskDescription").value.trim()||null,
+    assignee_id:assignee,
+    created_by:currentUser.id,
+    status:document.getElementById("taskStatus").value,
+    due_at:document.getElementById("taskDue").value?new Date(document.getElementById("taskDue").value).toISOString():null,
+    publish_at:document.getElementById("taskPublish").value?new Date(document.getElementById("taskPublish").value).toISOString():null,
+    checklist_text:document.getElementById("taskChecklist").value.trim()||null
+  };
   if(!payload.title)return alert("Informe o título.");
-  const {error}=await supabaseClient.from("team_tasks").insert(payload);
-  if(error){console.error(error);alert("Rode o patch SQL V9.2 no Supabase antes de criar tarefas.");return}
-  if(assignee)await supabaseClient.from("notifications").insert({user_id:assignee,title:"Nova tarefa atribuída",message:payload.title,type:"task"});
+  const {data,error}=await supabaseClient.from("team_tasks").insert(payload).select().single();
+  if(error){console.error(error);alert("Não foi possível criar a tarefa. Rode o patch SQL v9.4.");return}
+  if(assignee){
+    await supabaseClient.from("notifications").insert({
+      user_id:assignee,title:"Nova tarefa atribuída",
+      message:`${payload.title}${payload.due_at?` • prazo ${new Date(payload.due_at).toLocaleString("pt-BR")}`:""}`,
+      type:"task"
+    });
+  }
+  await writeLog(`Criou a tarefa ${payload.title}`,"task",data.id,{team_id:teamId});
   closeModal();await render();
 }
 
+window.uploadTaskFile=async function(taskId){
+  const input=document.getElementById(`taskFile-${taskId}`);
+  const file=input?.files?.[0];
+  if(!file)return alert("Selecione um arquivo.");
+  if(file.size>80*1024*1024)return alert("O arquivo deve ter no máximo 80 MB.");
+
+  const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]+/g,"-");
+  const path=`tasks/${taskId}/${Date.now()}-${safe}`;
+  const {data,error}=await supabaseClient.storage.from("line-files").upload(path,file,{contentType:file.type,upsert:false});
+  if(error){console.error(error);alert("Não foi possível enviar o arquivo.");return}
+
+  const {data:urlData}=supabaseClient.storage.from("line-files").getPublicUrl(data.path);
+  const {error:updateError}=await supabaseClient.from("team_tasks").update({
+    attachment_path:data.path,
+    attachment_url:urlData.publicUrl,
+    attachment_name:file.name,
+    updated_at:new Date().toISOString()
+  }).eq("id",taskId);
+  if(updateError){console.error(updateError);alert("Arquivo enviado, mas não foi possível vinculá-lo à tarefa.");return}
+
+  alert("Arquivo enviado para a tarefa.");
+  closeModal();
+  await openTaskDetail(taskId);
+}
+
+window.changeTaskStatus=async function(taskId,status){
+  const {data:t,error:fetchError}=await supabaseClient.from("team_tasks").select("*").eq("id",taskId).single();
+  if(fetchError||!t)return;
+
+  const {error}=await supabaseClient.from("team_tasks").update({status,updated_at:new Date().toISOString()}).eq("id",taskId);
+  if(error){console.error(error);alert("Não foi possível alterar o status.");return}
+
+  if(status==="review"){
+    await supabaseClient.from("notifications").insert({
+      user_id:t.created_by,title:"Tarefa pronta para revisão",message:`${t.title} foi enviada para revisão.`,type:"task"
+    });
+  }
+
+  if(status==="production" && t.assignee_id){
+    await supabaseClient.from("notifications").insert({
+      user_id:t.assignee_id,title:"Ajuste solicitado",message:`A tarefa ${t.title} voltou para produção.`,type:"task"
+    });
+  }
+
+  if(status==="publishing"){
+    // Notifica Social Media escalado(s) para o evento; se não houver evento, notifica todos da equipe Social Media.
+    const social=V8.teams.find(x=>x.name==="Social Media");
+    let ids=[];
+    if(t.event_id && social){
+      ids=V8.schedules
+        .filter(s=>Number(s.event_id)===Number(t.event_id)&&Number(s.team_id)===Number(social.id)&&s.status!=="declined"&&s.status!=="replaced")
+        .map(s=>s.user_id);
+    }
+    if(!ids.length && social){
+      ids=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(social.id)).map(mt=>mt.user_id);
+    }
+    ids=[...new Set(ids)];
+    if(ids.length){
+      await supabaseClient.from("notifications").insert(ids.map(id=>({
+        user_id:id,
+        title:"Material pronto para publicação",
+        message:`${t.title} foi aprovado e já está disponível no LINE.`,
+        type:"task"
+      })));
+    }
+  }
+
+  closeModal();await render();
+}
+
+window.claimPublishing=async function(taskId){
+  const {error}=await supabaseClient.from("team_tasks").update({
+    publisher_id:currentUser.id,updated_at:new Date().toISOString()
+  }).eq("id",taskId).eq("status","publishing");
+  if(error){console.error(error);alert("Não foi possível assumir a publicação.");return}
+  closeModal();await openTaskDetail(taskId);
+}
+
+window.savePublishingData=async function(taskId,finish=false){
+  const caption=document.getElementById(`taskCaption-${taskId}`)?.value.trim()||null;
+  const publishedUrl=document.getElementById(`taskPublishedUrl-${taskId}`)?.value.trim()||null;
+  const payload={caption,published_url:publishedUrl,updated_at:new Date().toISOString()};
+  if(finish)payload.status="done";
+  const {error}=await supabaseClient.from("team_tasks").update(payload).eq("id",taskId);
+  if(error){console.error(error);alert("Não foi possível salvar a publicação.");return}
+  closeModal();await render();
+}
+
+
+window.approveTaskForPublishing=async function(taskId){
+  const {data:t,error}=await supabaseClient.from("team_tasks").select("*").eq("id",taskId).single();
+  if(error||!t)return;
+  if(!t.attachment_url){
+    const ok=confirm("Ainda não existe arquivo final anexado. Deseja enviar para o Social Media mesmo assim?");
+    if(!ok)return;
+  }
+  await changeTaskStatus(taskId,"publishing");
+}
+
+window.openTaskDetail=async function(taskId){
+  const {data:t,error}=await supabaseClient.from("team_tasks").select("*").eq("id",Number(taskId)).single();
+  if(error||!t)return;
+
+  const assignee=memberById(t.assignee_id);
+  const publisher=memberById(t.publisher_id);
+  const socialTeam=V8.teams.find(x=>x.name==="Social Media");
+  const isSocial=!!socialTeam && V8.memberTeams.some(mt=>mt.user_id===currentUser.id&&Number(mt.team_id)===Number(socialTeam.id));
+  const ownProduction=t.assignee_id===currentUser.id;
+
+  const fileBox=t.attachment_url
+    ?`<div class="task-file-box"><b>Material final</b><p>${t.attachment_name||"Arquivo da tarefa"}</p><div class="task-file-actions"><a href="${t.attachment_url}" target="_blank">Visualizar / baixar</a>${ownProduction||isMaster()?`<label class="action-btn" for="taskFile-${t.id}">Substituir arquivo</label><input id="taskFile-${t.id}" type="file" hidden onchange="uploadTaskFile(${t.id})">`:""}</div></div>`
+    :`${ownProduction||isMaster()?`<div class="task-file-box"><b>Material final</b><p>Envie a arte, vídeo ou arquivo final para que a próxima etapa pegue diretamente pelo LINE.</p><div class="task-file-actions"><label class="action-btn" for="taskFile-${t.id}">+ Enviar arquivo</label><input id="taskFile-${t.id}" type="file" hidden onchange="uploadTaskFile(${t.id})"></div></div>`:""}`;
+
+  let actionButtons="";
+  if(ownProduction && t.status==="todo")actionButtons+=`<button class="primary" onclick="changeTaskStatus(${t.id},'production')">Iniciar produção</button>`;
+  if(ownProduction && t.status==="production")actionButtons+=`<button class="primary" onclick="changeTaskStatus(${t.id},'review')">Concluir e enviar para revisão</button>`;
+  if(isMaster() && t.status==="review")actionButtons+=`<button class="secondary" onclick="changeTaskStatus(${t.id},'production')">Pedir ajuste</button><button class="primary" onclick="approveTaskForPublishing(${t.id})">Aprovar e enviar para Social Media</button>`;
+
+  let socialBox="";
+  if(t.status==="publishing" && (isSocial||isMaster())){
+    if(!t.publisher_id && isSocial){
+      socialBox=`<div class="social-publish-box"><h4>Publicação</h4><p style="font-size:8px;color:var(--muted)">O material está pronto. Assuma esta postagem para evitar duplicidade.</p><button class="primary" style="margin-top:9px" onclick="claimPublishing(${t.id})">Assumir publicação</button></div>`;
+    }else if(t.publisher_id===currentUser.id || isMaster()){
+      socialBox=`<div class="social-publish-box"><h4>Publicação ${publisher?`• ${publisher.name}`:""}</h4>
+        <label style="font-size:8px;color:var(--muted)">Legenda / copy</label>
+        <textarea id="taskCaption-${t.id}" rows="5" placeholder="Escreva a legenda da publicação...">${t.caption||""}</textarea>
+        <label style="font-size:8px;color:var(--muted);display:block;margin-top:8px">Link da publicação</label>
+        <input id="taskPublishedUrl-${t.id}" placeholder="Cole o link depois de publicar" value="${t.published_url||""}">
+        <div class="task-file-actions"><button onclick="savePublishingData(${t.id},false)">Salvar</button><button class="primary" onclick="savePublishingData(${t.id},true)">Marcar como publicado</button></div>
+      </div>`;
+    }
+  }
+
+  const adminStatus=isMaster()?`<div class="field" style="margin-top:12px"><label>Alterar status manualmente</label><select class="task-status-select" onchange="changeTaskStatus(${t.id},this.value)">${TASK_STATUS_ORDER.map(s=>`<option value="${s}" ${t.status===s?"selected":""}>${TASK_STATUS_LABELS[s]}</option>`).join("")}</select></div>`:"";
+
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
+    <div class="panel-head"><div class="panel-title">${icon("clipboard-check")}${t.title}</div><span class="status purple-tag">${TASK_STATUS_LABELS[t.status]||t.status}</span></div>
+    ${taskFlowHTML(t.status)}
+    <div class="notification-detail">${t.description||"Sem briefing."}<br><br>
+      <b>Responsável pela produção:</b> ${assignee?.name||"Não definido"}
+      ${t.event_id?`<br><b>Evento:</b> ${eventById(t.event_id)?.name||"Evento"}`:""}
+      ${t.due_at?`<br><b>Prazo:</b> ${new Date(t.due_at).toLocaleString("pt-BR")}`:""}
+      ${t.publish_at?`<br><b>Postagem prevista:</b> ${new Date(t.publish_at).toLocaleString("pt-BR")}`:""}
+      ${t.checklist_text?`<br><br><b>Checklist</b><br>${t.checklist_text.replace(/\n/g,"<br>")}`:""}
+    </div>
+    ${fileBox}
+    ${socialBox}
+    ${adminStatus}
+    <div class="modal-actions"><button class="secondary" onclick="closeModal()">Fechar</button>${actionButtons}</div>
+  </div></div>`);
+  refreshIcons();
+}
+
+window.memberTasksWidget=async function(){
+  const tasks=await fetchMyTasks();
+  return `<section class="panel" style="margin-top:14px">
+    <div class="panel-head"><div class="panel-title">${icon("list-checks")}Minhas tarefas</div></div>
+    <div class="member-task-list">${tasks.length?tasks.map(t=>`<div class="member-task-item">
+      <h4>${t.title}</h4>
+      <p>${t.description||"Sem briefing."}</p>
+      <div class="task-meta"><span class="task-chip">${TASK_STATUS_LABELS[t.status]||t.status}</span>${t.due_at?`<span class="task-chip">Prazo ${new Date(t.due_at).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}</span>`:""}</div>
+      <div class="member-task-actions"><button class="action-btn" onclick="openTaskDetail(${t.id})">Abrir tarefa</button></div>
+    </div>`).join(""):`<div class="empty-state">Nenhuma tarefa pendente.</div>`}</div>
+  </section>`;
+}
+
+
 window.page = async function(){
+  if(route==="equipe")return await teamHubPage();
   if(route.startsWith("team-"))return await teamBoardPage(Number(route.split("-")[1]));
   if(route==="dashboard")return isMaster()?await dashboard():await memberHome();
   if(route==="eventos")return await eventsPage();
@@ -1878,7 +2315,7 @@ window.mobileNav = function(){
     ["calendario","calendar","Agenda"],
     ["dashboard","house","Home","home"],
     ["escalas","calendar-check","Escalas"],
-    ["membros","users","Equipe"]
+    ["equipe","users","Equipe"]
   ];
   const memberItems=[
     ["eventos","calendar-days","Eventos"],
@@ -1907,7 +2344,7 @@ window.render = async function(){
 
 let mobileSwipeStartX=0,mobileSwipeStartY=0;
 function mobileSwipeRoutes(){
-  return isMaster()?["eventos","calendario","dashboard","escalas","membros"]:["eventos","calendario","dashboard","escalas","notificacoes"];
+  return isMaster()?["eventos","calendario","dashboard","escalas","equipe"]:["eventos","calendario","dashboard","escalas","notificacoes"];
 }
 function initMobileSwipe(){
   if(window.innerWidth>760)return;
@@ -1935,7 +2372,7 @@ function initMobileSwipe(){
 
 addEventListener("hashchange",()=>{route=location.hash.slice(1)||"dashboard";render()});
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v9.3 cache fix iniciado");
+ console.info("LINE Interligados v9.5 multi-equipe iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -1943,7 +2380,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=9.3",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=9.5",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
