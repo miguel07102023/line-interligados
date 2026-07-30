@@ -2937,6 +2937,54 @@ html[data-theme="light"] .applications-count{
   .welcome p{max-width:155px!important}
 }
 
+
+/* ==========================================================
+   V11.1 — CANDIDATURAS, EVENTOS E HOMEBAR MASTER
+   ========================================================== */
+.application-card{cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.application-card:hover{transform:translateY(-2px);border-color:rgba(100,171,222,.28)!important}
+.application-detail-modal,.event-detail-modal{max-width:700px}
+.application-kicker{display:block;margin-bottom:4px;font-size:7px;letter-spacing:1.3px;font-weight:900;color:#6bb8eb}
+.application-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.application-detail-item{padding:13px;border-radius:14px;border:1px solid rgba(103,170,221,.14);background:rgba(8,23,38,.50)}
+.application-detail-item small{display:block;margin-bottom:6px;font-size:7px;color:var(--muted)}
+.application-detail-item b{display:block;font-size:9px;line-height:1.45}
+.application-detail-wide,.event-detail-wide{grid-column:1/-1}
+.application-instagram-link{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:8px 10px;border-radius:10px;background:rgba(188,42,141,.10);border:1px solid rgba(214,77,165,.18);color:#f1a5d7!important;font-size:9px;font-weight:800;text-decoration:none}
+.application-instagram-link svg{width:15px;height:15px}
+.application-modal-actions{margin-top:16px!important}
+.event-table-row{cursor:pointer}
+.event-table-row:hover td{background:rgba(58,135,191,.07)}
+.event-detail-hero{display:flex;align-items:center;gap:14px;margin-bottom:17px}
+.event-detail-hero h3{margin:7px 0 5px;font-size:18px}
+.event-detail-hero p{margin:0;color:var(--muted)}
+.event-detail-date{width:72px;height:72px;min-width:72px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(145deg,#1c527d,#0d2b45);border:1px solid rgba(102,184,239,.24)}
+.event-detail-date span{font-size:25px;font-weight:900;line-height:1}
+.event-detail-date b{margin-top:5px;font-size:8px;letter-spacing:1.2px;color:#8dc7ef}
+html[data-theme="light"] .application-detail-item,html[data-theme="light"] .event-detail-item{background:#f5f8fb!important;border-color:#dce6ef!important}
+html[data-theme="light"] .application-instagram-link{background:#fbeef7!important;border-color:#efd0e4!important;color:#a42c77!important}
+html[data-theme="light"] .event-detail-date{background:linear-gradient(145deg,#e4f1fa,#c8dfef)!important;border-color:#b9d3e4!important}
+html[data-theme="light"] .event-detail-date span{color:#0d2944!important}
+html[data-theme="light"] .event-detail-date b{color:#315f7f!important}
+
+@media(max-width:760px){
+  .mobile-nav:has(a[href="#candidaturas"]){grid-template-columns:repeat(6,1fr)!important;left:10px!important;right:10px!important;padding:7px!important}
+  .mobile-nav:has(a[href="#candidaturas"]) a{min-width:0!important;padding:0 2px!important}
+  .mobile-nav:has(a[href="#candidaturas"]) a span{font-size:6px!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .mobile-nav:has(a[href="#candidaturas"]) a.mobile-home{width:50px!important;min-width:50px!important;height:54px!important}
+  .application-detail-grid{grid-template-columns:1fr!important}
+  .application-detail-wide{grid-column:auto!important}
+  .application-modal-actions{display:grid!important;grid-template-columns:1fr!important}
+  .event-detail-hero{align-items:flex-start}
+  .event-detail-date{width:62px;height:62px;min-width:62px;border-radius:17px}
+  .event-detail-date span{font-size:21px}
+  .event-detail-hero h3{font-size:16px}
+}
+@media(max-width:390px){
+  .mobile-nav:has(a[href="#candidaturas"]){left:7px!important;right:7px!important}
+  .mobile-nav:has(a[href="#candidaturas"]) a span{display:none!important}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3614,7 +3662,7 @@ function dashboard(){
 }
 function setAvailability(btn,yes){btn.parentElement.querySelectorAll(".avail-btn").forEach(x=>x.className="avail-btn");btn.classList.add(yes?"active-yes":"active-no")}
 function eventsPage(){
- const rows=db.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${e.time}</td><td>${e.place}</td><td><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></td><td><button class="action-btn" onclick="openEventDetail(${e.id})">Abrir</button></td></tr>`).join("");
+ const rows=db.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${e.time}</td><td>${e.place}</td><td><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></td><td><button class="action-btn" onclick="event.stopPropagation();openEventDetail(${e.id})">Abrir</button></td></tr>`).join("");
  return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Programações cadastradas no LINE.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div><article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>${rows}</tbody></table></div></article>`
 }
 
@@ -4360,7 +4408,7 @@ window.dashboard = async function(){
 window.eventsPage = async function(){
   return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Eventos reais salvos no Supabase.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div>
   <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>
-  ${V8.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${formatEventDate(e.event_date)}</td><td>${e.start_time?.slice(0,5)||""}</td><td>${e.location||"—"}</td><td><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></td><td><button class="action-btn" onclick="openEventDetail(${e.id})">Abrir</button></td></tr>`).join("")||`<tr><td colspan="6">Nenhum evento cadastrado.</td></tr>`}
+  ${V8.events.map(e=>`<tr class="event-table-row clickable" onclick="openEventDetail(${e.id})"><td><b>${e.name}</b></td><td>${formatEventDate(e.event_date)}</td><td>${e.start_time?.slice(0,5)||""}</td><td>${e.location||"—"}</td><td><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></td><td><button class="action-btn" onclick="event.stopPropagation();openEventDetail(${e.id})">Abrir</button></td></tr>`).join("")||`<tr><td colspan="6">Nenhum evento cadastrado.</td></tr>`}
   </tbody></table></div></article>`;
 }
 window.openEventModal = function(eventId=null){
@@ -4396,24 +4444,67 @@ window.saveEvent = async function(eventId=null){
   closeModal();await ensureV8State(true);await render();
 }
 window.openEventDetail = async function(id){
-  const e=eventById(id);if(!e)return;
-  const assigned=V8.schedules.filter(s=>Number(s.event_id)===Number(id));
-  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">
-    <div class="panel-head"><div class="panel-title">${icon("calendar-days")}${e.name}</div><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></div>
-    <div class="event-detail-grid"><div class="event-detail-item"><small>Data</small><b>${formatEventDate(e.event_date)}</b></div><div class="event-detail-item"><small>Horário</small><b>${e.start_time?.slice(0,5)||""}${e.end_time?` às ${e.end_time.slice(0,5)}`:""}</b></div><div class="event-detail-item"><small>Localização</small><b>${e.location||"—"}</b></div></div>
-    ${e.description?`<div class="event-modal-description">${e.description}</div>`:""}
-    <div class="scaled-list"><h4>Escalados</h4>${assigned.length?assigned.map(s=>{const m=memberById(s.user_id);return `<div class="scaled-person"><span>${s.role_name}</span><b>${m?.name||"Membro"} • ${scheduleStatusLabel(s.status)}</b></div>`}).join(""):`<div style="font-size:9px;color:var(--muted)">Nenhuma escala publicada ainda.</div>`}</div>
-    <div class="modal-actions">${isMaster()?`<button class="danger-btn" onclick="deleteEvent(${e.id})">Apagar</button><button class="secondary" onclick="closeModal();setTimeout(()=>openEventModal(${e.id}),50)">Editar</button>`:""}<button class="primary" onclick="closeModal()">Fechar</button></div>
-  </div></div>`);refreshIcons();
-}
+  const e=eventById(Number(id));
+  if(!e){
+    alert("Não foi possível localizar este evento.");
+    return;
+  }
+
+  const schedules=V8.schedules.filter(s=>Number(s.event_id)===Number(e.id));
+  const startTime=e.start_time?.slice(0,5)||"Não informado";
+  const endTime=e.end_time?.slice(0,5)||"";
+  const time=endTime?`${startTime} às ${endTime}`:startTime;
+
+  openModal(`<div class="event-detail-modal">
+    <div class="event-detail-hero">
+      <div class="event-detail-date">
+        <span>${e.event_date?String(new Date(e.event_date+"T12:00:00").getDate()).padStart(2,"0"):"--"}</span>
+        <b>${e.event_date?new Date(e.event_date+"T12:00:00").toLocaleDateString("pt-BR",{month:"short"}).replace(".","").toUpperCase():""}</b>
+      </div>
+      <div>
+        <span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span>
+        <h3>${e.name}</h3>
+        <p>${formatEventDate(e.event_date)} • ${time}</p>
+      </div>
+    </div>
+
+    <div class="event-detail-grid">
+      <div class="event-detail-item"><small>Data</small><b>${formatEventDate(e.event_date)}</b></div>
+      <div class="event-detail-item"><small>Horário</small><b>${time}</b></div>
+      <div class="event-detail-item"><small>Local</small><b>${e.location||"Local não informado"}</b></div>
+      <div class="event-detail-item"><small>Escalas vinculadas</small><b>${schedules.length}</b></div>
+      <div class="event-detail-item event-detail-wide"><small>Descrição</small><b>${e.description||"Nenhuma descrição cadastrada."}</b></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModal()">Fechar</button>
+      ${isMaster()?`<button class="secondary" onclick="closeModal();setTimeout(()=>openEventModal(${e.id}),50)">${icon("pencil")}Editar</button>
+      <button class="danger-btn" onclick="deleteEvent(${e.id})">${icon("trash-2")}Apagar evento</button>`:""}
+    </div>
+  </div>`);
+  refreshIcons();
+};
+
 window.deleteEvent = async function(id){
   if(!isMaster())return;
-  const e=eventById(id);if(!e)return;
-  if(!confirm(`Apagar o evento "${e.name}" da agenda?`))return;
-  const {error}=await supabaseClient.rpc("master_delete_event",{p_event_id:Number(id)});
-  if(error){console.error(error);alert("Não foi possível apagar o evento. Rode o patch SQL v9.9.");return}
-  closeModal();await ensureV8State(true);await render();
-}
+  const e=eventById(Number(id));
+  if(!e)return;
+  if(!confirm(`Apagar definitivamente o evento "${e.name}"? As escalas vinculadas também podem ser afetadas.`))return;
+
+  try{
+    const {error}=await supabaseClient.rpc("line_delete_event",{p_event_id:Number(id)});
+    if(error){
+      const fallback=await supabaseClient.from("events").delete().eq("id",Number(id));
+      if(fallback.error)throw fallback.error;
+    }
+    closeModal();
+    await ensureV8State(true);
+    alert("Evento apagado com sucesso.");
+    navigateLine("eventos");
+  }catch(error){
+    alert("Não foi possível apagar o evento: "+(error?.message||error));
+  }
+};
 
 window.calendarPage = async function(){
   const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7,prevLast=new Date(y,m,0).getDate();
@@ -5085,28 +5176,52 @@ window.deleteApplication=async function(id,table="applications"){
 
 window.openApplicationDetail=function(id){
   const a=lineApplications.find(x=>String(x.id)===String(id));
-  if(!a)return;
+  if(!a){
+    alert("Não foi possível localizar esta candidatura.");
+    return;
+  }
+
   const name=a.name||a.nome||"Candidato";
   const contact=a.contact||a.contato||a.phone||a.telefone||"Não informado";
+  const instagramRaw=a.instagram||a.instagram_user||a.instagram_username||a.insta||a.arroba||"";
+  const instagramUser=String(instagramRaw||"").trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i,"")
+    .replace(/^@/,"")
+    .replace(/\/.*$/,"");
+  const instagramLink=instagramUser?`https://instagram.com/${instagramUser}`:"";
   const availability=a.availability||a.disponibilidade||"Não informada";
   const experience=a.experience||a.experiencia||"Não informada";
   const areas=a.areas||a.area||a.interests||a.areas_interesse||"Não informadas";
   const learning=a.learning||a.aprender||a.willing_to_learn||"Não informado";
   const service=a.service_time||a.tempo_servico||"Não informado";
-  openModal(`<div class="application-detail">
+  const created=a.created_at?new Date(a.created_at).toLocaleString("pt-BR"):"Não informado";
+
+  openModal(`<div class="application-detail application-detail-modal">
     <div class="application-detail-head">
       <div class="application-avatar">${initials(name)}</div>
-      <div><h3>${name}</h3><p>Candidatura para a LINE</p></div>
+      <div>
+        <span class="application-kicker">CANDIDATURA LINE</span>
+        <h3>${name}</h3>
+        <p>Inscrição recebida em ${created}</p>
+      </div>
     </div>
-    <div class="event-detail-grid">
-      <div class="event-detail-item"><small>Contato</small><b>${contact}</b></div>
-      <div class="event-detail-item"><small>Disponibilidade</small><b>${availability}</b></div>
-      <div class="event-detail-item"><small>Áreas de interesse</small><b>${Array.isArray(areas)?areas.join(", "):areas}</b></div>
-      <div class="event-detail-item"><small>Experiência</small><b>${experience}</b></div>
-      <div class="event-detail-item"><small>Disposição para aprender</small><b>${learning}</b></div>
-      <div class="event-detail-item"><small>Tempo de serviço</small><b>${service}</b></div>
+
+    <div class="application-detail-grid">
+      <div class="application-detail-item"><small>Contato</small><b>${contact}</b></div>
+      <div class="application-detail-item">
+        <small>Instagram</small>
+        ${instagramLink
+          ?`<a class="application-instagram-link" href="${instagramLink}" target="_blank" rel="noopener noreferrer">${icon("instagram")}@${instagramUser}</a>`
+          :`<b>Não informado</b>`}
+      </div>
+      <div class="application-detail-item"><small>Disponibilidade</small><b>${availability}</b></div>
+      <div class="application-detail-item"><small>Áreas de interesse</small><b>${Array.isArray(areas)?areas.join(", "):areas}</b></div>
+      <div class="application-detail-item application-detail-wide"><small>Experiência</small><b>${experience}</b></div>
+      <div class="application-detail-item"><small>Disposição para aprender</small><b>${learning}</b></div>
+      <div class="application-detail-item"><small>Tempo de serviço</small><b>${service}</b></div>
     </div>
-    <div class="modal-actions">
+
+    <div class="modal-actions application-modal-actions">
       <button class="secondary" onclick="closeModal()">Fechar</button>
       <button class="danger-btn" onclick="deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}Apagar candidatura</button>
     </div>
@@ -5132,7 +5247,7 @@ window.applicationsPage=async function(){
       const contact=a.contact||a.contato||a.phone||a.telefone||"Contato não informado";
       const areas=a.areas||a.area||a.interests||a.areas_interesse||"Área não informada";
       const created=a.created_at?new Date(a.created_at).toLocaleDateString("pt-BR"):"";
-      return `<article class="application-card">
+      return `<article class="application-card" onclick="openApplicationDetail('${a.id}')">
         <div class="application-card-head">
           <div class="application-avatar">${initials(name)}</div>
           <div class="application-main">
@@ -5143,8 +5258,8 @@ window.applicationsPage=async function(){
         </div>
         <div class="application-area">${icon("layers-3")}<span>${Array.isArray(areas)?areas.join(", "):areas}</span></div>
         <div class="application-actions">
-          <button class="secondary" onclick="openApplicationDetail('${a.id}')">${icon("eye")}Ver detalhes</button>
-          <button class="danger-icon" title="Apagar candidatura" onclick="deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}</button>
+          <button class="secondary" onclick="event.stopPropagation();openApplicationDetail('${a.id}')">${icon("eye")}Ver candidatura</button>
+          <button class="danger-icon" title="Apagar candidatura" onclick="event.stopPropagation();deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}</button>
         </div>
       </article>`;
     }).join(""):`<div class="panel applications-empty">
@@ -5175,10 +5290,11 @@ window.page = async function(){
 window.mobileNav = function(){
   const masterItems=[
     ["eventos","calendar-days","Eventos"],
-    ["candidaturas","user-round-search","Candidaturas"],
+    ["calendario","calendar","Calendário"],
     ["dashboard","house","Home","home"],
     ["escalas","calendar-check","Escalas"],
-    ["equipe","users","Equipe"]
+    ["equipe","users","Equipe"],
+    ["candidaturas","user-round-search","Candidaturas"]
   ];
   const memberItems=[
     ["eventos","calendar-days","Eventos"],
@@ -5245,7 +5361,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.0 candidaturas mobile iniciado");
+ console.info("LINE Interligados v11.1 candidaturas eventos calendario iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -5253,7 +5369,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.0",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.1",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
