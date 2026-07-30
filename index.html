@@ -3081,6 +3081,14 @@ html[data-theme="light"] .modal-bg.active-modal{
   }
 }
 
+
+/* V11.3 — ESTÁGIOS DE CANDIDATURA + EXCLUSÃO SINCRONIZADA */
+.application-stage-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:15px}.application-stage-tabs button{min-height:46px;padding:8px 10px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--border);background:var(--card);color:var(--text)}.application-stage-tabs button span{font-size:8px;font-weight:800}.application-stage-tabs button b{min-width:24px;height:24px;padding:0 7px;border-radius:999px;display:grid;place-items:center;background:rgba(93,157,204,.10);font-size:8px}.application-stage-tabs button.active{border-color:rgba(92,169,222,.34);box-shadow:0 8px 20px rgba(10,62,101,.13)}.application-stage-tabs button.active.approved{border-color:rgba(54,183,112,.35);background:rgba(35,151,91,.08)}.application-stage-tabs button.active.rejected{border-color:rgba(239,89,89,.30);background:rgba(209,55,55,.07)}
+.application-card-stage,.application-current-stage{display:flex;align-items:center;gap:8px;border-radius:12px;font-size:8px;font-weight:900}.application-card-stage{width:max-content;margin-top:12px;padding:7px 9px}.application-current-stage{margin:0 0 14px;padding:12px 13px}.application-card-stage svg,.application-current-stage svg{width:15px;height:15px;flex:none}.application-current-stage small{display:block;margin-bottom:3px;font-size:6px;letter-spacing:1px;opacity:.72}.application-current-stage b{font-size:10px}.application-stage-pending{color:#e5b867;background:rgba(204,143,37,.10);border:1px solid rgba(222,164,61,.18)}.application-stage-approved{color:#71d89f;background:rgba(36,151,91,.10);border:1px solid rgba(57,187,116,.18)}.application-stage-rejected{color:#ff9a9a;background:rgba(214,61,61,.09);border:1px solid rgba(239,83,83,.17)}
+.application-stage-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.application-stage-actions button{min-height:43px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--border);background:rgba(90,151,197,.06);color:var(--text);font-size:8px;font-weight:800}.application-stage-actions button svg{width:15px;height:15px}.application-stage-actions button.active{border-color:rgba(219,164,61,.30);background:rgba(204,143,37,.11);color:#e5b867}.application-stage-actions button.active.approved{border-color:rgba(57,187,116,.30);background:rgba(36,151,91,.11);color:#71d89f}.application-stage-actions button.active.rejected{border-color:rgba(239,83,83,.28);background:rgba(214,61,61,.10);color:#ff9a9a}
+html[data-theme="light"] .application-stage-tabs button{background:#fff!important;border-color:#dce6ef!important}html[data-theme="light"] .application-stage-tabs button b{background:#edf4f8!important}html[data-theme="light"] .application-stage-pending{color:#8a621d!important;background:#fff7e7!important;border-color:#efdeb8!important}html[data-theme="light"] .application-stage-approved{color:#2d754a!important;background:#edf8f2!important;border-color:#cfe8d8!important}html[data-theme="light"] .application-stage-rejected{color:#a43d3d!important;background:#fff0f0!important;border-color:#efd0d0!important}
+@media(max-width:760px){.application-stage-tabs{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}.application-stage-tabs button{min-height:48px!important}.application-card-stage{margin-top:10px}.application-stage-actions{grid-template-columns:1fr!important}.application-stage-actions button{width:100%!important;min-height:46px!important}}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -5303,6 +5311,27 @@ window.teamHubPage=async function(){
 
 window.lineApplications=[];
 
+window.applicationStatusFilter="all";
+window.normalizeApplicationStatus=function(status){
+  const value=String(status||"pending").toLowerCase().trim();
+  if(["approved","aprovado","aprovada","aceito","aceita"].includes(value))return "approved";
+  if(["rejected","not_approved","não aprovado","nao aprovado","reprovado","reprovada","recusado","recusada"].includes(value))return "rejected";
+  return "pending";
+};
+window.applicationStatusLabel=function(status){
+  const normalized=normalizeApplicationStatus(status);
+  return normalized==="approved"?"Aprovado":normalized==="rejected"?"Não aprovado":"Pendente";
+};
+window.applicationStatusIcon=function(status){
+  const normalized=normalizeApplicationStatus(status);
+  return normalized==="approved"?"circle-check":normalized==="rejected"?"circle-x":"clock-3";
+};
+window.setApplicationStatusFilter=async function(filter){
+  applicationStatusFilter=["all","pending","approved","rejected"].includes(filter)?filter:"all";
+  await render();
+};
+
+
 window.loadApplications=async function(){
   if(!isMaster())return [];
   const attempts=["applications","candidaturas"];
@@ -5325,27 +5354,45 @@ window.loadApplications=async function(){
 };
 
 window.deleteApplication=async function(id,table="applications"){
-  if(!isMaster()){
-    alert("Apenas Masters podem apagar candidaturas.");
-    return;
-  }
-
+  if(!isMaster()){alert("Apenas Masters podem apagar candidaturas.");return;}
   const item=lineApplications.find(a=>String(a.id)===String(id));
   const name=item?.name||item?.nome||"esta pessoa";
-
-  if(!confirm(`Apagar definitivamente a candidatura de ${name}?`))return;
-
+  if(!confirm(`Apagar definitivamente a candidatura de ${name}? Ela será removida do app e do site.`))return;
   try{
-    const {error}=await supabaseClient.from(table).delete().eq("id",id);
-    if(error)throw error;
-
+    let deleted=false;
+    const rpcResult=await supabaseClient.rpc("master_delete_application",{p_application_id:String(id),p_table_name:table});
+    if(!rpcResult.error){deleted=true;}else{
+      console.warn("RPC de exclusão indisponível; tentando exclusão direta.",rpcResult.error);
+      const direct=await supabaseClient.from(table).delete().eq("id",id);
+      if(direct.error)throw direct.error;
+      deleted=true;
+    }
+    if(!deleted)throw new Error("A candidatura não foi removida.");
     closeModal();
     lineApplications=lineApplications.filter(a=>String(a.id)!==String(id));
-    alert("Candidatura apagada com sucesso.");
+    alert("Candidatura apagada do app e do site com sucesso.");
     await render();
   }catch(error){
     console.error("Erro ao apagar candidatura:",error);
-    alert("Não foi possível apagar a candidatura: "+(error?.message||error));
+    alert("Não foi possível apagar a candidatura. Rode o SQL da v11.3 no Supabase e tente novamente.\n\n"+(error?.message||error));
+  }
+};
+window.updateApplicationStatus=async function(id,status,table="applications"){
+  if(!isMaster()){alert("Apenas Masters podem alterar o estágio.");return;}
+  const normalized=normalizeApplicationStatus(status);
+  try{
+    const rpcResult=await supabaseClient.rpc("master_update_application_status",{p_application_id:String(id),p_status:normalized,p_table_name:table});
+    if(rpcResult.error){
+      console.warn("RPC de estágio indisponível; tentando atualização direta.",rpcResult.error);
+      const direct=await supabaseClient.from(table).update({status:normalized}).eq("id",id);
+      if(direct.error)throw direct.error;
+    }
+    lineApplications=lineApplications.map(a=>String(a.id)===String(id)?{...a,status:normalized}:a);
+    closeModal();
+    await render();
+  }catch(error){
+    console.error("Erro ao atualizar estágio:",error);
+    alert("Não foi possível atualizar o estágio. Rode o SQL da v11.3 no Supabase.\n\n"+(error?.message||error));
   }
 };
 
@@ -5370,6 +5417,7 @@ window.openApplicationDetail=function(id){
   const learning=a.learning||a.aprender||a.willing_to_learn||"Não informado";
   const service=a.service_time||a.tempo_servico||"Não informado";
   const created=a.created_at?new Date(a.created_at).toLocaleString("pt-BR"):"Não informado";
+  const status=normalizeApplicationStatus(a.status);
 
   openModal(`<div class="application-detail application-detail-modal">
     <div class="application-detail-head">
@@ -5379,6 +5427,11 @@ window.openApplicationDetail=function(id){
         <h3>${name}</h3>
         <p>Inscrição recebida em ${created}</p>
       </div>
+    </div>
+
+    <div class="application-current-stage application-stage-${status}">
+      ${icon(applicationStatusIcon(status))}
+      <div><small>ESTÁGIO ATUAL</small><b>${applicationStatusLabel(status)}</b></div>
     </div>
 
     <div class="application-detail-grid">
@@ -5396,6 +5449,11 @@ window.openApplicationDetail=function(id){
       <div class="application-detail-item"><small>Tempo de serviço</small><b>${service}</b></div>
     </div>
 
+    <div class="application-stage-actions">
+      <button class="${status==="pending"?"active":""}" type="button" onclick="updateApplicationStatus('${a.id}','pending','${a.__table||"applications"}')">${icon("clock-3")}Pendente</button>
+      <button class="${status==="approved"?"active approved":""}" type="button" onclick="updateApplicationStatus('${a.id}','approved','${a.__table||"applications"}')">${icon("circle-check")}Aprovar</button>
+      <button class="${status==="rejected"?"active rejected":""}" type="button" onclick="updateApplicationStatus('${a.id}','rejected','${a.__table||"applications"}')">${icon("circle-x")}Não aprovar</button>
+    </div>
     <div class="modal-actions application-modal-actions">
       <button class="secondary" onclick="closeModal()">Fechar</button>
       <button class="danger-btn" type="button" data-application-delete="${a.id}" data-application-table="${a.__table||"applications"}">${icon("trash-2")}Apagar candidatura</button>
@@ -5407,45 +5465,31 @@ window.openApplicationDetail=function(id){
 window.applicationsPage=async function(){
   if(!isMaster())return generic("Acesso restrito","As candidaturas são visíveis apenas para administradores Master.");
   const items=await loadApplications();
-
-  return `<div class="page-toolbar applications-toolbar">
-    <div class="page-title">
-      <h2>Candidaturas</h2>
-      <p>Inscrições recebidas para entrar na equipe LINE.</p>
-    </div>
-    <span class="applications-count">${items.length} recebida${items.length===1?"":"s"}</span>
+  const counts={all:items.length,pending:items.filter(a=>normalizeApplicationStatus(a.status)==="pending").length,approved:items.filter(a=>normalizeApplicationStatus(a.status)==="approved").length,rejected:items.filter(a=>normalizeApplicationStatus(a.status)==="rejected").length};
+  const visible=applicationStatusFilter==="all"?items:items.filter(a=>normalizeApplicationStatus(a.status)===applicationStatusFilter);
+  return `<div class="page-toolbar applications-toolbar"><div class="page-title"><h2>Candidaturas</h2><p>Organize cada pessoa por estágio antes de entrar na equipe.</p></div><span class="applications-count">${items.length} recebida${items.length===1?"":"s"}</span></div>
+  <div class="application-stage-tabs">
+    <button class="${applicationStatusFilter==="all"?"active":""}" onclick="setApplicationStatusFilter('all')"><span>Todas</span><b>${counts.all}</b></button>
+    <button class="${applicationStatusFilter==="pending"?"active pending":""}" onclick="setApplicationStatusFilter('pending')"><span>Pendentes</span><b>${counts.pending}</b></button>
+    <button class="${applicationStatusFilter==="approved"?"active approved":""}" onclick="setApplicationStatusFilter('approved')"><span>Aprovados</span><b>${counts.approved}</b></button>
+    <button class="${applicationStatusFilter==="rejected"?"active rejected":""}" onclick="setApplicationStatusFilter('rejected')"><span>Não aprovados</span><b>${counts.rejected}</b></button>
   </div>
-
   <section class="applications-grid">
-    ${items.length?items.map(a=>{
+    ${visible.length?visible.map(a=>{
       const name=a.name||a.nome||"Candidato";
       const contact=a.contact||a.contato||a.phone||a.telefone||"Contato não informado";
       const areas=a.areas||a.area||a.interests||a.areas_interesse||"Área não informada";
       const created=a.created_at?new Date(a.created_at).toLocaleDateString("pt-BR"):"";
-      return `<article class="application-card" data-application-open="${a.id}" role="button" tabindex="0">
-        <div class="application-card-head">
-          <div class="application-avatar">${initials(name)}</div>
-          <div class="application-main">
-            <h3>${name}</h3>
-            <p>${contact}</p>
-          </div>
-          ${created?`<small>${created}</small>`:""}
-        </div>
+      const status=normalizeApplicationStatus(a.status);
+      return `<article class="application-card application-card-${status}" data-application-open="${a.id}" role="button" tabindex="0">
+        <div class="application-card-head"><div class="application-avatar">${initials(name)}</div><div class="application-main"><h3>${name}</h3><p>${contact}</p></div>${created?`<small>${created}</small>`:""}</div>
+        <div class="application-card-stage application-stage-${status}">${icon(applicationStatusIcon(status))}<span>${applicationStatusLabel(status)}</span></div>
         <div class="application-area">${icon("layers-3")}<span>${Array.isArray(areas)?areas.join(", "):areas}</span></div>
-        <div class="application-actions">
-          <button class="secondary" type="button" data-application-open="${a.id}">${icon("eye")}Ver candidatura</button>
-          <button class="danger-icon" type="button" title="Apagar candidatura" data-application-delete="${a.id}" data-application-table="${a.__table||"applications"}">${icon("trash-2")}</button>
-        </div>
+        <div class="application-actions"><button class="secondary" type="button" data-application-open="${a.id}">${icon("eye")}Ver candidatura</button><button class="danger-icon" type="button" title="Apagar candidatura" data-application-delete="${a.id}" data-application-table="${a.__table||"applications"}">${icon("trash-2")}</button></div>
       </article>`;
-    }).join(""):`<div class="panel applications-empty">
-      <div>${icon("inbox")}</div>
-      <h3>Nenhuma candidatura encontrada</h3>
-      <p>Quando alguém enviar o formulário, a inscrição aparecerá aqui para os Masters.</p>
-    </div>`}
+    }).join(""):`<div class="panel applications-empty"><div>${icon("inbox")}</div><h3>Nenhuma candidatura neste estágio</h3><p>Altere o filtro acima para visualizar outros candidatos.</p></div>`}
   </section>`;
 };
-
-
 
 if(!window.__lineDelegatedClicksInstalled){
   window.__lineDelegatedClicksInstalled=true;
@@ -5586,7 +5630,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.2 clicks delete fix iniciado");
+ console.info("LINE Interligados v11.3 application status delete iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -5594,7 +5638,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.2",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.3",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
