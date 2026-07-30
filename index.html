@@ -2796,6 +2796,147 @@ html[data-theme="light"] .ai-progress{
   }
 }
 
+
+/* ==========================================================
+   V11.0 — CANDIDATURAS MASTER + TOPO MOBILE ORGANIZADO
+   ========================================================== */
+.applications-toolbar{align-items:center}
+.applications-count{
+  padding:8px 11px;border-radius:999px;
+  background:rgba(61,146,207,.11);
+  border:1px solid rgba(83,164,219,.17);
+  color:#86c3ed;font-size:8px;font-weight:800
+}
+.applications-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px
+}
+.application-card{
+  padding:16px;border:1px solid var(--border);border-radius:20px;
+  background:var(--card);box-shadow:0 10px 24px rgba(0,0,0,.12)
+}
+.application-card-head{display:flex;align-items:center;gap:11px}
+.application-card-head>small{margin-left:auto;color:var(--muted);font-size:7px}
+.application-avatar{
+  width:42px;height:42px;min-width:42px;border-radius:14px;
+  display:grid;place-items:center;font-size:10px;font-weight:900;
+  color:#eaf7ff;background:linear-gradient(145deg,#225d89,#102f4a);
+  border:1px solid rgba(111,190,239,.25)
+}
+.application-main{min-width:0}
+.application-main h3{font-size:11px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.application-main p{font-size:8px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.application-area{
+  display:flex;align-items:flex-start;gap:8px;margin:14px 0;padding:10px;
+  border-radius:13px;background:rgba(35,103,154,.09);color:#a7c6dd;font-size:8px;line-height:1.45
+}
+.application-area svg{width:14px;height:14px;flex:none}
+.application-actions{display:grid;grid-template-columns:1fr 42px;gap:8px}
+.application-actions button{min-height:42px;border-radius:12px!important}
+.danger-icon,.danger-btn{
+  border:1px solid rgba(239,68,68,.25)!important;
+  background:rgba(239,68,68,.10)!important;color:#ff9696!important
+}
+.danger-icon{display:grid;place-items:center}
+.danger-icon svg{width:16px;height:16px}
+.danger-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:0 14px}
+.applications-empty{grid-column:1/-1;text-align:center;padding:34px!important}
+.applications-empty svg{width:28px;height:28px;color:var(--muted);margin-bottom:9px}
+.application-detail-head{display:flex;align-items:center;gap:12px;margin-bottom:17px}
+.application-detail-head h3{font-size:17px;margin-bottom:4px}
+.application-detail-head p{font-size:8px;color:var(--muted)}
+
+html[data-theme="light"] .application-card{
+  background:#fff!important;border-color:#dce6ef!important;
+  box-shadow:0 10px 24px rgba(31,59,82,.08)!important
+}
+html[data-theme="light"] .application-avatar{
+  color:#123650!important;background:linear-gradient(145deg,#deedf8,#bad6e8)!important;
+  border-color:#a9c9df!important
+}
+html[data-theme="light"] .application-area{
+  background:#f0f6fa!important;color:#38566e!important
+}
+html[data-theme="light"] .applications-count{
+  background:#edf5fb!important;color:#315f7f!important;border-color:#d0e2ee!important
+}
+
+/* Theme control desktop */
+.theme-pill{
+  min-height:42px!important;padding:0 13px!important;border-radius:13px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important
+}
+.theme-pill-icon{display:grid;place-items:center}
+.theme-pill-icon svg{width:17px!important;height:17px!important}
+.theme-pill-label{font-size:9px;font-weight:800;line-height:1}
+
+/* Mobile top actions: organized, aligned, no overlap */
+@media(max-width:760px){
+  .topbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:12px!important;
+    min-height:72px!important;
+    padding-top:14px!important;
+    padding-bottom:14px!important;
+  }
+  .top-actions{
+    display:grid!important;
+    grid-template-columns:42px 42px 42px!important;
+    align-items:center!important;
+    gap:7px!important;
+    position:relative!important;
+  }
+  .top-actions>.theme-switch{display:block!important;width:42px!important;height:42px!important}
+  .theme-pill{
+    width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+    padding:0!important;border-radius:14px!important;display:grid!important;place-items:center!important
+  }
+  .theme-pill-label{display:none!important}
+  .theme-pill-icon{display:grid!important;place-items:center!important}
+  .theme-pill-icon svg{width:18px!important;height:18px!important}
+  .top-actions>.icon-btn,.top-user .avatar{
+    width:42px!important;height:42px!important;min-width:42px!important;border-radius:14px!important
+  }
+  .top-user{width:42px!important;height:42px!important;display:block!important}
+  .top-user>div{display:none!important}
+  .top-user .avatar{margin:0!important}
+  .welcome{min-width:0!important}
+  .welcome h1{
+    font-size:23px!important;line-height:1.08!important;
+    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important
+  }
+  .welcome p{
+    margin-top:5px!important;max-width:190px!important;
+    white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important
+  }
+
+  .applications-grid{grid-template-columns:1fr!important;gap:12px!important}
+  .application-card{padding:14px!important;border-radius:19px!important}
+  .applications-toolbar{
+    display:flex!important;align-items:flex-end!important;gap:10px!important
+  }
+  .applications-count{flex:none}
+  .team-hub-tabs{
+    display:grid!important;grid-template-columns:repeat(3,1fr)!important;
+    gap:7px!important;padding:6px!important;overflow:visible!important
+  }
+  .team-hub-tabs button{
+    min-width:0!important;padding:10px 5px!important;font-size:7.5px!important;
+    justify-content:center!important;gap:5px!important
+  }
+  .team-hub-tabs button svg{width:14px!important;height:14px!important}
+}
+
+@media(max-width:390px){
+  .top-actions{grid-template-columns:39px 39px 39px!important;gap:5px!important}
+  .top-actions>.theme-switch,.theme-pill,.top-actions>.icon-btn,.top-user,.top-user .avatar{
+    width:39px!important;height:39px!important;min-width:39px!important
+  }
+  .welcome h1{font-size:21px!important}
+  .welcome p{max-width:155px!important}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3387,11 +3528,13 @@ function routeTitle(){
     return t?.name||"Equipe";
   }
   if(route==="equipe")return "Equipe";
+  if(route==="candidaturas")return "Candidaturas";
   return titles()[route]||"LINE";
 }
 function routeSubtitle(){
   if(route.startsWith("team-"))return "Tarefas, produção e entregas da equipe.";
-  if(route==="equipe")return "Membros e equipes em um só lugar.";
+  if(route==="equipe")return "Membros, equipes e candidaturas em um só lugar.";
+  if(route==="candidaturas")return "Analise e gerencie as inscrições recebidas.";
   return subtitles()[route]||"";
 }
 
@@ -3402,7 +3545,12 @@ function shell(content){
   <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
  </aside>
- <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="theme-switch"><button class="theme-pill" onclick="toggleLineTheme()">${icon(getLineTheme()==="dark"?"sun":"moon")} ${getLineTheme()==="dark"?"Claro":"Escuro"}</button></div><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
+ <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="theme-switch">
+  <button class="theme-pill" onclick="toggleLineTheme()" aria-label="${getLineTheme()==="dark"?"Ativar modo claro":"Ativar modo escuro"}" title="${getLineTheme()==="dark"?"Modo claro":"Modo escuro"}">
+    <span class="theme-pill-icon">${icon(getLineTheme()==="dark"?"sun":"moon")}</span>
+    <span class="theme-pill-label">${getLineTheme()==="dark"?"Claro":"Escuro"}</span>
+  </button>
+</div><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
 }
 function titles(){return{dashboard:`Olá, ${currentUser.name.split(" ")[0]}! 👋`,eventos:"Eventos",calendario:"Calendário",escalas:"Escalas",membros:"Membros",equipes:"Equipes",indicadores:"Indicadores",notificacoes:"Notificações",configuracoes:"Configurações"}}
 function subtitles(){return{dashboard:"Sua visão geral da equipe Line.",eventos:"Organize todas as programações da equipe.",calendario:"Veja datas, eventos e escalas em um calendário real.",escalas:"Acompanhe responsáveis e confirmações.",membros:"Gerencie integrantes, áreas e permissões.",equipes:"Organize os membros por área.",indicadores:"Acompanhe participação e desempenho.",notificacoes:"Veja avisos e confirmações pendentes.",configuracoes:"Ajuste sua conta e preferências."}}
@@ -4871,7 +5019,7 @@ window.memberTasksWidget=async function(){
 let teamHubTab="teams";
 
 window.setTeamHubTab=async function(tab){
-  teamHubTab=tab==="members"?"members":"teams";
+  teamHubTab=["members","applications"].includes(tab)?tab:"teams";
   await render();
 };
 
@@ -4883,17 +5031,134 @@ window.teamHubPage=async function(){
   const tabs=`<div class="team-hub-tabs">
     <button class="${teamHubTab==="members"?"active":""}" onclick="setTeamHubTab('members')">${icon("users")} Membros</button>
     <button class="${teamHubTab==="teams"?"active":""}" onclick="setTeamHubTab('teams')">${icon("folders")} Equipes</button>
+    <button class="${teamHubTab==="applications"?"active":""}" onclick="setTeamHubTab('applications')">${icon("user-round-search")} Candidaturas</button>
   </div>`;
 
   const body=teamHubTab==="members"
     ? await membersPageReal()
-    : await teamsPageReal();
+    : teamHubTab==="applications"
+      ? await applicationsPage()
+      : await teamsPageReal();
 
   return tabs+body;
 };
 
+
+window.lineApplications=[];
+
+window.loadApplications=async function(){
+  if(!isMaster())return [];
+  const attempts=["applications","candidaturas"];
+  for(const table of attempts){
+    try{
+      const {data,error}=await supabaseClient
+        .from(table)
+        .select("*")
+        .order("created_at",{ascending:false});
+      if(!error){
+        window.lineApplications=(data||[]).map(item=>({...item,__table:table}));
+        return window.lineApplications;
+      }
+    }catch(error){
+      console.warn("Falha ao carregar",table,error);
+    }
+  }
+  window.lineApplications=[];
+  return [];
+};
+
+window.deleteApplication=async function(id,table="applications"){
+  if(!isMaster())return;
+  const item=lineApplications.find(a=>String(a.id)===String(id));
+  const name=item?.name||item?.nome||"esta candidatura";
+  if(!confirm(`Apagar definitivamente a candidatura de ${name}?`))return;
+
+  const {error}=await supabaseClient.from(table).delete().eq("id",id);
+  if(error){
+    alert("Não foi possível apagar a candidatura: "+error.message);
+    return;
+  }
+  lineApplications=lineApplications.filter(a=>String(a.id)!==String(id));
+  alert("Candidatura apagada com sucesso.");
+  await render();
+};
+
+window.openApplicationDetail=function(id){
+  const a=lineApplications.find(x=>String(x.id)===String(id));
+  if(!a)return;
+  const name=a.name||a.nome||"Candidato";
+  const contact=a.contact||a.contato||a.phone||a.telefone||"Não informado";
+  const availability=a.availability||a.disponibilidade||"Não informada";
+  const experience=a.experience||a.experiencia||"Não informada";
+  const areas=a.areas||a.area||a.interests||a.areas_interesse||"Não informadas";
+  const learning=a.learning||a.aprender||a.willing_to_learn||"Não informado";
+  const service=a.service_time||a.tempo_servico||"Não informado";
+  openModal(`<div class="application-detail">
+    <div class="application-detail-head">
+      <div class="application-avatar">${initials(name)}</div>
+      <div><h3>${name}</h3><p>Candidatura para a LINE</p></div>
+    </div>
+    <div class="event-detail-grid">
+      <div class="event-detail-item"><small>Contato</small><b>${contact}</b></div>
+      <div class="event-detail-item"><small>Disponibilidade</small><b>${availability}</b></div>
+      <div class="event-detail-item"><small>Áreas de interesse</small><b>${Array.isArray(areas)?areas.join(", "):areas}</b></div>
+      <div class="event-detail-item"><small>Experiência</small><b>${experience}</b></div>
+      <div class="event-detail-item"><small>Disposição para aprender</small><b>${learning}</b></div>
+      <div class="event-detail-item"><small>Tempo de serviço</small><b>${service}</b></div>
+    </div>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModal()">Fechar</button>
+      <button class="danger-btn" onclick="deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}Apagar candidatura</button>
+    </div>
+  </div>`);
+  refreshIcons();
+};
+
+window.applicationsPage=async function(){
+  if(!isMaster())return generic("Acesso restrito","As candidaturas são visíveis apenas para administradores Master.");
+  const items=await loadApplications();
+
+  return `<div class="page-toolbar applications-toolbar">
+    <div class="page-title">
+      <h2>Candidaturas</h2>
+      <p>Inscrições recebidas para entrar na equipe LINE.</p>
+    </div>
+    <span class="applications-count">${items.length} recebida${items.length===1?"":"s"}</span>
+  </div>
+
+  <section class="applications-grid">
+    ${items.length?items.map(a=>{
+      const name=a.name||a.nome||"Candidato";
+      const contact=a.contact||a.contato||a.phone||a.telefone||"Contato não informado";
+      const areas=a.areas||a.area||a.interests||a.areas_interesse||"Área não informada";
+      const created=a.created_at?new Date(a.created_at).toLocaleDateString("pt-BR"):"";
+      return `<article class="application-card">
+        <div class="application-card-head">
+          <div class="application-avatar">${initials(name)}</div>
+          <div class="application-main">
+            <h3>${name}</h3>
+            <p>${contact}</p>
+          </div>
+          ${created?`<small>${created}</small>`:""}
+        </div>
+        <div class="application-area">${icon("layers-3")}<span>${Array.isArray(areas)?areas.join(", "):areas}</span></div>
+        <div class="application-actions">
+          <button class="secondary" onclick="openApplicationDetail('${a.id}')">${icon("eye")}Ver detalhes</button>
+          <button class="danger-icon" title="Apagar candidatura" onclick="deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}</button>
+        </div>
+      </article>`;
+    }).join(""):`<div class="panel applications-empty">
+      <div>${icon("inbox")}</div>
+      <h3>Nenhuma candidatura encontrada</h3>
+      <p>Quando alguém enviar o formulário, a inscrição aparecerá aqui para os Masters.</p>
+    </div>`}
+  </section>`;
+};
+
+
 window.page = async function(){
   if(route==="equipe")return await teamHubPage();
+  if(route==="candidaturas")return isMaster()?await applicationsPage():generic("Acesso restrito","As candidaturas são visíveis apenas para administradores Master.");
   if(route.startsWith("team-"))return await teamBoardPage(Number(route.split("-")[1]));
   if(route==="dashboard")return isMaster()?await dashboard():await memberHome();
   if(route==="eventos")return await eventsPage();
@@ -4910,7 +5175,7 @@ window.page = async function(){
 window.mobileNav = function(){
   const masterItems=[
     ["eventos","calendar-days","Eventos"],
-    ["calendario","calendar","Agenda"],
+    ["candidaturas","user-round-search","Candidaturas"],
     ["dashboard","house","Home","home"],
     ["escalas","calendar-check","Escalas"],
     ["equipe","users","Equipe"]
@@ -4980,7 +5245,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v10.9 LINE IA redesign iniciado");
+ console.info("LINE Interligados v11.0 candidaturas mobile iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -4988,7 +5253,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.9",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.0",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
