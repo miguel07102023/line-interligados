@@ -1634,6 +1634,1168 @@ html[data-theme="light"] .calendar-first-meta span{color:#42566b!important}
   }
 }
 
+
+/* ===== V10.6 — ESTABILIDADE DE TOQUE MOBILE ===== */
+@media(max-width:760px){
+  .main{
+    touch-action:pan-y!important;
+    overscroll-behavior-x:none!important;
+  }
+
+  :is(
+    button,a,input,select,textarea,label,
+    .icon-btn,.theme-pill,.top-user,.mobile-nav,
+    .dashboard-clickable,.team-card,.stat,.panel,
+    .modal,.modal-bg,.notification-popover,.search-results-popover
+  ){
+    touch-action:manipulation!important;
+  }
+
+  .icon-btn,.theme-pill,.top-user,.mobile-nav a{
+    position:relative!important;
+    z-index:5!important;
+  }
+}
+
+
+/* ==========================================================
+   V10.7 — REFATORAÇÃO COMPLETA DO MODO CLARO
+   ========================================================== */
+
+html[data-theme="light"]{
+  --bg:#eef3f8;
+  --surface:#ffffff;
+  --surface-2:#f5f8fb;
+  --surface-3:#edf4fa;
+  --text:#0b1520;
+  --muted:#516273;
+  --muted-2:#708192;
+  --border:#dce6ef;
+  --border-strong:#c9d7e4;
+  --navy:#0d2944;
+  --navy-2:#153b5d;
+  --blue-soft:#e8f3fb;
+  --shadow:0 10px 28px rgba(31,59,82,.08);
+}
+
+/* Base */
+html[data-theme="light"] body,
+html[data-theme="light"] .app,
+html[data-theme="light"] .main{
+  background:var(--bg)!important;
+  color:var(--text)!important;
+}
+
+html[data-theme="light"] :is(
+  h1,h2,h3,h4,h5,h6,strong,b,
+  .panel-title,.page-title,.welcome h1,
+  .team-card h3,.task-card h4,.upcoming h4,
+  .member-name,.profile-name,.modal-title
+){
+  color:var(--text)!important;
+}
+
+html[data-theme="light"] :is(
+  p,small,label,.muted,.welcome p,
+  .team-card>p,.task-card p,.upcoming p,
+  .calendar-first-subtitle,.interactive-hint,
+  .member-role,.profile-meta,.modal-subtitle
+){
+  color:var(--muted)!important;
+}
+
+/* Sidebar e navegação */
+html[data-theme="light"] .sidebar{
+  background:#f8fbfe!important;
+  border-color:var(--border)!important;
+  box-shadow:8px 0 26px rgba(31,59,82,.05)!important;
+}
+
+html[data-theme="light"] .sidebar a,
+html[data-theme="light"] .sidebar button{
+  color:#24384a!important;
+}
+
+html[data-theme="light"] .sidebar a:hover,
+html[data-theme="light"] .sidebar button:hover{
+  background:#edf4fa!important;
+  color:#0d2944!important;
+}
+
+html[data-theme="light"] .sidebar .active{
+  background:#e8f2fa!important;
+  color:#0d2944!important;
+  box-shadow:0 7px 18px rgba(31,76,111,.10)!important;
+}
+
+html[data-theme="light"] .sidebar svg,
+html[data-theme="light"] .topbar svg{
+  color:#25445f!important;
+}
+
+/* Cards e painéis */
+html[data-theme="light"] :is(
+  .panel,.stat,.team-card,.task-card,.kanban-col,
+  .profile-card,.event-card,.schedule-card,
+  .notification-card,.settings-card,.calendar-card,
+  .dashboard-clickable,.home-modal-kpi
+){
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+  color:var(--text)!important;
+  box-shadow:var(--shadow)!important;
+}
+
+html[data-theme="light"] :is(
+  .panel:hover,.stat:hover,.team-card:hover,.task-card:hover,
+  .dashboard-clickable:hover
+){
+  border-color:#c4d6e4!important;
+  box-shadow:0 14px 32px rgba(31,59,82,.11)!important;
+}
+
+/* KPIs */
+html[data-theme="light"] .stat-icon{
+  background:#e9f3fb!important;
+  border-color:#cfe1ef!important;
+  color:#214f73!important;
+}
+
+html[data-theme="light"] .stat label{
+  color:#4f6273!important;
+}
+
+html[data-theme="light"] .stat strong{
+  color:#0b1520!important;
+}
+
+/* Equipes */
+html[data-theme="light"] .team-card{
+  background:#fff!important;
+}
+
+html[data-theme="light"] .team-card .team-icon,
+html[data-theme="light"] .team-icon{
+  background:#e8f2fa!important;
+  border-color:#d0e0ec!important;
+  color:#234e70!important;
+}
+
+html[data-theme="light"] .team-members{
+  background:transparent!important;
+}
+
+html[data-theme="light"] .team-member{
+  background:#f4f8fc!important;
+  border:1px solid #dce7f0!important;
+  color:#0b1520!important;
+  box-shadow:none!important;
+}
+
+html[data-theme="light"] .team-member:hover{
+  background:#edf5fb!important;
+  border-color:#c9dce9!important;
+}
+
+html[data-theme="light"] .team-member :is(
+  span,strong,b,.member-name,.name
+){
+  color:#0b1520!important;
+}
+
+html[data-theme="light"] .team-member :is(
+  small,p,.member-role,.role
+){
+  color:#5b6d7d!important;
+}
+
+html[data-theme="light"] .team-board-open,
+html[data-theme="light"] .team-card .primary,
+html[data-theme="light"] .team-card button.primary{
+  background:#0d2944!important;
+  color:#fff!important;
+  border-color:#0d2944!important;
+  box-shadow:0 8px 18px rgba(13,41,68,.18)!important;
+}
+
+html[data-theme="light"] .team-board-open:hover,
+html[data-theme="light"] .team-card .primary:hover{
+  background:#153b5d!important;
+  border-color:#153b5d!important;
+}
+
+html[data-theme="light"] .team-board-open :is(span,svg),
+html[data-theme="light"] .team-card .primary :is(span,svg){
+  color:#fff!important;
+}
+
+/* Kanban e tarefas */
+html[data-theme="light"] .kanban-col{
+  background:#f6f9fc!important;
+}
+
+html[data-theme="light"] .kanban-col-head{
+  color:#19344c!important;
+}
+
+html[data-theme="light"] .task-card{
+  background:#fff!important;
+}
+
+html[data-theme="light"] .task-card .badge,
+html[data-theme="light"] .task-card .status{
+  color:inherit!important;
+}
+
+html[data-theme="light"] .task-card .task-meta,
+html[data-theme="light"] .task-card .task-meta span{
+  color:#5d6f80!important;
+}
+
+/* Próximos eventos e escalas */
+html[data-theme="light"] .upcoming{
+  background:transparent!important;
+  color:#0b1520!important;
+}
+
+html[data-theme="light"] .upcoming + .upcoming{
+  border-color:#e1e8ef!important;
+}
+
+html[data-theme="light"] .date-box{
+  background:#edf5fb!important;
+  border-color:#d4e4ef!important;
+}
+
+html[data-theme="light"] .date-box b{
+  color:#0d2944!important;
+}
+
+html[data-theme="light"] .date-box small{
+  color:#52718a!important;
+}
+
+/* Calendário */
+html[data-theme="light"] .calendar-first-content{
+  background:linear-gradient(135deg,#eef6fc,#f9fcff)!important;
+  border-color:#d6e4ee!important;
+}
+
+html[data-theme="light"] .calendar-first-date{
+  background:#e5f1fb!important;
+  border-color:#c8dfef!important;
+}
+
+html[data-theme="light"] .calendar-first-date span,
+html[data-theme="light"] .calendar-first-info h3{
+  color:#0b1520!important;
+}
+
+html[data-theme="light"] .calendar-first-date b{
+  color:#315c80!important;
+}
+
+html[data-theme="light"] .calendar-first-meta span{
+  color:#42566b!important;
+}
+
+/* Botões */
+html[data-theme="light"] .primary,
+html[data-theme="light"] button.primary{
+  background:#0d2944!important;
+  color:#fff!important;
+  border-color:#0d2944!important;
+}
+
+html[data-theme="light"] .primary:hover,
+html[data-theme="light"] button.primary:hover{
+  background:#153b5d!important;
+}
+
+html[data-theme="light"] .ghost-btn,
+html[data-theme="light"] button.ghost-btn{
+  background:#f2f7fb!important;
+  color:#183a55!important;
+  border-color:#d4e1eb!important;
+}
+
+html[data-theme="light"] .ghost-btn:hover{
+  background:#e8f2f9!important;
+}
+
+/* Inputs e formulários */
+html[data-theme="light"] :is(
+  input,select,textarea,
+  .field input,.field select,.field textarea,
+  .search input,.mobile-home-search input
+){
+  background:#fff!important;
+  color:#0b1520!important;
+  border-color:#d4e0e9!important;
+}
+
+html[data-theme="light"] :is(input,textarea)::placeholder{
+  color:#7b8b99!important;
+}
+
+html[data-theme="light"] :is(input,select,textarea):focus{
+  border-color:#8bb7d6!important;
+  box-shadow:0 0 0 3px rgba(67,139,190,.12)!important;
+}
+
+html[data-theme="light"] .mobile-home-search,
+html[data-theme="light"] .search{
+  background:#fff!important;
+  border-color:#d6e1ea!important;
+  box-shadow:0 8px 20px rgba(31,59,82,.07)!important;
+}
+
+/* Popups e notificações */
+html[data-theme="light"] .modal-bg{
+  background:rgba(25,42,56,.36)!important;
+}
+
+html[data-theme="light"] .modal,
+html[data-theme="light"] .notification-popover,
+html[data-theme="light"] .search-results-popover{
+  background:#fff!important;
+  color:#0b1520!important;
+  border-color:#dce6ef!important;
+  box-shadow:0 24px 60px rgba(20,45,64,.18)!important;
+}
+
+html[data-theme="light"] .notification-item,
+html[data-theme="light"] .search-result-item{
+  background:#f7fafc!important;
+  border-color:#e0e8ef!important;
+}
+
+html[data-theme="light"] .notification-item:hover,
+html[data-theme="light"] .search-result-item:hover{
+  background:#eef5fa!important;
+}
+
+/* Badges/status — preserva significado */
+html[data-theme="light"] .status.confirmed,
+html[data-theme="light"] .status.published,
+html[data-theme="light"] .status.active{
+  background:#e7f7ed!important;
+  color:#1b6a3b!important;
+  border-color:#bfe5cc!important;
+}
+
+html[data-theme="light"] .status.pending{
+  background:#fff5da!important;
+  color:#8a5a00!important;
+  border-color:#f0d890!important;
+}
+
+html[data-theme="light"] .status.declined,
+html[data-theme="light"] .status.cancelled{
+  background:#fdeaea!important;
+  color:#9b2d2d!important;
+  border-color:#efbcbc!important;
+}
+
+/* Perfil */
+html[data-theme="light"] .profile-card,
+html[data-theme="light"] .settings-card{
+  background:#fff!important;
+}
+
+html[data-theme="light"] .profile-avatar{
+  border-color:#d3e3ee!important;
+}
+
+/* Tabelas */
+html[data-theme="light"] table,
+html[data-theme="light"] thead,
+html[data-theme="light"] tbody,
+html[data-theme="light"] tr,
+html[data-theme="light"] td,
+html[data-theme="light"] th{
+  color:#0b1520!important;
+}
+
+html[data-theme="light"] th{
+  background:#eef4f8!important;
+  color:#314b60!important;
+}
+
+html[data-theme="light"] td{
+  border-color:#e1e8ee!important;
+}
+
+/* Homebar */
+html[data-theme="light"] .mobile-nav{
+  background:rgba(250,253,255,.92)!important;
+  border-color:rgba(44,86,122,.16)!important;
+  box-shadow:
+    0 15px 38px rgba(27,58,83,.14),
+    inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+
+html[data-theme="light"] .mobile-nav a{
+  color:#496174!important;
+}
+
+html[data-theme="light"] .mobile-nav a.active{
+  background:#e8f2fa!important;
+  color:#0d2944!important;
+  border-color:#cfe0ec!important;
+  box-shadow:0 6px 16px rgba(31,76,111,.10)!important;
+}
+
+html[data-theme="light"] .mobile-nav a svg{
+  color:inherit!important;
+}
+
+/* Ícones e divisores */
+html[data-theme="light"] svg{
+  color:inherit;
+}
+
+html[data-theme="light"] hr,
+html[data-theme="light"] .divider{
+  border-color:#e2e9ef!important;
+}
+
+/* Evita qualquer texto escuro sobre fundo azul-marinho */
+html[data-theme="light"] :is(
+  .primary,.team-board-open,.mobile-nav .mobile-home.active
+) :is(span,strong,b,small,p,svg){
+  color:#fff!important;
+}
+
+/* Mobile específico */
+@media(max-width:760px){
+  html[data-theme="light"] .team-card{
+    background:#fff!important;
+  }
+
+  html[data-theme="light"] .team-member{
+    background:#f4f8fc!important;
+  }
+
+  html[data-theme="light"] .team-board-open{
+    background:#0d2944!important;
+    color:#fff!important;
+  }
+
+  html[data-theme="light"] .panel,
+  html[data-theme="light"] .stat{
+    box-shadow:0 10px 24px rgba(31,59,82,.08)!important;
+  }
+}
+
+
+/* ==========================================================
+   V10.8 — AVATAR PADRÃO PARA PERFIS SEM FOTO
+   ========================================================== */
+.avatar-fallback,
+.avatar.avatar-fallback,
+.profile-photo.avatar-fallback,
+.avatar-preview.avatar-fallback{
+  display:grid!important;
+  place-items:center!important;
+  overflow:hidden!important;
+  flex:none!important;
+  border-radius:50%!important;
+  background:
+    radial-gradient(circle at 30% 24%,rgba(255,255,255,.16),transparent 34%),
+    linear-gradient(145deg,#173f63,#0b2238)!important;
+  border:1px solid rgba(117,188,239,.28)!important;
+  color:#f4faff!important;
+  font-weight:800!important;
+  letter-spacing:.035em!important;
+  text-transform:uppercase!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.32)!important;
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.10)!important;
+  user-select:none!important;
+}
+
+.avatar-fallback::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:inherit;
+  border:1px solid rgba(255,255,255,.035);
+  pointer-events:none;
+}
+
+.avatar-fallback{
+  position:relative!important;
+}
+
+/* Foto real ocupa perfeitamente o avatar */
+.has-photo{
+  overflow:hidden!important;
+  color:transparent!important;
+}
+
+.has-photo img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  display:block!important;
+  border-radius:inherit!important;
+}
+
+/* Tamanhos e legibilidade */
+.team-member .avatar-fallback,
+.member-cell .avatar-fallback{
+  font-size:9px!important;
+}
+
+.top-user .avatar-fallback,
+.user-card .avatar-fallback{
+  font-size:10px!important;
+}
+
+.profile-photo.avatar-fallback,
+.avatar-preview.avatar-fallback{
+  font-size:20px!important;
+}
+
+/* Modo claro: avatar continua forte, mas harmoniza com os cards claros */
+html[data-theme="light"] .avatar-fallback,
+html[data-theme="light"] .avatar.avatar-fallback,
+html[data-theme="light"] .profile-photo.avatar-fallback,
+html[data-theme="light"] .avatar-preview.avatar-fallback{
+  background:
+    radial-gradient(circle at 30% 24%,rgba(255,255,255,.78),transparent 35%),
+    linear-gradient(145deg,#dcecf8,#b9d5e8)!important;
+  border-color:#a9c9df!important;
+  color:#123650!important;
+  text-shadow:none!important;
+  box-shadow:
+    0 4px 11px rgba(31,69,98,.13),
+    inset 0 1px 0 rgba(255,255,255,.85)!important;
+}
+
+/* Linha de membro sem foto: evita aparência espremida */
+.team-member{
+  align-items:center!important;
+}
+
+.team-member .avatar{
+  flex:0 0 auto!important;
+}
+
+.team-member>span{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  line-height:1.3!important;
+}
+
+/* Mobile: avatar um pouco maior e nome mais legível */
+@media(max-width:760px){
+  .team-member .avatar,
+  .member-cell .avatar{
+    width:36px!important;
+    height:36px!important;
+    min-width:36px!important;
+  }
+
+  .team-member .avatar-fallback,
+  .member-cell .avatar-fallback{
+    font-size:10px!important;
+  }
+
+  .team-member{
+    min-height:58px!important;
+    gap:11px!important;
+    padding:10px 11px!important;
+  }
+
+  .team-member>span{
+    font-size:9px!important;
+  }
+}
+
+
+/* ==========================================================
+   V10.9 — REDESIGN PREMIUM DA LINE IA
+   ========================================================== */
+.ai-panel-premium{
+  position:relative;
+  overflow:hidden;
+  padding:22px!important;
+}
+
+.ai-panel-premium::before{
+  content:"";
+  position:absolute;
+  width:240px;
+  height:240px;
+  right:-100px;
+  top:-120px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(65,157,235,.15),transparent 68%);
+  pointer-events:none;
+}
+
+.ai-hero-premium{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:14px;
+  align-items:center;
+  margin-bottom:20px;
+  position:relative;
+  z-index:1;
+}
+
+.ai-hero-copy{
+  min-width:0;
+}
+
+.ai-eyebrow{
+  display:block;
+  margin-bottom:5px;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  color:#63afe9;
+}
+
+.ai-hero-premium h3{
+  font-size:18px;
+  margin:0 0 5px;
+}
+
+.ai-hero-premium p{
+  max-width:560px;
+  margin:0;
+  line-height:1.5;
+}
+
+.ai-status-pill{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border-radius:999px;
+  border:1px solid rgba(65,190,126,.22);
+  background:rgba(36,151,91,.10);
+  color:#72d59d;
+  font-size:8px;
+  white-space:nowrap;
+}
+
+.ai-status-pill>span{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#4ade80;
+  box-shadow:0 0 12px rgba(74,222,128,.55);
+}
+
+.ai-form-card{
+  position:relative;
+  z-index:1;
+  padding:16px;
+  border-radius:18px;
+  border:1px solid rgba(101,171,228,.12);
+  background:rgba(7,20,34,.42);
+}
+
+.ai-field label{
+  display:flex!important;
+  align-items:center;
+  gap:7px;
+  margin-bottom:8px!important;
+}
+
+.ai-field label svg{
+  width:14px;
+  height:14px;
+}
+
+.ai-select-wrap{
+  position:relative;
+}
+
+.ai-select-wrap select{
+  width:100%;
+  min-height:50px;
+  padding:0 42px 0 14px!important;
+  appearance:none;
+  -webkit-appearance:none;
+  border-radius:14px!important;
+}
+
+.ai-select-wrap>svg{
+  position:absolute;
+  right:14px;
+  top:50%;
+  width:16px;
+  height:16px;
+  transform:translateY(-50%);
+  pointer-events:none;
+  color:var(--muted);
+}
+
+.ai-generate-btn{
+  width:100%;
+  min-height:50px;
+  margin-top:14px;
+  border-radius:14px!important;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-size:10px!important;
+  box-shadow:0 12px 24px rgba(19,74,119,.22)!important;
+}
+
+.ai-generate-btn svg{
+  width:17px;
+  height:17px;
+}
+
+.ai-generate-btn.is-loading svg{
+  animation:ai-spin .8s linear infinite;
+}
+
+@keyframes ai-spin{
+  to{transform:rotate(360deg)}
+}
+
+.ai-result-premium{
+  margin-top:16px!important;
+  min-height:86px;
+  padding:0!important;
+  border:none!important;
+  background:transparent!important;
+}
+
+.ai-empty-state{
+  min-height:86px;
+  padding:17px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  border:1px dashed rgba(100,164,214,.22);
+  background:rgba(9,24,40,.44);
+}
+
+.ai-empty-state b{
+  display:block;
+  margin-bottom:4px;
+  font-size:10px;
+}
+
+.ai-empty-state p{
+  margin:0;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.ai-empty-icon,
+.ai-thinking-icon{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#1b4f79,#0f2c48);
+  color:#d9efff;
+}
+
+.ai-empty-icon svg,
+.ai-thinking-icon svg{
+  width:19px;
+  height:19px;
+}
+
+.ai-loading-card{
+  padding:18px;
+  border-radius:18px;
+  border:1px solid rgba(101,171,228,.16);
+  background:rgba(8,21,35,.62);
+}
+
+.ai-loading-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.ai-loading-head b{
+  display:block;
+  margin-bottom:4px;
+  font-size:10px;
+}
+
+.ai-loading-head p{
+  margin:0;
+  font-size:8px;
+  color:var(--muted);
+}
+
+.ai-loading-step{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:8px;
+  color:#abc6da;
+  margin-bottom:9px;
+}
+
+.ai-loading-step svg{
+  width:14px;
+  height:14px;
+}
+
+.ai-progress{
+  height:7px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+}
+
+.ai-progress span{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#2d8bcf,#73c6ff);
+  box-shadow:0 0 14px rgba(75,172,239,.38);
+  transition:width .35s ease;
+}
+
+.ai-result-header{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  padding:17px;
+  border-radius:18px 18px 0 0;
+  border:1px solid rgba(101,171,228,.14);
+  border-bottom:none;
+  background:rgba(9,25,41,.58);
+}
+
+.ai-result-kicker{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#6eb9ed;
+  font-size:8px;
+  margin-bottom:7px;
+}
+
+.ai-result-kicker svg{
+  width:14px;
+  height:14px;
+}
+
+.ai-result-header h4{
+  font-size:15px!important;
+  margin:0 0 5px!important;
+}
+
+.ai-result-header p{
+  margin:0;
+  font-size:8px;
+  color:var(--muted);
+}
+
+.ai-preview-premium{
+  margin:0!important;
+  padding:4px 17px;
+  border-left:1px solid rgba(101,171,228,.14);
+  border-right:1px solid rgba(101,171,228,.14);
+  background:rgba(9,25,41,.58);
+}
+
+.ai-preview-person{
+  grid-template-columns:42px minmax(0,1fr) auto!important;
+  gap:12px!important;
+  padding:12px 0!important;
+}
+
+.ai-role-icon{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:rgba(50,132,193,.13);
+  border:1px solid rgba(92,166,219,.18);
+  color:#8ac9f4;
+}
+
+.ai-role-icon svg{
+  width:17px;
+  height:17px;
+}
+
+.ai-role-copy{
+  min-width:0;
+}
+
+.ai-role-copy>small{
+  display:block;
+  font-size:7px;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+
+.ai-person-line{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.ai-person-line .avatar{
+  width:27px;
+  height:27px;
+  min-width:27px;
+  font-size:8px!important;
+}
+
+.ai-person-line b{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:9.5px;
+}
+
+.ai-score{
+  padding:6px 8px;
+  border-radius:999px;
+  background:rgba(53,146,207,.11);
+  border:1px solid rgba(79,160,215,.15);
+  color:#89c8f1;
+  font-size:7px;
+  white-space:nowrap;
+}
+
+.ai-quality-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:0 17px 17px;
+  border-left:1px solid rgba(101,171,228,.14);
+  border-right:1px solid rgba(101,171,228,.14);
+  background:rgba(9,25,41,.58);
+}
+
+.ai-quality-grid>div{
+  display:flex;
+  gap:9px;
+  padding:11px;
+  border-radius:13px;
+  border:1px solid rgba(67,174,115,.13);
+  background:rgba(36,151,91,.07);
+}
+
+.ai-quality-grid svg{
+  width:15px;
+  height:15px;
+  color:#5fd28e;
+  flex:none;
+}
+
+.ai-quality-grid b,
+.ai-quality-grid small{
+  display:block;
+}
+
+.ai-quality-grid b{
+  font-size:8px;
+  margin-bottom:3px;
+}
+
+.ai-quality-grid small{
+  font-size:7px;
+  line-height:1.4;
+  color:var(--muted);
+}
+
+.ai-result-actions{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px;
+  padding:14px 17px;
+  border:1px solid rgba(101,171,228,.14);
+  border-top:1px solid rgba(255,255,255,.04);
+  background:rgba(9,25,41,.70);
+}
+
+.ai-result-actions button{
+  min-height:45px;
+  border-radius:13px!important;
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.ai-result-actions svg{
+  width:15px;
+  height:15px;
+}
+
+.ai-apply-btn{
+  box-shadow:0 10px 22px rgba(20,88,138,.22)!important;
+}
+
+.ai-result-premium>.integration-note{
+  margin:0!important;
+  padding:12px 17px;
+  border-radius:0 0 18px 18px;
+  border:1px solid rgba(101,171,228,.14);
+  border-top:none;
+  background:rgba(9,25,41,.58);
+}
+
+.ai-empty-warning{
+  border-style:solid;
+  border-color:rgba(233,170,67,.20);
+  background:rgba(137,88,17,.08);
+}
+
+/* Light mode */
+html[data-theme="light"] .ai-panel-premium{
+  background:#fff!important;
+}
+
+html[data-theme="light"] .ai-form-card{
+  background:#f4f8fc!important;
+  border-color:#dce7ef!important;
+}
+
+html[data-theme="light"] .ai-eyebrow{
+  color:#2f6d98!important;
+}
+
+html[data-theme="light"] .ai-status-pill{
+  background:#edf8f2!important;
+  color:#2f7a4d!important;
+  border-color:#c9e8d5!important;
+}
+
+html[data-theme="light"] .ai-empty-state,
+html[data-theme="light"] .ai-loading-card,
+html[data-theme="light"] .ai-result-header,
+html[data-theme="light"] .ai-preview-premium,
+html[data-theme="light"] .ai-quality-grid,
+html[data-theme="light"] .ai-result-actions,
+html[data-theme="light"] .ai-result-premium>.integration-note{
+  background:#f7fafc!important;
+  border-color:#dce7ef!important;
+}
+
+html[data-theme="light"] .ai-empty-icon,
+html[data-theme="light"] .ai-thinking-icon,
+html[data-theme="light"] .ai-role-icon{
+  background:#e5f1fa!important;
+  border-color:#cee0ec!important;
+  color:#295777!important;
+}
+
+html[data-theme="light"] .ai-score{
+  background:#edf5fb!important;
+  border-color:#d0e2ee!important;
+  color:#315f7f!important;
+}
+
+html[data-theme="light"] .ai-quality-grid>div{
+  background:#edf8f2!important;
+  border-color:#d2eadb!important;
+}
+
+html[data-theme="light"] .ai-progress{
+  background:#e3ebf1!important;
+}
+
+/* Mobile */
+@media(max-width:760px){
+  .ai-panel-premium{
+    padding:16px!important;
+    border-radius:24px!important;
+  }
+
+  .ai-hero-premium{
+    grid-template-columns:auto minmax(0,1fr);
+    align-items:start;
+    margin-bottom:16px;
+  }
+
+  .ai-status-pill{
+    grid-column:1/-1;
+    width:max-content;
+    margin-left:60px;
+    margin-top:-8px;
+  }
+
+  .ai-form-card{
+    padding:13px;
+    border-radius:17px;
+  }
+
+  .ai-controls{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+
+  .ai-select-wrap select{
+    min-height:48px;
+  }
+
+  .ai-generate-btn{
+    min-height:48px;
+    margin-top:13px;
+  }
+
+  .ai-result-header{
+    flex-direction:column;
+    align-items:flex-start;
+    padding:15px;
+  }
+
+  .ai-preview-premium{
+    padding:3px 14px;
+  }
+
+  .ai-preview-person{
+    grid-template-columns:40px minmax(0,1fr)!important;
+  }
+
+  .ai-score{
+    grid-column:2;
+    width:max-content;
+  }
+
+  .ai-quality-grid{
+    grid-template-columns:1fr;
+    padding:0 14px 14px;
+  }
+
+  .ai-result-actions{
+    grid-template-columns:1fr;
+    padding:13px 14px;
+  }
+
+  .ai-result-actions button{
+    width:100%;
+  }
+
+  .ai-empty-state{
+    align-items:flex-start;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -1699,9 +2861,23 @@ let calendarCursor = new Date(2026,6,1);
 const $=s=>document.querySelector(s);
 const icon=n=>`<i data-lucide="${n}"></i>`;
 const save=()=>localStorage.setItem("lineDB",JSON.stringify(db));
-const initials=n=>n.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();
+const initials=n=>{
+  const parts=String(n||"?").trim().split(/\s+/).filter(Boolean);
+  if(!parts.length)return "?";
+  if(parts.length===1)return parts[0].slice(0,2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length-1][0]}`.toUpperCase();
+};
 const isMaster=()=>currentUser?.role==="master";
-function avatarHTML(u,cls="avatar"){return `<div class="${cls}">${u?.photo?`<img src="${u.photo}" alt="${u.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:initials(u?.name||"?")}</div>`}
+function avatarHTML(u,cls="avatar"){
+  const name=u?.name||"Usuário";
+  const fallback=initials(name);
+  const photo=u?.photo||"";
+  return `<div class="${cls} ${photo?"has-photo":"avatar-fallback"}" aria-label="${name}" title="${name}">
+    ${photo
+      ?`<img src="${photo}" alt="${name}" loading="lazy" onerror="this.remove();this.parentElement.classList.remove('has-photo');this.parentElement.classList.add('avatar-fallback');this.parentElement.textContent='${fallback}'">`
+      :fallback}
+  </div>`;
+}
 function syncCurrentUser(){
  if(!currentUser)return;
  currentUser.photo=currentUser.photo_url||currentUser.photo||"";
@@ -3115,13 +4291,70 @@ window.schedulesPage = async function(){
     const own=V8.schedules.filter(s=>s.user_id===currentUser.id);
     return `<div class="page-toolbar"><div class="page-title"><h2>Minhas escalas</h2><p>Confirme ou recuse suas participações.</p></div></div><article class="panel">${own.length?own.map(renderMemberScheduleCard).join(""):`<div class="empty-state">Você ainda não possui escalas.</div>`}</article>`
   }
-  return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A LINE IA cruza equipe, disponibilidade e carga de escalas.</p></div></div>
-  <article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Gere uma sugestão e revise antes de publicar.</p></div></div>
-   <div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${futureEvents().map(e=>`<option value="${e.id}">${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")}</select></div><div class="field"><label>Regra</label><select><option>Equilibrar carga + disponibilidade</option></select></div></div>
-   <div class="integration-row"><button class="primary" onclick="generateAIPreview()">Gerar sugestão</button></div>
-   <div id="aiOutput" class="ai-result"><h4>Selecione um evento e gere a escala.</h4></div>
+
+  const events=futureEvents();
+
+  return `<div class="page-toolbar">
+    <div class="page-title">
+      <h2>Escalas inteligentes</h2>
+      <p>A LINE IA cruza equipe, disponibilidade e carga antes da publicação.</p>
+    </div>
+  </div>
+
+  <article class="panel ai-panel ai-panel-premium">
+    <div class="ai-hero ai-hero-premium">
+      <div class="ai-orb">${icon("sparkles")}</div>
+      <div class="ai-hero-copy">
+        <span class="ai-eyebrow">ASSISTENTE INTELIGENTE</span>
+        <h3>LINE IA</h3>
+        <p>Monte uma sugestão equilibrada, revise os nomes e publique quando estiver tudo certo.</p>
+      </div>
+      <div class="ai-status-pill"><span></span>Pronta para analisar</div>
+    </div>
+
+    <div class="ai-form-card">
+      <div class="ai-controls">
+        <div class="field ai-field">
+          <label>${icon("calendar-days")}Evento</label>
+          <div class="ai-select-wrap">
+            <select id="aiEvent">
+              ${events.length
+                ?events.map(e=>`<option value="${e.id}">${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")
+                :`<option value="">Nenhum evento futuro</option>`}
+            </select>
+            ${icon("chevron-down")}
+          </div>
+        </div>
+
+        <div class="field ai-field">
+          <label>${icon("scale")}Estratégia</label>
+          <div class="ai-select-wrap">
+            <select id="aiRule">
+              <option value="balanced">Equilibrar carga + disponibilidade</option>
+            </select>
+            ${icon("chevron-down")}
+          </div>
+        </div>
+      </div>
+
+      <button id="aiGenerateBtn" class="primary ai-generate-btn" onclick="generateAIPreview()" ${events.length?"":"disabled"}>
+        ${icon("sparkles")}
+        <span>Gerar escala inteligente</span>
+      </button>
+    </div>
+
+    <div id="aiOutput" class="ai-result ai-result-premium">
+      <div class="ai-empty-state">
+        <div class="ai-empty-icon">${icon("wand-sparkles")}</div>
+        <div>
+          <b>Pronta para começar</b>
+          <p>Selecione um evento e gere uma sugestão de escala.</p>
+        </div>
+      </div>
+    </div>
   </article>`;
 }
+
 window.memberScheduleCount = function(userId){
   return V8.schedules.filter(s=>s.user_id===userId&&s.status!=="replaced").length;
 }
@@ -3129,23 +4362,140 @@ window.availabilityScore = function(eventId,userId){
   const st=availabilityFor(eventId,userId);
   return st==="available"?100:st==="unavailable"?-1000:20;
 }
-window.generateAIPreview = function(){
-  const eventId=Number(document.getElementById("aiEvent").value);
-  const event=eventById(eventId);if(!event)return;
+window.generateAIPreview = async function(){
+  const eventSelect=document.getElementById("aiEvent");
+  const output=document.getElementById("aiOutput");
+  const btn=document.getElementById("aiGenerateBtn");
+  const eventId=Number(eventSelect?.value);
+  const event=eventById(eventId);
+
+  if(!event||!output||!btn)return;
+
+  btn.disabled=true;
+  btn.classList.add("is-loading");
+  btn.innerHTML=`${icon("loader-circle")}<span>Analisando dados...</span>`;
+  refreshIcons();
+
+  const steps=[
+    ["users-round","Analisando disponibilidade da equipe",34],
+    ["scale","Equilibrando carga entre os membros",67],
+    ["clipboard-check","Montando a melhor combinação",100]
+  ];
+
+  output.innerHTML=`<div class="ai-loading-card">
+    <div class="ai-loading-head">
+      <div class="ai-thinking-icon">${icon("brain-circuit")}</div>
+      <div><b>A LINE IA está preparando a escala</b><p>Isso leva apenas alguns segundos.</p></div>
+    </div>
+    <div class="ai-loading-step" id="aiLoadingStep">${icon(steps[0][0])}<span>${steps[0][1]}</span></div>
+    <div class="ai-progress"><span id="aiProgressBar" style="width:${steps[0][2]}%"></span></div>
+  </div>`;
+  refreshIcons();
+
+  for(let i=0;i<steps.length;i++){
+    const step=steps[i];
+    const stepEl=document.getElementById("aiLoadingStep");
+    const bar=document.getElementById("aiProgressBar");
+    if(stepEl)stepEl.innerHTML=`${icon(step[0])}<span>${step[1]}</span>`;
+    if(bar)bar.style.width=`${step[2]}%`;
+    refreshIcons();
+    await new Promise(resolve=>setTimeout(resolve,420));
+  }
+
   const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name));
   const preview=[];
+
   operational.forEach(team=>{
-    const ids=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(team.id)).map(mt=>mt.user_id);
-    const candidates=V8.members.filter(m=>ids.includes(m.id)&&m.active&&m.role==="member"&&m.name!=="Michel Macedo");
+    const ids=V8.memberTeams
+      .filter(mt=>Number(mt.team_id)===Number(team.id))
+      .map(mt=>mt.user_id);
+
+    const candidates=V8.members.filter(m=>
+      ids.includes(m.id)&&
+      m.active&&
+      m.role==="member"&&
+      m.name!=="Michel Macedo"
+    );
+
     const ranked=candidates.map(m=>({
       m,
       score:availabilityScore(eventId,m.id)-memberScheduleCount(m.id)*3
-    })).filter(x=>x.score>-900).sort((a,b)=>b.score-a.score);
-    if(ranked[0])preview.push({teamId:team.id,role:team.name,userId:ranked[0].m.id,memberName:ranked[0].m.name,score:ranked[0].score})
+    }))
+    .filter(x=>x.score>-900)
+    .sort((a,b)=>b.score-a.score);
+
+    if(ranked[0]){
+      preview.push({
+        teamId:team.id,
+        role:team.name,
+        userId:ranked[0].m.id,
+        memberName:ranked[0].m.name,
+        score:ranked[0].score
+      });
+    }
   });
+
   V8.aiPreview=preview;
-  document.getElementById("aiOutput").innerHTML=preview.length?`<h4>Sugestão para ${event.name}</h4><div class="ai-preview">${preview.map(a=>`<div class="ai-preview-row"><span>${a.role}</span><b>${a.memberName}</b><span class="status green">Score ${a.score}</span></div>`).join("")}</div><div class="integration-row"><button class="primary" onclick="publishAISchedule(${eventId})">Aprovar e publicar</button></div><div class="integration-note">Ao publicar, cada escalado recebe notificação interna. Depois da confirmação, o app oferece atalhos para e-mail, WhatsApp e Google Agenda.</div>`:`<h4>Nenhum membro elegível encontrado.</h4><p style="font-size:9px;color:var(--muted)">Cadastre membros nas equipes e informe disponibilidade.</p>`;
+
+  if(preview.length){
+    output.innerHTML=`<div class="ai-result-header">
+      <div>
+        <span class="ai-result-kicker">${icon("sparkles")}Sugestão gerada</span>
+        <h4>${event.name}</h4>
+        <p>${formatEventDate(event.event_date)} • ${event.start_time?.slice(0,5)||"Horário não informado"}</p>
+      </div>
+      <span class="status confirmed">${icon("circle-check")}Sem conflitos detectados</span>
+    </div>
+
+    <div class="ai-preview ai-preview-premium">
+      ${preview.map(a=>{
+        const member=memberById(a.userId);
+        return `<div class="ai-preview-row ai-preview-person">
+          <div class="ai-role-icon">${icon(
+            a.role==="Design"?"palette":
+            a.role==="Fotos"?"camera":
+            a.role==="Story"?"smartphone":
+            a.role==="Reels"?"clapperboard":
+            a.role==="Projeção"?"monitor":
+            a.role==="Edição"?"scissors":
+            "send"
+          )}</div>
+          <div class="ai-role-copy">
+            <small>${a.role}</small>
+            <div class="ai-person-line">
+              ${avatarHTML(member,"avatar")}
+              <b>${a.memberName}</b>
+            </div>
+          </div>
+          <span class="ai-score">Score ${a.score}</span>
+        </div>`;
+      }).join("")}
+    </div>
+
+    <div class="ai-quality-grid">
+      <div>${icon("check")}<span><b>Carga equilibrada</b><small>Distribuição baseada no histórico.</small></span></div>
+      <div>${icon("check")}<span><b>Disponibilidade conferida</b><small>Membros indisponíveis foram ignorados.</small></span></div>
+    </div>
+
+    <div class="ai-result-actions">
+      <button class="secondary ai-regenerate-btn" onclick="generateAIPreview()">${icon("refresh-cw")}Gerar novamente</button>
+      <button class="primary ai-apply-btn" onclick="publishAISchedule(${eventId})">${icon("circle-check")}Aplicar esta escala</button>
+    </div>
+
+    <div class="integration-note">Ao aplicar, cada membro escalado receberá uma notificação interna para confirmar ou recusar.</div>`;
+  }else{
+    output.innerHTML=`<div class="ai-empty-state ai-empty-warning">
+      <div class="ai-empty-icon">${icon("user-round-x")}</div>
+      <div><b>Nenhum membro elegível encontrado</b><p>Cadastre membros nas equipes e informe a disponibilidade para este evento.</p></div>
+    </div>`;
+  }
+
+  btn.disabled=false;
+  btn.classList.remove("is-loading");
+  btn.innerHTML=`${icon("sparkles")}<span>Gerar escala inteligente</span>`;
+  refreshIcons();
 }
+
 window.publishAISchedule = async function(eventId){
   if(!V8.aiPreview.length)return;
   const rows=V8.aiPreview.map(a=>({
@@ -3166,7 +4516,7 @@ window.publishAISchedule = async function(eventId){
     if(nres.error)console.warn("Notificação não inserida:",nres.error.message);
   }
   await writeLog(`Publicou escala automática de ${event.name}`,"schedule",event.id,{assignments:rows.length});
-  V8.aiPreview=[];await ensureV8State(true);alert("Escala publicada. Os membros já receberam notificação interna.");await render();
+  V8.aiPreview=[];await ensureV8State(true);alert("Escala aplicada com sucesso. Os membros já receberam a notificação interna.");await render();
 }
 
 window.notificationsPage = async function(){
@@ -3609,40 +4959,19 @@ window.render = async function(){
   }
   app.innerHTML=shell(content);
   refreshIcons();
-  initMobileSwipe();
 
   // Atualiza discretamente em segundo plano, sem travar a navegação.
   refreshV8InBackground();
 }
 
 
-let mobileSwipeStartX=0,mobileSwipeStartY=0;
-function mobileSwipeRoutes(){
-  return isMaster()?["eventos","calendario","dashboard","escalas","equipe"]:["eventos","calendario","dashboard","escalas","notificacoes"];
-}
-function initMobileSwipe(){
-  if(window.innerWidth>760)return;
-  const main=document.querySelector(".main");
-  if(!main||main.dataset.swipeReady==="1")return;
-  main.dataset.swipeReady="1";
-  main.addEventListener("touchstart",e=>{
-    if(e.touches.length!==1)return;
-    if(e.target.closest("input,textarea,select,button,.modal,.table-wrap,.calendar-grid"))return;
-    mobileSwipeStartX=e.touches[0].clientX;
-    mobileSwipeStartY=e.touches[0].clientY;
-  },{passive:true});
-  main.addEventListener("touchend",e=>{
-    if(!e.changedTouches?.length)return;
-    const dx=e.changedTouches[0].clientX-mobileSwipeStartX;
-    const dy=e.changedTouches[0].clientY-mobileSwipeStartY;
-    if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.35)return;
-    const routes=mobileSwipeRoutes();
-    let idx=routes.indexOf(route);
-    if(idx<0)idx=routes.indexOf("dashboard");
-    const next=dx<0?idx+1:idx-1;
-    if(next>=0&&next<routes.length)location.hash=routes[next];
-  },{passive:true});
-}
+/*
+ * V10.6 — Swipe entre abas desativado.
+ * A navegação agora acontece somente pelos botões da homebar/sidebar.
+ * Isso evita que toques no sino, tema, cards e pop-ups sejam interpretados
+ * como gesto horizontal e mudem de página acidentalmente.
+ */
+function initMobileSwipe(){ return; }
 
 addEventListener("hashchange",()=>{
   const newRoute=location.hash.slice(1)||"dashboard";
@@ -3651,7 +4980,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v10.5 mobile spacing theme iniciado");
+ console.info("LINE Interligados v10.9 LINE IA redesign iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -3659,7 +4988,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.5",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=10.9",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
