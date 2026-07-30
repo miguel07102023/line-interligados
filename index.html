@@ -2985,6 +2985,102 @@ html[data-theme="light"] .event-detail-date b{color:#315f7f!important}
   .mobile-nav:has(a[href="#candidaturas"]) a span{display:none!important}
 }
 
+
+/* ==========================================================
+   V11.2 — CORREÇÃO DEFINITIVA DE CLIQUES E MODAIS
+   ========================================================== */
+body.modal-open{
+  overflow:hidden!important;
+}
+
+.modal-bg.active-modal{
+  position:fixed!important;
+  inset:0!important;
+  z-index:99999!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:18px!important;
+  background:rgba(2,8,15,.72)!important;
+  backdrop-filter:blur(10px)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  opacity:0;
+  transition:opacity .12s ease;
+  pointer-events:auto!important;
+}
+
+.modal-bg.active-modal.is-visible{
+  opacity:1;
+}
+
+.modal-bg.active-modal .modal{
+  position:relative!important;
+  z-index:100000!important;
+  width:min(720px,100%)!important;
+  max-height:calc(100dvh - 36px)!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  pointer-events:auto!important;
+  transform:translateY(8px) scale(.99);
+  transition:transform .14s ease;
+}
+
+.modal-bg.active-modal.is-visible .modal{
+  transform:translateY(0) scale(1);
+}
+
+[data-application-open],
+[data-event-open]{
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation!important;
+}
+
+[data-application-open] button,
+[data-event-open] button{
+  pointer-events:auto!important;
+}
+
+.application-actions button,
+.event-table-row button,
+.modal button,
+.modal a{
+  position:relative!important;
+  z-index:2!important;
+  pointer-events:auto!important;
+}
+
+.event-table-row:focus-visible,
+.application-card:focus-visible{
+  outline:2px solid #65b6ed!important;
+  outline-offset:3px!important;
+}
+
+html[data-theme="light"] .modal-bg.active-modal{
+  background:rgba(20,39,55,.48)!important;
+}
+
+@media(max-width:760px){
+  .modal-bg.active-modal{
+    align-items:flex-end!important;
+    padding:10px!important;
+  }
+
+  .modal-bg.active-modal .modal{
+    width:100%!important;
+    max-height:92dvh!important;
+    border-radius:25px 25px 18px 18px!important;
+    padding:18px!important;
+  }
+
+  .application-card,
+  .event-table-row,
+  [data-application-open],
+  [data-event-open]{
+    min-height:44px;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3662,7 +3758,7 @@ function dashboard(){
 }
 function setAvailability(btn,yes){btn.parentElement.querySelectorAll(".avail-btn").forEach(x=>x.className="avail-btn");btn.classList.add(yes?"active-yes":"active-no")}
 function eventsPage(){
- const rows=db.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${e.time}</td><td>${e.place}</td><td><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></td><td><button class="action-btn" onclick="event.stopPropagation();openEventDetail(${e.id})">Abrir</button></td></tr>`).join("");
+ const rows=db.events.map(e=>`<tr><td><b>${e.name}</b></td><td>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${e.time}</td><td>${e.place}</td><td><span class="status ${e.status.includes("confirmada")?"green":e.status.includes("aberta")?"yellow":"gray"}">${e.status}</span></td><td><button class="action-btn" type="button" data-event-open="${e.id}">Abrir</button></td></tr>`).join("");
  return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Programações cadastradas no LINE.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div><article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>${rows}</tbody></table></div></article>`
 }
 
@@ -3753,7 +3849,7 @@ async function openRealProfileModal(userId=null){
       </div>`:""}
       ${canAdmin?`<div class="field full"><label>Cargo de liderança</label><input id="rpLeadership" value="${u.leadership_role||""}" placeholder="Ex.: Líder Geral do Departamento"></div>`:""}
     </div>
-    <div class="modal-actions">${canAdmin&&!own?`<button class="danger-btn" onclick="deleteMemberProfile('${u.id}','${String(u.name||"Membro").replace(/'/g,"&#39;")}')">${icon("trash-2")} Apagar membro</button>`:""}<button class="secondary" onclick="closeModal()">Fechar</button>${own||canAdmin?`<button class="primary" onclick="saveRealProfile('${u.id}')">Salvar alterações</button>`:""}</div>
+    <div class="modal-actions">${canAdmin&&!own?`<button class="danger-btn" onclick="deleteMemberProfile('${u.id}','${String(u.name||"Membro").replace(/'/g,"&#39;")}')">${icon("trash-2")} Excluir conta</button>`:""}<button class="secondary" onclick="closeModal()">Fechar</button>${own||canAdmin?`<button class="primary" onclick="saveRealProfile('${u.id}')">Salvar alterações</button>`:""}</div>
   </div></div>`);
   refreshIcons();
 }
@@ -3771,13 +3867,41 @@ function enforceTeamLimit(changed){
 
 
 window.deleteMemberProfile=async function(userId,userName){
-  if(!isMaster())return;
-  if(userId===currentUser.id)return alert("Você não pode apagar o próprio perfil por esta tela.");
-  if(!confirm(`Apagar ${userName} do LINE?`))return;
-  if(prompt("Digite EXCLUIR para confirmar:")!=="EXCLUIR")return;
-  const {error}=await supabaseClient.rpc("master_delete_member_profile",{p_user_id:userId});
-  if(error){console.error(error);alert("Não foi possível apagar o membro. Rode o patch SQL v9.9.");return}
-  closeModal();await ensureV8State(true);await render();
+  if(!isMaster()){
+    alert("Apenas um Master pode excluir contas.");
+    return;
+  }
+  if(String(userId)===String(currentUser.id)){
+    alert("Você não pode apagar a própria conta por esta tela.");
+    return;
+  }
+  if(!confirm(`Excluir definitivamente a conta de ${userName}?`))return;
+  if(prompt(`Digite EXCLUIR ${userName} para confirmar:`)!==`EXCLUIR ${userName}`){
+    alert("Confirmação cancelada.");
+    return;
+  }
+
+  try{
+    let result=await supabaseClient.rpc("master_delete_member_account",{p_user_id:userId});
+
+    if(result.error){
+      console.warn("RPC v11.2 falhou, tentando RPC anterior.",result.error);
+      result=await supabaseClient.rpc("master_delete_member_profile",{p_user_id:userId});
+    }
+
+    if(result.error)throw result.error;
+
+    closeModal();
+    await ensureV8State(true);
+    alert(`A conta de ${userName} foi excluída com sucesso.`);
+    await render();
+  }catch(error){
+    console.error("Erro ao excluir conta:",error);
+    alert(
+      "Não foi possível excluir a conta. Rode o arquivo setup_v11_2_delete_account.sql no Supabase e tente novamente.\n\n"+
+      (error?.message||"Erro desconhecido.")
+    );
+  }
 };
 
 function previewSelectedAvatar(input){
@@ -3951,7 +4075,49 @@ function openMemberModal(){if(!isMaster())return;document.body.insertAdjacentHTM
 function createMember(){const name=$("#mName").value.trim(),email=$("#mEmail").value.trim().toLowerCase(),area=$("#mArea").value,role=$("#mRole").value,pass=$("#mPass").value;if(!name||!email||!pass)return alert("Preencha os campos obrigatórios.");if(db.users.some(x=>x.email.toLowerCase()===email))return alert("E-mail já cadastrado.");db.users.push({id:Date.now(),name,email,password:pass,role,area,functions:[area],status:"Ativo",participation:0,schedules:0});save();closeModal();render()}
 function openEventModal(){if(!isMaster())return;document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg"><div class="modal"><h3>Novo evento</h3><div class="form-grid"><div class="field full"><label>Nome</label><input id="eName"></div><div class="field"><label>Data</label><input id="eDate" type="date"></div><div class="field"><label>Horário</label><input id="eTime" type="time"></div><div class="field full"><label>Local</label><input id="ePlace"></div><div class="field full"><label>Status</label><select id="eStatus"><option>Planejamento</option><option>Escala aberta</option><option>Escala confirmada</option></select></div></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createEvent()">Criar evento</button></div></div></div>`) }
 function createEvent(){const name=$("#eName").value.trim(),date=$("#eDate").value,time=$("#eTime").value,place=$("#ePlace").value.trim(),status=$("#eStatus").value;if(!name||!date||!time||!place)return alert("Preencha todos os campos.");const colors=["purple","blue","yellow"];db.events.push({id:Date.now(),name,date,time,place,status,color:colors[db.events.length%3]});save();closeModal();render()}
-function closeModal(){document.querySelector(".modal-bg")?.remove()}
+
+window.openModal=function(content,options={}){
+  document.querySelectorAll(".modal-bg").forEach(el=>el.remove());
+
+  const backdrop=document.createElement("div");
+  backdrop.className="modal-bg active-modal";
+  backdrop.setAttribute("role","presentation");
+
+  const modal=document.createElement("div");
+  modal.className=`modal ${options.className||""}`.trim();
+  modal.setAttribute("role","dialog");
+  modal.setAttribute("aria-modal","true");
+
+  modal.innerHTML=content;
+  backdrop.appendChild(modal);
+
+  backdrop.addEventListener("click",event=>{
+    if(event.target===backdrop)closeModal();
+  });
+
+  modal.addEventListener("click",event=>event.stopPropagation());
+
+  document.body.appendChild(backdrop);
+  document.body.classList.add("modal-open");
+
+  requestAnimationFrame(()=>{
+    backdrop.classList.add("is-visible");
+    const focusable=modal.querySelector("button,input,select,textarea,a[href]");
+    focusable?.focus({preventScroll:true});
+  });
+
+  refreshIcons();
+  return modal;
+};
+
+window.closeModal=function(){
+  const backdrop=document.querySelector(".modal-bg");
+  if(!backdrop)return;
+  backdrop.classList.remove("is-visible");
+  document.body.classList.remove("modal-open");
+  setTimeout(()=>backdrop.remove(),120);
+};
+
 async function render(){
  if(currentUser)syncCurrentUser();
  const app=document.getElementById("app");
@@ -4408,7 +4574,7 @@ window.dashboard = async function(){
 window.eventsPage = async function(){
   return `<div class="page-toolbar"><div class="page-title"><h2>Todos os eventos</h2><p>Eventos reais salvos no Supabase.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}</div>
   <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Evento</th><th>Data</th><th>Hora</th><th>Local</th><th>Status</th><th>Ação</th></tr></thead><tbody>
-  ${V8.events.map(e=>`<tr class="event-table-row clickable" onclick="openEventDetail(${e.id})"><td><b>${e.name}</b></td><td>${formatEventDate(e.event_date)}</td><td>${e.start_time?.slice(0,5)||""}</td><td>${e.location||"—"}</td><td><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></td><td><button class="action-btn" onclick="event.stopPropagation();openEventDetail(${e.id})">Abrir</button></td></tr>`).join("")||`<tr><td colspan="6">Nenhum evento cadastrado.</td></tr>`}
+  ${V8.events.map(e=>`<tr class="event-table-row clickable" data-event-open="${e.id}" role="button" tabindex="0"><td><b>${e.name}</b></td><td>${formatEventDate(e.event_date)}</td><td>${e.start_time?.slice(0,5)||""}</td><td>${e.location||"—"}</td><td><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></td><td><button class="action-btn" type="button" data-event-open="${e.id}">Abrir</button></td></tr>`).join("")||`<tr><td colspan="6">Nenhum evento cadastrado.</td></tr>`}
   </tbody></table></div></article>`;
 }
 window.openEventModal = function(eventId=null){
@@ -4479,7 +4645,7 @@ window.openEventDetail = async function(id){
     <div class="modal-actions">
       <button class="secondary" onclick="closeModal()">Fechar</button>
       ${isMaster()?`<button class="secondary" onclick="closeModal();setTimeout(()=>openEventModal(${e.id}),50)">${icon("pencil")}Editar</button>
-      <button class="danger-btn" onclick="deleteEvent(${e.id})">${icon("trash-2")}Apagar evento</button>`:""}
+      <button class="danger-btn" type="button" data-event-delete="${e.id}">${icon("trash-2")}Apagar evento</button>`:""}
     </div>
   </div>`);
   refreshIcons();
@@ -4516,13 +4682,13 @@ window.calendarPage = async function(){
     else day=i-start+1;
     const d=new Date(cy,cm,day),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     const evs=V8.events.filter(e=>e.event_date===iso);
-    cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" onclick="openEventDetail(${e.id})">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
+    cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" data-event-open="${e.id}">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
   }
   const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
   const thisMonth=V8.events.filter(e=>{const d=new Date(e.event_date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
   return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Eventos reais do Supabase nas datas corretas.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
   <section class="calendar-shell"><article class="panel calendar-panel"><div class="calendar-header"><h3 style="text-transform:capitalize">${month}</h3><div class="cal-nav"><button onclick="moveMonth(-1)">${icon("chevron-left")}</button><button onclick="goToday()">Hoje</button><button onclick="moveMonth(1)">${icon("chevron-right")}</button></div></div><div class="weekdays">${["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(x=>`<div>${x}</div>`).join("")}</div><div class="calendar-grid">${cells.join("")}</div></article>
-  <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event clickable" onclick="openEventDetail(${e.id})"><b>${e.name}</b><p>${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""}</p><p>${e.location||"—"}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`;
+  <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event clickable" data-event-open="${e.id}"><b>${e.name}</b><p>${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""}</p><p>${e.location||"—"}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`;
 }
 
 window.schedulesPage = async function(){
@@ -5159,19 +5325,28 @@ window.loadApplications=async function(){
 };
 
 window.deleteApplication=async function(id,table="applications"){
-  if(!isMaster())return;
-  const item=lineApplications.find(a=>String(a.id)===String(id));
-  const name=item?.name||item?.nome||"esta candidatura";
-  if(!confirm(`Apagar definitivamente a candidatura de ${name}?`))return;
-
-  const {error}=await supabaseClient.from(table).delete().eq("id",id);
-  if(error){
-    alert("Não foi possível apagar a candidatura: "+error.message);
+  if(!isMaster()){
+    alert("Apenas Masters podem apagar candidaturas.");
     return;
   }
-  lineApplications=lineApplications.filter(a=>String(a.id)!==String(id));
-  alert("Candidatura apagada com sucesso.");
-  await render();
+
+  const item=lineApplications.find(a=>String(a.id)===String(id));
+  const name=item?.name||item?.nome||"esta pessoa";
+
+  if(!confirm(`Apagar definitivamente a candidatura de ${name}?`))return;
+
+  try{
+    const {error}=await supabaseClient.from(table).delete().eq("id",id);
+    if(error)throw error;
+
+    closeModal();
+    lineApplications=lineApplications.filter(a=>String(a.id)!==String(id));
+    alert("Candidatura apagada com sucesso.");
+    await render();
+  }catch(error){
+    console.error("Erro ao apagar candidatura:",error);
+    alert("Não foi possível apagar a candidatura: "+(error?.message||error));
+  }
 };
 
 window.openApplicationDetail=function(id){
@@ -5223,7 +5398,7 @@ window.openApplicationDetail=function(id){
 
     <div class="modal-actions application-modal-actions">
       <button class="secondary" onclick="closeModal()">Fechar</button>
-      <button class="danger-btn" onclick="deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}Apagar candidatura</button>
+      <button class="danger-btn" type="button" data-application-delete="${a.id}" data-application-table="${a.__table||"applications"}">${icon("trash-2")}Apagar candidatura</button>
     </div>
   </div>`);
   refreshIcons();
@@ -5247,7 +5422,7 @@ window.applicationsPage=async function(){
       const contact=a.contact||a.contato||a.phone||a.telefone||"Contato não informado";
       const areas=a.areas||a.area||a.interests||a.areas_interesse||"Área não informada";
       const created=a.created_at?new Date(a.created_at).toLocaleDateString("pt-BR"):"";
-      return `<article class="application-card" onclick="openApplicationDetail('${a.id}')">
+      return `<article class="application-card" data-application-open="${a.id}" role="button" tabindex="0">
         <div class="application-card-head">
           <div class="application-avatar">${initials(name)}</div>
           <div class="application-main">
@@ -5258,8 +5433,8 @@ window.applicationsPage=async function(){
         </div>
         <div class="application-area">${icon("layers-3")}<span>${Array.isArray(areas)?areas.join(", "):areas}</span></div>
         <div class="application-actions">
-          <button class="secondary" onclick="event.stopPropagation();openApplicationDetail('${a.id}')">${icon("eye")}Ver candidatura</button>
-          <button class="danger-icon" title="Apagar candidatura" onclick="event.stopPropagation();deleteApplication('${a.id}','${a.__table||"applications"}')">${icon("trash-2")}</button>
+          <button class="secondary" type="button" data-application-open="${a.id}">${icon("eye")}Ver candidatura</button>
+          <button class="danger-icon" type="button" title="Apagar candidatura" data-application-delete="${a.id}" data-application-table="${a.__table||"applications"}">${icon("trash-2")}</button>
         </div>
       </article>`;
     }).join(""):`<div class="panel applications-empty">
@@ -5270,6 +5445,56 @@ window.applicationsPage=async function(){
   </section>`;
 };
 
+
+
+if(!window.__lineDelegatedClicksInstalled){
+  window.__lineDelegatedClicksInstalled=true;
+
+  document.addEventListener("click",event=>{
+    const applicationDelete=event.target.closest("[data-application-delete]");
+    if(applicationDelete){
+      event.preventDefault();
+      event.stopPropagation();
+      deleteApplication(
+        applicationDelete.dataset.applicationDelete,
+        applicationDelete.dataset.applicationTable||"applications"
+      );
+      return;
+    }
+
+    const applicationOpen=event.target.closest("[data-application-open]");
+    if(applicationOpen){
+      event.preventDefault();
+      event.stopPropagation();
+      openApplicationDetail(applicationOpen.dataset.applicationOpen);
+      return;
+    }
+
+    const eventDelete=event.target.closest("[data-event-delete]");
+    if(eventDelete){
+      event.preventDefault();
+      event.stopPropagation();
+      deleteEvent(Number(eventDelete.dataset.eventDelete));
+      return;
+    }
+
+    const eventOpen=event.target.closest("[data-event-open]");
+    if(eventOpen){
+      event.preventDefault();
+      event.stopPropagation();
+      openEventDetail(Number(eventOpen.dataset.eventOpen));
+      return;
+    }
+  },true);
+
+  document.addEventListener("keydown",event=>{
+    if(!["Enter"," "].includes(event.key))return;
+    const actionable=event.target.closest("[data-application-open],[data-event-open]");
+    if(!actionable)return;
+    event.preventDefault();
+    actionable.click();
+  });
+}
 
 window.page = async function(){
   if(route==="equipe")return await teamHubPage();
@@ -5361,7 +5586,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.1 candidaturas eventos calendario iniciado");
+ console.info("LINE Interligados v11.2 clicks delete fix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -5369,7 +5594,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.1",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.2",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.

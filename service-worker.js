@@ -1,4 +1,4 @@
-const CACHE_NAME = "line-interligados-v11.1";
+const CACHE_NAME = "line-interligados-v11.2";
 const STATIC_ASSETS = [
   "./manifest.json",
   "./icon-192.png",
