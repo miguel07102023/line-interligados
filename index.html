@@ -3218,6 +3218,100 @@ html[data-theme="light"] .signup-team-check:hover{
   }
 }
 
+
+/* ==========================================================
+   V11.7 — RECUPERAÇÃO DE SENHA
+   ========================================================== */
+.forgot-password-btn{
+  display:block;
+  margin:-3px 0 12px auto;
+  border:0;
+  background:transparent;
+  color:#88bce6;
+  font-size:9px;
+  font-weight:800;
+  padding:3px 0;
+}
+.forgot-password-btn:hover{
+  color:#b9dcf7;
+  text-decoration:underline;
+}
+
+.password-recovery-intro{
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  margin-bottom:16px;
+  padding:12px;
+  border:1px solid rgba(91,163,219,.15);
+  border-radius:14px;
+  background:rgba(23,69,108,.08);
+}
+.password-recovery-intro b{
+  display:block;
+  margin-bottom:4px;
+  font-size:10px;
+}
+.password-recovery-intro p{
+  margin:0;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.55;
+}
+.password-recovery-icon{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#1f5f9b,#0f3158);
+  color:#fff;
+}
+.password-recovery-icon svg{
+  width:17px;
+  height:17px;
+}
+
+.auth-back-link{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+}
+.auth-back-link:hover{
+  color:var(--text);
+}
+.auth-back-link svg{
+  width:14px;
+  height:14px;
+}
+
+html[data-theme="light"] .forgot-password-btn{
+  color:#315f7f!important;
+}
+html[data-theme="light"] .password-recovery-intro{
+  background:#f3f8fc!important;
+  border-color:#d8e6ef!important;
+}
+
+@media(max-width:760px){
+  .forgot-password-btn{
+    font-size:9px!important;
+    margin-bottom:14px!important;
+  }
+  .password-recovery-intro{
+    padding:13px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3574,6 +3668,13 @@ async function initializeApp(){
    if(error)console.error("Erro ao recuperar sessão:",error);
 
    if(session?.user){
+     authUser=session.user;
+
+     if(location.hash==="#reset-password"){
+       showNewPasswordScreen();
+       return;
+     }
+
      showAppLoading("Carregando seu perfil...");
      await withTimeout(loadCurrentUser(session.user),7000);
    }else{
@@ -3594,6 +3695,12 @@ async function initializeApp(){
 supabaseClient.auth.onAuthStateChange((event,session)=>{
  setTimeout(async()=>{
    try{
+     if(event==="PASSWORD_RECOVERY"){
+       authUser=session?.user||null;
+       showNewPasswordScreen();
+       return;
+     }
+
      if(event==="SIGNED_OUT"){
        authUser=null;
        currentUser=null;
@@ -3602,6 +3709,13 @@ supabaseClient.auth.onAuthStateChange((event,session)=>{
      }
 
      if((event==="SIGNED_IN"||event==="TOKEN_REFRESHED"||event==="INITIAL_SESSION") && session?.user){
+       // Se o usuário voltou pelo link de recuperação, prioriza a tela de nova senha.
+       if(location.hash==="#reset-password"){
+         authUser=session.user;
+         showNewPasswordScreen();
+         return;
+       }
+
        await loadCurrentUser(session.user);
        render();
      }
@@ -3729,8 +3843,222 @@ function closeAuthSheet(){
 function loginForm(){return `<form onsubmit="login(event)">
   <div class="field"><label>E-mail</label><input id="loginEmail" type="email" autocomplete="email" required></div>
   <div class="field"><label>Senha</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha do Supabase" required></div>
+
+  <button type="button" class="forgot-password-btn" onclick="openPasswordRecovery()">
+    Esqueci minha senha
+  </button>
+
   <button id="loginButton" class="auth-submit">Entrar</button>
 </form>`}
+
+function passwordRecoveryForm(){
+  const previousEmail=document.getElementById("loginEmail")?.value?.trim()||"";
+  return `<form onsubmit="sendPasswordRecovery(event)">
+    <div class="password-recovery-intro">
+      <div class="password-recovery-icon">${icon("key-round")}</div>
+      <div>
+        <b>Recuperar acesso</b>
+        <p>Informe o e-mail usado na sua conta da LINE. Vamos enviar um link para você criar uma nova senha.</p>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>E-mail da conta</label>
+      <input id="recoveryEmail" type="email" autocomplete="email" value="${previousEmail}" required>
+    </div>
+
+    <button id="recoveryButton" class="auth-submit">Enviar link de recuperação</button>
+
+    <button type="button" class="auth-back-link" onclick="backToLoginFromRecovery()">
+      ${icon("arrow-left")} Voltar para o login
+    </button>
+  </form>`;
+}
+
+function newPasswordForm(){
+  return `<form onsubmit="saveNewPassword(event)">
+    <div class="password-recovery-intro">
+      <div class="password-recovery-icon">${icon("shield-check")}</div>
+      <div>
+        <b>Crie sua nova senha</b>
+        <p>Escolha uma senha nova para voltar a acessar sua conta da LINE.</p>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Nova senha</label>
+      <input id="newPassword" type="password" minlength="6" autocomplete="new-password" required>
+    </div>
+
+    <div class="field">
+      <label>Confirmar nova senha</label>
+      <input id="confirmNewPassword" type="password" minlength="6" autocomplete="new-password" required>
+    </div>
+
+    <button id="newPasswordButton" class="auth-submit">Salvar nova senha</button>
+  </form>`;
+}
+
+window.openPasswordRecovery=function(){
+  const sheet=document.getElementById("authSheet");
+  const title=document.getElementById("authSheetTitle");
+  const eyebrow=document.getElementById("authSheetEyebrow");
+  const form=document.getElementById("authForm");
+  if(!sheet||!form)return;
+
+  sheet.classList.add("open");
+  document.body.classList.add("auth-sheet-open");
+
+  form.innerHTML=passwordRecoveryForm();
+  if(title)title.textContent="Recuperar senha";
+  if(eyebrow)eyebrow.textContent="SEGURANÇA";
+
+  setAuthMessage("","error");
+  setTimeout(()=>document.getElementById("recoveryEmail")?.focus(),80);
+  refreshIcons();
+};
+
+window.backToLoginFromRecovery=function(){
+  const form=document.getElementById("authForm");
+  const title=document.getElementById("authSheetTitle");
+  const eyebrow=document.getElementById("authSheetEyebrow");
+  if(!form)return;
+
+  form.innerHTML=loginForm();
+  if(title)title.textContent="Entrar na LINE";
+  if(eyebrow)eyebrow.textContent="ACESSO";
+  setAuthMessage("","error");
+  refreshIcons();
+};
+
+window.sendPasswordRecovery=async function(event){
+  event.preventDefault();
+
+  const email=document.getElementById("recoveryEmail")?.value?.trim().toLowerCase();
+  const button=document.getElementById("recoveryButton");
+  if(!email)return;
+
+  if(button){
+    button.disabled=true;
+    button.textContent="Enviando...";
+  }
+
+  setAuthMessage("","error");
+
+  try{
+    const redirectTo=`${window.location.origin}${window.location.pathname}#reset-password`;
+
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
+      redirectTo
+    });
+
+    if(error)throw error;
+
+    setAuthMessage(
+      "Link enviado! Confira seu e-mail e abra o link de recuperação para criar uma nova senha.",
+      "success"
+    );
+
+    if(button)button.textContent="Link enviado";
+  }catch(error){
+    console.error("Erro ao enviar recuperação:",error);
+
+    let message="Não foi possível enviar o link de recuperação.";
+    const raw=(error?.message||"").toLowerCase();
+
+    if(raw.includes("rate")||raw.includes("limit")){
+      message="Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente.";
+    }else if(raw.includes("email")){
+      message="Confira se o e-mail informado está correto.";
+    }
+
+    setAuthMessage(message,"error");
+
+    if(button){
+      button.disabled=false;
+      button.textContent="Enviar link de recuperação";
+    }
+  }
+};
+
+window.showNewPasswordScreen=function(){
+  // Usuário chegou pelo link de recuperação do Supabase.
+  currentUser=null;
+
+  document.getElementById("app").innerHTML=authPage();
+  refreshIcons();
+
+  const sheet=document.getElementById("authSheet");
+  const title=document.getElementById("authSheetTitle");
+  const eyebrow=document.getElementById("authSheetEyebrow");
+  const form=document.getElementById("authForm");
+
+  if(!sheet||!form)return;
+
+  sheet.classList.add("open","password-reset-open");
+  document.body.classList.add("auth-sheet-open");
+
+  form.innerHTML=newPasswordForm();
+  if(title)title.textContent="Nova senha";
+  if(eyebrow)eyebrow.textContent="RECUPERAÇÃO";
+
+  setAuthMessage("Link validado. Agora escolha sua nova senha.","success");
+  setTimeout(()=>document.getElementById("newPassword")?.focus(),100);
+  refreshIcons();
+};
+
+window.saveNewPassword=async function(event){
+  event.preventDefault();
+
+  const password=document.getElementById("newPassword")?.value||"";
+  const confirmPassword=document.getElementById("confirmNewPassword")?.value||"";
+  const button=document.getElementById("newPasswordButton");
+
+  if(password.length<6){
+    setAuthMessage("A nova senha precisa ter pelo menos 6 caracteres.","error");
+    return;
+  }
+
+  if(password!==confirmPassword){
+    setAuthMessage("As senhas não são iguais.","error");
+    return;
+  }
+
+  if(button){
+    button.disabled=true;
+    button.textContent="Salvando...";
+  }
+
+  try{
+    const {error}=await supabaseClient.auth.updateUser({password});
+    if(error)throw error;
+
+    setAuthMessage("Senha alterada com sucesso! Entrando na sua conta...","success");
+
+    // Evita permanecer preso na rota especial de reset.
+    history.replaceState(null,"",window.location.pathname+"#dashboard");
+
+    const {data:{session}}=await supabaseClient.auth.getSession();
+    if(session?.user){
+      await loadCurrentUser(session.user);
+    }
+
+    route="dashboard";
+    setTimeout(()=>render(),700);
+  }catch(error){
+    console.error("Erro ao salvar nova senha:",error);
+    setAuthMessage(
+      "Não foi possível alterar a senha. O link pode ter expirado; solicite um novo.",
+      "error"
+    );
+
+    if(button){
+      button.disabled=false;
+      button.textContent="Salvar nova senha";
+    }
+  }
+};
+
 function registerForm(){return `<form onsubmit="register(event)">
   <div class="field"><label>Nome completo</label><input id="regName" required></div>
   <div class="field"><label>E-mail</label><input id="regEmail" type="email" required></div>
@@ -4054,7 +4382,25 @@ function calendarPage(){
 }
 function moveMonth(n){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+n,1);render()}
 function goToday(){calendarCursor=new Date(2026,6,1);render()}
-function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Atualize sua senha de acesso</small></div><button class="action-btn">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article></div>`}
+function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article></div>`}
+
+window.sendLoggedUserPasswordReset=async function(){
+  const email=currentUser?.email;
+  if(!email)return;
+
+  if(!confirm(`Enviar um link para redefinir a senha de ${email}?`))return;
+
+  try{
+    const redirectTo=`${window.location.origin}${window.location.pathname}#reset-password`;
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error)throw error;
+    alert("Link de recuperação enviado para o seu e-mail.");
+  }catch(error){
+    console.error(error);
+    alert("Não foi possível enviar o link agora. Tente novamente em alguns minutos.");
+  }
+};
+
 function generic(title,copy){return `<article class="panel" style="min-height:320px;display:grid;place-items:center;text-align:center"><div><div style="color:#8fb8dc;margin-bottom:10px">${icon("sparkles")}</div><h3 style="font-size:15px;margin-bottom:7px">${title}</h3><p style="font-size:10px;color:var(--muted)">${copy}</p></div></article>`}
 function notificationsPage(){const items=userNotifications();return `<div class="page-toolbar"><div class="page-title"><h2>Minhas notificações</h2><p>Clique para abrir; ela será marcada como lida automaticamente.</p></div></div><article class="panel">${items.length?items.map(n=>`<div class="notification-item ${n.read?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.icon)}</div><div><b>${n.title}</b><p>${n.text}</p></div>${n.read?`<span class="notification-time">${n.time}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</article>`}
 async function page(){
@@ -5988,7 +6334,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.6 member teams signup fix iniciado");
+ console.info("LINE Interligados v11.7 password recovery iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -5996,7 +6342,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.6",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.7",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
