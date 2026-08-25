@@ -3312,6 +3312,143 @@ html[data-theme="light"] .password-recovery-intro{
   }
 }
 
+
+/* ==========================================================
+   V11.8 — DISPONIBILIDADE DA EQUIPE + IA
+   ========================================================== */
+.availability-management{margin-bottom:14px}
+.availability-management-panel{padding:18px!important}
+.availability-management-head p{font-size:8px;color:var(--muted);margin-top:5px}
+.availability-filter-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:10px;
+  margin-bottom:12px;
+}
+.availability-filter-field{margin-bottom:0!important}
+.availability-filter-field label{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+}
+.availability-filter-field label svg{width:14px;height:14px}
+
+.availability-kpis{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-bottom:12px;
+}
+.availability-kpi{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  background:#091522;
+}
+.availability-kpi>span{
+  width:38px;height:38px;min-width:38px;border-radius:12px;
+  display:grid;place-items:center
+}
+.availability-kpi>span svg{width:17px;height:17px}
+.availability-kpi small{display:block;font-size:7px;color:var(--muted);margin-bottom:3px}
+.availability-kpi b{font-size:19px}
+.availability-kpi.available>span{background:rgba(34,197,94,.12);color:#57d888}
+.availability-kpi.unavailable>span{background:rgba(239,68,68,.11);color:#fb8585}
+.availability-kpi.pending>span{background:rgba(245,158,11,.11);color:#f6c35f}
+
+.availability-roster-body{
+  border-top:1px solid var(--border);
+  padding-top:4px;
+}
+.availability-roster-list{display:flex;flex-direction:column}
+.availability-person-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:11px 4px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+.availability-person-main{
+  display:flex;align-items:center;gap:10px;min-width:0
+}
+.availability-person-main .avatar{
+  width:36px!important;height:36px!important;min-width:36px!important;font-size:9px!important
+}
+.availability-person-main>div{min-width:0}
+.availability-person-main b{
+  display:block;font-size:9.5px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.availability-person-main small{
+  display:block;font-size:7px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.availability-status-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 9px;border-radius:999px;
+  font-size:7px;font-weight:900;white-space:nowrap
+}
+.availability-status-pill svg{width:13px;height:13px}
+.availability-status-pill.available{background:rgba(34,197,94,.12);color:#58d989;border:1px solid rgba(34,197,94,.16)}
+.availability-status-pill.unavailable{background:rgba(239,68,68,.11);color:#fb8b8b;border:1px solid rgba(239,68,68,.15)}
+.availability-status-pill.pending{background:rgba(245,158,11,.10);color:#f5c56a;border:1px solid rgba(245,158,11,.14)}
+.availability-roster-empty{
+  min-height:90px;display:flex;align-items:center;justify-content:center;gap:8px;
+  color:var(--muted);font-size:8px;text-align:center
+}
+
+.ai-unfilled-warning{
+  display:flex;align-items:flex-start;gap:9px;
+  padding:12px 17px;
+  border-left:1px solid rgba(245,158,11,.18);
+  border-right:1px solid rgba(245,158,11,.18);
+  background:rgba(151,91,10,.08);
+}
+.ai-unfilled-warning>svg{width:16px;height:16px;flex:none;color:#f5b84f}
+.ai-unfilled-warning b{display:block;font-size:8px;margin-bottom:3px}
+.ai-unfilled-warning p{font-size:7px;color:var(--muted);line-height:1.4}
+
+html[data-theme="light"] .availability-kpi{
+  background:#f7fafc!important;border-color:#dce6ef!important
+}
+html[data-theme="light"] .availability-person-row{
+  border-color:#e2e9ef!important
+}
+html[data-theme="light"] .availability-status-pill.available{background:#edf8f2!important;color:#2c7649!important;border-color:#cfe8d8!important}
+html[data-theme="light"] .availability-status-pill.unavailable{background:#fff0f0!important;color:#a23e3e!important;border-color:#efd0d0!important}
+html[data-theme="light"] .availability-status-pill.pending{background:#fff7e8!important;color:#8a641f!important;border-color:#efdeb8!important}
+html[data-theme="light"] .ai-unfilled-warning{background:#fff8e9!important;border-color:#efdcae!important}
+
+@media(max-width:760px){
+  .availability-management{margin-bottom:12px}
+  .availability-management-panel{padding:15px!important;border-radius:23px!important}
+  .availability-filter-grid{grid-template-columns:1fr!important;gap:10px!important}
+  .availability-kpis{grid-template-columns:repeat(3,1fr)!important;gap:7px!important}
+  .availability-kpi{
+    min-height:86px!important;
+    padding:10px!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:7px!important
+  }
+  .availability-kpi>span{width:32px;height:32px;min-width:32px;border-radius:10px}
+  .availability-kpi b{font-size:18px}
+  .availability-person-row{padding:12px 1px!important;align-items:center!important}
+  .availability-person-main{gap:9px!important}
+  .availability-person-main .avatar{width:38px!important;height:38px!important;min-width:38px!important}
+  .availability-person-main b{font-size:9px!important}
+  .availability-person-main small{font-size:6.5px!important;max-width:165px}
+  .availability-status-pill{font-size:6.5px!important;padding:7px 8px!important}
+}
+@media(max-width:390px){
+  .availability-kpis{grid-template-columns:1fr 1fr!important}
+  .availability-kpi.pending{grid-column:1/-1}
+  .availability-person-main small{max-width:130px}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -4843,7 +4980,16 @@ window.loadV8State = async function(){
     safeQuery(supabaseClient.from("profiles").select("id,name,email,phone,photo_url,role,leadership_role,active,created_at").order("name"),"profiles"),
     safeQuery(supabaseClient.from("member_teams").select("user_id,team_id"),"member_teams"),
     safeQuery(isMaster()
-      ? supabaseClient.from("availability").select("*")
+      ? (async()=>{
+          const direct=await supabaseClient.from("availability").select("*");
+          if(!direct.error && Array.isArray(direct.data) && direct.data.length>0)return direct;
+
+          const rpc=await supabaseClient.rpc("master_get_availability");
+          if(!rpc.error)return {data:rpc.data||[],error:null};
+
+          if(!direct.error)return direct;
+          return rpc;
+        })()
       : supabaseClient.from("availability").select("*").eq("user_id",currentUser.id),"availability"),
     safeQuery(isMaster()
       ? (async()=>{
@@ -4883,7 +5029,9 @@ window.loadV8State = async function(){
 
 
 let LINE_SCHEDULES_CHANNEL=null;
+let LINE_AVAILABILITY_CHANNEL=null;
 let LINE_SCHEDULES_REFRESH_TIMER=null;
+let LINE_AVAILABILITY_REFRESH_TIMER=null;
 
 window.initSchedulesRealtime=function(){
   if(!currentUser || LINE_SCHEDULES_CHANNEL)return;
@@ -4917,11 +5065,48 @@ window.initSchedulesRealtime=function(){
     });
 };
 
+
+window.initAvailabilityRealtime=function(){
+  if(!currentUser || LINE_AVAILABILITY_CHANNEL)return;
+
+  LINE_AVAILABILITY_CHANNEL=supabaseClient
+    .channel("line-availability-live")
+    .on(
+      "postgres_changes",
+      {event:"*",schema:"public",table:"availability"},
+      ()=>{
+        clearTimeout(LINE_AVAILABILITY_REFRESH_TIMER);
+        LINE_AVAILABILITY_REFRESH_TIMER=setTimeout(async()=>{
+          try{
+            await ensureV8State(true);
+            if(["dashboard","escalas","eventos"].includes(route)){
+              await render();
+            }
+          }catch(error){
+            console.warn("Falha na atualização ao vivo da disponibilidade:",error);
+          }
+        },180);
+      }
+    )
+    .subscribe(status=>{
+      if(status==="CHANNEL_ERROR"){
+        console.warn("Realtime de disponibilidade indisponível. O botão Atualizar continua funcionando.");
+      }
+    });
+};
+
 window.stopSchedulesRealtime=async function(){
   clearTimeout(LINE_SCHEDULES_REFRESH_TIMER);
+  clearTimeout(LINE_AVAILABILITY_REFRESH_TIMER);
+
   if(LINE_SCHEDULES_CHANNEL){
     try{await supabaseClient.removeChannel(LINE_SCHEDULES_CHANNEL)}catch(error){}
     LINE_SCHEDULES_CHANNEL=null;
+  }
+
+  if(LINE_AVAILABILITY_CHANNEL){
+    try{await supabaseClient.removeChannel(LINE_AVAILABILITY_CHANNEL)}catch(error){}
+    LINE_AVAILABILITY_CHANNEL=null;
   }
 };
 
@@ -5388,6 +5573,119 @@ window.calendarPage = async function(){
   <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event clickable" data-event-open="${e.id}"><b>${e.name}</b><p>${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""}</p><p>${e.location||"—"}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`;
 }
 
+
+window.availabilityStatusMeta=function(status){
+  if(status==="available")return {label:"Disponível",icon:"circle-check",className:"available"};
+  if(status==="unavailable")return {label:"Indisponível",icon:"circle-x",className:"unavailable"};
+  return {label:"Não respondeu",icon:"clock-3",className:"pending"};
+};
+
+window.teamNamesForMember=function(userId){
+  return (V8.memberTeams||[])
+    .filter(mt=>String(mt.user_id)===String(userId))
+    .map(mt=>V8.teams.find(t=>Number(t.id)===Number(mt.team_id))?.name)
+    .filter(Boolean);
+};
+
+window.renderAvailabilityRoster=function(eventId,teamFilter="all"){
+  const members=(V8.members||[])
+    .filter(m=>m.active && m.role==="member" && m.name!=="Michel Macedo")
+    .map(m=>{
+      const teams=teamNamesForMember(m.id);
+      const status=availabilityFor(eventId,m.id);
+      return {member:m,teams,status};
+    })
+    .filter(item=>teamFilter==="all" || item.teams.includes(teamFilter))
+    .sort((a,b)=>{
+      const rank={available:0,pending:1,unavailable:2};
+      const d=(rank[a.status]??1)-(rank[b.status]??1);
+      return d || String(a.member.name||"").localeCompare(String(b.member.name||""),"pt-BR");
+    });
+
+  if(!members.length){
+    return `<div class="availability-roster-empty">${icon("users")}Nenhum membro encontrado para este filtro.</div>`;
+  }
+
+  return `<div class="availability-roster-list">
+    ${members.map(({member,teams,status})=>{
+      const meta=availabilityStatusMeta(status);
+      return `<div class="availability-person-row availability-${meta.className}">
+        <div class="availability-person-main">
+          ${avatarHTML({...member,photo:member.photo_url||""},"avatar")}
+          <div>
+            <b>${member.name||"Membro"}</b>
+            <small>${teams.length?teams.join(" • "):"Sem equipe definida"}</small>
+          </div>
+        </div>
+        <span class="availability-status-pill ${meta.className}">
+          ${icon(meta.icon)}${meta.label}
+        </span>
+      </div>`;
+    }).join("")}
+  </div>`;
+};
+
+window.refreshAvailabilityPanel=function(){
+  const eventId=Number(document.getElementById("availabilityEvent")?.value);
+  const team=document.getElementById("availabilityTeam")?.value||"all";
+  const panel=document.getElementById("availabilityRosterBody");
+  if(!panel||!eventId)return;
+
+  const all=(V8.members||[]).filter(m=>m.active&&m.role==="member"&&m.name!=="Michel Macedo")
+    .filter(m=>team==="all"||teamNamesForMember(m.id).includes(team));
+
+  const counts={
+    available:all.filter(m=>availabilityFor(eventId,m.id)==="available").length,
+    unavailable:all.filter(m=>availabilityFor(eventId,m.id)==="unavailable").length,
+    pending:all.filter(m=>availabilityFor(eventId,m.id)==="pending").length
+  };
+
+  const availableEl=document.getElementById("availabilityCountAvailable");
+  const unavailableEl=document.getElementById("availabilityCountUnavailable");
+  const pendingEl=document.getElementById("availabilityCountPending");
+  if(availableEl)availableEl.textContent=counts.available;
+  if(unavailableEl)unavailableEl.textContent=counts.unavailable;
+  if(pendingEl)pendingEl.textContent=counts.pending;
+
+  panel.innerHTML=renderAvailabilityRoster(eventId,team);
+
+  // Mantém a IA no mesmo evento escolhido pela liderança.
+  const aiEvent=document.getElementById("aiEvent");
+  if(aiEvent)aiEvent.value=String(eventId);
+
+  refreshIcons();
+};
+
+window.setAvailabilityEvent=function(value){
+  const aiEvent=document.getElementById("aiEvent");
+  if(aiEvent)aiEvent.value=value;
+  refreshAvailabilityPanel();
+};
+
+window.setAIEvent=function(value){
+  const availabilityEvent=document.getElementById("availabilityEvent");
+  if(availabilityEvent){
+    availabilityEvent.value=value;
+    refreshAvailabilityPanel();
+  }
+};
+
+window.refreshAllScheduleData=async function(){
+  const btn=document.querySelector(".schedule-refresh-btn");
+  if(btn){
+    btn.disabled=true;
+    btn.innerHTML=`${icon("loader-circle")} Atualizando...`;
+    refreshIcons();
+  }
+  try{
+    await ensureV8State(true);
+    await render();
+  }catch(error){
+    console.error(error);
+    alert("Não foi possível atualizar os dados agora.");
+  }
+};
+
 window.schedulesPage = async function(){
   if(!isMaster()){
     const own=V8.schedules.filter(s=>s.user_id===currentUser.id);
@@ -5395,14 +5693,72 @@ window.schedulesPage = async function(){
   }
 
   const events=futureEvents();
+  const firstEvent=events[0];
+  const operationalTeams=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name));
+
+  const baseMembers=(V8.members||[]).filter(m=>m.active&&m.role==="member"&&m.name!=="Michel Macedo");
+  const initialCounts=firstEvent?{
+    available:baseMembers.filter(m=>availabilityFor(firstEvent.id,m.id)==="available").length,
+    unavailable:baseMembers.filter(m=>availabilityFor(firstEvent.id,m.id)==="unavailable").length,
+    pending:baseMembers.filter(m=>availabilityFor(firstEvent.id,m.id)==="pending").length
+  }:{available:0,unavailable:0,pending:0};
 
   return `<div class="page-toolbar">
     <div class="page-title">
       <h2>Escalas inteligentes</h2>
-      <p>A LINE IA cruza equipe, disponibilidade e carga antes da publicação.</p>
+      <p>Veja a disponibilidade real da equipe e monte a escala com a LINE IA.</p>
     </div>
-    <button class="ghost-btn schedule-refresh-btn" onclick="refreshSchedulesNow()">${icon("refresh-cw")} Atualizar respostas</button>
+    <button class="ghost-btn schedule-refresh-btn" onclick="refreshAllScheduleData()">${icon("refresh-cw")} Atualizar respostas</button>
   </div>
+
+  <section class="availability-management">
+    <article class="panel availability-management-panel">
+      <div class="panel-head availability-management-head">
+        <div>
+          <div class="panel-title">${icon("users-round")}Disponibilidade da equipe</div>
+          <p>Confira quem pode servir antes de gerar a escala.</p>
+        </div>
+      </div>
+
+      <div class="availability-filter-grid">
+        <div class="field availability-filter-field">
+          <label>${icon("calendar-days")}Evento</label>
+          <select id="availabilityEvent" onchange="setAvailabilityEvent(this.value)">
+            ${events.length
+              ?events.map((e,i)=>`<option value="${e.id}" ${i===0?"selected":""}>${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")
+              :`<option value="">Nenhum evento futuro</option>`}
+          </select>
+        </div>
+
+        <div class="field availability-filter-field">
+          <label>${icon("layers-3")}Equipe</label>
+          <select id="availabilityTeam" onchange="refreshAvailabilityPanel()">
+            <option value="all">Todas as equipes</option>
+            ${operationalTeams.map(t=>`<option value="${t.name}">${t.name}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
+      <div class="availability-kpis">
+        <div class="availability-kpi available">
+          <span>${icon("circle-check")}</span>
+          <div><small>Disponíveis</small><b id="availabilityCountAvailable">${initialCounts.available}</b></div>
+        </div>
+        <div class="availability-kpi unavailable">
+          <span>${icon("circle-x")}</span>
+          <div><small>Indisponíveis</small><b id="availabilityCountUnavailable">${initialCounts.unavailable}</b></div>
+        </div>
+        <div class="availability-kpi pending">
+          <span>${icon("clock-3")}</span>
+          <div><small>Não responderam</small><b id="availabilityCountPending">${initialCounts.pending}</b></div>
+        </div>
+      </div>
+
+      <div id="availabilityRosterBody" class="availability-roster-body">
+        ${firstEvent?renderAvailabilityRoster(firstEvent.id,"all"):`<div class="availability-roster-empty">Nenhum evento disponível.</div>`}
+      </div>
+    </article>
+  </section>
 
   <article class="panel ai-panel ai-panel-premium">
     <div class="ai-hero ai-hero-premium">
@@ -5410,7 +5766,7 @@ window.schedulesPage = async function(){
       <div class="ai-hero-copy">
         <span class="ai-eyebrow">ASSISTENTE INTELIGENTE</span>
         <h3>LINE IA</h3>
-        <p>Monte uma sugestão equilibrada, revise os nomes e publique quando estiver tudo certo.</p>
+        <p>A IA usa somente membros que marcaram <b>Disponível</b> para o evento escolhido.</p>
       </div>
       <div class="ai-status-pill"><span></span>Pronta para analisar</div>
     </div>
@@ -5420,9 +5776,9 @@ window.schedulesPage = async function(){
         <div class="field ai-field">
           <label>${icon("calendar-days")}Evento</label>
           <div class="ai-select-wrap">
-            <select id="aiEvent">
+            <select id="aiEvent" onchange="setAIEvent(this.value)">
               ${events.length
-                ?events.map(e=>`<option value="${e.id}">${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")
+                ?events.map((e,i)=>`<option value="${e.id}" ${i===0?"selected":""}>${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")
                 :`<option value="">Nenhum evento futuro</option>`}
             </select>
             ${icon("chevron-down")}
@@ -5430,10 +5786,10 @@ window.schedulesPage = async function(){
         </div>
 
         <div class="field ai-field">
-          <label>${icon("scale")}Estratégia</label>
+          <label>${icon("shield-check")}Regra de disponibilidade</label>
           <div class="ai-select-wrap">
             <select id="aiRule">
-              <option value="balanced">Equilibrar carga + disponibilidade</option>
+              <option value="available_only">Somente quem marcou Disponível</option>
             </select>
             ${icon("chevron-down")}
           </div>
@@ -5442,7 +5798,7 @@ window.schedulesPage = async function(){
 
       <button id="aiGenerateBtn" class="primary ai-generate-btn" onclick="generateAIPreview()" ${events.length?"":"disabled"}>
         ${icon("sparkles")}
-        <span>Gerar escala inteligente</span>
+        <span>Gerar escala com os disponíveis</span>
       </button>
     </div>
 
@@ -5451,32 +5807,21 @@ window.schedulesPage = async function(){
         <div class="ai-empty-icon">${icon("wand-sparkles")}</div>
         <div>
           <b>Pronta para começar</b>
-          <p>Selecione um evento e gere uma sugestão de escala.</p>
+          <p>Revise a disponibilidade acima e gere a sugestão da escala.</p>
         </div>
       </div>
     </div>
   </article>`;
 }
 
-
-window.refreshSchedulesNow=async function(){
-  const btn=document.querySelector(".schedule-refresh-btn");
-  if(btn){btn.disabled=true;btn.innerHTML=`${icon("loader-circle")} Atualizando...`;refreshIcons()}
-  try{
-    await ensureV8State(true);
-    await render();
-  }catch(error){
-    console.error(error);
-    alert("Não foi possível atualizar as respostas agora.");
-  }
-};
+window.refreshSchedulesNow=async function(){return refreshAllScheduleData();};
 
 window.memberScheduleCount = function(userId){
   return V8.schedules.filter(s=>s.user_id===userId&&s.status!=="replaced").length;
 }
 window.availabilityScore = function(eventId,userId){
   const st=availabilityFor(eventId,userId);
-  return st==="available"?100:st==="unavailable"?-1000:20;
+  return st==="available"?100:-1000;
 }
 window.generateAIPreview = async function(){
   const eventSelect=document.getElementById("aiEvent");
@@ -5520,6 +5865,7 @@ window.generateAIPreview = async function(){
 
   const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name));
   const preview=[];
+  const unfilled=[];
 
   operational.forEach(team=>{
     const ids=V8.memberTeams
@@ -5530,7 +5876,8 @@ window.generateAIPreview = async function(){
       ids.includes(m.id)&&
       m.active&&
       m.role==="member"&&
-      m.name!=="Michel Macedo"
+      m.name!=="Michel Macedo"&&
+      availabilityFor(eventId,m.id)==="available"
     );
 
     const ranked=candidates.map(m=>({
@@ -5548,6 +5895,8 @@ window.generateAIPreview = async function(){
         memberName:ranked[0].m.name,
         score:ranked[0].score
       });
+    }else{
+      unfilled.push(team.name);
     }
   });
 
@@ -5590,8 +5939,13 @@ window.generateAIPreview = async function(){
 
     <div class="ai-quality-grid">
       <div>${icon("check")}<span><b>Carga equilibrada</b><small>Distribuição baseada no histórico.</small></span></div>
-      <div>${icon("check")}<span><b>Disponibilidade conferida</b><small>Membros indisponíveis foram ignorados.</small></span></div>
+      <div>${icon("check")}<span><b>Disponibilidade conferida</b><small>Somente quem marcou Disponível entrou na análise.</small></span></div>
     </div>
+
+    ${unfilled.length?`<div class="ai-unfilled-warning">
+      ${icon("triangle-alert")}
+      <div><b>Funções sem pessoa disponível</b><p>${unfilled.join(", ")}</p></div>
+    </div>`:""}
 
     <div class="ai-result-actions">
       <button class="secondary ai-regenerate-btn" onclick="generateAIPreview()">${icon("refresh-cw")}Gerar novamente</button>
@@ -5602,7 +5956,7 @@ window.generateAIPreview = async function(){
   }else{
     output.innerHTML=`<div class="ai-empty-state ai-empty-warning">
       <div class="ai-empty-icon">${icon("user-round-x")}</div>
-      <div><b>Nenhum membro elegível encontrado</b><p>Cadastre membros nas equipes e informe a disponibilidade para este evento.</p></div>
+      <div><b>Ninguém disponível para gerar a escala</b><p>É necessário que os membros marquem Disponível para este evento antes de entrarem na sugestão da IA.</p></div>
     </div>`;
   }
 
@@ -6313,6 +6667,7 @@ window.render = async function(){
   app.innerHTML=shell(content);
   refreshIcons();
   initSchedulesRealtime();
+  initAvailabilityRealtime();
 
   // Atualiza discretamente em segundo plano, sem travar a navegação.
   refreshV8InBackground();
@@ -6334,7 +6689,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.7 password recovery iniciado");
+ console.info("LINE Interligados v11.8 availability ai iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -6342,7 +6697,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.7",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.8",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
