@@ -3467,6 +3467,216 @@ html[data-theme="light"] .ai-draw-badge{
   color:#245b81!important;
 }
 
+
+/* ==========================================================
+   LINE v12 — BOARDS
+   Kanban estilo Trello + calendário + tabela + timeline + dashboard
+   ========================================================== */
+.line-board-shell{margin-top:12px}
+.board-toolbar-v12{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;margin-bottom:12px
+}
+.board-view-tabs,.board-filter-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.board-view-tabs button,.board-filter-row button{
+  border:1px solid var(--border);background:#091522;color:var(--muted);
+  border-radius:10px;padding:8px 10px;font-size:8px;font-weight:800;display:flex;align-items:center;gap:6px
+}
+.board-view-tabs button.active{background:#12304a;color:#eaf6ff;border-color:#295f89}
+.board-view-tabs svg,.board-filter-row svg{width:13px;height:13px}
+.board-search-v12{
+  min-width:210px;height:36px;border-radius:10px!important;padding:0 11px!important;font-size:8px!important
+}
+.board-filter-select{
+  min-width:130px;height:36px!important;padding:0 28px 0 9px!important;border-radius:10px!important;font-size:8px!important
+}
+
+.kanban-board-v12{
+  display:flex;align-items:flex-start;gap:12px;overflow-x:auto;padding:3px 2px 18px;
+  scroll-snap-type:x proximity
+}
+.kanban-col-v12{
+  flex:0 0 286px;min-width:286px;background:#0a1622;border:1px solid var(--border);
+  border-radius:16px;padding:10px;scroll-snap-align:start;box-shadow:0 9px 24px rgba(0,0,0,.12)
+}
+.kanban-col-v12.drag-over{border-color:#4fa3e1;box-shadow:0 0 0 2px rgba(79,163,225,.12)}
+.kanban-col-head-v12{
+  display:flex;align-items:center;justify-content:space-between;padding:2px 3px 9px;
+  color:var(--text);font-size:9px;font-weight:900;text-transform:uppercase
+}
+.kanban-count-v12{
+  min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#102235;
+  display:grid;place-items:center;color:#a8c5dc;font-size:7px
+}
+.kanban-card-list-v12{display:flex;flex-direction:column;gap:8px;min-height:12px}
+.task-card-v12{
+  background:#0d1c2b;border:1px solid rgba(84,139,183,.16);border-radius:12px;overflow:hidden;
+  cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.13);transition:.14s ease
+}
+.task-card-v12:hover{transform:translateY(-1px);border-color:rgba(79,163,225,.38)}
+.task-card-v12.dragging{opacity:.45;transform:rotate(1deg)}
+.task-cover-v12{height:88px;background-size:cover;background-position:center}
+.task-cover-color-v12{height:8px}
+.task-card-body-v12{padding:10px}
+.task-labels-v12{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.task-label-v12{height:7px;min-width:34px;border-radius:999px}
+.task-card-v12 h4{font-size:9px;line-height:1.35;margin:0 0 7px;color:var(--text)}
+.task-card-meta-v12{display:flex;align-items:center;justify-content:space-between;gap:7px;color:var(--muted)}
+.task-meta-left-v12{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.task-mini-meta{display:flex;align-items:center;gap:3px;font-size:6.5px}
+.task-mini-meta svg{width:11px;height:11px}
+.task-due-overdue{color:#ff7878!important;font-weight:800}
+.task-assignee-stack{display:flex;justify-content:flex-end}
+.task-assignee-stack .avatar{width:25px!important;height:25px!important;min-width:25px!important;margin-left:-6px;border:2px solid #0d1c2b;font-size:6px!important}
+.task-add-v12{
+  width:100%;margin-top:8px;border:0;background:transparent;color:#80a8c5;text-align:left;
+  border-radius:9px;padding:8px 7px;font-size:8px;font-weight:800
+}
+.task-add-v12:hover{background:#102235;color:#eaf6ff}
+
+.board-empty-v12{font-size:7.5px;color:var(--muted);padding:9px 5px}
+.board-archive-btn{margin-left:auto}
+
+.task-modal-v12{max-width:920px!important;width:min(920px,94vw)!important}
+.task-modal-grid-v12{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(230px,.7fr);gap:17px}
+.task-detail-section{margin:0 0 16px}
+.task-detail-section h4{font-size:9px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.task-detail-section h4 svg{width:14px;height:14px}
+.task-sidebar-v12{display:flex;flex-direction:column;gap:8px}
+.task-side-button{
+  width:100%;display:flex;align-items:center;gap:7px;border:1px solid var(--border);
+  background:#0c1a28;color:var(--text);border-radius:10px;padding:9px;font-size:8px;font-weight:800;text-align:left
+}
+.task-side-button svg{width:13px;height:13px}
+.task-description-box{
+  min-height:70px;background:#091522;border:1px solid var(--border);border-radius:11px;padding:10px;
+  font-size:8px;line-height:1.55;color:#c6d7e5;white-space:pre-wrap
+}
+.task-description-box.clickable:hover{border-color:#3f7ba8}
+
+.task-members-v12{display:flex;gap:6px;flex-wrap:wrap}
+.task-member-pill{
+  display:flex;align-items:center;gap:6px;background:#0c1a28;border:1px solid var(--border);
+  padding:5px 8px 5px 5px;border-radius:999px;font-size:7px
+}
+.task-member-pill .avatar{width:25px!important;height:25px!important;min-width:25px!important;font-size:6px!important}
+
+.checklist-head-v12{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.checklist-progress-track{height:7px;background:#0a1622;border-radius:999px;overflow:hidden;margin:8px 0}
+.checklist-progress-track span{height:100%;display:block;background:#39a56c;border-radius:999px}
+.check-item-v12{display:flex;align-items:flex-start;gap:8px;padding:7px 3px}
+.check-item-v12 input{width:15px!important;height:15px!important;min-height:0!important;margin-top:1px}
+.check-item-v12.done span{text-decoration:line-through;color:var(--muted)}
+.check-item-v12 span{font-size:8px;line-height:1.4;flex:1}
+.check-item-delete{border:0;background:transparent;color:#7991a5;padding:1px}
+.check-item-delete svg{width:12px;height:12px}
+
+.comment-list-v12{display:flex;flex-direction:column;gap:9px}
+.comment-v12{display:flex;gap:8px}
+.comment-v12 .avatar{width:29px!important;height:29px!important;min-width:29px!important;font-size:6px!important}
+.comment-bubble-v12{background:#0c1a28;border:1px solid var(--border);border-radius:11px;padding:8px 9px;flex:1}
+.comment-bubble-v12 b{font-size:7.5px}
+.comment-bubble-v12 small{font-size:6px;color:var(--muted);margin-left:5px}
+.comment-bubble-v12 p{font-size:8px;line-height:1.45;margin:5px 0 0;white-space:pre-wrap}
+.comment-form-v12{display:flex;gap:7px;margin-top:9px}
+.comment-form-v12 textarea{min-height:55px!important;flex:1}
+.mention-help{font-size:6.5px;color:var(--muted);margin-top:4px}
+
+.attachment-grid-v12{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.attachment-item-v12{
+  border:1px solid var(--border);background:#0b1825;border-radius:11px;padding:8px;display:flex;align-items:center;gap:8px
+}
+.attachment-item-v12 img{width:48px;height:42px;object-fit:cover;border-radius:7px}
+.attachment-item-v12 .attachment-icon{width:38px;height:38px;border-radius:8px;background:#112942;display:grid;place-items:center}
+.attachment-item-v12 .attachment-icon svg{width:15px;height:15px}
+.attachment-item-v12 div{min-width:0}
+.attachment-item-v12 b{font-size:7px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attachment-item-v12 a{font-size:6.5px;color:#80bce7}
+
+.activity-list-v12{display:flex;flex-direction:column;gap:7px}
+.activity-v12{font-size:7px;color:var(--muted);display:flex;gap:6px;line-height:1.4}
+.activity-v12 b{color:var(--text)}
+
+.label-picker-v12{display:flex;flex-direction:column;gap:6px}
+.label-option-v12{display:flex;align-items:center;gap:7px}
+.label-color-v12{width:32px;height:24px;border-radius:6px}
+.label-option-v12 span{font-size:8px;flex:1}
+
+.board-table-v12{width:100%;border-collapse:separate;border-spacing:0 6px}
+.board-table-v12 th{font-size:7px;color:var(--muted);text-align:left;padding:0 8px 4px}
+.board-table-v12 td{background:#0b1825;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px 8px;font-size:7.5px}
+.board-table-v12 td:first-child{border-left:1px solid var(--border);border-radius:10px 0 0 10px}
+.board-table-v12 td:last-child{border-right:1px solid var(--border);border-radius:0 10px 10px 0}
+
+.board-calendar-v12{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.board-calendar-day{min-height:115px;background:#0a1622;border:1px solid var(--border);border-radius:12px;padding:7px}
+.board-calendar-day>strong{font-size:7px;color:var(--muted)}
+.board-calendar-task{margin-top:5px;background:#10253a;border-radius:6px;padding:5px;font-size:6.5px;cursor:pointer}
+.board-calendar-empty{opacity:.35}
+
+.timeline-v12{display:flex;flex-direction:column;gap:8px}
+.timeline-row-v12{display:grid;grid-template-columns:160px 1fr;gap:10px;align-items:center}
+.timeline-name-v12{font-size:7.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timeline-track-v12{height:32px;background:#0a1622;border:1px solid var(--border);border-radius:9px;position:relative;overflow:hidden}
+.timeline-bar-v12{position:absolute;top:6px;height:18px;min-width:12px;border-radius:6px;background:#245f8e;color:white;font-size:6px;padding:3px 5px;white-space:nowrap;overflow:hidden}
+
+.board-dashboard-v12{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.board-dashboard-card{background:#0a1622;border:1px solid var(--border);border-radius:14px;padding:13px}
+.board-dashboard-card small{display:block;font-size:7px;color:var(--muted);margin-bottom:5px}
+.board-dashboard-card b{font-size:20px}
+.board-dashboard-span{grid-column:span 2}
+.board-status-bars{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.board-status-row{display:grid;grid-template-columns:90px 1fr 25px;gap:7px;align-items:center;font-size:7px}
+.board-status-bar{height:7px;background:#07111b;border-radius:99px;overflow:hidden}
+.board-status-bar span{display:block;height:100%;background:#2b78ae}
+
+.archive-list-v12{display:flex;flex-direction:column;gap:7px}
+.archive-item-v12{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--border);background:#0b1825;border-radius:10px;padding:9px}
+.archive-item-v12 b{font-size:8px}.archive-item-v12 small{font-size:6.5px;color:var(--muted)}
+
+html[data-theme="light"] .board-view-tabs button,
+html[data-theme="light"] .board-filter-row button,
+html[data-theme="light"] .kanban-col-v12,
+html[data-theme="light"] .task-card-v12,
+html[data-theme="light"] .task-description-box,
+html[data-theme="light"] .task-side-button,
+html[data-theme="light"] .task-member-pill,
+html[data-theme="light"] .comment-bubble-v12,
+html[data-theme="light"] .attachment-item-v12,
+html[data-theme="light"] .board-calendar-day,
+html[data-theme="light"] .timeline-track-v12,
+html[data-theme="light"] .board-dashboard-card,
+html[data-theme="light"] .archive-item-v12{
+  background:#f7fafc!important;color:#0b1520!important;border-color:#dce7ef!important
+}
+html[data-theme="light"] .task-card-v12 h4,
+html[data-theme="light"] .comment-bubble-v12 b,
+html[data-theme="light"] .activity-v12 b{color:#0b1520!important}
+html[data-theme="light"] .task-description-box{color:#243c50!important}
+html[data-theme="light"] .board-table-v12 td{background:#f7fafc!important;color:#0b1520!important;border-color:#dce7ef!important}
+html[data-theme="light"] .task-assignee-stack .avatar{border-color:#f7fafc!important}
+
+@media(max-width:760px){
+  .board-toolbar-v12{align-items:stretch!important}
+  .board-view-tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .board-view-tabs button{white-space:nowrap;min-height:38px}
+  .board-filter-row{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .board-search-v12{grid-column:1/-1;width:100%;min-width:0}
+  .kanban-board-v12{margin-left:-3px;margin-right:-3px;scroll-snap-type:x mandatory}
+  .kanban-col-v12{flex-basis:86vw;min-width:86vw;max-width:360px}
+  .task-modal-v12{width:95vw!important;max-height:88vh!important;overflow:auto}
+  .task-modal-grid-v12{grid-template-columns:1fr!important}
+  .task-sidebar-v12{display:grid;grid-template-columns:1fr 1fr}
+  .attachment-grid-v12{grid-template-columns:1fr}
+  .board-table-wrap-v12{overflow-x:auto}
+  .board-table-v12{min-width:720px}
+  .board-calendar-v12{grid-template-columns:repeat(7,120px);overflow-x:auto}
+  .timeline-row-v12{grid-template-columns:110px 420px}
+  .timeline-v12{overflow-x:auto}
+  .board-dashboard-v12{grid-template-columns:1fr 1fr}
+  .board-dashboard-span{grid-column:1/-1}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -6858,7 +7068,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.9 ai reroll fix iniciado");
+ console.info("LINE Interligados v12 Boards iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -6866,7 +7076,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.9",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.0",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -6885,6 +7095,628 @@ if("serviceWorker" in navigator && location.protocol!=="file:"){
     }
   });
 }
+
+
+
+/* ==========================================================
+   LINE v12 — BOARDS
+   ========================================================== */
+window.LINE_BOARD_VIEW = window.LINE_BOARD_VIEW || {};
+window.LINE_BOARD_FILTERS = window.LINE_BOARD_FILTERS || {};
+window.LINE_BOARD_DATA_CACHE = new Map();
+
+window.BOARD_COLORS = ["#3b82f6","#22c55e","#f59e0b","#ef4444","#a855f7","#ec4899","#14b8a6","#64748b"];
+window.BOARD_STATUS_COLORS = {
+  ideas:"#64748b",todo:"#3b82f6",production:"#f59e0b",review:"#a855f7",publishing:"#14b8a6",done:"#22c55e"
+};
+
+window.escapeHTML=function(value){
+  return String(value??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+};
+
+window.boardViewFor=function(teamId){return LINE_BOARD_VIEW[teamId]||"board"};
+window.setBoardView=async function(teamId,view){
+  LINE_BOARD_VIEW[teamId]=view;
+  await render();
+};
+window.boardFiltersFor=function(teamId){
+  if(!LINE_BOARD_FILTERS[teamId])LINE_BOARD_FILTERS[teamId]={q:"",member:"all",label:"all"};
+  return LINE_BOARD_FILTERS[teamId];
+};
+window.setBoardFilter=function(teamId,key,value){
+  boardFiltersFor(teamId)[key]=value;
+  render();
+};
+
+window.loadBoardBundle=async function(teamId,force=false){
+  const id=Number(teamId);
+  const cached=LINE_BOARD_DATA_CACHE.get(id);
+  if(!force && cached && Date.now()-cached.at<5000)return cached.data;
+
+  const tasks=await fetchTeamTasks(id,force);
+  const ids=tasks.map(t=>Number(t.id));
+  let labels=[],taskLabels=[],assignees=[],checklists=[],comments=[],attachments=[],activity=[],templates=[];
+
+  const safe=async(q)=>{
+    try{const r=await q;if(r.error){console.warn(r.error.message);return []}return r.data||[]}
+    catch(e){console.warn(e);return []}
+  };
+
+  labels=await safe(supabaseClient.from("board_labels").select("*").eq("team_id",id).order("name"));
+  templates=await safe(supabaseClient.from("task_templates").select("*").eq("team_id",id).eq("active",true).order("name"));
+
+  if(ids.length){
+    taskLabels=await safe(supabaseClient.from("task_label_links").select("*").in("task_id",ids));
+    assignees=await safe(supabaseClient.from("task_assignees").select("*").in("task_id",ids));
+    checklists=await safe(supabaseClient.from("task_checklist_items").select("*").in("task_id",ids).order("position"));
+    comments=await safe(supabaseClient.from("task_comments").select("*").in("task_id",ids).order("created_at"));
+    attachments=await safe(supabaseClient.from("task_attachments").select("*").in("task_id",ids).order("created_at"));
+    activity=await safe(supabaseClient.from("task_activity").select("*").in("task_id",ids).order("created_at",{ascending:false}));
+  }
+
+  const data={tasks,labels,taskLabels,assignees,checklists,comments,attachments,activity,templates};
+  LINE_BOARD_DATA_CACHE.set(id,{at:Date.now(),data});
+  return data;
+};
+
+window.invalidateBoard=function(teamId){
+  TEAM_TASK_CACHE.delete(Number(teamId));
+  LINE_BOARD_DATA_CACHE.delete(Number(teamId));
+};
+
+window.taskAssigneesV12=function(taskId,bundle){
+  const ids=(bundle.assignees||[]).filter(a=>Number(a.task_id)===Number(taskId)).map(a=>String(a.user_id));
+  return ids.map(id=>memberById(id)).filter(Boolean);
+};
+window.taskLabelsV12=function(taskId,bundle){
+  const ids=(bundle.taskLabels||[]).filter(x=>Number(x.task_id)===Number(taskId)).map(x=>Number(x.label_id));
+  return (bundle.labels||[]).filter(l=>ids.includes(Number(l.id)));
+};
+window.taskChecklistV12=function(taskId,bundle){
+  return (bundle.checklists||[]).filter(x=>Number(x.task_id)===Number(taskId));
+};
+window.taskCommentsV12=function(taskId,bundle){
+  return (bundle.comments||[]).filter(x=>Number(x.task_id)===Number(taskId));
+};
+window.taskAttachmentsV12=function(taskId,bundle){
+  return (bundle.attachments||[]).filter(x=>Number(x.task_id)===Number(taskId));
+};
+window.taskActivityV12=function(taskId,bundle){
+  return (bundle.activity||[]).filter(x=>Number(x.task_id)===Number(taskId));
+};
+
+window.filteredBoardTasks=function(teamId,bundle){
+  const f=boardFiltersFor(teamId);
+  const q=(f.q||"").trim().toLowerCase();
+  return (bundle.tasks||[]).filter(t=>{
+    if(t.archived_at)return false;
+    const ass=taskAssigneesV12(t.id,bundle);
+    const labs=taskLabelsV12(t.id,bundle);
+    if(q && !`${t.title||""} ${t.description||""}`.toLowerCase().includes(q))return false;
+    if(f.member!=="all" && !ass.some(m=>String(m.id)===String(f.member)))return false;
+    if(f.label!=="all" && !labs.some(l=>String(l.id)===String(f.label)))return false;
+    return true;
+  });
+};
+
+window.renderTaskCard=function(t,bundle=null){
+  bundle=bundle||{assignees:[],labels:[],taskLabels:[],checklists:[],comments:[],attachments:[]};
+  const assignees=taskAssigneesV12(t.id,bundle);
+  const labels=taskLabelsV12(t.id,bundle);
+  const checks=taskChecklistV12(t.id,bundle);
+  const comments=taskCommentsV12(t.id,bundle);
+  const attachments=taskAttachmentsV12(t.id,bundle);
+  const completed=checks.filter(c=>c.completed).length;
+  const due=t.due_at?new Date(t.due_at):null;
+  const overdue=due && due<new Date() && t.status!=="done";
+  const cover=t.cover_url?`<div class="task-cover-v12" style="background-image:url('${escapeHTML(t.cover_url)}')"></div>`:
+    t.cover_color?`<div class="task-cover-color-v12" style="background:${escapeHTML(t.cover_color)}"></div>`:"";
+
+  return `<article class="task-card-v12"
+    draggable="true"
+    data-task-id="${t.id}"
+    onclick="openTaskDetail(${t.id})"
+    ondragstart="boardDragStart(event,${t.id})"
+    ondragend="boardDragEnd(event)">
+    ${cover}
+    <div class="task-card-body-v12">
+      ${labels.length?`<div class="task-labels-v12">${labels.map(l=>`<span class="task-label-v12" title="${escapeHTML(l.name)}" style="background:${escapeHTML(l.color)}"></span>`).join("")}</div>`:""}
+      <h4>${escapeHTML(t.title)}</h4>
+      <div class="task-card-meta-v12">
+        <div class="task-meta-left-v12">
+          ${due?`<span class="task-mini-meta ${overdue?"task-due-overdue":""}">${icon("clock-3")}${due.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"})}</span>`:""}
+          ${checks.length?`<span class="task-mini-meta">${icon("list-checks")}${completed}/${checks.length}</span>`:""}
+          ${comments.length?`<span class="task-mini-meta">${icon("message-circle")}${comments.length}</span>`:""}
+          ${attachments.length?`<span class="task-mini-meta">${icon("paperclip")}${attachments.length}</span>`:""}
+        </div>
+        <div class="task-assignee-stack">
+          ${assignees.slice(0,4).map(m=>avatarHTML(m,"avatar")).join("")}
+        </div>
+      </div>
+    </div>
+  </article>`;
+};
+
+window.boardDragStart=function(event,taskId){
+  event.dataTransfer.setData("text/plain",String(taskId));
+  event.dataTransfer.effectAllowed="move";
+  event.currentTarget.classList.add("dragging");
+};
+window.boardDragEnd=function(event){
+  event.currentTarget.classList.remove("dragging");
+  document.querySelectorAll(".kanban-col-v12").forEach(x=>x.classList.remove("drag-over"));
+};
+window.boardDragOver=function(event){event.preventDefault();event.currentTarget.classList.add("drag-over")};
+window.boardDragLeave=function(event){event.currentTarget.classList.remove("drag-over")};
+window.boardDrop=async function(event,teamId,status){
+  event.preventDefault();event.currentTarget.classList.remove("drag-over");
+  const taskId=Number(event.dataTransfer.getData("text/plain"));
+  if(!taskId)return;
+  const {error}=await supabaseClient.rpc("move_task_card",{p_task_id:taskId,p_status:status,p_position:Date.now()});
+  if(error){console.error(error);alert("Não foi possível mover este card.");return}
+  invalidateBoard(teamId);
+  await render();
+};
+
+window.boardViewTabsHTML=function(teamId){
+  const view=boardViewFor(teamId);
+  const options=[
+    ["board","columns-3","Quadro"],["calendar-days","calendar-days","Calendário"],
+    ["table","table-2","Tabela"],["timeline","gantt-chart","Timeline"],["dashboard","layout-dashboard","Dashboard"]
+  ];
+  return `<div class="board-view-tabs">${options.map(([v,ic,label])=>`<button class="${view===v?"active":""}" onclick="setBoardView(${teamId},'${v}')">${icon(ic)}${label}</button>`).join("")}</div>`;
+};
+
+window.boardFiltersHTML=function(teamId,bundle){
+  const f=boardFiltersFor(teamId);
+  const members=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(teamId)).map(mt=>memberById(mt.user_id)).filter(Boolean);
+  return `<div class="board-filter-row">
+    <input class="board-search-v12" placeholder="Buscar cards..." value="${escapeHTML(f.q)}" oninput="setBoardFilter(${teamId},'q',this.value)">
+    <select class="board-filter-select" onchange="setBoardFilter(${teamId},'member',this.value)">
+      <option value="all">Todos os responsáveis</option>
+      ${members.map(m=>`<option value="${m.id}" ${String(f.member)===String(m.id)?"selected":""}>${escapeHTML(m.name)}</option>`).join("")}
+    </select>
+    <select class="board-filter-select" onchange="setBoardFilter(${teamId},'label',this.value)">
+      <option value="all">Todas as etiquetas</option>
+      ${(bundle.labels||[]).map(l=>`<option value="${l.id}" ${String(f.label)===String(l.id)?"selected":""}>${escapeHTML(l.name)}</option>`).join("")}
+    </select>
+  </div>`;
+};
+
+window.renderKanbanV12=function(teamId,bundle,tasks){
+  const cols=["ideas","todo","production","review","publishing"];
+  return `<div class="kanban-board-v12">${cols.map(st=>{
+    const list=tasks.filter(t=>t.status===st).sort((a,b)=>(a.position||0)-(b.position||0));
+    return `<section class="kanban-col-v12"
+      ondragover="boardDragOver(event)" ondragleave="boardDragLeave(event)" ondrop="boardDrop(event,${teamId},'${st}')">
+      <div class="kanban-col-head-v12"><span>${TASK_STATUS_LABELS[st]}</span><span class="kanban-count-v12">${list.length}</span></div>
+      <div class="kanban-card-list-v12">${list.map(t=>renderTaskCard(t,bundle)).join("")||`<div class="board-empty-v12">Sem tarefas.</div>`}</div>
+      ${isMaster()?`<button class="task-add-v12" onclick="openTaskModal(${teamId},'${st}')">＋ Adicionar tarefa</button>`:""}
+    </section>`;
+  }).join("")}</div>`;
+};
+
+window.monthStartMonday=function(date){
+  const d=new Date(date.getFullYear(),date.getMonth(),1);
+  const day=(d.getDay()+6)%7;
+  d.setDate(d.getDate()-day);
+  return d;
+};
+window.renderCalendarV12=function(teamId,bundle,tasks){
+  const today=new Date();
+  const start=monthStartMonday(today);
+  const days=Array.from({length:42},(_,i)=>{const d=new Date(start);d.setDate(d.getDate()+i);return d});
+  return `<div class="panel">
+    <div class="panel-head"><div class="panel-title">${icon("calendar-days")}${today.toLocaleDateString("pt-BR",{month:"long",year:"numeric"})}</div></div>
+    <div class="board-calendar-v12">${days.map(d=>{
+      const iso=d.toISOString().slice(0,10);
+      const dayTasks=tasks.filter(t=>t.due_at && String(t.due_at).slice(0,10)===iso);
+      const muted=d.getMonth()!==today.getMonth();
+      return `<div class="board-calendar-day ${muted?"board-calendar-empty":""}">
+        <strong>${d.getDate()}</strong>
+        ${dayTasks.map(t=>`<div class="board-calendar-task" onclick="openTaskDetail(${t.id})">${escapeHTML(t.title)}</div>`).join("")}
+      </div>`;
+    }).join("")}</div>
+  </div>`;
+};
+
+window.renderTableV12=function(teamId,bundle,tasks){
+  return `<div class="panel board-table-wrap-v12"><table class="board-table-v12">
+    <thead><tr><th>Tarefa</th><th>Status</th><th>Responsáveis</th><th>Etiquetas</th><th>Prazo</th><th>Checklist</th></tr></thead>
+    <tbody>${tasks.map(t=>{
+      const ass=taskAssigneesV12(t.id,bundle);
+      const labs=taskLabelsV12(t.id,bundle);
+      const ch=taskChecklistV12(t.id,bundle);
+      return `<tr class="clickable" onclick="openTaskDetail(${t.id})">
+        <td><b>${escapeHTML(t.title)}</b></td>
+        <td>${TASK_STATUS_LABELS[t.status]||t.status}</td>
+        <td>${ass.map(x=>escapeHTML(x.name)).join(", ")||"—"}</td>
+        <td>${labs.map(x=>escapeHTML(x.name)).join(", ")||"—"}</td>
+        <td>${t.due_at?new Date(t.due_at).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"—"}</td>
+        <td>${ch.length?`${ch.filter(x=>x.completed).length}/${ch.length}`:"—"}</td>
+      </tr>`;
+    }).join("")||`<tr><td colspan="6">Nenhuma tarefa.</td></tr>`}</tbody>
+  </table></div>`;
+};
+
+window.renderTimelineV12=function(teamId,bundle,tasks){
+  const dated=tasks.filter(t=>t.start_at||t.due_at);
+  if(!dated.length)return `<div class="panel"><div class="empty-state">Adicione data de início ou prazo aos cards para usar a Timeline.</div></div>`;
+  const dates=dated.flatMap(t=>[t.start_at,t.due_at].filter(Boolean).map(x=>new Date(x).getTime()));
+  const min=Math.min(...dates),max=Math.max(...dates, min+86400000);
+  const span=max-min||86400000;
+  return `<div class="panel"><div class="timeline-v12">${dated.map(t=>{
+    const s=t.start_at?new Date(t.start_at).getTime():(t.due_at?new Date(t.due_at).getTime():min);
+    const e=t.due_at?new Date(t.due_at).getTime():s+86400000;
+    const left=Math.max(0,Math.min(95,(s-min)/span*100));
+    const width=Math.max(5,Math.min(100-left,(e-s)/span*100));
+    return `<div class="timeline-row-v12">
+      <div class="timeline-name-v12 clickable" onclick="openTaskDetail(${t.id})">${escapeHTML(t.title)}</div>
+      <div class="timeline-track-v12"><div class="timeline-bar-v12" style="left:${left}%;width:${width}%;background:${BOARD_STATUS_COLORS[t.status]||"#245f8e"}">${TASK_STATUS_LABELS[t.status]||""}</div></div>
+    </div>`;
+  }).join("")}</div></div>`;
+};
+
+window.renderDashboardV12=function(teamId,bundle,tasks){
+  const overdue=tasks.filter(t=>t.due_at&&new Date(t.due_at)<new Date()&&t.status!=="done").length;
+  const complete=tasks.filter(t=>t.status==="done").length;
+  const total=tasks.length;
+  const statuses=["ideas","todo","production","review","publishing"];
+  const max=Math.max(1,...statuses.map(s=>tasks.filter(t=>t.status===s).length));
+  return `<div class="board-dashboard-v12">
+    <div class="board-dashboard-card"><small>Tarefas abertas</small><b>${tasks.filter(t=>t.status!=="done").length}</b></div>
+    <div class="board-dashboard-card"><small>Atrasadas</small><b>${overdue}</b></div>
+    <div class="board-dashboard-card"><small>Publicadas</small><b>${complete}</b></div>
+    <div class="board-dashboard-card"><small>Conclusão</small><b>${total?Math.round(complete/total*100):0}%</b></div>
+    <div class="board-dashboard-card board-dashboard-span"><small>Cards por etapa</small>
+      <div class="board-status-bars">${statuses.map(s=>{
+        const n=tasks.filter(t=>t.status===s).length;
+        return `<div class="board-status-row"><span>${TASK_STATUS_LABELS[s]}</span><div class="board-status-bar"><span style="width:${n/max*100}%;background:${BOARD_STATUS_COLORS[s]}"></span></div><b>${n}</b></div>`;
+      }).join("")}</div>
+    </div>
+    <div class="board-dashboard-card board-dashboard-span"><small>Responsáveis mais ativos</small>
+      <div class="board-status-bars">${[...new Set((bundle.assignees||[]).map(a=>String(a.user_id)))].map(id=>{
+        const m=memberById(id);const n=(bundle.assignees||[]).filter(a=>String(a.user_id)===id).length;
+        return {m,n};
+      }).filter(x=>x.m).sort((a,b)=>b.n-a.n).slice(0,6).map(x=>`<div class="board-status-row"><span>${escapeHTML(x.m.name.split(" ")[0])}</span><div class="board-status-bar"><span style="width:${Math.min(100,x.n*18)}%"></span></div><b>${x.n}</b></div>`).join("")||`<div class="board-empty-v12">Sem responsáveis.</div>`}
+      </div>
+    </div>
+  </div>`;
+};
+
+window.teamBoardPage=async function(teamId){
+  const team=teamById(teamId);
+  if(!team)return generic("Equipe não encontrada","Esta equipe não está disponível.");
+  const bundle=await loadBoardBundle(teamId);
+  const tasks=filteredBoardTasks(teamId,bundle);
+  const view=boardViewFor(teamId);
+
+  let content="";
+  if(view==="calendar-days")content=renderCalendarV12(teamId,bundle,tasks);
+  else if(view==="table")content=renderTableV12(teamId,bundle,tasks);
+  else if(view==="timeline")content=renderTimelineV12(teamId,bundle,tasks);
+  else if(view==="dashboard")content=renderDashboardV12(teamId,bundle,tasks);
+  else content=renderKanbanV12(teamId,bundle,tasks);
+
+  return `<div class="team-board-back"><button class="action-btn" onclick="navigateLine('equipe')">${icon("chevron-left")} Voltar para Equipes</button></div>
+  <div class="team-board-head">
+    <div class="team-board-title"><h2>${escapeHTML(team.name)}</h2><p>Quadro de produção da equipe.</p></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      ${isMaster()?`<button class="secondary" onclick="openTemplatesModal(${team.id})">${icon("copy")} Templates</button>
+      <button class="secondary" onclick="openArchiveModal(${team.id})">${icon("archive")} Arquivados</button>
+      <button class="primary" onclick="openTaskModal(${team.id})">+ Nova tarefa</button>`:""}
+    </div>
+  </div>
+  <div class="line-board-shell">
+    <div class="board-toolbar-v12">${boardViewTabsHTML(team.id)}${boardFiltersHTML(team.id,bundle)}</div>
+    ${content}
+  </div>`;
+};
+
+window.openTaskModal=async function(teamId,status="todo",templateId=null){
+  if(!isMaster())return;
+  const bundle=await loadBoardBundle(teamId);
+  const members=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(teamId)).map(mt=>memberById(mt.user_id)).filter(Boolean);
+  const tpl=templateId?(bundle.templates||[]).find(x=>Number(x.id)===Number(templateId)):null;
+
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal task-modal-v12">
+    <div class="panel-head"><div class="panel-title">${icon("square-plus")}${tpl?"Usar template":"Nova tarefa"} • ${escapeHTML(teamById(teamId)?.name||"Equipe")}</div></div>
+    <div class="form-grid">
+      <div class="field full"><label>Título</label><input id="taskTitle" value="${escapeHTML(tpl?.title||"")}" placeholder="Ex.: Reels de chamada"></div>
+      <div class="field full"><label>Responsáveis</label>
+        <div class="multi-team-options">${members.map(m=>`<label class="team-check"><input type="checkbox" class="taskAssigneeV12" value="${m.id}"><span>${escapeHTML(m.name)}</span></label>`).join("")}</div>
+      </div>
+      <div class="field"><label>Evento</label><select id="taskEvent"><option value="">Sem evento específico</option>${V8.events.map(e=>`<option value="${e.id}">${escapeHTML(e.name)} • ${formatEventDate(e.event_date)}</option>`).join("")}</select></div>
+      <div class="field"><label>Status inicial</label><select id="taskStatus">${["ideas","todo","production","review","publishing"].map(s=>`<option value="${s}" ${s===(tpl?.status||status)?"selected":""}>${TASK_STATUS_LABELS[s]}</option>`).join("")}</select></div>
+      <div class="field"><label>Início</label><input id="taskStart" type="datetime-local"></div>
+      <div class="field"><label>Prazo</label><input id="taskDue" type="datetime-local"></div>
+      <div class="field"><label>Postagem prevista</label><input id="taskPublish" type="datetime-local"></div>
+      <div class="field"><label>Cor da capa</label><input id="taskCoverColor" type="color" value="${tpl?.cover_color||"#173b58"}"></div>
+      <div class="field full"><label>Briefing / descrição</label><textarea id="taskDescription" rows="4">${escapeHTML(tpl?.description||"")}</textarea></div>
+      <div class="field full"><label>Checklist — uma linha por item</label><textarea id="taskChecklist" rows="4">${escapeHTML(tpl?.checklist_text||"")}</textarea></div>
+      <div class="field full"><label>Etiquetas</label>
+        <div class="multi-team-options">${(bundle.labels||[]).map(l=>`<label class="team-check"><input type="checkbox" class="taskLabelV12" value="${l.id}"><span><i style="display:inline-block;width:8px;height:8px;border-radius:99px;background:${l.color};margin-right:5px"></i>${escapeHTML(l.name)}</span></label>`).join("")||`<span class="helper">Crie etiquetas dentro de um card depois.</span>`}</div>
+      </div>
+    </div>
+    <div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="createTeamTaskV12(${teamId})">Criar card</button></div>
+  </div></div>`);
+  refreshIcons();
+};
+
+window.createTeamTaskV12=async function(teamId){
+  if(!isMaster())return;
+  const title=document.getElementById("taskTitle")?.value.trim();
+  if(!title)return alert("Informe o título.");
+  const assignees=[...document.querySelectorAll(".taskAssigneeV12:checked")].map(x=>x.value);
+  const labels=[...document.querySelectorAll(".taskLabelV12:checked")].map(x=>Number(x.value));
+  const checklist=(document.getElementById("taskChecklist")?.value||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const payload={
+    p_team_id:Number(teamId),
+    p_event_id:document.getElementById("taskEvent")?.value?Number(document.getElementById("taskEvent").value):null,
+    p_title:title,
+    p_description:document.getElementById("taskDescription")?.value.trim()||null,
+    p_status:document.getElementById("taskStatus")?.value||"todo",
+    p_start_at:document.getElementById("taskStart")?.value?new Date(document.getElementById("taskStart").value).toISOString():null,
+    p_due_at:document.getElementById("taskDue")?.value?new Date(document.getElementById("taskDue").value).toISOString():null,
+    p_publish_at:document.getElementById("taskPublish")?.value?new Date(document.getElementById("taskPublish").value).toISOString():null,
+    p_cover_color:document.getElementById("taskCoverColor")?.value||null,
+    p_assignee_ids:assignees,
+    p_label_ids:labels,
+    p_checklist:checklist
+  };
+  const {data,error}=await supabaseClient.rpc("board_create_task",payload);
+  if(error){console.error(error);alert("Não foi possível criar o card. Rode o SQL da v12.");return}
+  invalidateBoard(teamId);closeModal();await render();
+};
+
+window.openTaskDetail=async function(taskId){
+  const {data:t,error}=await supabaseClient.from("team_tasks").select("*").eq("id",Number(taskId)).single();
+  if(error||!t){alert("Não foi possível abrir esta tarefa.");return}
+  const bundle=await loadBoardBundle(t.team_id,true);
+  const assignees=taskAssigneesV12(t.id,bundle);
+  const labels=taskLabelsV12(t.id,bundle);
+  const checks=taskChecklistV12(t.id,bundle);
+  const comments=taskCommentsV12(t.id,bundle);
+  const attachments=taskAttachmentsV12(t.id,bundle);
+  const activity=taskActivityV12(t.id,bundle);
+  const done=checks.filter(x=>x.completed).length;
+  const pct=checks.length?Math.round(done/checks.length*100):0;
+  const canEdit=isMaster()||assignees.some(m=>String(m.id)===String(currentUser.id));
+
+  document.querySelector(".modal-bg")?.remove();
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal task-modal-v12">
+    <div class="panel-head">
+      <div><span class="application-kicker">${TASK_STATUS_LABELS[t.status]||t.status}</span><h3 style="margin-top:3px">${escapeHTML(t.title)}</h3></div>
+      <button class="action-btn" onclick="closeModal()">Fechar</button>
+    </div>
+
+    <div class="task-modal-grid-v12">
+      <main>
+        <section class="task-detail-section">
+          <h4>${icon("tags")}Etiquetas</h4>
+          <div class="task-labels-v12">${labels.map(l=>`<span style="background:${l.color};padding:6px 9px;border-radius:7px;font-size:7px;font-weight:800">${escapeHTML(l.name)}</span>`).join("")||`<span class="helper">Sem etiquetas.</span>`}</div>
+        </section>
+
+        <section class="task-detail-section">
+          <h4>${icon("users")}Responsáveis</h4>
+          <div class="task-members-v12">${assignees.map(m=>`<span class="task-member-pill">${avatarHTML(m,"avatar")}<span>${escapeHTML(m.name)}</span></span>`).join("")||`<span class="helper">Sem responsáveis.</span>`}</div>
+        </section>
+
+        <section class="task-detail-section">
+          <h4>${icon("align-left")}Descrição</h4>
+          <div class="task-description-box ${isMaster()?"clickable":""}" ${isMaster()?`onclick="editTaskDescriptionV12(${t.id})"`:""}>${escapeHTML(t.description||"Sem briefing.")}</div>
+        </section>
+
+        <section class="task-detail-section">
+          <div class="checklist-head-v12"><h4>${icon("list-checks")}Checklist</h4><span class="helper">${done}/${checks.length} • ${pct}%</span></div>
+          ${checks.length?`<div class="checklist-progress-track"><span style="width:${pct}%"></span></div>`:""}
+          <div>${checks.map(c=>`<label class="check-item-v12 ${c.completed?"done":""}">
+            <input type="checkbox" ${c.completed?"checked":""} onchange="toggleChecklistV12(${c.id},${t.id},this.checked)" ${canEdit?"":"disabled"}>
+            <span>${escapeHTML(c.text)}</span>
+            ${isMaster()?`<button type="button" class="check-item-delete" onclick="event.preventDefault();deleteChecklistItemV12(${c.id},${t.id})">${icon("x")}</button>`:""}
+          </label>`).join("")||`<div class="helper">Sem checklist.</div>`}</div>
+          ${canEdit?`<div class="comment-form-v12"><input id="newCheck-${t.id}" placeholder="Nova subtarefa"><button class="action-btn" onclick="addChecklistItemV12(${t.id})">Adicionar</button></div>`:""}
+        </section>
+
+        <section class="task-detail-section">
+          <h4>${icon("paperclip")}Anexos</h4>
+          <div class="attachment-grid-v12">${attachments.map(a=>`<div class="attachment-item-v12">
+            ${String(a.mime_type||"").startsWith("image/")?`<img src="${a.url}" alt="">`:`<span class="attachment-icon">${icon("file")}</span>`}
+            <div><b>${escapeHTML(a.name||"Arquivo")}</b><a href="${a.url}" target="_blank">Abrir arquivo</a></div>
+          </div>`).join("")||`<div class="helper">Sem anexos.</div>`}</div>
+          ${canEdit?`<div style="margin-top:8px"><label class="action-btn" for="taskAttachV12-${t.id}">${icon("upload")} Adicionar anexo</label><input hidden type="file" id="taskAttachV12-${t.id}" onchange="uploadTaskAttachmentV12(${t.id})"></div>`:""}
+        </section>
+
+        <section class="task-detail-section">
+          <h4>${icon("message-circle")}Comentários</h4>
+          <div class="comment-list-v12">${comments.map(c=>{
+            const u=memberById(c.user_id);
+            return `<div class="comment-v12">${avatarHTML(u||{name:"Usuário"},"avatar")}<div class="comment-bubble-v12"><b>${escapeHTML(u?.name||"Usuário")}</b><small>${new Date(c.created_at).toLocaleString("pt-BR")}</small><p>${escapeHTML(c.body)}</p></div></div>`;
+          }).join("")||`<div class="helper">Nenhum comentário ainda.</div>`}</div>
+          <div class="comment-form-v12"><textarea id="taskComment-${t.id}" placeholder="Escreva um comentário. Use @Nome para mencionar alguém."></textarea><button class="primary" onclick="addTaskCommentV12(${t.id})">Enviar</button></div>
+          <div class="mention-help">As menções geram notificação interna para integrantes encontrados.</div>
+        </section>
+
+        <section class="task-detail-section">
+          <h4>${icon("history")}Atividade</h4>
+          <div class="activity-list-v12">${activity.slice(0,30).map(a=>`<div class="activity-v12">${icon("dot")}<span><b>${escapeHTML(memberById(a.user_id)?.name||"Sistema")}</b> ${escapeHTML(a.action)} <small>• ${new Date(a.created_at).toLocaleString("pt-BR")}</small></span></div>`).join("")||`<div class="helper">Sem atividade registrada.</div>`}</div>
+        </section>
+      </main>
+
+      <aside class="task-sidebar-v12">
+        <button class="task-side-button" onclick="changeTaskStatusMenuV12(${t.id},${t.team_id})">${icon("arrow-right-left")}Mover</button>
+        ${isMaster()?`<button class="task-side-button" onclick="editTaskMembersV12(${t.id},${t.team_id})">${icon("users")}Responsáveis</button>
+        <button class="task-side-button" onclick="editTaskLabelsV12(${t.id},${t.team_id})">${icon("tags")}Etiquetas</button>
+        <button class="task-side-button" onclick="editTaskDatesV12(${t.id},${t.team_id})">${icon("calendar-clock")}Datas</button>
+        <button class="task-side-button" onclick="editTaskCoverV12(${t.id},${t.team_id})">${icon("image")}Capa</button>
+        <button class="task-side-button" onclick="saveTaskAsTemplateV12(${t.id},${t.team_id})">${icon("copy")}Salvar template</button>
+        <button class="task-side-button" onclick="archiveTaskV12(${t.id},${t.team_id})">${icon("archive")}Arquivar</button>`:""}
+        <div class="task-detail-section" style="margin-top:8px">
+          <h4>${icon("clock")}Datas</h4>
+          <div class="helper">${t.start_at?`Início: ${new Date(t.start_at).toLocaleString("pt-BR")}<br>`:""}${t.due_at?`Prazo: ${new Date(t.due_at).toLocaleString("pt-BR")}<br>`:""}${t.publish_at?`Publicação: ${new Date(t.publish_at).toLocaleString("pt-BR")}`:"Sem datas definidas."}</div>
+        </div>
+      </aside>
+    </div>
+  </div></div>`);
+  refreshIcons();
+};
+
+window.runBoardRPC=async function(name,args,teamId,taskId=null){
+  const {error}=await supabaseClient.rpc(name,args);
+  if(error){console.error(error);alert("Não foi possível concluir a ação. Confira se o SQL v12 foi rodado.");return false}
+  invalidateBoard(teamId);
+  if(taskId){closeModal();await openTaskDetail(taskId)}else await render();
+  return true;
+};
+
+window.changeTaskStatusMenuV12=function(taskId,teamId){
+  const options=["ideas","todo","production","review","publishing","done"];
+  const html=`<div class="label-picker-v12">${options.map(s=>`<button class="task-side-button" onclick="moveTaskV12(${taskId},${teamId},'${s}')">${TASK_STATUS_LABELS[s]}</button>`).join("")}</div>`;
+  openModal(`<h3>Mover card</h3>${html}`);
+};
+window.moveTaskV12=async function(taskId,teamId,status){
+  const {error}=await supabaseClient.rpc("move_task_card",{p_task_id:taskId,p_status:status,p_position:Date.now()});
+  if(error){console.error(error);alert("Não foi possível mover.");return}
+  invalidateBoard(teamId);closeModal();await render();
+};
+
+window.toggleChecklistV12=async function(itemId,taskId,checked){
+  const {data,error}=await supabaseClient.rpc("toggle_task_checklist",{p_item_id:itemId,p_completed:checked});
+  if(error){console.error(error);alert("Não foi possível atualizar.");return}
+  const taskTeam=Number(data?.team_id||0);
+  if(taskTeam)invalidateBoard(taskTeam);
+  closeModal();await openTaskDetail(taskId);
+};
+window.addChecklistItemV12=async function(taskId){
+  const text=document.getElementById(`newCheck-${taskId}`)?.value.trim();if(!text)return;
+  const {data:t}=await supabaseClient.from("team_tasks").select("team_id").eq("id",taskId).single();
+  const {error}=await supabaseClient.rpc("add_task_checklist_item",{p_task_id:taskId,p_text:text});
+  if(error){console.error(error);alert("Não foi possível adicionar.");return}
+  invalidateBoard(t.team_id);closeModal();await openTaskDetail(taskId);
+};
+window.deleteChecklistItemV12=async function(itemId,taskId){
+  const {data:t}=await supabaseClient.from("team_tasks").select("team_id").eq("id",taskId).single();
+  const {error}=await supabaseClient.rpc("delete_task_checklist_item",{p_item_id:itemId});
+  if(error){console.error(error);alert("Não foi possível apagar.");return}
+  invalidateBoard(t.team_id);closeModal();await openTaskDetail(taskId);
+};
+
+window.addTaskCommentV12=async function(taskId){
+  const input=document.getElementById(`taskComment-${taskId}`);
+  const body=input?.value.trim();if(!body)return;
+  const {data:t}=await supabaseClient.from("team_tasks").select("team_id").eq("id",taskId).single();
+  const {error}=await supabaseClient.rpc("add_task_comment",{p_task_id:taskId,p_body:body});
+  if(error){console.error(error);alert("Não foi possível comentar.");return}
+  invalidateBoard(t.team_id);closeModal();await openTaskDetail(taskId);
+};
+
+window.uploadTaskAttachmentV12=async function(taskId){
+  const input=document.getElementById(`taskAttachV12-${taskId}`);
+  const file=input?.files?.[0];if(!file)return;
+  if(file.size>80*1024*1024)return alert("O arquivo deve ter no máximo 80 MB.");
+  const {data:t}=await supabaseClient.from("team_tasks").select("team_id").eq("id",taskId).single();
+  const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]+/g,"-");
+  const path=`boards/${t.team_id}/${taskId}/${Date.now()}-${safe}`;
+  const up=await supabaseClient.storage.from("line-files").upload(path,file,{contentType:file.type,upsert:false});
+  if(up.error){console.error(up.error);alert("Não foi possível enviar.");return}
+  const {data:urlData}=supabaseClient.storage.from("line-files").getPublicUrl(up.data.path);
+  const {error}=await supabaseClient.rpc("add_task_attachment",{
+    p_task_id:taskId,p_name:file.name,p_url:urlData.publicUrl,p_path:up.data.path,p_mime_type:file.type||null,p_size:file.size
+  });
+  if(error){console.error(error);alert("Arquivo enviado, mas não foi possível vinculá-lo.");return}
+  invalidateBoard(t.team_id);closeModal();await openTaskDetail(taskId);
+};
+
+window.editTaskDescriptionV12=async function(taskId){
+  const {data:t}=await supabaseClient.from("team_tasks").select("*").eq("id",taskId).single();if(!t)return;
+  const value=prompt("Descrição / briefing:",t.description||"");if(value===null)return;
+  await runBoardRPC("update_task_description",{p_task_id:taskId,p_description:value},t.team_id,taskId);
+};
+
+window.editTaskMembersV12=async function(taskId,teamId){
+  const bundle=await loadBoardBundle(teamId,true);
+  const current=taskAssigneesV12(taskId,bundle).map(x=>String(x.id));
+  const members=V8.memberTeams.filter(mt=>Number(mt.team_id)===Number(teamId)).map(mt=>memberById(mt.user_id)).filter(Boolean);
+  openModal(`<h3>Responsáveis</h3><div class="multi-team-options">${members.map(m=>`<label class="team-check"><input type="checkbox" class="editTaskMemberV12" value="${m.id}" ${current.includes(String(m.id))?"checked":""}><span>${escapeHTML(m.name)}</span></label>`).join("")}</div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveTaskMembersV12(${taskId},${teamId})">Salvar</button></div>`);
+};
+window.saveTaskMembersV12=async function(taskId,teamId){
+  const ids=[...document.querySelectorAll(".editTaskMemberV12:checked")].map(x=>x.value);
+  await runBoardRPC("set_task_assignees",{p_task_id:taskId,p_user_ids:ids},teamId,null);
+  closeModal();await openTaskDetail(taskId);
+};
+
+window.editTaskLabelsV12=async function(taskId,teamId){
+  const bundle=await loadBoardBundle(teamId,true);
+  const current=taskLabelsV12(taskId,bundle).map(x=>Number(x.id));
+  openModal(`<h3>Etiquetas</h3>
+    <div class="label-picker-v12">${bundle.labels.map(l=>`<label class="label-option-v12"><input type="checkbox" class="editTaskLabelV12" value="${l.id}" ${current.includes(Number(l.id))?"checked":""}><span class="label-color-v12" style="background:${l.color}"></span><span>${escapeHTML(l.name)}</span></label>`).join("")||`<div class="helper">Nenhuma etiqueta criada.</div>`}</div>
+    <div class="field" style="margin-top:10px"><label>Nova etiqueta</label><div style="display:flex;gap:6px"><input id="newLabelNameV12" placeholder="Ex.: Urgente"><input id="newLabelColorV12" type="color" value="#e85d19" style="max-width:55px"></div></div>
+    <div class="modal-actions"><button class="secondary" onclick="createBoardLabelV12(${taskId},${teamId})">Criar etiqueta</button><button class="primary" onclick="saveTaskLabelsV12(${taskId},${teamId})">Salvar</button></div>`);
+};
+window.createBoardLabelV12=async function(taskId,teamId){
+  const name=document.getElementById("newLabelNameV12")?.value.trim();if(!name)return;
+  const color=document.getElementById("newLabelColorV12")?.value||"#e85d19";
+  const {error}=await supabaseClient.rpc("create_board_label",{p_team_id:teamId,p_name:name,p_color:color});
+  if(error){console.error(error);alert("Não foi possível criar etiqueta.");return}
+  invalidateBoard(teamId);closeModal();await editTaskLabelsV12(taskId,teamId);
+};
+window.saveTaskLabelsV12=async function(taskId,teamId){
+  const ids=[...document.querySelectorAll(".editTaskLabelV12:checked")].map(x=>Number(x.value));
+  await runBoardRPC("set_task_labels",{p_task_id:taskId,p_label_ids:ids},teamId,null);
+  closeModal();await openTaskDetail(taskId);
+};
+
+window.editTaskDatesV12=async function(taskId,teamId){
+  const {data:t}=await supabaseClient.from("team_tasks").select("*").eq("id",taskId).single();if(!t)return;
+  const local=v=>v?new Date(new Date(v).getTime()-new Date(v).getTimezoneOffset()*60000).toISOString().slice(0,16):"";
+  openModal(`<h3>Datas</h3><div class="form-grid">
+    <div class="field"><label>Início</label><input id="editStartV12" type="datetime-local" value="${local(t.start_at)}"></div>
+    <div class="field"><label>Prazo</label><input id="editDueV12" type="datetime-local" value="${local(t.due_at)}"></div>
+    <div class="field full"><label>Publicação prevista</label><input id="editPublishV12" type="datetime-local" value="${local(t.publish_at)}"></div>
+  </div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveTaskDatesV12(${taskId},${teamId})">Salvar</button></div>`);
+};
+window.saveTaskDatesV12=async function(taskId,teamId){
+  const conv=id=>{const v=document.getElementById(id)?.value;return v?new Date(v).toISOString():null};
+  await runBoardRPC("update_task_dates",{p_task_id:taskId,p_start_at:conv("editStartV12"),p_due_at:conv("editDueV12"),p_publish_at:conv("editPublishV12")},teamId,null);
+  closeModal();await openTaskDetail(taskId);
+};
+
+window.editTaskCoverV12=async function(taskId,teamId){
+  const {data:t}=await supabaseClient.from("team_tasks").select("*").eq("id",taskId).single();if(!t)return;
+  openModal(`<h3>Capa do card</h3><div class="field"><label>Cor</label><input id="coverColorV12" type="color" value="${t.cover_color||"#173b58"}"></div><div class="field"><label>URL de imagem (opcional)</label><input id="coverUrlV12" value="${escapeHTML(t.cover_url||"")}" placeholder="https://..."></div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveTaskCoverV12(${taskId},${teamId})">Salvar</button></div>`);
+};
+window.saveTaskCoverV12=async function(taskId,teamId){
+  await runBoardRPC("update_task_cover",{p_task_id:taskId,p_cover_color:document.getElementById("coverColorV12")?.value||null,p_cover_url:document.getElementById("coverUrlV12")?.value.trim()||null},teamId,null);
+  closeModal();await openTaskDetail(taskId);
+};
+
+window.archiveTaskV12=async function(taskId,teamId){
+  if(!confirm("Arquivar este card? Ele sairá do quadro, mas não será apagado."))return;
+  const {error}=await supabaseClient.rpc("archive_task",{p_task_id:taskId,p_archived:true});
+  if(error){console.error(error);alert("Não foi possível arquivar.");return}
+  invalidateBoard(teamId);closeModal();await render();
+};
+window.restoreTaskV12=async function(taskId,teamId){
+  const {error}=await supabaseClient.rpc("archive_task",{p_task_id:taskId,p_archived:false});
+  if(error){console.error(error);alert("Não foi possível restaurar.");return}
+  invalidateBoard(teamId);closeModal();await openArchiveModal(teamId);
+};
+window.openArchiveModal=async function(teamId){
+  const tasks=await fetchTeamTasks(teamId,true);
+  const archived=tasks.filter(t=>t.archived_at);
+  openModal(`<h3>Cards arquivados</h3><div class="archive-list-v12">${archived.map(t=>`<div class="archive-item-v12"><div><b>${escapeHTML(t.title)}</b><small>${new Date(t.archived_at).toLocaleString("pt-BR")}</small></div><button class="action-btn" onclick="restoreTaskV12(${t.id},${teamId})">Restaurar</button></div>`).join("")||`<div class="helper">Nenhum card arquivado.</div>`}</div>`);
+};
+
+window.saveTaskAsTemplateV12=async function(taskId,teamId){
+  const name=prompt("Nome do template:");if(!name)return;
+  const {error}=await supabaseClient.rpc("save_task_as_template",{p_task_id:taskId,p_name:name});
+  if(error){console.error(error);alert("Não foi possível criar o template.");return}
+  invalidateBoard(teamId);alert("Template salvo.");
+};
+window.openTemplatesModal=async function(teamId){
+  const bundle=await loadBoardBundle(teamId,true);
+  openModal(`<h3>Templates</h3><div class="archive-list-v12">${bundle.templates.map(t=>`<div class="archive-item-v12"><div><b>${escapeHTML(t.name)}</b><small>${escapeHTML(t.title||"Modelo de card")}</small></div><button class="action-btn" onclick="closeModal();openTaskModal(${teamId},'todo',${t.id})">Usar</button></div>`).join("")||`<div class="helper">Abra um card e use “Salvar template” para criar seu primeiro modelo.</div>`}</div>`);
+};
 
 </script>
 </body>
