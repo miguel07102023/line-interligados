@@ -3677,6 +3677,223 @@ html[data-theme="light"] .task-assignee-stack .avatar{border-color:#f7fafc!impor
   .board-dashboard-span{grid-column:1/-1}
 }
 
+
+/* ==========================================================
+   LINE v12.1 — VISUAL + DASHBOARD + MANUAL
+   ========================================================== */
+
+/* Botões: ícone e nome perfeitamente centralizados */
+button,.action-btn,.ghost-btn,.primary,.secondary,.team-board-open,
+.board-view-tabs button,.board-filter-row button,.task-side-button,.task-add-v12{
+  line-height:1!important;
+}
+.action-btn,.ghost-btn,.primary,.secondary,.team-board-open,
+.board-view-tabs button,.board-filter-row button,.task-side-button,.task-add-v12{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+}
+.action-btn svg,.ghost-btn svg,.primary svg,.secondary svg,.team-board-open svg,
+.board-view-tabs button svg,.board-filter-row button svg,.task-side-button svg,.task-add-v12 svg{
+  flex:0 0 auto!important;
+  vertical-align:middle!important;
+}
+
+/* Menu lateral: animação ao selecionar */
+.sidebar .nav a{
+  position:relative;
+  overflow:hidden;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.sidebar .nav a::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(85,185,255,.10) 48%,transparent 76%);
+  transform:translateX(-135%);
+  transition:transform .45s ease;
+  pointer-events:none;
+}
+.sidebar .nav a:hover{
+  transform:translateX(3px);
+}
+.sidebar .nav a:hover::before{transform:translateX(135%)}
+.sidebar .nav a.active{
+  transform:translateX(4px) scale(1.01);
+  box-shadow:0 0 0 1px rgba(70,165,230,.28),0 0 22px rgba(35,134,201,.18)!important;
+}
+.sidebar .nav a.active svg{
+  animation:lineNavPop .38s cubic-bezier(.17,.84,.35,1.25);
+}
+@keyframes lineNavPop{
+  0%{transform:scale(.72) rotate(-7deg);opacity:.5}
+  65%{transform:scale(1.16) rotate(3deg);opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+
+/* Equipes: abas de navegação interna */
+.team-hub-tabs-v121{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:12px 0 15px;
+}
+.team-hub-tabs-v121 button{
+  min-height:38px;
+  padding:9px 13px;
+  border:1px solid var(--border);
+  background:#091522;
+  color:var(--muted);
+  border-radius:11px;
+  font-size:8px;
+  font-weight:900;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  transition:.16s ease;
+}
+.team-hub-tabs-v121 button:hover{transform:translateY(-1px);border-color:rgba(80,163,225,.38)}
+.team-hub-tabs-v121 button.active{
+  color:#fff;
+  background:#12304a;
+  border-color:#2c6b9d;
+  box-shadow:0 0 18px rgba(38,126,189,.12);
+}
+.team-hub-tabs-v121 svg{width:14px;height:14px}
+
+/* Dashboard do board: gráfico de pizza */
+.board-dashboard-pie-v121{
+  display:grid;
+  grid-template-columns:210px 1fr;
+  align-items:center;
+  gap:18px;
+  min-height:225px;
+}
+.board-pie-wrap-v121{
+  position:relative;
+  min-height:195px;
+  display:grid;
+  place-items:center;
+}
+.board-pie-v121{
+  width:168px;
+  height:168px;
+  border-radius:50%;
+  position:relative;
+  transform:scale(.68) rotate(-58deg);
+  opacity:.08;
+  animation:linePieEntrance .75s cubic-bezier(.16,.85,.22,1) forwards;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+.board-pie-v121::after{
+  content:"";
+  position:absolute;
+  inset:29px;
+  border-radius:50%;
+  background:#0a1622;
+  box-shadow:inset 0 0 0 1px var(--border);
+}
+.board-pie-center-v121{
+  position:absolute;
+  z-index:3;
+  text-align:center;
+  pointer-events:none;
+}
+.board-pie-center-v121 b{display:block;font-size:25px;line-height:1}
+.board-pie-center-v121 small{display:block;margin-top:5px;font-size:7px;color:var(--muted)}
+@keyframes linePieEntrance{
+  to{transform:scale(1) rotate(0);opacity:1}
+}
+.board-pie-legend-v121{display:flex;flex-direction:column;gap:9px}
+.board-pie-row-v121{
+  display:grid;
+  grid-template-columns:10px 1fr auto;
+  align-items:center;
+  gap:8px;
+  font-size:7.5px;
+}
+.board-pie-row-v121 b{font-size:8px}
+.board-pie-dot-v121{width:9px;height:9px;border-radius:3px}
+
+/* Manual da LINE */
+.manual-hero-v121{
+  padding:19px;
+  border:1px solid var(--border);
+  border-radius:19px;
+  background:linear-gradient(145deg,#0a1724,#0d2031);
+  margin-bottom:13px;
+}
+.manual-hero-v121 h2{margin:0 0 6px;font-size:22px}
+.manual-hero-v121 p{margin:0;color:var(--muted);font-size:8px;line-height:1.5}
+.manual-search-v121{width:min(450px,100%);height:41px!important;border-radius:12px!important;margin-bottom:12px}
+.manual-grid-v121{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.manual-card-v121{
+  background:#0a1622;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  transition:transform .16s ease,border-color .16s ease;
+}
+.manual-card-v121:hover{transform:translateY(-1px);border-color:rgba(80,163,225,.34)}
+.manual-card-head-v121{
+  width:100%;
+  padding:14px;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+}
+.manual-card-icon-v121{
+  width:39px;height:39px;min-width:39px;border-radius:11px;
+  display:grid;place-items:center;background:#112942;color:#8ec9f3;
+}
+.manual-card-icon-v121 svg{width:16px;height:16px}
+.manual-card-copy-v121{flex:1}
+.manual-card-copy-v121 b{display:block;font-size:9px;margin-bottom:4px}
+.manual-card-copy-v121 small{display:block;font-size:7px;color:var(--muted);line-height:1.35}
+.manual-chevron-v121{width:15px!important;height:15px!important;transition:transform .2s ease}
+.manual-card-v121.open .manual-chevron-v121{transform:rotate(180deg)}
+.manual-card-body-v121{max-height:0;overflow:hidden;transition:max-height .28s ease}
+.manual-card-v121.open .manual-card-body-v121{max-height:1000px}
+.manual-card-inner-v121{padding:0 14px 14px;font-size:8px;line-height:1.58;color:#c5d6e4}
+.manual-card-inner-v121 ul{margin:7px 0 0 17px;padding:0}
+.manual-card-inner-v121 li{margin:4px 0}
+.manual-badge-v121{
+  display:inline-flex;align-items:center;border-radius:999px;
+  padding:6px 8px;background:#12304a;color:#a5d9ff;
+  font-size:7px;font-weight:900;margin-bottom:8px
+}
+
+/* Dia atual do calendário */
+.day.line-today-v121{
+  background:rgba(31,101,151,.12)!important;
+  box-shadow:inset 0 0 0 2px rgba(72,164,226,.50)!important;
+}
+.day.line-today-v121 .day-num{color:#74c8ff!important}
+
+/* Light */
+html[data-theme="light"] .team-hub-tabs-v121 button,
+html[data-theme="light"] .manual-card-v121,
+html[data-theme="light"] .manual-hero-v121{
+  background:#f7fafc!important;color:#0b1520!important;border-color:#dce7ef!important
+}
+html[data-theme="light"] .team-hub-tabs-v121 button.active{background:#173b58!important;color:#fff!important}
+html[data-theme="light"] .board-pie-v121::after{background:#f7fafc!important}
+html[data-theme="light"] .manual-card-inner-v121{color:#294256!important}
+
+@media(max-width:760px){
+  .team-hub-tabs-v121{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px}
+  .team-hub-tabs-v121 button{white-space:nowrap;min-width:max-content}
+  .board-dashboard-pie-v121{grid-template-columns:1fr;gap:8px}
+  .manual-grid-v121{grid-template-columns:1fr}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3737,7 +3954,7 @@ let db = JSON.parse(localStorage.getItem("lineDB")||"null") || structuredClone(s
 let currentUser = null;
 let authUser = null;
 let route = location.hash.slice(1)||"dashboard";
-let calendarCursor = new Date(2026,6,1);
+let calendarCursor = new Date(new Date().getFullYear(),new Date().getMonth(),1);
 
 const $=s=>document.querySelector(s);
 const icon=n=>`<i data-lucide="${n}"></i>`;
@@ -4614,7 +4831,7 @@ async function logout(){
  location.hash="";
  render();
 }
-const nav=[["dashboard","house","Dashboard"],["eventos","calendar-days","Eventos"],["calendario","calendar","Calendário"],["escalas","calendar-check","Escalas"],["membros","users","Membros"],["equipes","users-round","Equipes"],["indicadores","chart-no-axes-combined","Indicadores"],["notificacoes","bell","Notificações"],["configuracoes","settings","Configurações"]];
+const nav=[["dashboard","house","Dashboard"],["eventos","calendar-days","Eventos"],["calendario","calendar","Calendário"],["escalas","calendar-check","Escalas"],["membros","users","Membros"],["equipes","users-round","Equipes"],["candidaturas","user-round-search","Candidaturas"],["indicadores","chart-no-axes-combined","Indicadores"],["notificacoes","bell","Notificações"],["manual","book-open-text","Manual da LINE"],["configuracoes","settings","Configurações"]];
 
 function routeTitle(){
   if(route.startsWith("team-")){
@@ -4623,12 +4840,14 @@ function routeTitle(){
   }
   if(route==="equipe")return "Equipe";
   if(route==="candidaturas")return "Candidaturas";
+  if(route==="manual")return "Manual da LINE";
   return titles()[route]||"LINE";
 }
 function routeSubtitle(){
   if(route.startsWith("team-"))return "Tarefas, produção e entregas da equipe.";
   if(route==="equipe")return "Membros, equipes e candidaturas em um só lugar.";
   if(route==="candidaturas")return "Analise e gerencie as inscrições recebidas.";
+  if(route==="manual")return "Direcionamentos oficiais para servir e produzir com a LINE.";
   return subtitles()[route]||"";
 }
 
@@ -4636,7 +4855,7 @@ function shell(content){
  const u=currentUser;return `<div class="shell">
  <aside class="sidebar">
   <div class="brand"><div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div><div><strong>LINE</strong><small>Interligados</small></div></div>
-  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
+  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","candidaturas","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
  </aside>
  <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="theme-switch">
@@ -4728,7 +4947,7 @@ async function membersPageReal(){
       <td>—</td><td>—</td>
     </tr>`;
   }).join("");
-  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>Perfis, equipes e permissões carregados diretamente do Supabase.</p></div>${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}</div>
+  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>Perfis, equipes e permissões carregados diretamente do Supabase.</p>${teamHubTabsHTML("membros")}</div>${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}</div>
   <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead><tbody>${rows||`<tr><td colspan="7">Nenhum membro cadastrado.</td></tr>`}</tbody></table></div></article>`;
 }
 function membersPage(){
@@ -4738,7 +4957,7 @@ function membersPage(){
 function calendarPage(){
  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
  const prevLast=new Date(y,m,0).getDate();let cells=[];
- for(let i=0;i<42;i++){let day,cm=m,cy=y,muted=false;if(i<start){day=prevLast-start+i+1;cm=m-1;muted=true}else if(i>=start+last.getDate()){day=i-(start+last.getDate())+1;cm=m+1;muted=true}else day=i-start+1;let d=new Date(cy,cm,day);let iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;let evs=db.events.filter(e=>e.date===iso);cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.color}">${e.time} ${e.name}</div>`).join("")}</div>`)}
+ for(let i=0;i<42;i++){let day,cm=m,cy=y,muted=false;if(i<start){day=prevLast-start+i+1;cm=m-1;muted=true}else if(i>=start+last.getDate()){day=i-(start+last.getDate())+1;cm=m+1;muted=true}else day=i-start+1;let d=new Date(cy,cm,day);let iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;let evs=db.events.filter(e=>e.date===iso);cells.push(`<div class="day ${muted?"muted":""} ${d.toDateString()===new Date().toDateString()?"line-today-v121":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.color}">${e.time} ${e.name}</div>`).join("")}</div>`)}
  const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
  const thisMonth=db.events.filter(e=>{const d=new Date(e.date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
  return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Eventos aparecem automaticamente na data correta.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
@@ -4746,7 +4965,7 @@ function calendarPage(){
  <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event"><b>${e.name}</b><p>${new Date(e.date+"T12:00:00").toLocaleDateString("pt-BR")} • ${e.time}</p><p>${e.place}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`
 }
 function moveMonth(n){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+n,1);render()}
-function goToday(){calendarCursor=new Date(2026,6,1);render()}
+function goToday(){const now=new Date();calendarCursor=new Date(now.getFullYear(),now.getMonth(),1);render()}
 function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article></div>`}
 
 window.sendLoggedUserPasswordReset=async function(){
@@ -4775,6 +4994,8 @@ async function page(){
  if(route==="membros")return isMaster()?await membersPageReal():generic("Acesso restrito","A gestão de membros é exclusiva dos administradores Master.");
  if(route==="calendario")return calendarPage();
  if(route==="equipes")return isMaster()?await teamsPageReal():generic("Acesso restrito","A gestão de equipes é exclusiva dos administradores Master.");
+ if(route==="candidaturas")return isMaster()?await applicationsPage():generic("Acesso restrito","As candidaturas são exclusivas dos administradores Master.");
+ if(route==="manual")return manualPageV121();
  if(route==="configuracoes")return configPage();
  if(route==="notificacoes")return notificationsPage();
  if(route==="indicadores" && !isMaster())return generic("Acesso restrito","Os indicadores gerais são exclusivos dos administradores Master.");
@@ -5003,6 +5224,7 @@ async function teamsPageReal(){
   return `<div class="page-toolbar">
     <div class="page-title"><h2>Equipes</h2><p>Toque em uma equipe para abrir o quadro de produção.</p></div>
   </div>
+  ${teamHubTabsHTML("equipes")}
   <section class="team-grid">${teams.map(t=>{
     const relations=memberTeams.filter(mt=>Number(mt.team_id)===Number(t.id));
     const ms=relations.map(r=>members.find(m=>m.id===r.user_id)).filter(Boolean);
@@ -5016,10 +5238,7 @@ async function teamsPageReal(){
       </div>
       <button class="team-board-open" onclick="event.preventDefault();event.stopPropagation();openTeamBoard(${t.id})">${icon("layout-dashboard")} Abrir quadro</button>
     </article>`;
-  }).join("")}</section>
-  <article class="panel" style="margin-top:14px">
-    <div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> continua fora das equipes operacionais quando cadastrado como Líder Geral.</div>
-  </article>`;
+  }).join("")}</section>`;
 }
 function teamsPage(){const teams=["Story","Fotos","Design","Projeção","Reels"],icons={Story:"smartphone",Fotos:"camera",Design:"palette",Projeção:"monitor",Reels:"clapperboard"};return `<div class="page-toolbar"><div class="page-title"><h2>Equipes</h2><p>Story | Fotos | Design | Projeção | Reels | Edição | Social Media</p></div></div><section class="team-grid">${teams.map(t=>{const ms=db.users.filter(u=>u.role==="member"&&(u.area===t||u.functions?.includes(t)));return `<article class="team-card"><div class="team-icon">${icon(icons[t])}</div><h3>${t}</h3><p>${ms.length} membro(s)</p><div class="team-members">${ms.length?ms.map(u=>`<div class="team-member clickable" onclick="openProfileModal(${u.id})">${avatarHTML(u)}<span>${u.name}</span></div>`).join(""):`<div class="team-empty">Nenhum membro nesta equipe.</div>`}</div></article>`}).join("")}</section><article class="panel" style="margin-top:14px"><div style="font-size:10px;color:var(--muted)"><b style="color:#fff">Michel Macedo</b> é o Líder Geral e não integra equipe operacional.</div></article>`}
 function schedulesPage(){const members=db.users.filter(u=>u.role==="member");return `<div class="page-toolbar"><div class="page-title"><h2>Escalas inteligentes</h2><p>A IA local equilibra equipe, disponibilidade e carga.</p></div></div><article class="panel ai-panel"><div class="ai-hero"><div class="ai-orb">${icon("sparkles")}</div><div><h3>LINE IA</h3><p>Motor local de sugestão automática de escala.</p></div></div><div class="ai-controls"><div class="field"><label>Evento</label><select id="aiEvent">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join("")}</select></div><div class="field"><label>Critério</label><select><option>Equilibrar carga e disponibilidade</option></select></div></div><div class="integration-row"><button class="primary" onclick="runAIScheduler()">Gerar escala</button></div><div id="aiOutput" class="ai-result"><h4>${members.length?members.length+" membro(s) disponível(is) para análise.":"Aguardando membros operacionais."}</h4></div></article>`}
@@ -5792,7 +6011,7 @@ window.calendarPage = async function(){
     else day=i-start+1;
     const d=new Date(cy,cm,day),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     const evs=V8.events.filter(e=>e.event_date===iso);
-    cells.push(`<div class="day ${muted?"muted":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" data-event-open="${e.id}">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
+    cells.push(`<div class="day ${muted?"muted":""} ${d.toDateString()===new Date().toDateString()?"line-today-v121":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" data-event-open="${e.id}">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
   }
   const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
   const thisMonth=V8.events.filter(e=>{const d=new Date(e.event_date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
@@ -6903,7 +7122,7 @@ window.applicationsPage=async function(){
   const items=await loadApplications();
   const counts={all:items.length,pending:items.filter(a=>normalizeApplicationStatus(a.status)==="pending").length,approved:items.filter(a=>normalizeApplicationStatus(a.status)==="approved").length,rejected:items.filter(a=>normalizeApplicationStatus(a.status)==="rejected").length};
   const visible=applicationStatusFilter==="all"?items:items.filter(a=>normalizeApplicationStatus(a.status)===applicationStatusFilter);
-  return `<div class="page-toolbar applications-toolbar"><div class="page-title"><h2>Candidaturas</h2><p>Organize cada pessoa por estágio antes de entrar na equipe.</p></div><span class="applications-count">${items.length} recebida${items.length===1?"":"s"}</span></div>
+  return `<div class="page-toolbar applications-toolbar"><div class="page-title"><h2>Candidaturas</h2><p>Organize cada pessoa por estágio antes de entrar na equipe.</p></div>${teamHubTabsHTML("candidaturas")}<span class="applications-count">${items.length} recebida${items.length===1?"":"s"}</span></div>
   <div class="application-stage-tabs">
     <button class="${applicationStatusFilter==="all"?"active":""}" onclick="setApplicationStatusFilter('all')"><span>Todas</span><b>${counts.all}</b></button>
     <button class="${applicationStatusFilter==="pending"?"active pending":""}" onclick="setApplicationStatusFilter('pending')"><span>Pendentes</span><b>${counts.pending}</b></button>
@@ -7068,7 +7287,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v12 Boards iniciado");
+ console.info("LINE Interligados v12.1 visual/manual/dashboard iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -7076,7 +7295,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.0",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.1",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -7101,6 +7320,70 @@ if("serviceWorker" in navigator && location.protocol!=="file:"){
 /* ==========================================================
    LINE v12 — BOARDS
    ========================================================== */
+
+window.teamHubTabsHTML=function(active){
+  const tabs=[
+    ["equipes","users-round","Equipes"],
+    ["membros","users","Membros"],
+    ["candidaturas","user-round-search","Candidaturas"]
+  ];
+  return `<div class="team-hub-tabs-v121">
+    ${tabs.map(([key,ic,label])=>`<button class="${active===key?"active":""}" onclick="navigateLine('${key}')">${icon(ic)}${label}</button>`).join("")}
+  </div>`;
+};
+
+window.toggleManualV121=function(id){
+  document.getElementById(id)?.classList.toggle("open");
+};
+
+window.filterManualV121=function(value){
+  const q=String(value||"").trim().toLowerCase();
+  document.querySelectorAll(".manual-card-v121").forEach(card=>{
+    card.style.display=!q||String(card.dataset.search||"").toLowerCase().includes(q)?"":"none";
+  });
+};
+
+window.manualPageV121=function(){
+  const sections=[
+    ["visao","sparkles","Visão da LINE","Por que existimos e como servimos.","visão propósito servir ministério",
+      `<span class="manual-badge-v121">PROPÓSITO</span>
+      A LINE serve aos Interligados através da comunicação, criatividade e excelência.
+      <ul><li>Culto primeiro, conteúdo depois.</li><li>Escalado = responsável.</li><li>Técnica + sensibilidade.</li><li>O padrão é o mínimo, não o máximo.</li></ul>`],
+    ["story","smartphone","Story","Cobertura em tempo real do culto.","story stories cobertura mínimo 10",
+      `<span class="manual-badge-v121">MÍNIMO: 10 STORIES</span>
+      <ul><li>1 preparação/bastidores.</li><li>1 chegada.</li><li>1 abertura/início.</li><li>2 louvor.</li><li>2 Palavra/pregação.</li><li>1 interação ou momento espontâneo.</li><li>1 pós-culto/comunhão.</li><li>1 encerramento/próximo encontro.</li></ul>
+      <br>Vídeos curtos, variedade de enquadramentos e prioridade para pessoas + ambiente.`],
+    ["fotos","camera","Fotografia","Registrar a história da noite.","fotos fotografia",
+      `<ul><li>Fachada e ambiente.</li><li>Recepção e chegada.</li><li>Planos gerais.</li><li>Louvor e adolescentes adorando.</li><li>Pregador e reações.</li><li>Liderança e equipes servindo.</li><li>Momentos espontâneos e grupos.</li></ul>
+      <br>Não passar o culto inteiro fotografando somente o palco.`],
+    ["reels","clapperboard","Reels / Vídeo","Material para conteúdo pós-culto.","reels vídeo captação takes",
+      `<ul><li>Ambiente e detalhes.</li><li>Pessoas chegando.</li><li>Reações.</li><li>Louvor em planos gerais, médios e fechados.</li><li>Pregação.</li><li>Comunhão, bastidores e resenha.</li></ul>
+      <br><b>Pergunta-base:</b> “Se eu tivesse que contar como foi esse culto em 30 segundos, tenho imagens suficientes?”`],
+    ["projecao","monitor","Projeção","Operação visual do culto.","projeção telão letras vídeos",
+      `<b>Antes:</b> conferir computador, sistema, telão, letras, vídeos, artes e ordem.<br><br>
+      <b>Durante:</b> acompanhar o culto, letras no tempo correto e atenção às mudanças.<br><br>
+      <b>Depois:</b> encerrar corretamente e informar problemas técnicos.`],
+    ["postura","shield-check","Postura e responsabilidade","Como servir durante a escala.","postura responsabilidade horário",
+      `<ul><li>Chegar no horário combinado.</li><li>Estar atento à função escalada.</li><li>Cuidar dos equipamentos.</li><li>Não atrapalhar momentos sensíveis do culto.</li><li>Comunicar problemas à liderança.</li></ul>`],
+    ["arquivos","folder-open","Arquivos e organização","Entrega e armazenamento do material.","arquivos organização",
+      `Organize os arquivos de forma identificável, evite duplicações desnecessárias e entregue o material no espaço definido pela liderança.`],
+    ["fluxo","columns-3","Fluxo de produção","Do planejamento até a publicação.","produção publicar revisão",
+      `<b>Ideias → A Fazer → Em Produção → Revisão → Publicar.</b><br><br>
+      Use os quadros para briefing, responsáveis, prazos, checklist, anexos, comentários e aprovação.`]
+  ];
+  return `<div class="manual-hero-v121"><h2>Manual da LINE</h2><p>Direcionamentos oficiais para servir, produzir e cobrir os cultos dos Interligados.</p></div>
+    <input class="manual-search-v121" placeholder="Buscar no manual..." oninput="filterManualV121(this.value)">
+    <div class="manual-grid-v121">
+      ${sections.map(([id,ic,title,sub,search,body])=>`<article id="manual-${id}" class="manual-card-v121" data-search="${escapeHTML(`${title} ${sub} ${search}`)}">
+        <button class="manual-card-head-v121" onclick="toggleManualV121('manual-${id}')">
+          <span class="manual-card-icon-v121">${icon(ic)}</span>
+          <span class="manual-card-copy-v121"><b>${title}</b><small>${sub}</small></span>
+          ${icon("chevron-down").replace("<i ","<i class='manual-chevron-v121' ")}
+        </button>
+        <div class="manual-card-body-v121"><div class="manual-card-inner-v121">${body}</div></div>
+      </article>`).join("")}
+    </div>`;
+};
 window.LINE_BOARD_VIEW = window.LINE_BOARD_VIEW || {};
 window.LINE_BOARD_FILTERS = window.LINE_BOARD_FILTERS || {};
 window.LINE_BOARD_DATA_CACHE = new Map();
@@ -7362,18 +7645,51 @@ window.renderDashboardV12=function(teamId,bundle,tasks){
   const complete=tasks.filter(t=>t.status==="done").length;
   const total=tasks.length;
   const statuses=["ideas","todo","production","review","publishing"];
-  const max=Math.max(1,...statuses.map(s=>tasks.filter(t=>t.status===s).length));
+  const counts=statuses.map(s=>tasks.filter(t=>t.status===s).length);
+  const max=Math.max(1,...counts);
+  const openTotal=counts.reduce((a,b)=>a+b,0);
+
+  let acc=0;
+  const angles=counts.map(n=>{
+    acc+=(openTotal? n/openTotal : 0)*360;
+    return Math.round(acc*100)/100;
+  });
+  if(!openTotal){angles[0]=angles[1]=angles[2]=angles[3]=0;angles[4]=360}
+
+  const colors=["#64748b","#3b82f6","#f59e0b","#a855f7","#14b8a6"];
+  const pieBackground=openTotal
+    ?`conic-gradient(${colors.map((c,i)=>`${c} ${i===0?0:angles[i-1]}deg ${angles[i]}deg`).join(",")})`
+    :"conic-gradient(#132436 0 360deg)";
+
   return `<div class="board-dashboard-v12">
     <div class="board-dashboard-card"><small>Tarefas abertas</small><b>${tasks.filter(t=>t.status!=="done").length}</b></div>
     <div class="board-dashboard-card"><small>Atrasadas</small><b>${overdue}</b></div>
     <div class="board-dashboard-card"><small>Publicadas</small><b>${complete}</b></div>
     <div class="board-dashboard-card"><small>Conclusão</small><b>${total?Math.round(complete/total*100):0}%</b></div>
+
+    <div class="board-dashboard-card board-dashboard-span">
+      <small>Distribuição dos cards</small>
+      <div class="board-dashboard-pie-v121">
+        <div class="board-pie-wrap-v121">
+          <div class="board-pie-v121" style="background:${pieBackground}"></div>
+          <div class="board-pie-center-v121"><b>${openTotal}</b><small>cards ativos</small></div>
+        </div>
+        <div class="board-pie-legend-v121">
+          ${statuses.map((s,i)=>`<div class="board-pie-row-v121">
+            <span class="board-pie-dot-v121" style="background:${colors[i]}"></span>
+            <span>${TASK_STATUS_LABELS[s]}</span><b>${counts[i]}</b>
+          </div>`).join("")}
+        </div>
+      </div>
+    </div>
+
     <div class="board-dashboard-card board-dashboard-span"><small>Cards por etapa</small>
       <div class="board-status-bars">${statuses.map(s=>{
         const n=tasks.filter(t=>t.status===s).length;
         return `<div class="board-status-row"><span>${TASK_STATUS_LABELS[s]}</span><div class="board-status-bar"><span style="width:${n/max*100}%;background:${BOARD_STATUS_COLORS[s]}"></span></div><b>${n}</b></div>`;
       }).join("")}</div>
     </div>
+
     <div class="board-dashboard-card board-dashboard-span"><small>Responsáveis mais ativos</small>
       <div class="board-status-bars">${[...new Set((bundle.assignees||[]).map(a=>String(a.user_id)))].map(id=>{
         const m=memberById(id);const n=(bundle.assignees||[]).filter(a=>String(a.user_id)===id).length;
