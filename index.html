@@ -3449,6 +3449,24 @@ html[data-theme="light"] .ai-unfilled-warning{background:#fff8e9!important;borde
   .availability-person-main small{max-width:130px}
 }
 
+
+/* ==========================================================
+   V11.9 — SORTEIO REAL E ROTAÇÃO DE MEMBROS
+   ========================================================== */
+.ai-draw-badge{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  color:#9fd7ff!important;
+}
+.ai-draw-badge svg{
+  width:12px!important;
+  height:12px!important;
+}
+html[data-theme="light"] .ai-draw-badge{
+  color:#245b81!important;
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -5776,7 +5794,7 @@ window.schedulesPage = async function(){
         <div class="field ai-field">
           <label>${icon("calendar-days")}Evento</label>
           <div class="ai-select-wrap">
-            <select id="aiEvent" onchange="setAIEvent(this.value)">
+            <select id="aiEvent" onchange="setAIEvent(this.value);resetAISortHistoryForCurrentEvent()">
               ${events.length
                 ?events.map((e,i)=>`<option value="${e.id}" ${i===0?"selected":""}>${e.name} • ${formatEventDate(e.event_date)}</option>`).join("")
                 :`<option value="">Nenhum evento futuro</option>`}
@@ -5786,10 +5804,11 @@ window.schedulesPage = async function(){
         </div>
 
         <div class="field ai-field">
-          <label>${icon("shield-check")}Regra de disponibilidade</label>
+          <label>${icon("shuffle")}Estratégia da escala</label>
           <div class="ai-select-wrap">
-            <select id="aiRule">
-              <option value="available_only">Somente quem marcou Disponível</option>
+            <select id="aiRule" onchange="resetAISortHistoryForCurrentEvent()">
+              <option value="random">Sorteio entre os disponíveis</option>
+              <option value="balanced">Equilibrar carga + disponibilidade</option>
             </select>
             ${icon("chevron-down")}
           </div>
@@ -5798,7 +5817,7 @@ window.schedulesPage = async function(){
 
       <button id="aiGenerateBtn" class="primary ai-generate-btn" onclick="generateAIPreview()" ${events.length?"":"disabled"}>
         ${icon("sparkles")}
-        <span>Gerar escala com os disponíveis</span>
+        <span>Gerar sugestão de escala</span>
       </button>
     </div>
 
@@ -5816,6 +5835,93 @@ window.schedulesPage = async function(){
 
 window.refreshSchedulesNow=async function(){return refreshAllScheduleData();};
 
+
+// Histórico apenas da sessão atual do Master.
+// Serve para que "Gerar novamente" não devolva sempre as mesmas pessoas.
+window.LINE_AI_DRAW_HISTORY = window.LINE_AI_DRAW_HISTORY || {};
+
+window.aiHistoryKey=function(eventId,strategy){
+  return `${Number(eventId)}:${strategy||"random"}`;
+};
+
+window.getAIDrawHistory=function(eventId,strategy){
+  const key=aiHistoryKey(eventId,strategy);
+  if(!LINE_AI_DRAW_HISTORY[key]){
+    LINE_AI_DRAW_HISTORY[key]={
+      generations:0,
+      users:new Set(),
+      roleUsers:{}
+    };
+  }
+  return LINE_AI_DRAW_HISTORY[key];
+};
+
+window.resetAISortHistoryForCurrentEvent=function(){
+  const eventId=Number(document.getElementById("aiEvent")?.value);
+  if(!eventId)return;
+  // Ao trocar a estratégia, cada modo mantém seu próprio histórico.
+  // Apenas limpa a prévia atual para não confundir o Master.
+  V8.aiPreview=[];
+  const output=document.getElementById("aiOutput");
+  if(output){
+    output.innerHTML=`<div class="ai-empty-state">
+      <div class="ai-empty-icon">${icon("wand-sparkles")}</div>
+      <div>
+        <b>Estratégia alterada</b>
+        <p>Gere uma nova sugestão usando a regra selecionada.</p>
+      </div>
+    </div>`;
+    refreshIcons();
+  }
+};
+
+window.shuffleArray=function(array){
+  const arr=[...array];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+};
+
+window.chooseRandomCandidate=function(candidates,usedThisPreview,history,roleName){
+  const eligible=candidates.filter(m=>!usedThisPreview.has(String(m.id)));
+  if(!eligible.length)return null;
+
+  const roleHistory=history.roleUsers[roleName] || new Set();
+
+  // 1) Prioridade máxima: pessoa que ainda não apareceu em nenhum sorteio
+  //    desta sessão para este evento.
+  let pool=eligible.filter(m=>!history.users.has(String(m.id)));
+
+  // 2) Se todos já apareceram em alguma função, tenta alguém que ainda não
+  //    apareceu especificamente nesta função.
+  if(!pool.length){
+    pool=eligible.filter(m=>!roleHistory.has(String(m.id)));
+  }
+
+  // 3) Quando todas as opções já rodaram, libera repetição.
+  if(!pool.length)pool=eligible;
+
+  const shuffled=shuffleArray(pool);
+  return shuffled[0]||null;
+};
+
+window.chooseBalancedCandidate=function(candidates,usedThisPreview){
+  const eligible=candidates.filter(m=>!usedThisPreview.has(String(m.id)));
+  if(!eligible.length)return null;
+
+  // Empates recebem um pequeno fator aleatório para que "Gerar novamente"
+  // consiga variar sem abandonar a lógica de equilíbrio.
+  return eligible
+    .map(m=>({
+      m,
+      load:memberScheduleCount(m.id),
+      tie:Math.random()
+    }))
+    .sort((a,b)=>a.load-b.load || a.tie-b.tie)[0]?.m || null;
+};
+
 window.memberScheduleCount = function(userId){
   return V8.schedules.filter(s=>s.user_id===userId&&s.status!=="replaced").length;
 }
@@ -5825,28 +5931,36 @@ window.availabilityScore = function(eventId,userId){
 }
 window.generateAIPreview = async function(){
   const eventSelect=document.getElementById("aiEvent");
+  const ruleSelect=document.getElementById("aiRule");
   const output=document.getElementById("aiOutput");
   const btn=document.getElementById("aiGenerateBtn");
   const eventId=Number(eventSelect?.value);
   const event=eventById(eventId);
+  const strategy=ruleSelect?.value||"random";
 
   if(!event||!output||!btn)return;
 
   btn.disabled=true;
   btn.classList.add("is-loading");
-  btn.innerHTML=`${icon("loader-circle")}<span>Analisando dados...</span>`;
+  btn.innerHTML=`${icon("loader-circle")}<span>${strategy==="random"?"Realizando sorteio...":"Analisando dados..."}</span>`;
   refreshIcons();
 
-  const steps=[
-    ["users-round","Analisando disponibilidade da equipe",34],
-    ["scale","Equilibrando carga entre os membros",67],
-    ["clipboard-check","Montando a melhor combinação",100]
-  ];
+  const steps=strategy==="random"
+    ?[
+      ["users-round","Conferindo quem marcou Disponível",34],
+      ["shuffle","Sorteando entre os membros elegíveis",67],
+      ["refresh-cw","Evitando repetir a sugestão anterior",100]
+    ]
+    :[
+      ["users-round","Conferindo quem marcou Disponível",34],
+      ["scale","Equilibrando carga entre os membros",67],
+      ["clipboard-check","Montando a combinação",100]
+    ];
 
   output.innerHTML=`<div class="ai-loading-card">
     <div class="ai-loading-head">
-      <div class="ai-thinking-icon">${icon("brain-circuit")}</div>
-      <div><b>A LINE IA está preparando a escala</b><p>Isso leva apenas alguns segundos.</p></div>
+      <div class="ai-thinking-icon">${icon(strategy==="random"?"shuffle":"brain-circuit")}</div>
+      <div><b>${strategy==="random"?"A LINE está realizando o sorteio":"A LINE IA está preparando a escala"}</b><p>Isso leva apenas alguns segundos.</p></div>
     </div>
     <div class="ai-loading-step" id="aiLoadingStep">${icon(steps[0][0])}<span>${steps[0][1]}</span></div>
     <div class="ai-progress"><span id="aiProgressBar" style="width:${steps[0][2]}%"></span></div>
@@ -5860,56 +5974,102 @@ window.generateAIPreview = async function(){
     if(stepEl)stepEl.innerHTML=`${icon(step[0])}<span>${step[1]}</span>`;
     if(bar)bar.style.width=`${step[2]}%`;
     refreshIcons();
-    await new Promise(resolve=>setTimeout(resolve,420));
+    await new Promise(resolve=>setTimeout(resolve,300));
   }
 
-  const operational=V8.teams.filter(t=>["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name));
-  const preview=[];
-  const unfilled=[];
+  const operational=V8.teams.filter(t=>
+    ["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].includes(t.name)
+  );
 
-  operational.forEach(team=>{
+  // Monta os pools antes para começar pelas áreas com menos opções.
+  // Isso reduz a chance de uma pessoa multi-equipe ocupar uma função e deixar
+  // outra função sem ninguém.
+  const teamPools=operational.map(team=>{
     const ids=V8.memberTeams
       .filter(mt=>Number(mt.team_id)===Number(team.id))
-      .map(mt=>mt.user_id);
+      .map(mt=>String(mt.user_id));
 
     const candidates=V8.members.filter(m=>
-      ids.includes(m.id)&&
-      m.active&&
-      m.role==="member"&&
-      m.name!=="Michel Macedo"&&
+      ids.includes(String(m.id)) &&
+      m.active &&
+      m.role==="member" &&
+      m.name!=="Michel Macedo" &&
       availabilityFor(eventId,m.id)==="available"
     );
 
-    const ranked=candidates.map(m=>({
-      m,
-      score:availabilityScore(eventId,m.id)-memberScheduleCount(m.id)*3
-    }))
-    .filter(x=>x.score>-900)
-    .sort((a,b)=>b.score-a.score);
+    return {team,candidates};
+  });
 
-    if(ranked[0]){
+  const processingOrder=[...teamPools].sort((a,b)=>
+    a.candidates.length-b.candidates.length ||
+    String(a.team.name).localeCompare(String(b.team.name),"pt-BR")
+  );
+
+  const preview=[];
+  const unfilled=[];
+  const usedThisPreview=new Set();
+  const history=getAIDrawHistory(eventId,strategy);
+
+  processingOrder.forEach(({team,candidates})=>{
+    let selected=null;
+
+    if(strategy==="random"){
+      selected=chooseRandomCandidate(candidates,usedThisPreview,history,team.name);
+    }else{
+      selected=chooseBalancedCandidate(candidates,usedThisPreview);
+    }
+
+    if(selected){
+      usedThisPreview.add(String(selected.id));
+
+      const score=strategy==="balanced"
+        ?Math.max(0,100-memberScheduleCount(selected.id)*3)
+        :null;
+
       preview.push({
         teamId:team.id,
         role:team.name,
-        userId:ranked[0].m.id,
-        memberName:ranked[0].m.name,
-        score:ranked[0].score
+        userId:selected.id,
+        memberName:selected.name,
+        score,
+        strategy
       });
     }else{
       unfilled.push(team.name);
     }
   });
 
+  // Volta à ordem visual padrão das equipes.
+  const visualOrder=new Map(operational.map((t,index)=>[String(t.id),index]));
+  preview.sort((a,b)=>
+    (visualOrder.get(String(a.teamId))??999)-(visualOrder.get(String(b.teamId))??999)
+  );
+
+  // Só depois de concluir a geração registramos quem apareceu.
+  // Assim a geração seguinte consegue priorizar pessoas diferentes.
+  if(strategy==="random" && preview.length){
+    history.generations+=1;
+    preview.forEach(item=>{
+      const userId=String(item.userId);
+      history.users.add(userId);
+      if(!history.roleUsers[item.role])history.roleUsers[item.role]=new Set();
+      history.roleUsers[item.role].add(userId);
+    });
+  }
+
   V8.aiPreview=preview;
 
   if(preview.length){
+    const strategyTitle=strategy==="random"?"Sorteio gerado":"Sugestão equilibrada";
+    const strategyIcon=strategy==="random"?"shuffle":"sparkles";
+
     output.innerHTML=`<div class="ai-result-header">
       <div>
-        <span class="ai-result-kicker">${icon("sparkles")}Sugestão gerada</span>
+        <span class="ai-result-kicker">${icon(strategyIcon)}${strategyTitle}</span>
         <h4>${event.name}</h4>
         <p>${formatEventDate(event.event_date)} • ${event.start_time?.slice(0,5)||"Horário não informado"}</p>
       </div>
-      <span class="status confirmed">${icon("circle-check")}Sem conflitos detectados</span>
+      <span class="status confirmed">${icon("circle-check")}Sem duplicidade de membro</span>
     </div>
 
     <div class="ai-preview ai-preview-premium">
@@ -5932,13 +6092,17 @@ window.generateAIPreview = async function(){
               <b>${a.memberName}</b>
             </div>
           </div>
-          <span class="ai-score">Score ${a.score}</span>
+          ${strategy==="random"
+            ?`<span class="ai-score ai-draw-badge">${icon("shuffle")} Sorteado</span>`
+            :`<span class="ai-score">Score ${a.score}</span>`}
         </div>`;
       }).join("")}
     </div>
 
     <div class="ai-quality-grid">
-      <div>${icon("check")}<span><b>Carga equilibrada</b><small>Distribuição baseada no histórico.</small></span></div>
+      ${strategy==="random"
+        ?`<div>${icon("shuffle")}<span><b>Sorteio renovado</b><small>Ao gerar novamente, o sistema prioriza quem ainda não apareceu.</small></span></div>`
+        :`<div>${icon("check")}<span><b>Carga equilibrada</b><small>Prioridade para quem possui menos escalas no histórico.</small></span></div>`}
       <div>${icon("check")}<span><b>Disponibilidade conferida</b><small>Somente quem marcou Disponível entrou na análise.</small></span></div>
     </div>
 
@@ -5952,17 +6116,22 @@ window.generateAIPreview = async function(){
       <button class="primary ai-apply-btn" onclick="publishAISchedule(${eventId})">${icon("circle-check")}Aplicar esta escala</button>
     </div>
 
-    <div class="integration-note">Ao aplicar, cada membro escalado receberá uma notificação interna para confirmar ou recusar.</div>`;
+    <div class="integration-note">
+      ${strategy==="random"
+        ?"Cada novo sorteio tenta trazer pessoas diferentes. Repetições só acontecem quando as alternativas elegíveis daquela função já foram usadas."
+        :"A escala equilibrada considera disponibilidade e quantidade de escalas anteriores."}
+      Ao aplicar, cada membro escalado receberá uma notificação interna para confirmar ou recusar.
+    </div>`;
   }else{
     output.innerHTML=`<div class="ai-empty-state ai-empty-warning">
       <div class="ai-empty-icon">${icon("user-round-x")}</div>
-      <div><b>Ninguém disponível para gerar a escala</b><p>É necessário que os membros marquem Disponível para este evento antes de entrarem na sugestão da IA.</p></div>
+      <div><b>Ninguém disponível para gerar a escala</b><p>É necessário que os membros marquem Disponível para este evento antes de entrarem na sugestão.</p></div>
     </div>`;
   }
 
   btn.disabled=false;
   btn.classList.remove("is-loading");
-  btn.innerHTML=`${icon("sparkles")}<span>Gerar escala inteligente</span>`;
+  btn.innerHTML=`${icon("sparkles")}<span>Gerar sugestão de escala</span>`;
   refreshIcons();
 }
 
@@ -6689,7 +6858,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.8 availability ai iniciado");
+ console.info("LINE Interligados v11.9 ai reroll fix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -6697,7 +6866,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.8",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.9",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
