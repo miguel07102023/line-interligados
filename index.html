@@ -4389,6 +4389,258 @@ html[data-theme="light"] .manual-card-inner-v121{color:#294256!important}
   }
 }
 
+
+/* ==========================================================
+   LINE v12.6 — DASHBOARD / SIDEBAR / MANUAL
+   ========================================================== */
+
+/* Acordeão do Manual: cada card cresce sozinho */
+.manual-grid-v121{
+  align-items:start!important;
+}
+.manual-card-v121{
+  align-self:start!important;
+  height:auto!important;
+}
+.manual-card-v121:not(.open) .manual-card-body-v121{
+  max-height:0!important;
+}
+.manual-card-v121.open .manual-card-body-v121{
+  max-height:1200px!important;
+}
+
+/* Versículo final */
+.manual-verse-v126{
+  margin-top:16px;
+  min-height:110px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(17,41,66,.82),rgba(8,23,38,.94));
+  padding:17px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.manual-verse-v126>span{
+  width:44px;height:44px;min-width:44px;border-radius:13px;
+  display:grid;place-items:center;
+  background:rgba(47,128,184,.14);
+  color:#8fd0fb;
+}
+.manual-verse-v126>span svg{width:19px;height:19px}
+.manual-verse-v126 small{
+  display:block;
+  color:#6fa6ce;
+  font-size:7px;
+  letter-spacing:.8px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.manual-verse-v126 blockquote{
+  margin:0 0 6px;
+  padding:0;
+  border:0;
+  font-size:11px;
+  line-height:1.45;
+  font-weight:700;
+  color:var(--text);
+}
+.manual-verse-v126 b{font-size:8px;color:var(--muted)}
+
+/* Dashboard: animação dos cards/botões iniciais para Master e membros */
+.stats .stat,
+.dash-grid>.panel,
+.bottom-grid>.panel,
+.dashboard-clickable{
+  transform-origin:center;
+}
+.stats .stat{
+  animation:dashCardInV126 .42s cubic-bezier(.17,.84,.35,1) both;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.stats .stat:nth-child(1){animation-delay:.02s}
+.stats .stat:nth-child(2){animation-delay:.07s}
+.stats .stat:nth-child(3){animation-delay:.12s}
+.stats .stat:nth-child(4){animation-delay:.17s}
+.dash-grid>.panel{
+  animation:dashCardInV126 .46s .14s cubic-bezier(.17,.84,.35,1) both;
+}
+.bottom-grid>.panel{
+  animation:dashCardInV126 .46s .20s cubic-bezier(.17,.84,.35,1) both;
+}
+@keyframes dashCardInV126{
+  0%{opacity:0;transform:translateY(9px) scale(.985)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.stats .stat:hover,
+.dashboard-clickable:hover{
+  transform:translateY(-3px)!important;
+  border-color:rgba(77,169,232,.40)!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.22),0 0 0 1px rgba(75,166,230,.10)!important;
+}
+.stats .stat:active,
+.dashboard-clickable:active{
+  transform:scale(.975)!important;
+}
+.stats .stat .stat-icon,
+.dashboard-clickable .stat-icon{
+  transition:transform .22s cubic-bezier(.17,.84,.35,1.3);
+}
+.stats .stat:hover .stat-icon,
+.dashboard-clickable:hover .stat-icon{
+  transform:scale(1.08) rotate(-3deg);
+}
+.dashboard-clickable::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:linear-gradient(110deg,transparent 25%,rgba(102,196,255,.08) 50%,transparent 75%);
+  transform:translateX(-130%);
+  transition:transform .5s ease;
+}
+.dashboard-clickable:hover::after{transform:translateX(130%)}
+
+/* Desktop sidebar estilo compactável */
+@media(min-width:761px){
+  .sidebar{
+    transition:width .26s cubic-bezier(.2,.8,.2,1),padding .26s ease!important;
+    overflow:hidden!important;
+  }
+  .main{
+    transition:margin-left .26s cubic-bezier(.2,.8,.2,1),width .26s cubic-bezier(.2,.8,.2,1)!important;
+  }
+  .brand{
+    position:relative;
+    min-height:58px;
+    padding:8px 8px 20px!important;
+    transition:.22s ease;
+  }
+  .brand-copy-v126{
+    min-width:0;
+    transition:opacity .16s ease,width .22s ease,transform .22s ease;
+  }
+  .sidebar-toggle-v126{
+    margin-left:auto;
+    width:34px;height:34px;min-width:34px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#0c1928;
+    color:#b9c8d6;
+    display:grid;
+    place-items:center;
+    transition:transform .18s ease,background .18s ease;
+  }
+  .sidebar-toggle-v126:hover{
+    background:#13263a;
+    transform:scale(1.05);
+  }
+  .sidebar-toggle-v126 svg{width:16px;height:16px}
+  .nav-label-v126,
+  .sidebar-user-copy-v126{
+    white-space:nowrap;
+    overflow:hidden;
+    transition:opacity .16s ease,max-width .24s ease,transform .24s ease;
+  }
+
+  .shell.sidebar-collapsed-v126 .sidebar{
+    width:82px!important;
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+  .shell.sidebar-collapsed-v126 .main{
+    margin-left:82px!important;
+    width:calc(100% - 82px)!important;
+  }
+  .shell.sidebar-collapsed-v126 .brand{
+    flex-direction:column!important;
+    justify-content:center!important;
+    gap:9px!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  .shell.sidebar-collapsed-v126 .brand .logo-box{
+    width:40px!important;height:40px!important;
+  }
+  .shell.sidebar-collapsed-v126 .brand-copy-v126{
+    display:none!important;
+  }
+  .shell.sidebar-collapsed-v126 .sidebar-toggle-v126{
+    margin-left:0!important;
+    width:40px!important;
+  }
+  .shell.sidebar-collapsed-v126 .nav a{
+    width:52px!important;
+    min-height:48px!important;
+    padding:0!important;
+    margin:0 auto!important;
+    justify-content:center!important;
+    gap:0!important;
+  }
+  .shell.sidebar-collapsed-v126 .nav a svg{
+    width:20px!important;height:20px!important;
+  }
+  .shell.sidebar-collapsed-v126 .nav-label-v126,
+  .shell.sidebar-collapsed-v126 .sidebar-user-copy-v126{
+    display:none!important;
+  }
+  .shell.sidebar-collapsed-v126 .nav-badge{
+    position:absolute!important;
+    top:-4px!important;
+    right:-5px!important;
+    min-width:17px!important;
+    height:17px!important;
+    padding:0 4px!important;
+    font-size:7px!important;
+  }
+  .shell.sidebar-collapsed-v126 .sidebar-bottom{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+  }
+  .shell.sidebar-collapsed-v126 .user-card{
+    width:52px!important;
+    height:52px!important;
+    padding:5px!important;
+    justify-content:center!important;
+    border-radius:15px!important;
+  }
+  .shell.sidebar-collapsed-v126 .user-card .avatar{
+    width:38px!important;height:38px!important;min-width:38px!important;
+  }
+  .shell.sidebar-collapsed-v126 .logout{
+    width:52px!important;
+    height:48px!important;
+    padding:0!important;
+    justify-content:center!important;
+  }
+}
+
+/* Light */
+html[data-theme="light"] .manual-verse-v126{
+  background:linear-gradient(145deg,#f7fbfe,#eef5fa)!important;
+  border-color:#d9e6ef!important;
+}
+html[data-theme="light"] .sidebar-toggle-v126{
+  background:#f3f7fa!important;
+  color:#24445d!important;
+  border-color:#d9e5ee!important;
+}
+
+/* Mobile: sem hover preso */
+@media(max-width:760px){
+  .stats .stat:hover,
+  .dashboard-clickable:hover{
+    transform:none!important;
+  }
+  .manual-verse-v126{
+    align-items:flex-start;
+    padding:15px;
+  }
+  .manual-verse-v126 blockquote{font-size:10px}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -5346,12 +5598,28 @@ function routeSubtitle(){
   return subtitles()[route]||"";
 }
 
+
+window.getSidebarCollapsedV126=function(){
+  return localStorage.getItem("line_sidebar_collapsed")==="1";
+};
+window.toggleDesktopSidebarV126=function(){
+  const shell=document.querySelector(".shell");
+  if(!shell)return;
+  const next=!shell.classList.contains("sidebar-collapsed-v126");
+  shell.classList.toggle("sidebar-collapsed-v126",next);
+  localStorage.setItem("line_sidebar_collapsed",next?"1":"0");
+};
+
 function shell(content){
- const u=currentUser;return `<div class="shell">
+ const u=currentUser;return `<div class="shell ${getSidebarCollapsedV126()?"sidebar-collapsed-v126":""}">
  <aside class="sidebar">
-  <div class="brand"><div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div><div><strong>LINE</strong><small>Interligados</small></div></div>
-  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","candidaturas","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">${icon(i)}${l}${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
-  <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()">${icon("log-out")}Sair</button></div>
+  <div class="brand">
+    <div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div>
+    <div class="brand-copy-v126"><strong>LINE</strong><small>Interligados</small></div>
+    <button class="sidebar-toggle-v126" onclick="toggleDesktopSidebarV126()" aria-label="Recolher ou expandir menu" title="Recolher/expandir menu">${icon("menu")}</button>
+  </div>
+  <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","candidaturas","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}" title="${l}">${icon(i)}<span class="nav-label-v126">${l}</span>${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
+  <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()" title="${u.name}">${avatarHTML(u)}<div class="sidebar-user-copy-v126"><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()" title="Sair">${icon("log-out")}<span class="nav-label-v126">Sair</span></button></div>
  </aside>
  <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="theme-switch">
   <button class="theme-pill" onclick="toggleLineTheme()" aria-label="${getLineTheme()==="dark"?"Ativar modo claro":"Ativar modo escuro"}" title="${getLineTheme()==="dark"?"Modo claro":"Modo escuro"}">
@@ -7820,7 +8088,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v12.5 mobile homebar compacta iniciado");
+ console.info("LINE Interligados v12.6 dashboard sidebar manual iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -7828,7 +8096,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.5",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.6",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -8064,7 +8332,15 @@ window.manualPageV121=function(){
         </button>
         <div class="manual-card-body-v121"><div class="manual-card-inner-v121">${body}</div></div>
       </article>`).join("")}
-    </div>`;
+    </div>
+    <footer class="manual-verse-v126">
+      <span>${icon("heart-handshake")}</span>
+      <div>
+        <small>PARA LEMBRAR POR QUE SERVIMOS</small>
+        <blockquote>“Cada um exerça o dom que recebeu para servir aos outros.”</blockquote>
+        <b>1 Pedro 4:10</b>
+      </div>
+    </footer>`;
 };
 window.LINE_BOARD_VIEW = window.LINE_BOARD_VIEW || {};
 window.LINE_BOARD_FILTERS = window.LINE_BOARD_FILTERS || {};
