@@ -3089,6 +3089,135 @@ html[data-theme="light"] .modal-bg.active-modal{
 html[data-theme="light"] .application-stage-tabs button{background:#fff!important;border-color:#dce6ef!important}html[data-theme="light"] .application-stage-tabs button b{background:#edf4f8!important}html[data-theme="light"] .application-stage-pending{color:#8a621d!important;background:#fff7e7!important;border-color:#efdeb8!important}html[data-theme="light"] .application-stage-approved{color:#2d754a!important;background:#edf8f2!important;border-color:#cfe8d8!important}html[data-theme="light"] .application-stage-rejected{color:#a43d3d!important;background:#fff0f0!important;border-color:#efd0d0!important}
 @media(max-width:760px){.application-stage-tabs{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}.application-stage-tabs button{min-height:48px!important}.application-card-stage{margin-top:10px}.application-stage-actions{grid-template-columns:1fr!important}.application-stage-actions button{width:100%!important;min-height:46px!important}}
 
+
+/* ==========================================================
+   V11.5 — SINCRONIZAÇÃO REAL DAS CONFIRMAÇÕES DE ESCALA
+   ========================================================== */
+.schedule-summary-row{
+  width:100%;
+  border:0;
+  padding:7px 3px;
+  border-radius:9px;
+  background:transparent;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+.schedule-summary-row:hover{
+  background:rgba(64,145,208,.08);
+}
+.schedule-summary-row:active{
+  transform:scale(.995);
+}
+.schedule-refresh-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+.schedule-refresh-btn svg{
+  width:14px;
+  height:14px;
+}
+.schedule-refresh-btn:disabled svg{
+  animation:lineScheduleSpin .7s linear infinite;
+}
+@keyframes lineScheduleSpin{to{transform:rotate(360deg)}}
+
+html[data-theme="light"] .schedule-summary-row{
+  color:#0b1520!important;
+}
+html[data-theme="light"] .schedule-summary-row:hover{
+  background:#eef5fa!important;
+}
+
+@media(max-width:760px){
+  .schedule-refresh-btn{
+    min-height:40px!important;
+    padding:9px 11px!important;
+    white-space:nowrap;
+  }
+  .schedule-summary-row{
+    min-height:42px;
+  }
+}
+
+
+/* ==========================================================
+   V11.6 — EQUIPES NO CADASTRO + EDIÇÃO PELO MEMBRO
+   ========================================================== */
+.signup-team-options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.signup-team-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:42px;
+  padding:9px 11px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#081522;
+  color:#c7d6e5;
+  font-size:9px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.16s ease;
+}
+.signup-team-check:hover{
+  border-color:rgba(80,163,225,.38);
+  background:#0c1c2d;
+}
+.signup-team-check input{
+  width:15px!important;
+  height:15px!important;
+  min-height:0!important;
+  accent-color:#2f78b8;
+}
+.signup-team-help{
+  display:block;
+  margin-top:7px;
+  font-size:8px;
+  line-height:1.45;
+  color:var(--muted);
+}
+
+html[data-theme="light"] .signup-team-check{
+  background:#f6f9fc!important;
+  color:#17324a!important;
+  border-color:#d8e4ed!important;
+}
+html[data-theme="light"] .signup-team-check:hover{
+  background:#eef5fa!important;
+}
+
+@media(max-width:760px){
+  .signup-team-options{
+    grid-template-columns:1fr!important;
+  }
+  .signup-team-check{
+    min-height:46px!important;
+    font-size:9px!important;
+  }
+  .multi-team-options{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+  }
+  .team-check{
+    min-height:42px!important;
+    border-radius:12px!important;
+    justify-content:flex-start!important;
+  }
+}
+
+@media(max-width:390px){
+  .multi-team-options{
+    grid-template-columns:1fr!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -3218,12 +3347,43 @@ function teamsForMember(userId,memberTeams){
 
 async function setMemberTeams(userId,teamIds){
   const ids=[...new Set((teamIds||[]).map(Number).filter(Boolean))];
+  const own=String(userId)===String(currentUser?.id);
 
-  if(!isMaster() && userId!==currentUser.id)return;
-  if(!isMaster() && ids.length>2){
-    alert("Cada membro pode participar de no máximo 2 equipes.");
+  if(!isMaster() && !own){
+    alert("Você só pode alterar as suas próprias equipes.");
     return false;
   }
+
+  if(!isMaster() && ids.length>2){
+    alert("Você pode participar de no máximo 2 equipes.");
+    return false;
+  }
+
+  if(!ids.length){
+    alert("Escolha pelo menos 1 equipe.");
+    return false;
+  }
+
+  // Para o próprio membro usamos RPC para funcionar mesmo com RLS restritiva.
+  if(own && !isMaster()){
+    const {error}=await supabaseClient.rpc("set_my_teams",{p_team_ids:ids});
+    if(error){
+      console.error(error);
+      alert("Não foi possível salvar suas equipes.");
+      return false;
+    }
+    return true;
+  }
+
+  // Master pode atribuir quantas equipes forem necessárias.
+  const {error:rpcError}=await supabaseClient.rpc("master_set_member_teams",{
+    p_user_id:userId,
+    p_team_ids:ids
+  });
+
+  if(!rpcError)return true;
+
+  console.warn("RPC master_set_member_teams falhou; tentando acesso direto.",rpcError);
 
   const {error:delError}=await supabaseClient
     .from("member_teams")
@@ -3232,20 +3392,20 @@ async function setMemberTeams(userId,teamIds){
 
   if(delError){
     console.error(delError);
-    alert("Não foi possível atualizar suas equipes.");
+    alert("Não foi possível atualizar as equipes.");
     return false;
   }
 
-  if(ids.length){
-    const {error:insError}=await supabaseClient
-      .from("member_teams")
-      .insert(ids.map(team_id=>({user_id:userId,team_id})));
-    if(insError){
-      console.error(insError);
-      alert("Não foi possível salvar as equipes selecionadas.");
-      return false;
-    }
+  const {error:insError}=await supabaseClient
+    .from("member_teams")
+    .insert(ids.map(team_id=>({user_id:userId,team_id})));
+
+  if(insError){
+    console.error(insError);
+    alert("Não foi possível salvar as equipes selecionadas.");
+    return false;
   }
+
   return true;
 }
 
@@ -3357,6 +3517,45 @@ async function loadCurrentUser(userOverride=null){
  };
  return currentUser;
 }
+
+
+window.syncMyTeamsFromSignupMetadata=async function(){
+  if(!authUser || !currentUser || currentUser.role==="master")return;
+
+  const requested=Array.isArray(authUser.user_metadata?.selected_teams)
+    ?authUser.user_metadata.selected_teams.slice(0,2)
+    :[];
+
+  if(!requested.length)return;
+
+  const {data:existing,error:existingError}=await supabaseClient
+    .from("member_teams")
+    .select("team_id")
+    .eq("user_id",currentUser.id);
+
+  if(existingError){
+    console.warn("Não foi possível conferir equipes atuais:",existingError);
+    return;
+  }
+  if((existing||[]).length)return;
+
+  const {data:teams,error:teamsError}=await supabaseClient
+    .from("teams")
+    .select("id,name")
+    .in("name",requested);
+
+  if(teamsError){
+    console.warn("Não foi possível localizar equipes escolhidas:",teamsError);
+    return;
+  }
+
+  if(teams?.length){
+    const {error}=await supabaseClient.rpc("set_my_teams",{
+      p_team_ids:teams.map(t=>Number(t.id))
+    });
+    if(error)console.warn("Não foi possível sincronizar equipes iniciais:",error);
+  }
+};
 
 function withTimeout(promise,ms=7000){
  return Promise.race([
@@ -3535,11 +3734,32 @@ function loginForm(){return `<form onsubmit="login(event)">
 function registerForm(){return `<form onsubmit="register(event)">
   <div class="field"><label>Nome completo</label><input id="regName" required></div>
   <div class="field"><label>E-mail</label><input id="regEmail" type="email" required></div>
-  <div class="field"><label>Área principal</label><select id="regArea"><option>Story</option><option>Fotos</option><option>Design</option><option>Projeção</option><option>Reels</option><option>Edição</option><option>Social Media</option></select></div>
+
+  <div class="field full">
+    <label>Equipes que você deseja participar</label>
+    <div class="signup-team-options" id="signupTeamOptions">
+      ${["Story","Fotos","Design","Projeção","Reels","Edição","Social Media"].map(name=>`
+        <label class="signup-team-check">
+          <input type="checkbox" class="regTeamCheck" value="${name}" onchange="enforceSignupTeamLimit(this)">
+          <span>${name}</span>
+        </label>`).join("")}
+    </div>
+    <small class="signup-team-help">Escolha até 2 equipes. Depois você poderá alterar essas opções no seu perfil.</small>
+  </div>
+
   <div class="field"><label>Senha</label><input id="regPassword" type="password" minlength="4" required></div>
   <button class="auth-submit">Criar minha conta</button>
-  <p class="helper">Contas criadas por aqui entram como <b>membro</b>. Os únicos Masters pré-confirmados são Miguel Silva, Michel Macedo e Gleyce. Permissão Master adicional somente pode ser definida por um administrador.</p>
+  <p class="helper">Contas criadas por aqui entram como <b>membro</b>. Membros podem participar de até 2 equipes. Apenas Masters podem atribuir mais de 2 equipes.</p>
 </form>`}
+
+function enforceSignupTeamLimit(changed){
+  const selected=[...document.querySelectorAll(".regTeamCheck:checked")];
+  if(selected.length>2){
+    changed.checked=false;
+    alert("Você pode escolher no máximo 2 equipes.");
+  }
+}
+
 function showAuth(type,btn){document.querySelectorAll(".auth-tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");$("#authForm").innerHTML=type==="login"?loginForm():registerForm()}
 async function login(e){
  e.preventDefault();
@@ -3582,6 +3802,7 @@ async function login(e){
      try{
        await loadCurrentUser(user);
        if(currentUser){
+         try{await syncMyTeamsFromSignupMetadata()}catch(error){console.warn(error)}
          profileLoaded=true;
          break;
        }
@@ -3645,27 +3866,55 @@ async function register(e){
  const name=$("#regName").value.trim();
  const email=$("#regEmail").value.trim().toLowerCase();
  const password=$("#regPassword").value;
- const area=$("#regArea").value;
+ const selectedTeams=[...document.querySelectorAll(".regTeamCheck:checked")].map(x=>x.value);
+
+ if(!selectedTeams.length){
+   setAuthMessage("Escolha pelo menos 1 equipe para continuar.","error");
+   return;
+ }
+ if(selectedTeams.length>2){
+   setAuthMessage("Você pode escolher no máximo 2 equipes.","error");
+   return;
+ }
+
  const {data,error}=await supabaseClient.auth.signUp({
    email,
    password,
-   options:{data:{name,area}}
+   options:{
+     data:{
+       name,
+       area:selectedTeams[0]||"Membro",
+       selected_teams:selectedTeams
+     }
+   }
  });
+
  if(error){
    console.error("Erro ao criar conta:",error);
    setAuthMessage(error.message||"Não foi possível criar a conta.","error");
    return;
  }
+
  if(data.session){
    await loadCurrentUser();
+
+   // O trigger do Supabase já tenta criar member_teams.
+   // Fazemos também uma sincronização extra quando a sessão já está ativa.
+   try{
+     await syncMyTeamsFromSignupMetadata();
+   }catch(error){
+     console.warn("Sincronização inicial das equipes:",error);
+   }
+
    route="dashboard";
    location.hash="dashboard";
    render();
  }else{
-   setAuthMessage("Conta criada. Verifique seu e-mail para confirmar o cadastro e depois faça login.","success");
+   setAuthMessage("Conta criada. Confirme seu e-mail e depois faça login. As equipes escolhidas serão vinculadas automaticamente.","success");
  }
 }
 async function logout(){
+ await stopSchedulesRealtime();
  await supabaseClient.auth.signOut();
  authUser=null;
  currentUser=null;
@@ -3786,7 +4035,7 @@ async function membersPageReal(){
       <td>—</td><td>—</td>
     </tr>`;
   }).join("");
-  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>Perfis carregados do estado atual do aplicativo.</p></div>${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}</div>
+  return `<div class="page-toolbar"><div class="page-title"><h2>Equipe Line</h2><p>Perfis, equipes e permissões carregados diretamente do Supabase.</p></div>${isMaster()?`<button class="primary" onclick="openInviteMemberModal()">+ Novo membro</button>`:""}</div>
   <article class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Membro</th><th>Área</th><th>Funções</th><th>Status</th><th>Permissão</th><th>Escalas</th><th>Participação</th></tr></thead><tbody>${rows||`<tr><td colspan="7">Nenhum membro cadastrado.</td></tr>`}</tbody></table></div></article>`;
 }
 function membersPage(){
@@ -3972,7 +4221,7 @@ async function saveRealProfile(userId){
     if(error){console.error(error);alert("Não foi possível atualizar o membro.");return}
   }
 
-  if(canAdmin){
+  if((own||canAdmin) && u.name!=="Michel Macedo"){
     const selectedTeams=[...document.querySelectorAll(".rpTeamCheck:checked")].map(x=>x.value);
     const teamsSaved=await setMemberTeams(userId,selectedTeams);
     if(teamsSaved===false)return;
@@ -4251,8 +4500,21 @@ window.loadV8State = async function(){
       ? supabaseClient.from("availability").select("*")
       : supabaseClient.from("availability").select("*").eq("user_id",currentUser.id),"availability"),
     safeQuery(isMaster()
-      ? supabaseClient.from("schedules").select("*")
-      : supabaseClient.from("schedules").select("*").eq("user_id",currentUser.id),"schedules"),
+      ? (async()=>{
+          const direct=await supabaseClient.from("schedules").select("*").order("id",{ascending:false});
+          if(!direct.error && Array.isArray(direct.data) && direct.data.length>0)return direct;
+
+          // Fallback para Master: contorna policy antiga que eventualmente
+          // permite confirmar a própria escala, mas não permite o Master ver todas.
+          const rpc=await supabaseClient.rpc("master_get_schedules");
+          if(!rpc.error)return {data:rpc.data||[],error:null};
+
+          // Se não houver registros, mantém o retorno direto apenas quando ele
+          // realmente foi uma consulta válida.
+          if(!direct.error)return direct;
+          return rpc;
+        })()
+      : supabaseClient.from("schedules").select("*").eq("user_id",currentUser.id).order("id",{ascending:false}),"schedules"),
     safeQuery(supabaseClient.from("notifications").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}),"notifications"),
     isMaster()
       ? safeQuery(supabaseClient.from("activity_logs").select("*").order("created_at",{ascending:false}).limit(20),"activity_logs")
@@ -4272,6 +4534,50 @@ window.loadV8State = async function(){
   if(!logs.error)V8.logs=logs.data||[];
   V8_LAST_LOAD=Date.now();
 }
+
+
+let LINE_SCHEDULES_CHANNEL=null;
+let LINE_SCHEDULES_REFRESH_TIMER=null;
+
+window.initSchedulesRealtime=function(){
+  if(!currentUser || LINE_SCHEDULES_CHANNEL)return;
+
+  LINE_SCHEDULES_CHANNEL=supabaseClient
+    .channel("line-schedules-live")
+    .on(
+      "postgres_changes",
+      {event:"*",schema:"public",table:"schedules"},
+      ()=>{
+        clearTimeout(LINE_SCHEDULES_REFRESH_TIMER);
+        LINE_SCHEDULES_REFRESH_TIMER=setTimeout(async()=>{
+          try{
+            await ensureV8State(true);
+
+            // Atualiza automaticamente justamente as telas onde a resposta
+            // de escala precisa aparecer para liderança ou membro.
+            if(["dashboard","escalas","indicadores","eventos"].includes(route)){
+              await render();
+            }
+          }catch(error){
+            console.warn("Falha na atualização ao vivo das escalas:",error);
+          }
+        },180);
+      }
+    )
+    .subscribe(status=>{
+      if(status==="CHANNEL_ERROR"){
+        console.warn("Realtime de escalas indisponível. O app continuará atualizando por consulta.");
+      }
+    });
+};
+
+window.stopSchedulesRealtime=async function(){
+  clearTimeout(LINE_SCHEDULES_REFRESH_TIMER);
+  if(LINE_SCHEDULES_CHANNEL){
+    try{await supabaseClient.removeChannel(LINE_SCHEDULES_CHANNEL)}catch(error){}
+    LINE_SCHEDULES_CHANNEL=null;
+  }
+};
 
 window.userNotifications = function(){return V8.notifications||[]}
 window.unreadCount = function(){return (V8.notifications||[]).filter(n=>!n.read_at).length}
@@ -4377,7 +4683,7 @@ window.updateMyScheduleStatus = async function(scheduleId,status){
   });
 
   if(!rpcError){
-    await loadV8State();
+    await ensureV8State(true);
     await render();
     return;
   }
@@ -4400,11 +4706,17 @@ window.updateMyScheduleStatus = async function(scheduleId,status){
     return;
   }
 
-  await loadV8State();
+  await ensureV8State(true);
   await render();
 }
 
 window.memberHome = async function(){
+  const myTeamNames=(V8.memberTeams||[])
+    .filter(mt=>String(mt.user_id)===String(currentUser.id))
+    .map(mt=>V8.teams.find(t=>Number(t.id)===Number(mt.team_id))?.name)
+    .filter(Boolean);
+  currentUser.area=myTeamNames.join(" / ")||currentUser.area||"Membro";
+
   const next=futureEvents()[0];
   const mySchedules=V8.schedules.filter(s=>s.user_id===currentUser.id).sort((a,b)=>{
     const ea=eventById(a.event_id),eb=eventById(b.event_id);
@@ -4476,6 +4788,37 @@ window.openHomeInsight=function(type){
   }
 
   document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="panel-head"><div class="panel-title">${icon(iconName)}${title}</div><button class="action-btn" onclick="closeModal()">Fechar</button></div>${body}</div></div>`);
+  refreshIcons();
+};
+
+
+window.openScheduleStatusList=function(status){
+  const list=V8.schedules.filter(s=>s.status===status);
+  const labels={
+    pending:["Escalas pendentes","clock-3"],
+    confirmed:["Escalas confirmadas","circle-check"],
+    declined:["Escalas recusadas","circle-x"]
+  };
+  const [title,iconName]=labels[status]||["Escalas","calendar-check"];
+
+  document.querySelector(".modal-bg")?.remove();
+  document.body.insertAdjacentHTML("beforeend",`<div class="modal-bg" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="panel-head">
+        <div class="panel-title">${icon(iconName)}${title}</div>
+        <button class="action-btn" onclick="closeModal()">Fechar</button>
+      </div>
+      <div class="home-modal-list">
+        ${list.length?list.map(s=>{
+          const m=memberById(s.user_id),e=eventById(s.event_id);
+          return `<div class="home-modal-item clickable" onclick="openHomeScheduleDetail(${s.id})">
+            <b>${m?.name||"Membro"} • ${s.role_name||"Função"}</b>
+            <p>${e?.name||"Evento"} • ${scheduleStatusLabel(s.status)}</p>
+          </div>`;
+        }).join(""):`<div class="notification-empty">Nenhuma escala neste status.</div>`}
+      </div>
+    </div>
+  </div>`);
   refreshIcons();
 };
 
@@ -4570,10 +4913,10 @@ window.dashboard = async function(){
 
    <article class="panel dashboard-clickable" onclick="openHomeInsight('summary')">
     <div class="panel-head"><div class="panel-title">${icon("chart-no-axes-combined")}Resumo</div></div>
-    <div class="legend">
-      <div class="legend-row"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></div>
-      <div class="legend-row"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></div>
-      <div class="legend-row"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${V8.schedules.filter(s=>s.status==="declined").length}</b></div>
+    <div class="legend schedule-summary-live">
+      <button type="button" class="legend-row schedule-summary-row" onclick="event.stopPropagation();openHomeInsight('confirmed')"><span class="swatch" style="background:#22c55e"></span><span>Confirmadas</span><b>${confirmed}</b></button>
+      <button type="button" class="legend-row schedule-summary-row" onclick="event.stopPropagation();openHomeInsight('pending')"><span class="swatch" style="background:#f59e0b"></span><span>Pendentes</span><b>${pending}</b></button>
+      <button type="button" class="legend-row schedule-summary-row" onclick="event.stopPropagation();openScheduleStatusList('declined')"><span class="swatch" style="background:#ef4444"></span><span>Recusadas</span><b>${V8.schedules.filter(s=>s.status==="declined").length}</b></button>
     </div>
    </article>
   </section>`;
@@ -4712,6 +5055,7 @@ window.schedulesPage = async function(){
       <h2>Escalas inteligentes</h2>
       <p>A LINE IA cruza equipe, disponibilidade e carga antes da publicação.</p>
     </div>
+    <button class="ghost-btn schedule-refresh-btn" onclick="refreshSchedulesNow()">${icon("refresh-cw")} Atualizar respostas</button>
   </div>
 
   <article class="panel ai-panel ai-panel-premium">
@@ -4767,6 +5111,19 @@ window.schedulesPage = async function(){
     </div>
   </article>`;
 }
+
+
+window.refreshSchedulesNow=async function(){
+  const btn=document.querySelector(".schedule-refresh-btn");
+  if(btn){btn.disabled=true;btn.innerHTML=`${icon("loader-circle")} Atualizando...`;refreshIcons()}
+  try{
+    await ensureV8State(true);
+    await render();
+  }catch(error){
+    console.error(error);
+    alert("Não foi possível atualizar as respostas agora.");
+  }
+};
 
 window.memberScheduleCount = function(userId){
   return V8.schedules.filter(s=>s.user_id===userId&&s.status!=="replaced").length;
@@ -5609,6 +5966,7 @@ window.render = async function(){
   }
   app.innerHTML=shell(content);
   refreshIcons();
+  initSchedulesRealtime();
 
   // Atualiza discretamente em segundo plano, sem travar a navegação.
   refreshV8InBackground();
@@ -5630,7 +5988,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v11.3 application status delete iniciado");
+ console.info("LINE Interligados v11.6 member teams signup fix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -5638,7 +5996,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.3",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=11.6",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
