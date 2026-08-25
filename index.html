@@ -4031,6 +4031,364 @@ html[data-theme="light"] .manual-card-inner-v121{color:#294256!important}
   .mobile-nav.mobile-dock-v122 a.mobile-featured-v122{width:51px!important;height:54px!important}
 }
 
+
+/* ==========================================================
+   LINE v12.4 — POLIMENTO MOBILE
+   ========================================================== */
+@media(max-width:760px){
+
+  /* Manual deixa de ficar elevado/destacado */
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122{
+    width:auto!important;
+    height:52px!important;
+    justify-self:stretch!important;
+    transform:none!important;
+    border-radius:16px!important;
+    background:transparent!important;
+    color:#8193a8!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122 svg{
+    width:19px!important;
+    height:19px!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122 span{
+    font-size:7px!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122:active{
+    transform:scale(.90)!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122.active{
+    color:#dff2ff!important;
+    background:rgba(29,91,139,.22)!important;
+    box-shadow:none!important;
+  }
+
+  /* Animação de seleção para TODOS os itens da homebar */
+  .mobile-nav.mobile-dock-v122 a{
+    overflow:hidden!important;
+  }
+  .mobile-nav.mobile-dock-v122 a::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(110deg,transparent 20%,rgba(93,193,255,.13) 48%,transparent 76%);
+    transform:translateX(-135%);
+    opacity:0;
+    pointer-events:none;
+  }
+  .mobile-nav.mobile-dock-v122 a.active::before{
+    animation:mobileDockSweepV124 .48s ease-out;
+  }
+  .mobile-nav.mobile-dock-v122 a.active svg{
+    animation:mobileDockIconPopV124 .38s cubic-bezier(.17,.84,.35,1.25);
+  }
+  .mobile-nav.mobile-dock-v122 a.active span{
+    animation:mobileDockLabelInV124 .30s ease-out;
+  }
+
+  @keyframes mobileDockSweepV124{
+    0%{transform:translateX(-135%);opacity:0}
+    20%{opacity:1}
+    100%{transform:translateX(135%);opacity:0}
+  }
+  @keyframes mobileDockIconPopV124{
+    0%{transform:scale(.72) rotate(-7deg);opacity:.5}
+    65%{transform:scale(1.16) rotate(3deg);opacity:1}
+    100%{transform:scale(1) rotate(0)}
+  }
+  @keyframes mobileDockLabelInV124{
+    0%{transform:translateY(3px);opacity:.35}
+    100%{transform:translateY(0);opacity:1}
+  }
+
+  /* Homebar com distribuição mais uniforme */
+  .mobile-nav.mobile-dock-v122{
+    grid-template-columns:48px repeat(5,minmax(0,1fr))!important;
+    column-gap:3px!important;
+  }
+  .mobile-brand-v122{
+    width:43px!important;
+    height:43px!important;
+    border-radius:15px!important;
+  }
+
+  /* Alinhamento dos nomes dentro dos quadrados/cards do Manual */
+  .manual-card-head-v121{
+    min-height:70px!important;
+    padding:12px 13px!important;
+    display:grid!important;
+    grid-template-columns:40px minmax(0,1fr) 18px!important;
+    align-items:center!important;
+    gap:10px!important;
+  }
+  .manual-card-icon-v121{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    margin:0!important;
+    align-self:center!important;
+  }
+  .manual-card-copy-v121{
+    min-width:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:flex-start!important;
+    text-align:left!important;
+    line-height:1.25!important;
+  }
+  .manual-card-copy-v121 b{
+    width:100%!important;
+    margin:0 0 4px!important;
+    font-size:9px!important;
+    line-height:1.25!important;
+    white-space:normal!important;
+  }
+  .manual-card-copy-v121 small{
+    width:100%!important;
+    margin:0!important;
+    font-size:7px!important;
+    line-height:1.35!important;
+    white-space:normal!important;
+  }
+  .manual-chevron-v121{
+    justify-self:end!important;
+    align-self:center!important;
+    margin:0!important;
+  }
+
+  /* Busca do Manual mais alinhada com os cards */
+  .manual-search-v121{
+    width:100%!important;
+    height:42px!important;
+    padding:0 13px!important;
+    margin:0 0 12px!important;
+    border-radius:13px!important;
+    font-size:9px!important;
+    line-height:42px!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Alinhamento geral dos textos dentro dos botões quadrados do menu Mais */
+  .mobile-more-grid-v122 button{
+    text-align:center!important;
+    align-items:center!important;
+    justify-content:center!important;
+    line-height:1.2!important;
+  }
+  .mobile-more-grid-v122 button b{
+    width:100%!important;
+    text-align:center!important;
+    line-height:1.2!important;
+  }
+
+  html[data-theme="light"] .mobile-nav.mobile-dock-v122 a.mobile-featured-v122{
+    color:#53687a!important;
+    background:transparent!important;
+  }
+  html[data-theme="light"] .mobile-nav.mobile-dock-v122 a.mobile-featured-v122.active{
+    color:#0d3857!important;
+    background:#e8f2f8!important;
+  }
+}
+
+@media(max-width:390px){
+  .mobile-nav.mobile-dock-v122{
+    grid-template-columns:42px repeat(5,minmax(0,1fr))!important;
+    left:6px!important;
+    right:6px!important;
+  }
+  .mobile-brand-v122{
+    width:39px!important;
+    height:39px!important;
+    font-size:16px!important;
+  }
+  .mobile-nav.mobile-dock-v122 a span,
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122 span{
+    font-size:6.3px!important;
+  }
+}
+
+
+/* ==========================================================
+   LINE v12.5 — MOBILE HOMEBAR COMPACTA
+   HOME · EVENTOS · ESCALAS · MANUAL · +
+   ========================================================== */
+@media(max-width:760px){
+  .mobile-dock-wrap-v125{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:10px!important;
+    z-index:75!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 58px!important;
+    gap:10px!important;
+    align-items:center!important;
+  }
+
+  .mobile-nav.mobile-dock-v125{
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:100%!important;
+    height:64px!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:4px!important;
+    padding:6px!important;
+    border:1px solid rgba(100,171,222,.20)!important;
+    border-radius:24px!important;
+    background:rgba(7,18,30,.94)!important;
+    box-shadow:0 18px 45px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.035)!important;
+    backdrop-filter:blur(18px)!important;
+    -webkit-backdrop-filter:blur(18px)!important;
+    overflow:visible!important;
+  }
+
+  .mobile-nav.mobile-dock-v125 a{
+    position:relative!important;
+    height:50px!important;
+    min-width:50px!important;
+    flex:1 1 0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:0!important;
+    padding:0 10px!important;
+    border-radius:18px!important;
+    color:#8193a8!important;
+    overflow:hidden!important;
+    transition:flex .26s cubic-bezier(.2,.8,.2,1),background .2s ease,color .2s ease,transform .2s ease!important;
+  }
+  .mobile-nav.mobile-dock-v125 a svg{
+    width:20px!important;
+    height:20px!important;
+    stroke-width:1.9!important;
+    flex:0 0 auto!important;
+  }
+  .mobile-dock-label-v125{
+    display:block!important;
+    max-width:0!important;
+    opacity:0!important;
+    overflow:hidden!important;
+    white-space:nowrap!important;
+    font-size:7.5px!important;
+    font-weight:900!important;
+    margin-left:0!important;
+    transform:translateX(-4px)!important;
+    transition:max-width .24s ease,opacity .2s ease,margin-left .24s ease,transform .24s ease!important;
+  }
+
+  .mobile-nav.mobile-dock-v125 a.active{
+    flex:1.55 1 0!important;
+    background:rgba(29,91,139,.24)!important;
+    color:#e8f7ff!important;
+  }
+  .mobile-nav.mobile-dock-v125 a.active .mobile-dock-label-v125{
+    max-width:72px!important;
+    opacity:1!important;
+    margin-left:7px!important;
+    transform:translateX(0)!important;
+  }
+  .mobile-nav.mobile-dock-v125 a.active::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(110deg,transparent 20%,rgba(93,193,255,.13) 48%,transparent 76%);
+    animation:mobileDockSweepV125 .48s ease-out;
+    pointer-events:none;
+  }
+  .mobile-nav.mobile-dock-v125 a.active svg{
+    animation:mobileDockIconPopV125 .38s cubic-bezier(.17,.84,.35,1.25);
+  }
+  .mobile-nav.mobile-dock-v125 a:active{
+    transform:scale(.92)!important;
+  }
+
+  .mobile-plus-v125{
+    width:58px!important;
+    height:58px!important;
+    border-radius:50%!important;
+    border:1px solid rgba(118,201,255,.24)!important;
+    background:linear-gradient(145deg,#1f659c,#0d3557)!important;
+    color:#fff!important;
+    display:grid!important;
+    place-items:center!important;
+    box-shadow:0 12px 28px rgba(20,91,144,.40),inset 0 1px 0 rgba(255,255,255,.12)!important;
+    transition:transform .18s ease,box-shadow .18s ease!important;
+  }
+  .mobile-plus-v125 svg{
+    width:24px!important;
+    height:24px!important;
+    stroke-width:1.8!important;
+  }
+  .mobile-plus-v125:active{
+    transform:scale(.90)!important;
+  }
+  .mobile-plus-v125.active{
+    box-shadow:0 13px 30px rgba(38,137,201,.50),0 0 0 3px rgba(73,166,226,.12)!important;
+  }
+
+  @keyframes mobileDockSweepV125{
+    0%{transform:translateX(-135%);opacity:0}
+    20%{opacity:1}
+    100%{transform:translateX(135%);opacity:0}
+  }
+  @keyframes mobileDockIconPopV125{
+    0%{transform:scale(.72) rotate(-7deg);opacity:.5}
+    65%{transform:scale(1.16) rotate(3deg);opacity:1}
+    100%{transform:scale(1) rotate(0)}
+  }
+
+  .main{padding-bottom:105px!important}
+
+  html[data-theme="light"] .mobile-nav.mobile-dock-v125{
+    background:rgba(255,255,255,.96)!important;
+    border-color:#d8e4ec!important;
+    box-shadow:0 16px 40px rgba(24,47,65,.18)!important;
+  }
+  html[data-theme="light"] .mobile-nav.mobile-dock-v125 a{
+    color:#53687a!important;
+  }
+  html[data-theme="light"] .mobile-nav.mobile-dock-v125 a.active{
+    color:#0d3857!important;
+    background:#e8f2f8!important;
+  }
+  html[data-theme="light"] .mobile-plus-v125{
+    background:linear-gradient(145deg,#245f8d,#163c5b)!important;
+  }
+}
+
+@media(max-width:390px){
+  .mobile-dock-wrap-v125{
+    left:6px!important;
+    right:6px!important;
+    grid-template-columns:minmax(0,1fr) 54px!important;
+    gap:7px!important;
+  }
+  .mobile-nav.mobile-dock-v125{
+    height:60px!important;
+    border-radius:22px!important;
+  }
+  .mobile-nav.mobile-dock-v125 a{
+    min-width:44px!important;
+    height:48px!important;
+    padding:0 7px!important;
+  }
+  .mobile-nav.mobile-dock-v125 a.active .mobile-dock-label-v125{
+    max-width:60px!important;
+    font-size:6.8px!important;
+  }
+  .mobile-plus-v125{
+    width:54px!important;
+    height:54px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -7385,21 +7743,26 @@ window.mobileNav = function(){
   const items=[
     ["dashboard","house","Home"],
     ["eventos","calendar-days","Eventos"],
-    ["manual","book-open-text","Manual","featured"],
     ["escalas","calendar-check","Escalas"],
-    ["more","menu","Mais"]
+    ["manual","book-open-text","Manual"]
   ];
-  const teamRoute=route==="equipe"||route==="equipes"||route==="membros"||route==="candidaturas"||route==="indicadores"||route==="notificacoes"||route==="configuracoes"||route==="calendario";
-  return `<nav class="mobile-nav mobile-dock-v122">
-    <div class="mobile-brand-v122">L</div>
-    ${items.map(([r,i,l,special])=>{
-      const active=r==="more"?teamRoute:route===r;
-      const action=r==="more"?"mobileMoreOpenV122()":`navigateLine('${r}')`;
-      return `<a href="${r==="more"?"#":`#${r}`}" onclick="event.preventDefault();${action}" class="${active?"active":""} ${special==="featured"?"mobile-featured-v122":""}">
-        ${icon(i)}<span>${l}</span>
-      </a>`;
-    }).join("")}
-  </nav>`;
+  const activePrimary=items.some(([r])=>route===r);
+
+  return `<div class="mobile-dock-wrap-v125">
+    <nav class="mobile-nav mobile-dock-v125">
+      ${items.map(([r,i,l])=>{
+        const active=route===r;
+        return `<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${active?"active":""}">
+          <span class="mobile-dock-icon-v125">${icon(i)}</span>
+          <span class="mobile-dock-label-v125">${l}</span>
+        </a>`;
+      }).join("")}
+    </nav>
+
+    <button class="mobile-plus-v125 ${!activePrimary?"active":""}" onclick="mobileMoreOpenV122()" aria-label="Mais">
+      ${icon("plus")}
+    </button>
+  </div>`;
 };
 window.render = async function(){
   if(currentUser)syncCurrentUser();
@@ -7457,7 +7820,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v12.3 manual completo iniciado");
+ console.info("LINE Interligados v12.5 mobile homebar compacta iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -7465,7 +7828,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.3",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.5",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
