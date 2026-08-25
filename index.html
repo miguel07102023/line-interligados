@@ -3894,6 +3894,143 @@ html[data-theme="light"] .manual-card-inner-v121{color:#294256!important}
   .manual-grid-v121{grid-template-columns:1fr}
 }
 
+
+/* ==========================================================
+   LINE v12.2 — MOBILE HOMEBAR / DOCK
+   ========================================================== */
+@media(max-width:760px){
+  .mobile-nav.mobile-dock-v122{
+    display:grid!important;
+    grid-template-columns:58px repeat(5,1fr)!important;
+    align-items:center!important;
+    gap:2px!important;
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:10px!important;
+    width:auto!important;
+    height:68px!important;
+    padding:7px 8px!important;
+    border:1px solid rgba(100,171,222,.20)!important;
+    border-radius:24px!important;
+    background:rgba(7,18,30,.94)!important;
+    box-shadow:0 18px 45px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.035)!important;
+    backdrop-filter:blur(18px)!important;
+    -webkit-backdrop-filter:blur(18px)!important;
+    overflow:visible!important;
+    z-index:70!important;
+  }
+  .mobile-brand-v122{
+    width:50px;height:50px;border-radius:18px;
+    display:grid;place-items:center;
+    background:linear-gradient(145deg,#1e5c91,#0b2945);
+    color:#fff;font-size:20px;font-weight:950;
+    box-shadow:0 8px 22px rgba(22,91,143,.30),inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .mobile-nav.mobile-dock-v122 a{
+    position:relative!important;
+    min-width:0!important;
+    height:52px!important;
+    padding:5px 2px!important;
+    border-radius:16px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:4px!important;
+    color:#8193a8!important;
+    font-size:7px!important;
+    font-weight:800!important;
+    transition:transform .2s cubic-bezier(.2,.8,.2,1),background .2s ease,color .2s ease!important;
+  }
+  .mobile-nav.mobile-dock-v122 a svg{width:19px!important;height:19px!important;stroke-width:1.8!important}
+  .mobile-nav.mobile-dock-v122 a span{font-size:7px!important;line-height:1!important;display:block!important}
+  .mobile-nav.mobile-dock-v122 a:active{transform:scale(.90)!important}
+  .mobile-nav.mobile-dock-v122 a.active{
+    color:#dff2ff!important;
+    background:rgba(29,91,139,.22)!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.active::after{
+    content:"";position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:#6cc4ff;
+    box-shadow:0 0 10px rgba(108,196,255,.8);
+  }
+
+  /* Manual como ação central em destaque */
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122{
+    width:56px!important;height:56px!important;
+    justify-self:center!important;
+    transform:translateY(-11px)!important;
+    border-radius:19px!important;
+    background:linear-gradient(145deg,#1f659c,#0d3557)!important;
+    color:#fff!important;
+    border:1px solid rgba(119,201,255,.26)!important;
+    box-shadow:0 11px 26px rgba(20,91,144,.38),inset 0 1px 0 rgba(255,255,255,.12)!important;
+  }
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122 svg{width:21px!important;height:21px!important}
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122 span{font-size:6.5px!important}
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122:active{transform:translateY(-11px) scale(.91)!important}
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122.active{
+    box-shadow:0 12px 30px rgba(38,137,201,.50),0 0 0 3px rgba(73,166,226,.12)!important;
+  }
+
+  .main{padding-bottom:105px!important}
+
+  .mobile-more-sheet-bg-v122{
+    position:fixed;inset:0;z-index:120;
+    display:flex;align-items:flex-end;
+    background:rgba(0,0,0,.56);
+    backdrop-filter:blur(4px);
+  }
+  .mobile-more-sheet-v122{
+    width:100%;padding:10px 14px 24px;
+    border-radius:25px 25px 0 0;
+    border-top:1px solid rgba(105,178,230,.22);
+    background:#091522;
+    box-shadow:0 -18px 45px rgba(0,0,0,.35);
+    animation:mobileSheetInV122 .28s cubic-bezier(.18,.82,.25,1);
+  }
+  @keyframes mobileSheetInV122{from{transform:translateY(100%);opacity:.5}to{transform:translateY(0);opacity:1}}
+  .mobile-more-handle-v122{width:38px;height:4px;border-radius:999px;background:#33495c;margin:0 auto 12px}
+  .mobile-more-head-v122{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .mobile-more-head-v122 b{display:block;font-size:13px}
+  .mobile-more-head-v122 small{display:block;margin-top:3px;color:var(--muted);font-size:8px}
+  .mobile-more-head-v122 button{
+    width:36px;height:36px;border-radius:11px;border:1px solid var(--border);
+    display:grid;place-items:center;background:#0d1c2c;color:#fff;
+  }
+  .mobile-more-grid-v122{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .mobile-more-grid-v122 button{
+    min-height:82px;padding:10px 5px;border-radius:16px;
+    border:1px solid var(--border);background:#0c1a29;color:#d9e8f4;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  }
+  .mobile-more-grid-v122 button span{
+    width:34px;height:34px;border-radius:11px;background:#112b43;color:#8ed0fb;display:grid;place-items:center
+  }
+  .mobile-more-grid-v122 button span svg{width:16px;height:16px}
+  .mobile-more-grid-v122 button b{font-size:7.5px}
+
+  html[data-theme="light"] .mobile-nav.mobile-dock-v122{
+    background:rgba(255,255,255,.95)!important;
+    border-color:#d8e4ec!important;
+    box-shadow:0 16px 40px rgba(24,47,65,.18)!important;
+  }
+  html[data-theme="light"] .mobile-nav.mobile-dock-v122 a{color:#53687a!important}
+  html[data-theme="light"] .mobile-nav.mobile-dock-v122 a.active{color:#0d3857!important;background:#e8f2f8!important}
+  html[data-theme="light"] .mobile-more-sheet-v122{background:#fff!important}
+  html[data-theme="light"] .mobile-more-grid-v122 button{background:#f6f9fb!important;color:#0b1520!important;border-color:#dce7ef!important}
+}
+@media(max-width:390px){
+  .mobile-nav.mobile-dock-v122{
+    left:7px!important;right:7px!important;
+    grid-template-columns:48px repeat(5,1fr)!important;
+    padding-left:6px!important;padding-right:6px!important;
+  }
+  .mobile-brand-v122{width:43px;height:43px;border-radius:15px;font-size:17px}
+  .mobile-nav.mobile-dock-v122 a span{font-size:6.4px!important}
+  .mobile-nav.mobile-dock-v122 a.mobile-featured-v122{width:51px!important;height:54px!important}
+}
+
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -7207,30 +7344,63 @@ window.page = async function(){
   if(route==="equipes")return isMaster()?await teamsPageReal():generic("Acesso restrito","A gestão de equipes é exclusiva dos administradores Master.");
   if(route==="indicadores")return await indicatorsPage();
   if(route==="notificacoes")return await notificationsPage();
+  if(route==="manual")return manualPageV121();
   if(route==="configuracoes")return configPage();
   return generic(titles()[route],"Área em preparação.");
 }
 
-window.mobileNav = function(){
-  const masterItems=[
-    ["eventos","calendar-days","Eventos"],
-    ["calendario","calendar","Calendário"],
-    ["dashboard","house","Home","home"],
-    ["escalas","calendar-check","Escalas"],
-    ["equipe","users","Equipe"],
-    ["candidaturas","user-round-search","Candidaturas"]
-  ];
-  const memberItems=[
-    ["eventos","calendar-days","Eventos"],
-    ["calendario","calendar","Agenda"],
-    ["dashboard","house","Home","home"],
-    ["escalas","calendar-check","Escalas"],
-    ["notificacoes","bell","Avisos"]
-  ];
-  const items=isMaster()?masterItems:memberItems;
-  return `<nav class="mobile-nav">${items.map(([r,i,l,special])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""} ${special==="home"?"mobile-home":""}">${icon(i)}<span>${l}</span></a>`).join("")}</nav>`;
-}
+window.mobileMoreOpenV122=function(){
+  const old=document.getElementById("mobileMoreV122");
+  if(old){old.remove();return}
+  const masterExtra=isMaster()
+    ?[
+      ["calendario","calendar","Calendário"],
+      ["candidaturas","user-round-search","Candidaturas"],
+      ["membros","users","Membros"],
+      ["indicadores","chart-no-axes-combined","Indicadores"],
+      ["notificacoes","bell","Notificações"],
+      ["configuracoes","settings","Configurações"]
+    ]
+    :[
+      ["calendario","calendar","Calendário"],
+      ["notificacoes","bell","Notificações"],
+      ["configuracoes","settings","Configurações"]
+    ];
+  const wrap=document.createElement("div");
+  wrap.id="mobileMoreV122";
+  wrap.className="mobile-more-sheet-bg-v122";
+  wrap.innerHTML=`<div class="mobile-more-sheet-v122">
+    <div class="mobile-more-handle-v122"></div>
+    <div class="mobile-more-head-v122"><div><b>Mais opções</b><small>Acesso rápido</small></div><button onclick="document.getElementById('mobileMoreV122')?.remove()">${icon("x")}</button></div>
+    <div class="mobile-more-grid-v122">
+      ${masterExtra.map(([r,i,l])=>`<button onclick="document.getElementById('mobileMoreV122')?.remove();navigateLine('${r}')"><span>${icon(i)}</span><b>${l}</b></button>`).join("")}
+    </div>
+  </div>`;
+  wrap.addEventListener("click",e=>{if(e.target===wrap)wrap.remove()});
+  document.body.appendChild(wrap);
+  refreshIcons();
+};
 
+window.mobileNav = function(){
+  const items=[
+    ["dashboard","house","Home"],
+    ["eventos","calendar-days","Eventos"],
+    ["manual","book-open-text","Manual","featured"],
+    ["escalas","calendar-check","Escalas"],
+    ["more","menu","Mais"]
+  ];
+  const teamRoute=route==="equipe"||route==="equipes"||route==="membros"||route==="candidaturas"||route==="indicadores"||route==="notificacoes"||route==="configuracoes"||route==="calendario";
+  return `<nav class="mobile-nav mobile-dock-v122">
+    <div class="mobile-brand-v122">L</div>
+    ${items.map(([r,i,l,special])=>{
+      const active=r==="more"?teamRoute:route===r;
+      const action=r==="more"?"mobileMoreOpenV122()":`navigateLine('${r}')`;
+      return `<a href="${r==="more"?"#":`#${r}`}" onclick="event.preventDefault();${action}" class="${active?"active":""} ${special==="featured"?"mobile-featured-v122":""}">
+        ${icon(i)}<span>${l}</span>
+      </a>`;
+    }).join("")}
+  </nav>`;
+};
 window.render = async function(){
   if(currentUser)syncCurrentUser();
   const app=document.getElementById("app");
@@ -7287,7 +7457,7 @@ addEventListener("hashchange",()=>{
   render();
 });
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v12.1 visual/manual/dashboard iniciado");
+ console.info("LINE Interligados v12.3 manual completo iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -7295,7 +7465,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.1",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.3",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -7345,33 +7515,182 @@ window.filterManualV121=function(value){
 
 window.manualPageV121=function(){
   const sections=[
-    ["visao","sparkles","Visão da LINE","Por que existimos e como servimos.","visão propósito servir ministério",
-      `<span class="manual-badge-v121">PROPÓSITO</span>
-      A LINE serve aos Interligados através da comunicação, criatividade e excelência.
-      <ul><li>Culto primeiro, conteúdo depois.</li><li>Escalado = responsável.</li><li>Técnica + sensibilidade.</li><li>O padrão é o mínimo, não o máximo.</li></ul>`],
+    ["sentido","sparkles","O que é a LINE?","O sentido da equipe e por que servimos.","line visão propósito servir comunicação",
+      `<span class="manual-badge-v121">QUEM SOMOS</span>
+      A <b>LINE é a equipe de mídia dos Interligados</b>.<br><br>
+      Mas nosso papel vai além de tirar fotos, gravar vídeos, publicar stories ou operar a projeção. A LINE existe para <b>comunicar aquilo que Deus está fazendo nos Interligados</b>.<br><br>
+      Cada foto, vídeo, story, arte e conteúdo pode fazer a mensagem chegar mais longe e também registrar aquilo que estamos vivendo como ministério.<br><br>
+      <b>A gente não está apenas produzindo conteúdo. Estamos servindo através da comunicação.</b>`],
+
+    ["antes","shield-check","Antes de qualquer função","Princípios que valem para toda a LINE.","postura responsabilidade escala horário servir",
+      `<ul>
+        <li>Chegue no horário definido para a escala.</li>
+        <li>Confira o que será necessário antes do culto começar.</li>
+        <li>Esteja atento ao culto e às orientações da liderança.</li>
+        <li>Cuide dos equipamentos como se fossem seus.</li>
+        <li>Evite conversas e distrações durante a operação.</li>
+        <li>Se acontecer algum problema, avise a liderança.</li>
+        <li>Respeite momentos de oração, apelo, ministração e outros momentos sensíveis.</li>
+        <li>Lembre que você está no culto para servir, não apenas para produzir conteúdo.</li>
+      </ul>
+      <br>O padrão deste manual representa o <b>mínimo esperado</b>, não um limite para o que pode ser feito.`],
+
     ["story","smartphone","Story","Cobertura em tempo real do culto.","story stories cobertura mínimo 10",
-      `<span class="manual-badge-v121">MÍNIMO: 10 STORIES</span>
-      <ul><li>1 preparação/bastidores.</li><li>1 chegada.</li><li>1 abertura/início.</li><li>2 louvor.</li><li>2 Palavra/pregação.</li><li>1 interação ou momento espontâneo.</li><li>1 pós-culto/comunhão.</li><li>1 encerramento/próximo encontro.</li></ul>
-      <br>Vídeos curtos, variedade de enquadramentos e prioridade para pessoas + ambiente.`],
-    ["fotos","camera","Fotografia","Registrar a história da noite.","fotos fotografia",
-      `<ul><li>Fachada e ambiente.</li><li>Recepção e chegada.</li><li>Planos gerais.</li><li>Louvor e adolescentes adorando.</li><li>Pregador e reações.</li><li>Liderança e equipes servindo.</li><li>Momentos espontâneos e grupos.</li></ul>
-      <br>Não passar o culto inteiro fotografando somente o palco.`],
-    ["reels","clapperboard","Reels / Vídeo","Material para conteúdo pós-culto.","reels vídeo captação takes",
-      `<ul><li>Ambiente e detalhes.</li><li>Pessoas chegando.</li><li>Reações.</li><li>Louvor em planos gerais, médios e fechados.</li><li>Pregação.</li><li>Comunhão, bastidores e resenha.</li></ul>
-      <br><b>Pergunta-base:</b> “Se eu tivesse que contar como foi esse culto em 30 segundos, tenho imagens suficientes?”`],
+      `<span class="manual-badge-v121">MÉDIA MÍNIMA: 10 STORIES</span>
+      <b>Objetivo</b><br>
+      Mostrar em tempo real um pouco daquilo que está acontecendo no culto, fazendo quem está acompanhando pelas redes sentir que está perto do que estamos vivendo.<br><br>
+      A referência é uma <b>média mínima de 10 stories por culto</b>. Não significa postar por postar ou necessariamente parar no décimo. É uma base para garantir uma cobertura completa.<br><br>
+      <b>O que registrar</b>
+      <ul>
+        <li>Preparação e bastidores.</li>
+        <li>Pessoas chegando.</li>
+        <li>Ambiente.</li>
+        <li>Início do culto.</li>
+        <li>Louvor e adoração.</li>
+        <li>Palavra.</li>
+        <li>Reações das pessoas.</li>
+        <li>Momentos espontâneos.</li>
+        <li>Comunhão.</li>
+        <li>Encerramento e convite para o próximo encontro.</li>
+      </ul>
+      <br><b>Direção</b><br>
+      Evite uma sequência inteira de vídeos praticamente iguais. Alterne vídeos, fotos, enquadramentos, pessoas e momentos.<br><br>
+      <b>Mais importante que quantidade é contar bem o que aconteceu.</b>`],
+
+    ["fotos","camera","Fotografia","Registrar a história daquela noite.","foto fotografia registros culto",
+      `<b>Objetivo</b><br>
+      Registrar a história daquele culto através de imagens.<br><br>
+      Não queremos apenas fotos bonitas do palco. Queremos conseguir olhar para as fotos depois e entender <b>como aquela noite aconteceu</b>.<br><br>
+      <b>O que não pode faltar</b>
+      <ul>
+        <li>Fachada e ambiente.</li>
+        <li>Pessoas chegando e recepção.</li>
+        <li>Planos gerais da igreja.</li>
+        <li>Louvor.</li>
+        <li>Adolescentes adorando.</li>
+        <li>Pregador.</li>
+        <li>Reações durante a Palavra.</li>
+        <li>Momentos de oração e ministração.</li>
+        <li>Liderança e equipes servindo.</li>
+        <li>Amigos, grupos, comunhão e momentos espontâneos.</li>
+      </ul>
+      <br><b>Direção</b><br>
+      Varie entre planos abertos, médios, fechados e detalhes. Não passe o culto inteiro fotografando somente quem está no palco.<br><br>
+      Muitas vezes, <b>a história também está acontecendo do outro lado da câmera.</b>`],
+
+    ["reels","clapperboard","Reels / Vídeo","Material suficiente para contar o culto depois.","reels vídeo captação takes",
+      `<b>Objetivo</b><br>
+      Captar material suficiente para transformar aquilo que aconteceu no culto em conteúdo posteriormente.<br><br>
+      <b>O que buscar</b>
+      <ul>
+        <li>Ambiente.</li>
+        <li>Detalhes.</li>
+        <li>Pessoas chegando.</li>
+        <li>Interações e reações.</li>
+        <li>Louvor.</li>
+        <li>Planos gerais, médios e close-ups.</li>
+        <li>Pregação e momentos fortes.</li>
+        <li>Comunhão.</li>
+        <li>Bastidores.</li>
+        <li>Resenha pós-culto.</li>
+        <li>Situações espontâneas.</li>
+      </ul>
+      <br>Sempre que possível, faça diferentes enquadramentos do mesmo momento.<br><br>
+      <b>Pergunta-base:</b> “Se eu tivesse que contar como foi esse culto em 30 segundos, tenho imagens suficientes?”`],
+
     ["projecao","monitor","Projeção","Operação visual do culto.","projeção telão letras vídeos",
-      `<b>Antes:</b> conferir computador, sistema, telão, letras, vídeos, artes e ordem.<br><br>
-      <b>Durante:</b> acompanhar o culto, letras no tempo correto e atenção às mudanças.<br><br>
-      <b>Depois:</b> encerrar corretamente e informar problemas técnicos.`],
-    ["postura","shield-check","Postura e responsabilidade","Como servir durante a escala.","postura responsabilidade horário",
-      `<ul><li>Chegar no horário combinado.</li><li>Estar atento à função escalada.</li><li>Cuidar dos equipamentos.</li><li>Não atrapalhar momentos sensíveis do culto.</li><li>Comunicar problemas à liderança.</li></ul>`],
-    ["arquivos","folder-open","Arquivos e organização","Entrega e armazenamento do material.","arquivos organização",
-      `Organize os arquivos de forma identificável, evite duplicações desnecessárias e entregue o material no espaço definido pela liderança.`],
-    ["fluxo","columns-3","Fluxo de produção","Do planejamento até a publicação.","produção publicar revisão",
-      `<b>Ideias → A Fazer → Em Produção → Revisão → Publicar.</b><br><br>
-      Use os quadros para briefing, responsáveis, prazos, checklist, anexos, comentários e aprovação.`]
+      `<b>Objetivo</b><br>
+      Garantir que tudo aquilo que aparece no telão acompanhe o culto com organização, atenção e excelência.<br><br>
+      <b>Antes do culto</b>
+      <ul>
+        <li>Conferir computador e sistema.</li>
+        <li>Conferir conexão com o telão.</li>
+        <li>Verificar letras.</li>
+        <li>Conferir vídeos e artes.</li>
+        <li>Entender a programação do culto.</li>
+        <li>Deixar os materiais necessários preparados.</li>
+      </ul>
+      <br><b>Durante o culto</b>
+      <ul>
+        <li>Acompanhar o que está acontecendo.</li>
+        <li>Passar as letras no tempo correto.</li>
+        <li>Estar atento às mudanças.</li>
+        <li>Evitar distrações.</li>
+        <li>Não abandonar o posto sem comunicar.</li>
+      </ul>
+      <br><b>Depois do culto</b>
+      <ul>
+        <li>Encerrar os sistemas corretamente.</li>
+        <li>Organizar o que foi utilizado.</li>
+        <li>Informar qualquer problema técnico encontrado.</li>
+      </ul>
+      <br>Na projeção, <b>atenção é parte da função</b>.`],
+
+    ["edicao","scissors","Edição e Design","Comunicação clara e coerente com a identidade.","design edição arte identidade",
+      `<b>Objetivo</b><br>
+      Transformar o material produzido pela LINE em conteúdos que comuniquem de forma clara, bonita e coerente com a identidade dos Interligados.<br><br>
+      <b>Direção</b>
+      <ul>
+        <li>Respeitar a identidade visual definida.</li>
+        <li>Priorizar legibilidade.</li>
+        <li>Não exagerar em efeitos simplesmente porque estão disponíveis.</li>
+        <li>Manter unidade entre as peças.</li>
+        <li>Revisar textos antes da entrega.</li>
+        <li>Conferir nomes, datas, horários e informações.</li>
+        <li>Trabalhar dentro dos prazos definidos.</li>
+        <li>Submeter para revisão quando necessário.</li>
+      </ul>
+      <br><b>Design não é enfeitar uma informação. É fazer a informação ser entendida.</b>`],
+
+    ["fluxo","columns-3","Fluxo de produção","Do planejamento até a publicação.","ideias fazer produção revisão publicar quadro",
+      `<b>Os quadros da LINE seguem este fluxo:</b><br><br>
+      <b>Ideias → A Fazer → Em Produção → Revisão → Publicar</b><br><br>
+      <b>Ideias</b><br>Conteúdos que ainda estão sendo pensados.<br><br>
+      <b>A Fazer</b><br>Conteúdos aprovados que precisam começar a ser produzidos.<br><br>
+      <b>Em Produção</b><br>Algo já está sendo gravado, editado ou desenvolvido.<br><br>
+      <b>Revisão</b><br>O material está pronto, mas precisa ser conferido antes de ir ao ar.<br><br>
+      <b>Publicar</b><br>Conteúdo aprovado e pronto para publicação.<br><br>
+      Os cards podem concentrar briefing, responsáveis, prazo, checklist, arquivos, comentários e demais informações da produção.`],
+
+    ["arquivos","folder-open","Arquivos e organização","Organização também faz parte da excelência.","arquivos organização entrega armazenamento",
+      `<ul>
+        <li>Evite arquivos sem identificação.</li>
+        <li>Não apague materiais importantes sem autorização.</li>
+        <li>Entregue fotos e vídeos no local definido pela liderança.</li>
+        <li>Mantenha os arquivos organizados.</li>
+        <li>Quando receber uma tarefa pelo quadro, acompanhe as informações do card.</li>
+        <li>Ao finalizar algo, atualize o andamento da tarefa.</li>
+      </ul>
+      <br><b>Organização também faz parte da excelência.</b>`],
+
+    ["postura","heart-handshake","Postura de quem serve","Mais que técnica, entendemos por que estamos servindo.","postura coração servir equipe",
+      `Não queremos construir apenas uma equipe tecnicamente boa.<br><br>
+      Queremos construir uma equipe que <b>entenda por que está servindo</b>.<br><br>
+      <b>Sirva antes de aparecer.<br>
+      Seja responsável mesmo quando ninguém estiver cobrando.<br>
+      Ajude outra área quando puder.<br>
+      Receba correções.<br>
+      Tenha iniciativa.<br>
+      Cuide das pessoas.<br>
+      Cuide daquilo que foi confiado a você.</b><br><br>
+      E principalmente: não deixe a câmera, o computador, o celular ou qualquer função fazer você esquecer do motivo pelo qual estamos ali.`],
+
+    ["padrao","badge-check","Nosso padrão","Excelência não significa perfeição.","excelência padrão melhor comunicação",
+      `Excelência para a LINE não significa perfeição.<br><br>
+      Significa <b>fazer o melhor possível com aquilo que temos nas mãos</b>.<br><br>
+      Podemos melhorar uma foto.<br>
+      Podemos melhorar uma edição.<br>
+      Podemos aprender uma nova ferramenta.<br>
+      Podemos corrigir um erro.<br><br>
+      Mas nunca podemos perder o sentido.<br><br>
+      <b>A LINE não existe para fazer a mídia acontecer.<br>
+      A mídia existe para ajudar aquilo que Deus está fazendo a chegar mais longe.</b>`]
   ];
-  return `<div class="manual-hero-v121"><h2>Manual da LINE</h2><p>Direcionamentos oficiais para servir, produzir e cobrir os cultos dos Interligados.</p></div>
+
+  return `<div class="manual-hero-v121">
+      <h2>Manual da LINE</h2>
+      <p>Direcionamentos oficiais para servir, produzir e cobrir os cultos dos Interligados.</p>
+    </div>
     <input class="manual-search-v121" placeholder="Buscar no manual..." oninput="filterManualV121(this.value)">
     <div class="manual-grid-v121">
       ${sections.map(([id,ic,title,sub,search,body])=>`<article id="manual-${id}" class="manual-card-v121" data-search="${escapeHTML(`${title} ${sub} ${search}`)}">
