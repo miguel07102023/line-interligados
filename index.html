@@ -4813,14 +4813,54 @@ html[data-theme="light"] .task-assignee-check-v128{
   }
 }
 
+
+/* ==========================================================
+   LINE v13 — PWA + PUSH
+   ========================================================== */
+.pwa-panel-v13{margin-top:14px}
+.pwa-support-note-v13{
+  margin-top:10px;
+  padding:10px 11px;
+  border-radius:11px;
+  background:rgba(46,126,183,.09);
+  border:1px solid rgba(73,156,216,.13);
+  color:var(--muted);
+  font-size:7.5px;
+  line-height:1.5;
+}
+.pwa-support-note-v13 b{color:#a9d9fb}
+@media(max-width:760px){
+  .pwa-panel-v13 .setting-line{
+    align-items:flex-start!important;
+    gap:10px!important;
+  }
+  .pwa-panel-v13 .setting-line>div{flex:1}
+  .pwa-panel-v13 .action-btn{
+    flex:0 0 auto;
+    min-height:38px!important;
+  }
+}
+html[data-theme="light"] .pwa-support-note-v13{
+  background:#eef6fb!important;
+  border-color:#d6e6f0!important;
+  color:#455f72!important;
+}
+html[data-theme="light"] .pwa-support-note-v13 b{color:#174d71!important}
+
 </style>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LINE">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+
+
+<meta name="theme-color" content="#07121e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="LINE">
+<meta name="format-detection" content="telephone=no">
+
 </head>
 <body>
 <div id="app"></div>
@@ -5643,6 +5683,7 @@ async function login(e){
        await loadCurrentUser(user);
        if(currentUser){
          try{await syncMyTeamsFromSignupMetadata()}catch(error){console.warn(error)}
+         try{await syncExistingPushSubscriptionV13()}catch(error){console.warn(error)}
          profileLoaded=true;
          break;
        }
@@ -5912,7 +5953,7 @@ function calendarPage(){
 }
 function moveMonth(n){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+n,1);render()}
 function goToday(){const now=new Date();calendarCursor=new Date(now.getFullYear(),now.getMonth(),1);render()}
-function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article></div>`}
+function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article>${pwaSettingsPanelV13()}</div>`}
 
 window.sendLoggedUserPasswordReset=async function(){
   const email=currentUser?.email;
@@ -7529,12 +7570,16 @@ window.publishAISchedule = async function(eventId){
     const nres=await supabaseClient.from("notifications").insert(notifications);
     if(nres.error)console.warn("Notificação não inserida:",nres.error.message);
   }
+
+  // Push PWA (Safari Home Screen / Android)
+  await sendSchedulePushV13(data||[],event);
+
   await writeLog(`Publicou escala automática de ${event.name}`,"schedule",event.id,{assignments:rows.length});
   V8.aiPreview=[];await ensureV8State(true);alert("Escala aplicada com sucesso. Os membros já receberam a notificação interna.");await render();
 }
 
 window.notificationsPage = async function(){
-  return `<div class="page-toolbar"><div class="page-title"><h2>Minhas notificações</h2><p>Clique para abrir; a leitura é salva automaticamente.</p></div></div><article class="panel">${V8.notifications.length?V8.notifications.map(n=>`<div class="notification-item ${n.read_at?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.type==="schedule"?"calendar-check":"bell")}</div><div><b>${n.title}</b><p>${n.message}</p></div>${n.read_at?`<span class="notification-time">${new Date(n.created_at).toLocaleDateString("pt-BR")}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</article>`;
+  return `<div class="page-toolbar"><div class="page-title"><h2>Minhas notificações</h2><p>Clique para abrir; a leitura é salva automaticamente.</p></div><button class="action-btn" onclick="enableLinePushNotifications()">${icon("bell-ring")} Ativar no celular</button></div><article class="panel">${V8.notifications.length?V8.notifications.map(n=>`<div class="notification-item ${n.read_at?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})"><div class="notification-icon">${icon(n.type==="schedule"?"calendar-check":"bell")}</div><div><b>${n.title}</b><p>${n.message}</p></div>${n.read_at?`<span class="notification-time">${new Date(n.created_at).toLocaleDateString("pt-BR")}</span>`:`<span class="notification-dot"></span>`}</div>`).join(""):`<div class="notification-empty">Nenhuma notificação.</div>`}</article>`;
 }
 
 window.indicatorsPage = async function(){
@@ -8270,8 +8315,204 @@ addEventListener("hashchange",()=>{
   route=newRoute;
   render();
 });
+
+/* ==========================================================
+   LINE v13 — PWA + WEB PUSH
+   ========================================================== */
+window.LINE_VAPID_PUBLIC_KEY = "BIcU9CRazS7ifed9zTBgd6V1VkELWqaxRZ4PmRVWrXz8ZH5uQ2b314zHYtLxH-JRfmDZA1yl-qd13e8MEgOhXP8";
+window.LINE_DEFERRED_INSTALL_PROMPT = null;
+
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  LINE_DEFERRED_INSTALL_PROMPT = event;
+});
+
+window.lineIsStandalone = function(){
+  return window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+};
+
+window.lineIsIOS = function(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+};
+
+window.urlBase64ToUint8Array = function(base64String){
+  const padding = "=".repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(base64);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+};
+
+window.getLineServiceWorkerRegistration = async function(){
+  if(!("serviceWorker" in navigator)) throw new Error("Service Worker não suportado.");
+  const reg = await navigator.serviceWorker.ready;
+  return reg;
+};
+
+window.getPushStatusV13 = async function(){
+  const supported = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  const permission = supported ? Notification.permission : "unsupported";
+  let subscribed = false;
+  try{
+    if(supported){
+      const reg = await getLineServiceWorkerRegistration();
+      subscribed = Boolean(await reg.pushManager.getSubscription());
+    }
+  }catch{}
+  return {supported, permission, subscribed, standalone:lineIsStandalone(), ios:lineIsIOS()};
+};
+
+window.saveLinePushSubscription = async function(subscription){
+  if(!currentUser?.id) throw new Error("Usuário não autenticado.");
+  const json = subscription.toJSON();
+  const payload = {
+    user_id: currentUser.id,
+    endpoint: json.endpoint,
+    p256dh: json.keys?.p256dh || null,
+    auth: json.keys?.auth || null,
+    user_agent: navigator.userAgent,
+    platform: lineIsIOS() ? "ios" : (/android/i.test(navigator.userAgent) ? "android" : "desktop"),
+    device_label: lineIsIOS() ? "iPhone/iPad PWA" : (/android/i.test(navigator.userAgent) ? "Android PWA" : "Navegador"),
+    active: true,
+    updated_at: new Date().toISOString()
+  };
+  const {error} = await supabaseClient.from("push_subscriptions").upsert(payload,{onConflict:"endpoint"});
+  if(error) throw error;
+};
+
+window.syncExistingPushSubscriptionV13 = async function(){
+  try{
+    if(!currentUser?.id || !("serviceWorker" in navigator) || !("PushManager" in window)) return;
+    if(Notification.permission !== "granted") return;
+    const reg = await getLineServiceWorkerRegistration();
+    const sub = await reg.pushManager.getSubscription();
+    if(sub) await saveLinePushSubscription(sub);
+  }catch(error){
+    console.warn("Sincronização Push:", error);
+  }
+};
+
+window.enableLinePushNotifications = async function(){
+  try{
+    if(!window.isSecureContext){
+      alert("As notificações exigem HTTPS.");
+      return;
+    }
+    if(!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)){
+      alert("Este navegador não oferece suporte às notificações PWA.");
+      return;
+    }
+
+    if(lineIsIOS() && !lineIsStandalone()){
+      alert("No iPhone/iPad, primeiro instale a LINE na Tela de Início: Safari → Compartilhar → Adicionar à Tela de Início. Depois abra o app instalado e ative as notificações.");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if(permission !== "granted"){
+      alert("Permissão de notificações não concedida. Você pode alterá-la nas configurações do aparelho/navegador.");
+      return;
+    }
+
+    const reg = await getLineServiceWorkerRegistration();
+    let sub = await reg.pushManager.getSubscription();
+    if(!sub){
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array(LINE_VAPID_PUBLIC_KEY)
+      });
+    }
+    await saveLinePushSubscription(sub);
+    alert("Notificações da LINE ativadas neste aparelho. 🔔");
+    await render();
+  }catch(error){
+    console.error("Ativar Push:", error);
+    alert("Não foi possível ativar as notificações neste aparelho.");
+  }
+};
+
+window.disableLinePushNotifications = async function(){
+  try{
+    const reg = await getLineServiceWorkerRegistration();
+    const sub = await reg.pushManager.getSubscription();
+    if(sub){
+      await supabaseClient.from("push_subscriptions").update({active:false,updated_at:new Date().toISOString()}).eq("endpoint",sub.endpoint).eq("user_id",currentUser.id);
+      await sub.unsubscribe();
+    }
+    try{ if(navigator.clearAppBadge) await navigator.clearAppBadge(); }catch{}
+    alert("Notificações desativadas neste aparelho.");
+    await render();
+  }catch(error){
+    console.error(error);
+    alert("Não foi possível desativar as notificações.");
+  }
+};
+
+window.installLinePWA = async function(){
+  if(lineIsStandalone()){
+    alert("A LINE já está instalada como app neste aparelho.");
+    return;
+  }
+  if(lineIsIOS()){
+    alert("No Safari: toque em Compartilhar → Adicionar à Tela de Início → Adicionar. Depois abra a LINE pelo ícone criado.");
+    return;
+  }
+  if(LINE_DEFERRED_INSTALL_PROMPT){
+    LINE_DEFERRED_INSTALL_PROMPT.prompt();
+    await LINE_DEFERRED_INSTALL_PROMPT.userChoice;
+    LINE_DEFERRED_INSTALL_PROMPT = null;
+    return;
+  }
+  alert("Abra o menu do navegador e escolha “Instalar app” ou “Adicionar à tela inicial”.");
+};
+
+window.pwaSettingsPanelV13 = function(){
+  return `<article class="panel settings-section pwa-panel-v13">
+    <h3>App e notificações</h3>
+    <div class="setting-line">
+      <div><b>Instalar LINE como app</b><small>No Android ou Safari/iPhone, use a versão PWA para uma experiência completa.</small></div>
+      <button class="action-btn" onclick="installLinePWA()">${icon("download")} Instalar</button>
+    </div>
+    <div class="setting-line">
+      <div><b>Notificações da escala</b><small>Receba no celular quando você for escalado, mesmo com o app fechado.</small></div>
+      <button class="action-btn" onclick="enableLinePushNotifications()">${icon("bell-ring")} Ativar</button>
+    </div>
+    <div class="setting-line">
+      <div><b>Desativar neste aparelho</b><small>Remove somente a inscrição Push deste dispositivo.</small></div>
+      <button class="action-btn" onclick="disableLinePushNotifications()">Desativar</button>
+    </div>
+    <div class="pwa-support-note-v13">
+      <b>iPhone/iPad:</b> notificações Web Push funcionam quando a LINE é adicionada à Tela de Início e aberta como app.
+    </div>
+  </article>`;
+};
+
+window.sendSchedulePushV13 = async function(schedules,event){
+  try{
+    if(!schedules?.length || !event) return;
+    const userIds=[...new Set(schedules.map(s=>s.user_id).filter(Boolean))];
+    if(!userIds.length)return;
+
+    const roleByUser=Object.fromEntries(schedules.map(s=>[String(s.user_id),s.role_name]));
+    const {data,error}=await supabaseClient.functions.invoke("send-line-push",{
+      body:{
+        user_ids:userIds,
+        title:"Você foi escalado! 💙",
+        body_template:`{role} • ${event.name} • ${formatEventDate(event.event_date)} às ${event.start_time?.slice(0,5)||""}`,
+        role_by_user:roleByUser,
+        url:"/#escalas",
+        tag:`schedule-${event.id}`,
+        event_id:event.id
+      }
+    });
+    if(error)console.warn("Push da escala:",error);
+  }catch(error){
+    console.warn("Push da escala:",error);
+  }
+};
+
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v12.8 master access assignees iniciado");
+ console.info("LINE Interligados v13 PWA Push iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -8279,7 +8520,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=12.8",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.0",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
