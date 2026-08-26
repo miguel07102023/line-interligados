@@ -4859,6 +4859,103 @@ html[data-theme="light"] .pwa-support-note-v13 b{color:#174d71!important}
 html[data-theme="light"] .line-push-onboarding-v132{background:linear-gradient(135deg,#f5fbff,#eaf5fb)!important;border-color:#cfe4f1!important}
 @media(max-width:760px){.line-push-onboarding-v132{grid-template-columns:36px minmax(0,1fr)!important;padding:12px 38px 12px 12px!important;gap:9px!important}.line-push-enable-v132{grid-column:1/-1!important;width:100%!important;min-height:39px!important}}
 
+
+/* LINE v13.5 — Diagnóstico Master */
+.master-push-test-v135{margin-top:14px}
+.master-push-test-v135 .action-btn{
+  min-width:190px;
+}
+.master-push-test-v135 .action-btn:disabled{
+  opacity:.65;
+  cursor:wait;
+}
+.master-push-test-v135 .action-btn svg{
+  width:15px!important;
+  height:15px!important;
+}
+@media(max-width:760px){
+  .master-push-test-v135 .setting-line{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    gap:10px!important;
+  }
+  .master-push-test-v135 .action-btn{
+    width:100%!important;
+    min-width:0!important;
+    min-height:40px!important;
+  }
+}
+
+
+/* ==========================================================
+   LINE v13.6 — FEEDBACK VISUAL DE AÇÕES
+   ========================================================== */
+@keyframes lineActionPopV136{
+  0%{opacity:0;transform:translate(-50%,-46%) scale(.82)}
+  55%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}
+  100%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes lineActionIconV136{
+  0%{transform:scale(.45) rotate(-12deg);opacity:0}
+  65%{transform:scale(1.12) rotate(2deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+@keyframes lineActionRingV136{
+  0%{transform:scale(.55);opacity:.7}
+  100%{transform:scale(1.65);opacity:0}
+}
+@keyframes lineActionButtonV136{
+  0%{transform:scale(1)}
+  45%{transform:scale(.965)}
+  75%{transform:scale(1.025)}
+  100%{transform:scale(1)}
+}
+#lineActionFeedbackV136{
+  position:fixed;left:50%;top:50%;z-index:99999;
+  width:min(330px,calc(100vw - 38px));
+  padding:22px 20px 19px;border-radius:24px;
+  text-align:center;pointer-events:none;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(7,18,30,.94);
+  border:1px solid rgba(90,180,255,.26);
+  box-shadow:0 22px 70px rgba(0,0,0,.45),0 0 34px rgba(39,151,255,.10);
+  animation:lineActionPopV136 .34s cubic-bezier(.2,.8,.2,1) both;
+}
+#lineActionFeedbackV136.is-leaving{opacity:0;transform:translate(-50%,-52%) scale(.97);transition:.22s ease}
+#lineActionFeedbackV136 .line-action-icon{
+  width:58px;height:58px;margin:0 auto 12px;border-radius:50%;
+  display:grid;place-items:center;position:relative;
+  background:rgba(35,157,255,.12);border:1px solid rgba(76,183,255,.30);
+  animation:lineActionIconV136 .42s .05s cubic-bezier(.2,.8,.2,1) both;
+}
+#lineActionFeedbackV136 .line-action-icon::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  border:1px solid rgba(76,183,255,.34);
+  animation:lineActionRingV136 .7s .08s ease-out both;
+}
+#lineActionFeedbackV136 .line-action-icon svg{width:27px!important;height:27px!important}
+#lineActionFeedbackV136 strong{display:block;font-size:17px;line-height:1.2;margin-bottom:5px}
+#lineActionFeedbackV136 small{display:block;font-size:12px;line-height:1.45;opacity:.72}
+#lineActionFeedbackV136[data-tone="success"] .line-action-icon{
+  background:rgba(34,197,94,.13);border-color:rgba(74,222,128,.32)
+}
+#lineActionFeedbackV136[data-tone="success"] .line-action-icon::after{border-color:rgba(74,222,128,.34)}
+#lineActionFeedbackV136[data-tone="danger"] .line-action-icon{
+  background:rgba(239,68,68,.13);border-color:rgba(248,113,113,.30)
+}
+#lineActionFeedbackV136[data-tone="danger"] .line-action-icon::after{border-color:rgba(248,113,113,.32)}
+.line-action-pulse-v136{animation:lineActionButtonV136 .38s cubic-bezier(.2,.8,.2,1)}
+@media(max-width:760px){
+  #lineActionFeedbackV136{top:46%;border-radius:21px;padding:20px 18px 17px}
+}
+@media(prefers-reduced-motion:reduce){
+  #lineActionFeedbackV136,
+  #lineActionFeedbackV136 .line-action-icon,
+  #lineActionFeedbackV136 .line-action-icon::after,
+  .line-action-pulse-v136{animation:none!important;transition:none!important}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -5965,7 +6062,7 @@ function calendarPage(){
 }
 function moveMonth(n){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+n,1);render()}
 function goToday(){const now=new Date();calendarCursor=new Date(now.getFullYear(),now.getMonth(),1);render()}
-function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article>${pwaSettingsPanelV13()}</div>`}
+function configPage(){return `<div class="profile-grid"><article class="panel settings-section"><h3>Minha conta</h3><div class="setting-line clickable" onclick="openRealProfileModal()"><div><b>${currentUser.name}</b><small>${currentUser.email}</small></div><span class="status ${isMaster()?"purple-tag":"green"}">${isMaster()?"Master Admin":"Membro"}</span></div><div class="setting-line"><div><b>Área principal</b><small>${currentUser.area}</small></div><button class="action-btn">Editar</button></div><div class="setting-line"><div><b>Senha e segurança</b><small>Receba um link no seu e-mail para criar uma nova senha</small></div><button class="action-btn" onclick="sendLoggedUserPasswordReset()">Alterar</button></div></article><article class="panel settings-section"><h3>Preferências</h3><div class="setting-line"><div><b>Tema do aplicativo</b><small>${getLineTheme()==="dark"?"Modo escuro premium":"Modo claro"}</small></div><button class="action-btn" onclick="toggleLineTheme()">${getLineTheme()==="dark"?"Usar claro":"Usar escuro"}</button></div><div class="setting-line"><div><b>Notificações de escala</b><small>Receber lembrete antes dos eventos</small></div><span class="status green">Ativado</span></div><div class="setting-line"><div><b>Disponibilidade</b><small>Permitir lembretes para confirmar presença</small></div><span class="status green">Ativado</span></div></article>${pwaSettingsPanelV13()}${masterPushTestPanelV135()}</div>`}
 
 window.sendLoggedUserPasswordReset=async function(){
   const email=currentUser?.email;
@@ -8562,8 +8659,171 @@ window.mountLinePushOnboardingV132=function(){
   refreshLinePushOnboardingV132();
 };
 
+
+/* ==========================================================
+   LINE v13.5 — TESTE DE PUSH PARA MASTER
+   ========================================================== */
+window.sendMasterPushTestV135 = async function(){
+  try{
+    if(!isMaster()){
+      alert("Apenas administradores Master podem usar este teste.");
+      return;
+    }
+    if(!currentUser?.id){
+      alert("Usuário não autenticado.");
+      return;
+    }
+
+    const btn=document.getElementById("masterPushTestBtnV135");
+    if(btn){
+      btn.disabled=true;
+      btn.dataset.oldText=btn.innerHTML;
+      btn.innerHTML=`${icon("loader-circle")} Enviando...`;
+      refreshIcons();
+    }
+
+    const {data,error}=await supabaseClient.functions.invoke("send-line-push",{
+      body:{
+        user_ids:[currentUser.id],
+        title:"LINE Interligados 🔔",
+        body_template:"Teste concluído! As notificações da LINE estão funcionando.",
+        role_by_user:{},
+        url:"/#notificacoes",
+        tag:`master-push-test-${Date.now()}`
+      }
+    });
+
+    if(error){
+      console.error("Teste Push Master:",error);
+      alert("Não foi possível enviar o Push de teste. Confira os logs da função send-line-push.");
+      return;
+    }
+
+    const sent=Number(data?.sent||0);
+    const failed=Number(data?.failed||0);
+
+    if(sent>0){
+      alert(`Push de teste enviado com sucesso para ${sent} aparelho(s). 🔔`);
+    }else if(failed>0){
+      alert("O teste foi executado, mas o envio falhou. Confira os logs de Push.");
+    }else{
+      alert("Nenhum aparelho ativo encontrado para o seu usuário. Ative as notificações neste aparelho e tente novamente.");
+    }
+  }catch(error){
+    console.error(error);
+    alert("Erro ao executar o teste de Push.");
+  }finally{
+    const btn=document.getElementById("masterPushTestBtnV135");
+    if(btn){
+      btn.disabled=false;
+      btn.innerHTML=btn.dataset.oldText||`${icon("send")} Enviar Push de teste para mim`;
+      refreshIcons();
+    }
+  }
+};
+
+window.masterPushTestPanelV135 = function(){
+  if(!isMaster())return "";
+  return `<article class="panel settings-section master-push-test-v135">
+    <h3>Diagnóstico Master</h3>
+    <div class="setting-line">
+      <div>
+        <b>Teste de notificação Push</b>
+        <small>Envia uma notificação somente para o seu usuário usando sua sessão real da LINE.</small>
+      </div>
+      <button id="masterPushTestBtnV135" class="action-btn" onclick="sendMasterPushTestV135()">${icon("send")} Enviar Push de teste para mim</button>
+    </div>
+  </article>`;
+};
+
+
+/* LINE v13.6 — animações de disponibilidade e confirmação */
+window.lineActionFeedbackV136 = function(opts={}){
+  const old=document.getElementById("lineActionFeedbackV136");
+  if(old) old.remove();
+  const tone=opts.tone||"success";
+  const iconName=opts.icon|| (tone==="danger" ? "x" : "check");
+  const box=document.createElement("div");
+  box.id="lineActionFeedbackV136";
+  box.dataset.tone=tone;
+  box.innerHTML=`
+    <div class="line-action-icon">${icon(iconName)}</div>
+    <strong>${opts.title||"Tudo certo!"}</strong>
+    <small>${opts.message||"Sua alteração foi salva."}</small>
+  `;
+  document.body.appendChild(box);
+  refreshIcons();
+  if(navigator.vibrate && opts.vibrate!==false){
+    try{navigator.vibrate(tone==="danger" ? [30,25,30] : 35)}catch(_){}
+  }
+  clearTimeout(window.__lineActionFeedbackTimerV136);
+  window.__lineActionFeedbackTimerV136=setTimeout(()=>{
+    if(!box.isConnected)return;
+    box.classList.add("is-leaving");
+    setTimeout(()=>box.remove(),240);
+  },1250);
+};
+
+window.linePulseActionV136 = function(el){
+  if(!el)return;
+  el.classList.remove("line-action-pulse-v136");
+  void el.offsetWidth;
+  el.classList.add("line-action-pulse-v136");
+  setTimeout(()=>el.classList.remove("line-action-pulse-v136"),450);
+};
+
+(function installLineActionFeedbackV136(){
+  function wrapAsync(name, resolver){
+    const original=window[name];
+    if(typeof original!=="function" || original.__lineV136Wrapped)return false;
+    const wrapped=async function(...args){
+      const clicked=document.activeElement;
+      try{
+        const result=await original.apply(this,args);
+        const feedback=resolver(args,result);
+        if(feedback){
+          linePulseActionV136(clicked);
+          lineActionFeedbackV136(feedback);
+        }
+        return result;
+      }catch(err){
+        throw err;
+      }
+    };
+    wrapped.__lineV136Wrapped=true;
+    window[name]=wrapped;
+    return true;
+  }
+
+  // Disponibilidade: o app atual usa saveAvailability.
+  wrapAsync("saveAvailability",()=>({
+    tone:"success",
+    icon:"check",
+    title:"Disponibilidade salva!",
+    message:"Sua resposta foi registrada na LINE."
+  }));
+
+  // Confirmação/recusa de escala: cobre os nomes usados nas versões atuais/anteriores.
+  ["confirmSchedule","confirmScale","confirmAssignment","acceptSchedule"].forEach(name=>{
+    wrapAsync(name,()=>({
+      tone:"success",
+      icon:"check-circle",
+      title:"Escala confirmada!",
+      message:"Tudo certo. Sua confirmação foi registrada."
+    }));
+  });
+  ["declineSchedule","declineScale","declineAssignment","rejectSchedule"].forEach(name=>{
+    wrapAsync(name,()=>({
+      tone:"danger",
+      icon:"x-circle",
+      title:"Escala recusada",
+      message:"Sua resposta foi registrada."
+    }));
+  });
+})();
+
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v13.4 VAPID Reset iniciado");
+ console.info("LINE Interligados v13.6 Feedback Animations iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -8571,7 +8831,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.4",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.6",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
