@@ -4847,6 +4847,18 @@ html[data-theme="light"] .pwa-support-note-v13{
 }
 html[data-theme="light"] .pwa-support-note-v13 b{color:#174d71!important}
 
+
+.line-push-onboarding-v132{position:relative;margin:0 0 14px;padding:12px 42px 12px 13px;border-radius:14px;border:1px solid rgba(71,157,218,.22);background:linear-gradient(135deg,rgba(18,57,86,.96),rgba(8,29,46,.96));display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:11px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.12);animation:linePushEnterV132 .28s ease both}
+.line-push-onboarding-v132[hidden]{display:none!important}
+@keyframes linePushEnterV132{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.line-push-icon-v132{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(62,153,218,.16);color:#8fd2ff}
+.line-push-icon-v132 svg{width:18px!important;height:18px!important}
+.line-push-copy-v132{min-width:0;display:flex;flex-direction:column;gap:3px}.line-push-copy-v132 b{font-size:9px;color:var(--text)}.line-push-copy-v132 span{font-size:7px;line-height:1.45;color:var(--muted)}
+.line-push-enable-v132{border:0;border-radius:10px;padding:9px 11px;background:#2d83bd;color:#fff;font-weight:800;font-size:7.5px;cursor:pointer;white-space:nowrap}
+.line-push-close-v132{position:absolute;right:10px;top:7px;width:24px;height:24px;border:0;background:transparent;color:var(--muted);font-size:17px;cursor:pointer}
+html[data-theme="light"] .line-push-onboarding-v132{background:linear-gradient(135deg,#f5fbff,#eaf5fb)!important;border-color:#cfe4f1!important}
+@media(max-width:760px){.line-push-onboarding-v132{grid-template-columns:36px minmax(0,1fr)!important;padding:12px 38px 12px 12px!important;gap:9px!important}.line-push-enable-v132{grid-column:1/-1!important;width:100%!important;min-height:39px!important}}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -6305,6 +6317,7 @@ async function render(){
  const content=await page();
  app.innerHTML=shell(content);
  refreshIcons();
+ if(route==="dashboard")setTimeout(()=>mountLinePushOnboardingV132(),60);
 }
 
 /* =========================================================
@@ -8423,6 +8436,8 @@ window.enableLinePushNotifications = async function(){
       });
     }
     await saveLinePushSubscription(sub);
+    try{localStorage.removeItem(LINE_PUSH_PROMPT_DISMISSED_KEY)}catch{}
+    document.getElementById("linePushPromptV132")?.remove();
     alert("Notificações da LINE ativadas neste aparelho. 🔔");
     await render();
   }catch(error){
@@ -8498,7 +8513,7 @@ window.sendSchedulePushV13 = async function(schedules,event){
       body:{
         user_ids:userIds,
         title:"Você foi escalado! 💙",
-        body_template:`{role} • ${event.name} • ${formatEventDate(event.event_date)} às ${event.start_time?.slice(0,5)||""}`,
+        body_template:`{role} • ${event.name} • ${formatEventDate(event.event_date)} às ${event.start_time?.slice(0,5)||""}. Abra a LINE para confirmar ou recusar sua escala.`,
         role_by_user:roleByUser,
         url:"/#escalas",
         tag:`schedule-${event.id}`,
@@ -8511,8 +8526,44 @@ window.sendSchedulePushV13 = async function(schedules,event){
   }
 };
 
+
+/* LINE v13.2 — convite para ativar notificações */
+window.LINE_PUSH_PROMPT_DISMISSED_KEY="line_push_prompt_dismissed_v13_2";
+
+window.dismissLinePushPromptV132=function(){
+  try{localStorage.setItem(LINE_PUSH_PROMPT_DISMISSED_KEY,"1")}catch{}
+  document.getElementById("linePushPromptV132")?.remove();
+};
+
+window.linePushOnboardingCardV132=function(){
+  return `<article id="linePushPromptV132" class="line-push-onboarding-v132" hidden>
+    <button class="line-push-close-v132" onclick="dismissLinePushPromptV132()" aria-label="Fechar">×</button>
+    <div class="line-push-icon-v132">${icon("bell-ring")}</div>
+    <div class="line-push-copy-v132"><b>Ative as notificações da LINE</b><span>Receba suas escalas, lembretes e avisos importantes direto no celular.</span></div>
+    <button class="line-push-enable-v132" onclick="enableLinePushNotifications()">Ativar notificações</button>
+  </article>`;
+};
+
+window.refreshLinePushOnboardingV132=async function(){
+  const el=document.getElementById("linePushPromptV132");
+  if(!el||!currentUser?.id)return;
+  try{
+    const status=await getPushStatusV13();
+    if(status.subscribed||status.permission==="denied"||localStorage.getItem(LINE_PUSH_PROMPT_DISMISSED_KEY)==="1"){el.remove();return}
+    el.hidden=false;
+  }catch(e){console.warn("Push onboarding:",e)}
+};
+
+window.mountLinePushOnboardingV132=function(){
+  if(route!=="dashboard"||!currentUser?.id||document.getElementById("linePushPromptV132"))return;
+  const host=document.querySelector(".main-content")||document.querySelector("main")||document.querySelector(".content");
+  if(!host)return;
+  host.insertAdjacentHTML("afterbegin",linePushOnboardingCardV132());
+  refreshLinePushOnboardingV132();
+};
+
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v13 PWA Push iniciado");
+ console.info("LINE Interligados v13.2 Push Onboarding iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -8520,7 +8571,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.0",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.2",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
