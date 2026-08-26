@@ -8332,7 +8332,7 @@ addEventListener("hashchange",()=>{
 /* ==========================================================
    LINE v13 — PWA + WEB PUSH
    ========================================================== */
-window.LINE_VAPID_PUBLIC_KEY = "BIcU9CRazS7ifed9zTBgd6V1VkELWqaxRZ4PmRVWrXz8ZH5uQ2b314zHYtLxH-JRfmDZA1yl-qd13e8MEgOhXP8";
+window.LINE_VAPID_PUBLIC_KEY = "BFaQmV28SBYxdJdlQ8ukzchPiUHzkAurBDdLFrJpOeKzwc73XWXIFwjGOGVnogroipr9QSlCBl-ZL6p3oGl82Sw";
 window.LINE_DEFERRED_INSTALL_PROMPT = null;
 
 window.addEventListener("beforeinstallprompt", event => {
@@ -8563,7 +8563,7 @@ window.mountLinePushOnboardingV132=function(){
 };
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v13.2 Push Onboarding iniciado");
+ console.info("LINE Interligados v13.4 VAPID Reset iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -8571,7 +8571,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.2",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.4",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
