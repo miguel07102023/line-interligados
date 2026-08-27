@@ -4956,6 +4956,977 @@ html[data-theme="light"] .line-push-onboarding-v132{background:linear-gradient(1
   .line-action-pulse-v136{animation:none!important;transition:none!important}
 }
 
+
+/* ==========================================================
+   LINE v14.0 — APP REDESIGN
+   Referência: layout mobile clean / cards / native-app feel
+   ========================================================== */
+
+:root{
+  --v14-blue:#1677ff;
+  --v14-blue-2:#0b63e6;
+  --v14-bg:#f5f7fa;
+  --v14-card:#ffffff;
+  --v14-text:#0b1520;
+  --v14-muted:#667085;
+  --v14-line:rgba(11,21,32,.075);
+  --v14-shadow:0 12px 34px rgba(16,24,40,.065);
+  --v14-radius:22px;
+}
+html[data-theme="light"]{
+  --bg:#f5f7fa!important;
+  --panel:#ffffff!important;
+  --panel2:#ffffff!important;
+  --card:#ffffff!important;
+  --text:#0b1520!important;
+  --muted:#667085!important;
+  --border:rgba(11,21,32,.075)!important;
+}
+html[data-theme="dark"]{
+  --bg:#050b12!important;
+  --panel:#0c1621!important;
+  --panel2:#0c1621!important;
+  --card:#0c1621!important;
+  --text:#f7fafc!important;
+  --muted:#98a2b3!important;
+  --border:rgba(255,255,255,.075)!important;
+}
+
+body{
+  background:var(--bg)!important;
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  letter-spacing:-.012em;
+}
+.shell{background:var(--bg)!important}
+.main{
+  background:var(--bg)!important;
+  padding-bottom:36px!important;
+}
+.main>*:not(.topbar){
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ---------- desktop sidebar ---------- */
+.sidebar{
+  background:color-mix(in srgb,var(--panel) 96%,transparent)!important;
+  border-right:1px solid var(--border)!important;
+  box-shadow:none!important;
+}
+.brand{padding:24px 18px 17px!important}
+.logo-box.generic-line-logo{
+  border-radius:15px!important;
+  background:var(--v14-blue)!important;
+  box-shadow:none!important;
+}
+.nav{padding:8px 12px!important;gap:5px!important}
+.nav a{
+  min-height:48px!important;
+  border-radius:14px!important;
+  border:0!important;
+  color:var(--muted)!important;
+  transition:background .2s ease,color .2s ease,transform .2s ease!important;
+}
+.nav a:hover{background:color-mix(in srgb,var(--v14-blue) 7%,transparent)!important;transform:translateX(2px)}
+.nav a.active{
+  background:color-mix(in srgb,var(--v14-blue) 11%,transparent)!important;
+  color:var(--v14-blue)!important;
+  box-shadow:none!important;
+}
+.nav a.active svg{color:var(--v14-blue)!important}
+.sidebar-bottom{padding:12px!important}
+.user-card,.logout{
+  border-radius:16px!important;
+  border:1px solid var(--border)!important;
+  background:var(--panel)!important;
+  box-shadow:none!important;
+}
+
+/* ---------- top header ---------- */
+.topbar{
+  min-height:88px!important;
+  padding:18px 24px!important;
+  background:color-mix(in srgb,var(--bg) 92%,transparent)!important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:0!important;
+  position:sticky!important;
+  top:0!important;
+  z-index:90!important;
+}
+.welcome h1{
+  font-size:28px!important;
+  font-weight:800!important;
+  letter-spacing:-.045em!important;
+}
+.welcome p{font-size:13px!important;color:var(--muted)!important}
+.top-actions{gap:10px!important}
+.icon-btn,.theme-pill,.search,.top-user{
+  border-radius:16px!important;
+  border:1px solid var(--border)!important;
+  background:var(--panel)!important;
+  box-shadow:none!important;
+}
+.icon-btn{width:46px!important;height:46px!important}
+.top-user{padding:5px 9px 5px 6px!important}
+.search{height:46px!important}
+
+/* ---------- universal cards ---------- */
+.panel,.stat,.team-card,.schedule-card,.manual-card-v121,.application-card,.ai-form-card,
+.availability-management-panel,.event-card-v14,.line-event-card-v14,.member-next-card-v14,
+.master-next-card-v14,.v14-mini-stat,.v14-section-card{
+  border:1px solid var(--border)!important;
+  border-radius:var(--v14-radius)!important;
+  background:var(--panel)!important;
+  box-shadow:var(--v14-shadow)!important;
+}
+.panel{
+  padding:20px!important;
+}
+.panel-head{
+  min-height:38px;
+  margin-bottom:14px!important;
+}
+.panel-title{
+  font-size:15px!important;
+  font-weight:750!important;
+  color:var(--text)!important;
+}
+.page-toolbar{
+  margin:8px 0 20px!important;
+  align-items:flex-end!important;
+}
+.page-title h2{
+  font-size:30px!important;
+  line-height:1.05!important;
+  font-weight:800!important;
+  letter-spacing:-.045em!important;
+  color:var(--text)!important;
+}
+.page-title p{
+  margin-top:6px!important;
+  font-size:13px!important;
+  color:var(--muted)!important;
+}
+.primary,.action-btn,.ghost-btn,.secondary{
+  min-height:44px!important;
+  border-radius:13px!important;
+  font-weight:700!important;
+  box-shadow:none!important;
+  transition:transform .16s ease,opacity .16s ease,background .16s ease!important;
+}
+.primary{
+  background:var(--v14-blue)!important;
+  border-color:var(--v14-blue)!important;
+  color:#fff!important;
+}
+.primary:hover{background:var(--v14-blue-2)!important;transform:translateY(-1px)}
+.action-btn,.ghost-btn,.secondary{
+  background:var(--panel)!important;
+  color:var(--v14-blue)!important;
+  border:1px solid color-mix(in srgb,var(--v14-blue) 35%,var(--border))!important;
+}
+button:active,.primary:active,.action-btn:active,.ghost-btn:active{transform:scale(.975)!important}
+
+/* ---------- new app typography ---------- */
+.v14-app-intro{margin:6px 0 17px}
+.v14-app-intro small{
+  display:block;font-size:14px;color:var(--muted);margin-bottom:2px
+}
+.v14-app-intro h2{
+  font-size:31px;line-height:1.02;font-weight:820;letter-spacing:-.05em;color:var(--text)
+}
+.v14-section-title{
+  margin:24px 2px 11px;
+  font-size:18px;
+  font-weight:780;
+  letter-spacing:-.035em;
+  color:var(--text);
+}
+.v14-kicker{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:800;color:var(--v14-blue);
+  text-transform:uppercase;letter-spacing:.04em
+}
+
+/* ---------- reference-style event card ---------- */
+.member-next-card-v14,.master-next-card-v14,.line-event-card-v14{
+  padding:18px!important;
+  position:relative;
+  overflow:hidden;
+}
+.v14-event-date{
+  font-size:11px;font-weight:800;color:var(--v14-blue);
+  margin-bottom:5px
+}
+.v14-event-name{
+  font-size:19px;font-weight:800;line-height:1.08;letter-spacing:-.03em;
+  color:var(--text);margin:0
+}
+.v14-event-sub{
+  margin-top:4px;font-size:12px;color:var(--muted)
+}
+.v14-event-info-grid{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
+  align-items:end;
+  gap:12px;
+}
+.v14-info-pair small{
+  display:block;font-size:10px;color:var(--muted);margin-bottom:2px
+}
+.v14-info-pair b{
+  display:block;font-size:14px;color:var(--text);line-height:1.2
+}
+.v14-big-time{
+  font-size:31px;font-weight:800;letter-spacing:-.045em;color:var(--v14-blue);
+  line-height:.95;text-align:right
+}
+.v14-card-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px
+}
+.v14-card-actions button{width:100%;min-height:46px;border-radius:12px;font-weight:760}
+.v14-outline{
+  color:var(--v14-blue)!important;background:transparent!important;
+  border:1px solid color-mix(in srgb,var(--v14-blue) 72%,transparent)!important
+}
+.v14-solid{
+  color:#fff!important;background:var(--v14-blue)!important;border:1px solid var(--v14-blue)!important
+}
+.v14-success-strip{
+  margin-top:16px;padding:12px 14px;border-radius:13px;
+  display:flex;align-items:center;gap:8px;
+  color:#15803d;background:rgba(34,197,94,.09);font-size:13px;font-weight:750
+}
+.v14-success-strip svg{width:17px!important;height:17px!important}
+.v14-availability-question{
+  margin-top:17px;padding-top:16px;border-top:1px solid var(--border)
+}
+.v14-availability-question>span{
+  display:block;font-size:12px;color:var(--muted);margin-bottom:9px
+}
+.v14-availability-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.v14-availability-actions button{
+  min-height:43px;border-radius:12px;border:1px solid var(--border);
+  background:var(--panel);color:var(--text);font-weight:720
+}
+.v14-availability-actions button.selected-yes{
+  color:#15803d;border-color:rgba(34,197,94,.25);background:rgba(34,197,94,.075)
+}
+.v14-availability-actions button.selected-no{
+  color:#b42318;border-color:rgba(239,68,68,.22);background:rgba(239,68,68,.065)
+}
+
+/* ---------- future event list ---------- */
+.v14-event-list{display:grid;gap:11px}
+.line-event-card-v14{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:14px;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.line-event-card-v14:hover{transform:translateY(-2px)}
+.line-event-card-v14 .v14-big-time{align-self:center;font-size:27px}
+.v14-event-status{margin-top:10px}
+
+/* ---------- stats ---------- */
+.stats{gap:12px!important}
+.stat{
+  min-height:116px!important;
+  padding:16px!important;
+  box-shadow:none!important;
+}
+.stat:before{display:none!important}
+.stat-icon{
+  width:38px!important;height:38px!important;border-radius:13px!important;
+  background:color-mix(in srgb,var(--v14-blue) 9%,transparent)!important;
+  color:var(--v14-blue)!important
+}
+.stat label{font-size:11px!important;color:var(--muted)!important}
+.stat strong{font-size:26px!important;color:var(--text)!important;letter-spacing:-.04em!important}
+.stat small{font-size:10px!important;color:var(--muted)!important}
+.interactive-hint{display:none!important}
+
+/* ---------- master home ---------- */
+.v14-master-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:14px 0 18px
+}
+.v14-mini-stat{
+  padding:15px;box-shadow:none!important;cursor:pointer
+}
+.v14-mini-stat small{display:block;color:var(--muted);font-size:10px}
+.v14-mini-stat strong{display:block;margin-top:5px;font-size:26px;letter-spacing:-.04em}
+.v14-master-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:14px}
+.v14-compact-list{display:grid;gap:9px}
+.v14-compact-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 0;border-bottom:1px solid var(--border)
+}
+.v14-compact-row:last-child{border-bottom:0}
+.v14-compact-row b{font-size:13px}
+.v14-compact-row small{font-size:11px;color:var(--muted)}
+
+/* ---------- events page ---------- */
+.v14-events-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v14-events-empty{
+  grid-column:1/-1;padding:30px;text-align:center;color:var(--muted);
+  border:1px dashed var(--border);border-radius:20px
+}
+
+/* ---------- schedules ---------- */
+.availability-management,.ai-panel-premium{margin-top:12px!important}
+.availability-management-panel,.ai-panel-premium{box-shadow:var(--v14-shadow)!important}
+.availability-filter-grid{gap:10px!important}
+.field input,.field select,.field textarea,.search input{
+  border-radius:13px!important;
+}
+.ai-hero-premium{
+  border-radius:18px!important;
+  background:color-mix(in srgb,var(--v14-blue) 6%,var(--panel))!important;
+  border:1px solid color-mix(in srgb,var(--v14-blue) 12%,var(--border))!important;
+}
+.ai-orb{
+  background:var(--v14-blue)!important;color:#fff!important;
+  box-shadow:none!important;border-radius:14px!important
+}
+.ai-generate-btn{min-height:50px!important;font-size:14px!important}
+.availability-kpi{
+  border-radius:16px!important;
+  border:1px solid var(--border)!important;
+  background:var(--panel)!important
+}
+
+/* ---------- teams ---------- */
+.team-grid{gap:12px!important}
+.team-card{
+  padding:18px!important;
+  min-height:unset!important;
+  transition:transform .18s ease,box-shadow .18s ease!important
+}
+.team-card:hover{transform:translateY(-2px)}
+.team-icon{
+  width:44px!important;height:44px!important;border-radius:14px!important;
+  background:color-mix(in srgb,var(--v14-blue) 9%,transparent)!important;
+  color:var(--v14-blue)!important
+}
+.team-card h3{font-size:17px!important;letter-spacing:-.025em}
+.team-card>p{font-size:11px!important;color:var(--muted)!important}
+.team-member{
+  min-height:44px!important;border-radius:12px!important;
+  background:color-mix(in srgb,var(--text) 2%,transparent)!important;
+  border:0!important
+}
+.team-board-open{border-radius:13px!important;min-height:44px!important}
+
+/* ---------- notifications ---------- */
+.notification-item{
+  min-height:70px!important;
+  padding:13px!important;
+  border-radius:16px!important;
+  border:1px solid var(--border)!important;
+  margin-bottom:8px!important;
+  background:var(--panel)!important;
+}
+.notification-icon{
+  width:40px!important;height:40px!important;border-radius:13px!important;
+  background:color-mix(in srgb,var(--v14-blue) 9%,transparent)!important;color:var(--v14-blue)!important
+}
+.notification-item b{font-size:13px!important}
+.notification-item p{font-size:11px!important;color:var(--muted)!important}
+
+/* ---------- settings ---------- */
+.profile-grid{gap:13px!important}
+.settings-section h3{font-size:17px!important;margin-bottom:12px!important}
+.setting-line{
+  padding:13px 0!important;border-bottom:1px solid var(--border)!important
+}
+.setting-line b{font-size:13px!important}
+.setting-line small{font-size:11px!important;color:var(--muted)!important}
+
+/* ---------- modals ---------- */
+.modal{
+  border-radius:24px!important;
+  border:1px solid var(--border)!important;
+  background:var(--panel)!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.24)!important
+}
+
+/* ---------- tables remain desktop-only feel ---------- */
+.table-wrap{
+  border-radius:18px!important;border:1px solid var(--border)!important;
+  overflow:auto!important
+}
+.table th{background:color-mix(in srgb,var(--text) 2.5%,transparent)!important}
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+@media(max-width:760px){
+  body{font-size:16px!important}
+  .shell{display:block!important}
+  .sidebar{display:none!important}
+  .main{padding:0 16px 112px!important;width:100%!important}
+  .main>*:not(.topbar){max-width:none!important}
+
+  .topbar{
+    min-height:72px!important;
+    padding:12px 0 8px!important;
+    position:sticky!important;top:0!important;
+    background:color-mix(in srgb,var(--bg) 88%,transparent)!important;
+  }
+  .topbar .welcome{display:none!important}
+  .top-actions{
+    width:100%!important;
+    justify-content:space-between!important;
+  }
+  .top-actions:before{
+    content:"";
+    width:44px;height:44px;border-radius:15px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    background-image:linear-gradient(var(--muted),var(--muted));
+    background-size:18px 2px;background-repeat:no-repeat;background-position:center 15px;
+    box-shadow:inset 0 0 0 0 transparent;
+  }
+  .theme-switch,.search{display:none!important}
+  .top-user{
+    margin-left:auto!important;
+    border:0!important;background:transparent!important;padding:0!important;
+  }
+  .top-user>div{display:none!important}
+  .top-user .avatar{width:40px!important;height:40px!important}
+  .icon-btn{margin-left:auto!important;width:42px!important;height:42px!important;border:0!important;background:transparent!important}
+  .icon-btn+.top-user{margin-left:4px!important}
+
+  .v14-app-intro{margin:12px 0 17px!important}
+  .v14-app-intro small{font-size:13px!important}
+  .v14-app-intro h2{font-size:29px!important}
+
+  .page-toolbar{margin:10px 0 17px!important;align-items:flex-start!important}
+  .page-title h2{font-size:29px!important}
+  .page-title p{font-size:12px!important;line-height:1.45!important}
+  .page-toolbar>.primary,.page-toolbar>.action-btn,.page-toolbar>.ghost-btn{
+    min-height:40px!important;padding:0 12px!important;font-size:11px!important
+  }
+
+  .panel{padding:16px!important;border-radius:20px!important}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .stat{min-height:105px!important;padding:14px!important}
+  .stat strong{font-size:22px!important}
+
+  .member-next-card-v14,.master-next-card-v14,.line-event-card-v14{
+    border-radius:20px!important;padding:16px!important
+  }
+  .v14-event-name{font-size:18px!important}
+  .v14-event-info-grid{
+    grid-template-columns:1fr 1fr!important;
+    gap:12px!important
+  }
+  .v14-big-time{
+    grid-column:1/-1!important;
+    text-align:left!important;
+    margin-top:2px!important;
+    font-size:34px!important
+  }
+  .v14-card-actions,.v14-availability-actions{gap:8px!important}
+  .v14-card-actions button,.v14-availability-actions button{font-size:12px!important}
+
+  .v14-events-grid{grid-template-columns:1fr!important}
+  .line-event-card-v14{
+    grid-template-columns:1fr auto!important;
+  }
+  .line-event-card-v14 .v14-big-time{
+    grid-column:auto!important;
+    text-align:right!important;
+    font-size:26px!important
+  }
+
+  .v14-master-stats{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important
+  }
+  .v14-master-grid{grid-template-columns:1fr!important}
+  .v14-mini-stat{padding:14px!important}
+
+  .team-grid{grid-template-columns:1fr!important}
+  .team-card{border-radius:20px!important}
+  .team-members{gap:7px!important}
+
+  .availability-filter-grid,.ai-controls{grid-template-columns:1fr!important}
+  .availability-kpis{grid-template-columns:repeat(3,1fr)!important;gap:7px!important}
+  .availability-kpi{padding:10px!important}
+  .availability-kpi small{font-size:8px!important}
+  .availability-kpi b{font-size:18px!important}
+
+  .table-wrap{border:0!important;overflow:visible!important}
+  .events-v14-hide-table{display:none!important}
+
+  .notification-item{display:grid!important;grid-template-columns:42px 1fr auto!important}
+
+  /* Floating dock from v12.5 — restyled to match reference */
+  .mobile-dock-wrap-v125{
+    left:16px!important;right:16px!important;bottom:max(12px,env(safe-area-inset-bottom))!important;
+    width:auto!important;gap:9px!important;z-index:200!important
+  }
+  .mobile-nav.mobile-dock-v125{
+    flex:1!important;height:66px!important;padding:8px!important;
+    border-radius:25px!important;
+    background:color-mix(in srgb,var(--panel) 96%,transparent)!important;
+    border:1px solid var(--border)!important;
+    box-shadow:0 12px 36px rgba(16,24,40,.12)!important;
+    backdrop-filter:blur(18px)!important
+  }
+  .mobile-nav.mobile-dock-v125 a{
+    height:50px!important;min-width:48px!important;border-radius:17px!important;
+    color:var(--muted)!important
+  }
+  .mobile-nav.mobile-dock-v125 a.active{
+    background:color-mix(in srgb,var(--v14-blue) 10%,transparent)!important;
+    color:var(--v14-blue)!important
+  }
+  .mobile-nav.mobile-dock-v125 a.active .mobile-dock-label-v125{
+    color:var(--v14-blue)!important;
+    font-size:10px!important;max-width:70px!important
+  }
+  .mobile-plus-v125{
+    width:66px!important;height:66px!important;border-radius:50%!important;
+    background:var(--v14-blue)!important;color:#fff!important;
+    border:0!important;box-shadow:0 12px 28px rgba(22,119,255,.25)!important
+  }
+
+  .modal-bg{align-items:flex-end!important;padding:10px!important}
+  .modal{
+    width:100%!important;max-height:88dvh!important;
+    border-radius:28px 28px 20px 20px!important;
+    padding:18px!important
+  }
+}
+
+@media(min-width:761px){
+  .v14-events-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .team-card,.line-event-card-v14,.nav a,.primary,.action-btn{transition:none!important}
+}
+
+
+/* LINE v14.1 — remover marca superior da sidebar */
+.sidebar .brand{
+  display:none!important;
+}
+.sidebar .nav{
+  padding-top:18px!important;
+}
+
+
+/* ==========================================================
+   LINE v14.1 — AUTH SCREEN REDESIGN
+   ========================================================== */
+.auth-screen,
+.login-screen,
+.auth-page,
+.login-page{
+  min-height:100dvh!important;
+  background:#f7f9fc!important;
+}
+html[data-theme="dark"] .auth-screen,
+html[data-theme="dark"] .login-screen,
+html[data-theme="dark"] .auth-page,
+html[data-theme="dark"] .login-page{
+  background:#08111c!important;
+}
+
+.v141-auth-shell{
+  min-height:100dvh;
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(420px,.9fr);
+  gap:36px;
+  align-items:center;
+  padding:36px clamp(24px,5vw,72px);
+  background:
+    radial-gradient(circle at 18% 35%, rgba(22,119,255,.08), transparent 28%),
+    radial-gradient(circle at 42% 56%, rgba(22,119,255,.05), transparent 34%),
+    var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.v141-auth-shell:before,
+.v141-auth-shell:after{
+  content:"";
+  position:absolute;
+  width:720px;height:720px;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--v14-blue) 10%,transparent);
+  left:-220px;top:120px;
+  pointer-events:none;
+}
+.v141-auth-shell:after{
+  width:520px;height:520px;left:10px;top:260px;
+}
+.v141-auth-visual{
+  position:relative;
+  z-index:1;
+  padding:28px 18px 28px 8px;
+}
+.v141-auth-brand{
+  display:flex;align-items:center;gap:14px;margin-bottom:54px;
+}
+.v141-auth-brand-mark{
+  width:64px;height:64px;border-radius:18px;
+  display:grid;place-items:center;
+  background:var(--v14-blue);color:#fff;
+  font-size:28px;font-weight:850;
+  box-shadow:0 14px 32px rgba(22,119,255,.22);
+}
+.v141-auth-brand-copy b{
+  display:block;font-size:26px;letter-spacing:-.03em;color:var(--text)
+}
+.v141-auth-brand-copy span{
+  display:block;margin-top:2px;font-size:12px;
+  letter-spacing:.28em;font-weight:800;color:var(--v14-blue)
+}
+.v141-auth-hero{
+  max-width:560px;text-align:center;margin:0 auto;
+}
+.v141-auth-radio{
+  width:132px;height:132px;border-radius:32px;
+  margin:0 auto 28px;
+  display:grid;place-items:center;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow:0 18px 44px rgba(16,24,40,.11);
+  color:var(--v14-blue);
+}
+.v141-auth-radio svg{width:56px!important;height:56px!important}
+.v141-auth-hero h1{
+  font-size:54px;line-height:.95;letter-spacing:.18em;
+  margin:0;color:var(--text);font-weight:760;
+}
+.v141-auth-hero h1 span{
+  display:block;margin-top:18px;font-size:18px;letter-spacing:.34em;color:var(--v14-blue)
+}
+.v141-auth-hero p{
+  margin:32px auto 0;max-width:490px;
+  color:var(--muted);font-size:16px;line-height:1.6
+}
+.v141-auth-features{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:20px;margin-top:56px
+}
+.v141-auth-feature{text-align:center}
+.v141-auth-feature i{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;margin:0 auto 9px;
+  background:var(--panel);border:1px solid var(--border);
+  color:var(--v14-blue);box-shadow:0 8px 20px rgba(16,24,40,.05)
+}
+.v141-auth-feature i svg{width:19px!important;height:19px!important}
+.v141-auth-feature b{display:block;font-size:12px;color:var(--text)}
+.v141-auth-feature span{display:block;margin-top:3px;font-size:10px;color:var(--muted)}
+.v141-auth-panel{
+  position:relative;z-index:2;
+  max-width:560px;width:100%;justify-self:end;
+  padding:42px;
+  border-radius:30px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow:0 24px 70px rgba(16,24,40,.10);
+}
+.v141-auth-kicker{
+  color:var(--v14-blue);font-size:13px;font-weight:800;
+  letter-spacing:.02em;margin-bottom:14px
+}
+.v141-auth-panel h2{
+  margin:0;font-size:38px;line-height:1.02;
+  letter-spacing:-.05em;color:var(--text)
+}
+.v141-auth-panel h2 span{color:var(--v14-blue)}
+.v141-auth-panel>p{
+  margin:14px 0 28px;color:var(--muted);font-size:15px;line-height:1.55
+}
+.v141-auth-choice{
+  display:grid;gap:12px
+}
+.v141-auth-choice button{
+  min-height:52px;border-radius:14px;
+  font-weight:800;font-size:14px;cursor:pointer
+}
+.v141-auth-choice .v141-primary{
+  border:1px solid var(--v14-blue);
+  background:var(--v14-blue);color:#fff
+}
+.v141-auth-choice .v141-secondary{
+  border:1px solid color-mix(in srgb,var(--v14-blue) 35%,var(--border));
+  background:transparent;color:var(--v14-blue)
+}
+.v141-auth-note{
+  margin-top:24px;padding-top:18px;border-top:1px solid var(--border);
+  font-size:12px;color:var(--muted);text-align:center
+}
+
+@media(max-width:860px){
+  .v141-auth-shell{
+    grid-template-columns:1fr;
+    padding:24px 18px 28px;
+    gap:20px;
+  }
+  .v141-auth-visual{
+    padding:4px 0 10px;
+  }
+  .v141-auth-brand{margin-bottom:28px}
+  .v141-auth-brand-mark{width:54px;height:54px;border-radius:16px;font-size:24px}
+  .v141-auth-brand-copy b{font-size:22px}
+  .v141-auth-hero h1{font-size:42px}
+  .v141-auth-hero h1 span{font-size:15px}
+  .v141-auth-radio{width:100px;height:100px;border-radius:27px;margin-bottom:20px}
+  .v141-auth-radio svg{width:42px!important;height:42px!important}
+  .v141-auth-hero p{font-size:14px;margin-top:24px}
+  .v141-auth-features{grid-template-columns:repeat(2,1fr);margin-top:30px;gap:14px}
+  .v141-auth-panel{
+    max-width:none;justify-self:stretch;
+    padding:28px 20px 24px;border-radius:24px
+  }
+  .v141-auth-panel h2{font-size:32px}
+}
+
+
+/* ==========================================================
+   LINE v14.2 — AUTH REAL REDESIGN
+   ========================================================== */
+.v142-auth-page{
+  min-height:100dvh!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.18fr) minmax(420px,.82fr)!important;
+  gap:0!important;
+  padding:0!important;
+  background:#f8fafc!important;
+  color:#0b1520!important;
+  overflow:hidden!important;
+}
+.v142-auth-visual{
+  position:relative;
+  min-height:100dvh;
+  padding:42px 54px 34px;
+  background:
+    radial-gradient(circle at 23% 45%,rgba(22,119,255,.07),transparent 23%),
+    radial-gradient(circle at 42% 58%,rgba(22,119,255,.045),transparent 28%),
+    #f8fafc;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.v142-auth-visual:before,
+.v142-auth-visual:after{
+  content:"";position:absolute;border-radius:50%;
+  pointer-events:none;border:1px solid rgba(22,119,255,.07)
+}
+.v142-auth-visual:before{width:760px;height:760px;left:-260px;top:140px}
+.v142-auth-visual:after{width:560px;height:560px;left:-40px;top:250px}
+.v142-auth-top{
+  position:relative;z-index:2;display:flex;align-items:center;gap:14px
+}
+.v142-brand-mark{
+  width:60px;height:60px;border-radius:17px;
+  background:#1677ff;color:#fff;display:grid;place-items:center;
+  font-size:27px;font-weight:850;box-shadow:0 12px 26px rgba(22,119,255,.20)
+}
+.v142-brand-copy strong{
+  display:block;font-size:28px;line-height:1;color:#0b1520;letter-spacing:-.035em
+}
+.v142-brand-copy small{
+  display:block;margin-top:6px;font-size:12px;font-weight:800;
+  letter-spacing:.30em;color:#1677ff
+}
+.v142-secure-badge{
+  position:absolute;z-index:2;right:64px;top:52px;
+  display:flex;align-items:center;gap:7px;
+  padding:9px 13px;border-radius:12px;
+  background:#fff;border:1px solid rgba(11,21,32,.075);
+  box-shadow:0 8px 26px rgba(16,24,40,.045);
+  color:#667085;font-size:11px;font-weight:750
+}
+.v142-secure-badge svg{width:15px!important;height:15px!important;color:#1677ff}
+.v142-hero-center{
+  position:relative;z-index:2;text-align:center;
+  margin:auto auto 0;max-width:650px;width:100%;
+  transform:translateY(-14px)
+}
+.v142-tower{
+  width:132px;height:132px;border-radius:31px;
+  display:grid;place-items:center;margin:0 auto 30px;
+  background:#fff;color:#1677ff;border:1px solid rgba(11,21,32,.07);
+  box-shadow:0 20px 48px rgba(16,24,40,.10)
+}
+.v142-tower svg{width:58px!important;height:58px!important}
+.v142-wordmark{
+  font-size:58px;font-weight:720;letter-spacing:.18em;
+  line-height:1;color:#0b1520
+}
+.v142-subword{
+  margin-top:17px;font-size:18px;font-weight:750;letter-spacing:.37em;color:#1677ff
+}
+.v142-hero-center p{
+  margin:31px auto 0;font-size:16px;line-height:1.65;color:#667085
+}
+.v142-feature-grid{
+  position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:18px;margin:48px auto 0;max-width:690px;width:100%
+}
+.v142-feature{text-align:center}
+.v142-feature i{
+  width:46px;height:46px;margin:0 auto 10px;border-radius:14px;
+  display:grid;place-items:center;background:#fff;color:#1677ff;
+  border:1px solid rgba(11,21,32,.07);box-shadow:0 8px 24px rgba(16,24,40,.05)
+}
+.v142-feature i svg{width:20px!important;height:20px!important}
+.v142-feature b{display:block;font-size:12px;color:#0b1520}
+.v142-feature span{display:block;margin-top:3px;font-size:10px;color:#8a94a6}
+.v142-auth-footer{
+  position:relative;z-index:2;margin-top:auto;padding-top:34px;
+  font-size:11px;color:#98a2b3
+}
+.v142-auth-side{
+  min-height:100dvh;
+  display:grid;place-items:center;
+  padding:42px clamp(30px,4vw,68px);
+  background:#f8fafc;
+  position:relative
+}
+.v142-auth-card{
+  width:min(540px,100%);
+  padding:48px 50px 38px;
+  border-radius:30px;
+  background:#fff;
+  border:1px solid rgba(11,21,32,.07);
+  box-shadow:0 28px 80px rgba(16,24,40,.09);
+  color:#0b1520
+}
+.v142-eyebrow{
+  font-size:14px;font-weight:830;letter-spacing:.01em;color:#1677ff;margin-bottom:18px
+}
+.v142-auth-card h1{
+  margin:0;font-size:44px;line-height:1.02;letter-spacing:-.055em;
+  font-weight:820;color:#0b1520
+}
+.v142-auth-card h1 span{display:block;color:#1677ff;margin-top:5px}
+.v142-auth-copy{
+  margin:17px 0 31px!important;
+  color:#667085!important;font-size:15px!important;line-height:1.55!important
+}
+.v142-login-form{display:grid;gap:19px}
+.v142-field label{
+  display:block;margin-bottom:8px;font-size:12px;font-weight:750;color:#0b1520
+}
+.v142-input-wrap{
+  height:56px;border:1px solid rgba(11,21,32,.11);
+  border-radius:14px;display:flex;align-items:center;gap:12px;padding:0 16px;
+  background:#fff;transition:border-color .18s ease,box-shadow .18s ease
+}
+.v142-input-wrap:focus-within{
+  border-color:rgba(22,119,255,.55);
+  box-shadow:0 0 0 4px rgba(22,119,255,.075)
+}
+.v142-input-wrap svg{width:18px!important;height:18px!important;color:#98a2b3;flex:0 0 auto}
+.v142-input-wrap input{
+  width:100%;height:100%;border:0!important;outline:0!important;
+  background:transparent!important;color:#0b1520!important;
+  box-shadow:none!important;padding:0!important;font-size:14px!important
+}
+.v142-input-wrap input::placeholder{color:#98a2b3!important}
+.v142-login-options{
+  display:flex;align-items:center;justify-content:flex-end;
+  margin-top:-5px
+}
+.v142-forgot{
+  width:auto!important;margin:0!important;padding:0!important;
+  border:0!important;background:transparent!important;
+  color:#1677ff!important;font-size:12px!important;text-decoration:none!important
+}
+.v142-login-submit{
+  width:100%!important;height:54px!important;margin-top:1px!important;
+  border-radius:14px!important;background:#1677ff!important;color:#fff!important;
+  border:0!important;box-shadow:0 12px 28px rgba(22,119,255,.20)!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:9px!important;font-size:14px!important;font-weight:800!important
+}
+.v142-login-submit svg{width:17px!important;height:17px!important}
+.v142-register-cta{
+  margin-top:26px;padding-top:19px;border-top:1px solid rgba(11,21,32,.065);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  font-size:12px;color:#667085
+}
+.v142-register-cta button{
+  border:0;background:transparent;color:#1677ff;font-weight:800;
+  padding:0;cursor:pointer
+}
+.v142-register-sheet{z-index:1000!important}
+
+html[data-theme="dark"] .v142-auth-page,
+html[data-theme="dark"] .v142-auth-visual,
+html[data-theme="dark"] .v142-auth-side{
+  background:#07111d!important;color:#f7fafc!important
+}
+html[data-theme="dark"] .v142-auth-visual{
+  background:
+    radial-gradient(circle at 23% 45%,rgba(22,119,255,.12),transparent 23%),
+    radial-gradient(circle at 42% 58%,rgba(22,119,255,.07),transparent 28%),
+    #07111d!important
+}
+html[data-theme="dark"] .v142-brand-copy strong,
+html[data-theme="dark"] .v142-wordmark,
+html[data-theme="dark"] .v142-feature b,
+html[data-theme="dark"] .v142-auth-card h1,
+html[data-theme="dark"] .v142-field label{color:#f7fafc!important}
+html[data-theme="dark"] .v142-auth-card,
+html[data-theme="dark"] .v142-tower,
+html[data-theme="dark"] .v142-feature i,
+html[data-theme="dark"] .v142-secure-badge,
+html[data-theme="dark"] .v142-input-wrap{
+  background:#0c1621!important;border-color:rgba(255,255,255,.075)!important
+}
+html[data-theme="dark"] .v142-auth-card{box-shadow:0 28px 80px rgba(0,0,0,.32)!important}
+html[data-theme="dark"] .v142-auth-copy,
+html[data-theme="dark"] .v142-hero-center p,
+html[data-theme="dark"] .v142-register-cta{color:#98a2b3!important}
+html[data-theme="dark"] .v142-input-wrap input{color:#f7fafc!important}
+
+@media(max-width:860px){
+  .v142-auth-page{
+    grid-template-columns:1fr!important;
+    min-height:100dvh!important;
+    overflow:auto!important
+  }
+  .v142-auth-visual{
+    min-height:auto!important;
+    padding:24px 20px 16px!important
+  }
+  .v142-secure-badge{display:none!important}
+  .v142-hero-center{margin:34px auto 0!important;transform:none!important}
+  .v142-tower{width:92px;height:92px;border-radius:25px;margin-bottom:20px}
+  .v142-tower svg{width:40px!important;height:40px!important}
+  .v142-wordmark{font-size:38px}
+  .v142-subword{font-size:13px;margin-top:12px}
+  .v142-hero-center p{font-size:13px;margin-top:20px}
+  .v142-feature-grid{display:none!important}
+  .v142-auth-footer{display:none!important}
+  .v142-auth-side{
+    min-height:auto!important;padding:12px 16px max(28px,env(safe-area-inset-bottom))!important;
+    display:block!important
+  }
+  .v142-auth-card{
+    width:100%!important;padding:28px 20px 24px!important;border-radius:24px!important
+  }
+  .v142-auth-card h1{font-size:34px}
+  .v142-eyebrow{font-size:11px;margin-bottom:12px}
+  .v142-auth-copy{font-size:13px!important;margin:13px 0 24px!important}
+  .v142-input-wrap{height:52px}
+  .v142-brand-mark{width:50px;height:50px;border-radius:15px;font-size:22px}
+  .v142-brand-copy strong{font-size:23px}
+  .v142-brand-copy small{font-size:9px}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -5439,59 +6410,79 @@ document.addEventListener("click",(e)=>{
 
 
 function authPage(){
-  return `<div class="auth-page app-auth-page">
-    <section class="auth-art app-auth-hero">
-      <div class="auth-hero-glow"></div>
-      <div class="auth-logo app-auth-logo">
-        <div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div>
-        <div><strong>LINE</strong><small>Interligados</small></div>
+  return `<div class="auth-page app-auth-page v142-auth-page">
+    <section class="v142-auth-visual">
+      <div class="v142-auth-top">
+        <div class="v142-brand-mark">L</div>
+        <div class="v142-brand-copy">
+          <strong>LINE</strong>
+          <small>INTERLIGADOS</small>
+        </div>
       </div>
-      <div class="auth-hero-mark">
-        <div class="auth-hero-badge">${icon("radio-tower")}</div>
-        <b>LINE</b>
-        <small>INTERLIGADOS</small>
+
+      <div class="v142-secure-badge">${icon("shield-check")} <span>PLATAFORMA SEGURA</span></div>
+
+      <div class="v142-hero-center">
+        <div class="v142-tower">${icon("radio-tower")}</div>
+        <div class="v142-wordmark">LINE</div>
+        <div class="v142-subword">INTERLIGADOS</div>
+        <p>Organize, produza e sirva com excelência.<br>Sua rotina da equipe em um só lugar.</p>
       </div>
+
+      <div class="v142-feature-grid">
+        <div class="v142-feature"><i>${icon("users")}</i><b>Equipes</b><span>Gestão completa</span></div>
+        <div class="v142-feature"><i>${icon("calendar-check")}</i><b>Escalas</b><span>Automatizadas</span></div>
+        <div class="v142-feature"><i>${icon("bell")}</i><b>Notificações</b><span>Push & lembretes</span></div>
+        <div class="v142-feature"><i>${icon("shield-check")}</i><b>Segurança</b><span>Seus dados protegidos</span></div>
+      </div>
+
+      <div class="v142-auth-footer">© 2026 LINE Interligados.</div>
     </section>
 
-    <section class="auth-panel app-auth-panel">
-      <div class="auth-card app-auth-card">
-        <div class="app-auth-welcome">
-          <div class="eyebrow">MÍDIA • INTERLIGADOS</div>
-          <h2>Bem-vindo à LINE</h2>
-          <p>Organize, produza e sirva com excelência. Sua rotina da equipe em um só lugar.</p>
+    <section class="v142-auth-side">
+      <div class="v142-auth-card">
+        <div class="v142-eyebrow">MÍDIA • INTERLIGADOS</div>
+        <h1>Bem-vindo à <span>LINE</span></h1>
+        <p class="v142-auth-copy">Acesse sua conta para continuar organizando e servindo com excelência.</p>
 
-          <div class="app-auth-actions">
-            <button class="auth-main-btn" onclick="openAuthSheet('login')">Entrar</button>
-            <button class="auth-outline-btn" onclick="openAuthSheet('register')">Criar conta</button>
-          </div>
-        </div>
+        <div id="authForm">${loginForm()}</div>
+        <div id="authMessage" class="auth-message"></div>
 
-        <div id="authSheet" class="auth-sheet">
-          <div class="auth-sheet-head">
-            <div>
-              <small id="authSheetEyebrow">ACESSO</small>
-              <h3 id="authSheetTitle">Entrar na LINE</h3>
-            </div>
-            <button class="auth-sheet-close" onclick="closeAuthSheet()">${icon("x")}</button>
-          </div>
-          <div id="authForm">${loginForm()}</div>
-          <div id="authMessage" class="auth-message"></div>
+        <div class="v142-register-cta">
+          <span>Ainda não tem uma conta?</span>
+          <button type="button" onclick="openAuthSheet('register')">Criar conta</button>
         </div>
+      </div>
+
+      <div id="authSheet" class="auth-sheet v142-register-sheet">
+        <div class="auth-sheet-head">
+          <div>
+            <small id="authSheetEyebrow">NOVO MEMBRO</small>
+            <h3 id="authSheetTitle">Criar minha conta</h3>
+          </div>
+          <button class="auth-sheet-close" onclick="closeAuthSheet()">${icon("x")}</button>
+        </div>
+        <div id="authSheetForm">${registerForm()}</div>
+        <div id="authSheetMessage" class="auth-message"></div>
       </div>
     </section>
   </div>`;
 }
-
 function openAuthSheet(type){
   const sheet=document.getElementById("authSheet");
   const title=document.getElementById("authSheetTitle");
   const eyebrow=document.getElementById("authSheetEyebrow");
   if(!sheet)return;
+
   sheet.classList.add("open");
   document.body.classList.add("auth-sheet-open");
-  document.getElementById("authForm").innerHTML=type==="login"?loginForm():registerForm();
-  title.textContent=type==="login"?"Entrar na LINE":"Criar minha conta";
-  eyebrow.textContent=type==="login"?"ACESSO":"NOVO MEMBRO";
+
+  const target=document.getElementById("authSheetForm")||document.getElementById("authForm");
+  if(target) target.innerHTML=type==="login"?loginForm():registerForm();
+
+  if(title) title.textContent=type==="login"?"Entrar na LINE":"Criar minha conta";
+  if(eyebrow) eyebrow.textContent=type==="login"?"ACESSO":"NOVO MEMBRO";
+
   setAuthMessage("","error");
   setTimeout(()=>sheet.querySelector("input")?.focus(),120);
 }
@@ -5501,17 +6492,30 @@ function closeAuthSheet(){
   setAuthMessage("","error");
 }
 
-function loginForm(){return `<form onsubmit="login(event)">
-  <div class="field"><label>E-mail</label><input id="loginEmail" type="email" autocomplete="email" required></div>
-  <div class="field"><label>Senha</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha do Supabase" required></div>
+function loginForm(){return `<form class="v142-login-form" onsubmit="login(event)">
+  <div class="v142-field">
+    <label>E-mail</label>
+    <div class="v142-input-wrap">
+      ${icon("user-round")}
+      <input id="loginEmail" type="email" autocomplete="email" placeholder="Digite seu e-mail" required>
+    </div>
+  </div>
 
-  <button type="button" class="forgot-password-btn" onclick="openPasswordRecovery()">
-    Esqueci minha senha
-  </button>
+  <div class="v142-field">
+    <label>Senha</label>
+    <div class="v142-input-wrap">
+      ${icon("lock-keyhole")}
+      <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+    </div>
+  </div>
 
-  <button id="loginButton" class="auth-submit">Entrar</button>
+  <div class="v142-login-options">
+    <span></span>
+    <button type="button" class="forgot-password-btn v142-forgot" onclick="openPasswordRecovery()">Esqueci minha senha</button>
+  </div>
+
+  <button id="loginButton" class="auth-submit v142-login-submit">Entrar ${icon("arrow-right")}</button>
 </form>`}
-
 function passwordRecoveryForm(){
   const previousEmail=document.getElementById("loginEmail")?.value?.trim()||"";
   return `<form onsubmit="sendPasswordRecovery(event)">
@@ -8823,7 +9827,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v13.6 Feedback Animations iniciado");
+ console.info("LINE Interligados v14.2 Real Auth Redesign iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -8831,7 +9835,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=13.6",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.2",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -9735,6 +10739,268 @@ window.saveTaskAsTemplateV12=async function(taskId,teamId){
 window.openTemplatesModal=async function(teamId){
   const bundle=await loadBoardBundle(teamId,true);
   openModal(`<h3>Templates</h3><div class="archive-list-v12">${bundle.templates.map(t=>`<div class="archive-item-v12"><div><b>${escapeHTML(t.name)}</b><small>${escapeHTML(t.title||"Modelo de card")}</small></div><button class="action-btn" onclick="closeModal();openTaskModal(${teamId},'todo',${t.id})">Usar</button></div>`).join("")||`<div class="helper">Abra um card e use “Salvar template” para criar seu primeiro modelo.</div>`}</div>`);
+};
+
+
+
+/* ==========================================================
+   LINE v14.0 — PAGE REDESIGN OVERRIDES
+   ========================================================== */
+
+window.v14FirstName=function(){
+  return String(currentUser?.name||"").trim().split(/\s+/)[0]||"Olá";
+};
+window.v14EventTeamForUser=function(eventId){
+  const s=(V8.schedules||[]).find(x=>String(x.user_id)===String(currentUser.id)&&Number(x.event_id)===Number(eventId)&&x.status!=="replaced");
+  if(s){
+    const t=teamById(s.team_id);
+    return {team:t?.name||"LINE",role:s.role_name||"Servir",schedule:s};
+  }
+  const names=teamNamesForUser(currentUser.id);
+  return {team:names[0]||currentUser.area||"LINE",role:"Membro",schedule:null};
+};
+window.v14EventCard=function(e,opts={}){
+  if(!e)return "";
+  const d=new Date(e.event_date+"T12:00:00");
+  const dateLabel=d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).replace(".","");
+  const meta=opts.meta||v14EventTeamForUser(e.id);
+  const time=(e.start_time||"").slice(0,5)||"--:--";
+  const clickable=opts.clickable!==false;
+  return `<article class="line-event-card-v14" ${clickable?`onclick="openEventDetail(${e.id})"`:""}>
+    <div>
+      <div class="v14-event-date">${dateLabel}</div>
+      <h3 class="v14-event-name">${e.name}</h3>
+      <div class="v14-event-sub">${e.location||"Local a confirmar"}</div>
+      <div class="v14-event-info-grid" style="grid-template-columns:1fr 1fr">
+        <div class="v14-info-pair"><small>Equipe</small><b>${meta.team||"LINE"}</b></div>
+        <div class="v14-info-pair"><small>Função</small><b>${meta.role||"Membro"}</b></div>
+      </div>
+      <div class="v14-event-status"><span class="status ${eventStatusClass(e.status)}">${eventStatusLabel(e.status)}</span></div>
+    </div>
+    <div class="v14-big-time">${time}</div>
+  </article>`;
+};
+
+window.memberHome=async function(){
+  const next=futureEvents()[0];
+  const upcoming=futureEvents().slice(1,4);
+  const mySchedules=(V8.schedules||[])
+    .filter(s=>String(s.user_id)===String(currentUser.id)&&s.status!=="replaced")
+    .sort((a,b)=>{
+      const ea=eventById(a.event_id),eb=eventById(b.event_id);
+      return (ea?eventDateTimeValue(ea):0)-(eb?eventDateTimeValue(eb):0);
+    });
+  const meta=next?v14EventTeamForUser(next.id):null;
+  const av=next?availabilityFor(next.id,currentUser.id):"pending";
+  const s=meta?.schedule||null;
+  const d=next?new Date(next.event_date+"T12:00:00"):null;
+  const dateLabel=d?d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).replace(".",""):"";
+
+  return `<div class="v14-app-intro">
+    <small>Olá, ${v14FirstName()}!</small>
+    <h2>Seu próximo evento</h2>
+  </div>
+
+  ${next?`<article class="member-next-card-v14">
+    <div class="v14-event-date">${dateLabel}</div>
+    <h3 class="v14-event-name">${next.name}</h3>
+    <div class="v14-event-sub">${next.location||"Local a confirmar"}</div>
+
+    <div class="v14-event-info-grid">
+      <div class="v14-info-pair"><small>Equipe</small><b>${meta.team}</b></div>
+      <div class="v14-info-pair"><small>Função</small><b>${meta.role}</b></div>
+      <div class="v14-big-time">${next.start_time?.slice(0,5)||"--:--"}</div>
+    </div>
+
+    ${s?.status==="confirmed"
+      ?`<div class="v14-success-strip">${icon("circle-check")}Presença confirmada</div>`
+      :s?.status==="pending"
+        ?`<div class="v14-card-actions">
+            <button class="v14-outline" onclick="updateMyScheduleStatus(${s.id},'declined')">Não poderei ir</button>
+            <button class="v14-solid" onclick="updateMyScheduleStatus(${s.id},'confirmed')">Confirmar</button>
+          </div>`
+        :""}
+
+    <div class="v14-availability-question">
+      <span>Você estará disponível para servir?</span>
+      <div class="v14-availability-actions">
+        <button class="${av==="unavailable"?"selected-no":""}" onclick="setAvailabilityForEvent(${next.id},'unavailable')">Não estarei</button>
+        <button class="${av==="available"?"selected-yes":""}" onclick="setAvailabilityForEvent(${next.id},'available')">Estou disponível</button>
+      </div>
+    </div>
+  </article>`:`<article class="panel"><div class="empty-state">Nenhum evento futuro disponível.</div></article>`}
+
+  <div class="v14-section-title">Eventos para se planejar</div>
+  <section class="v14-event-list">
+    ${upcoming.length?upcoming.map(e=>v14EventCard(e)).join(""):`<div class="v14-events-empty">Nenhum outro evento programado por enquanto.</div>`}
+  </section>
+
+  <div class="v14-section-title">Minhas escalas</div>
+  <section class="v14-event-list">
+    ${mySchedules.slice(0,3).map(sc=>{
+      const e=eventById(sc.event_id); if(!e)return "";
+      const t=teamById(sc.team_id);
+      return v14EventCard(e,{meta:{team:t?.name||"LINE",role:sc.role_name||"Servir"},clickable:true});
+    }).join("")||`<div class="v14-events-empty">Quando você for escalado, sua participação aparecerá aqui.</div>`}
+  </section>
+
+  ${await memberTasksWidget()}`;
+};
+
+window.dashboard=async function(){
+  const upcoming=futureEvents();
+  const first=upcoming[0];
+  const members=(V8.members||[]).filter(m=>m.active).length;
+  const pending=(V8.schedules||[]).filter(s=>s.status==="pending").length;
+  const confirmed=(V8.schedules||[]).filter(s=>s.status==="confirmed").length;
+  const declined=(V8.schedules||[]).filter(s=>s.status==="declined").length;
+
+  return `<div class="v14-app-intro">
+    <small>Olá, ${v14FirstName()}!</small>
+    <h2>Visão geral da LINE</h2>
+  </div>
+
+  <section class="v14-master-stats">
+    <div class="v14-mini-stat" onclick="openHomeInsight('members')"><small>Membros ativos</small><strong>${members}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('events')"><small>Próximos eventos</small><strong>${upcoming.length}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('pending')"><small>Pendentes</small><strong>${pending}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('confirmed')"><small>Confirmados</small><strong>${confirmed}</strong></div>
+  </section>
+
+  <section class="v14-master-grid">
+    <div>
+      <div class="v14-section-title">Próximo evento</div>
+      ${first?`<article class="master-next-card-v14" onclick="openEventDetail(${first.id})">
+        <div class="v14-event-date">${formatEventDate(first.event_date)}</div>
+        <h3 class="v14-event-name">${first.name}</h3>
+        <div class="v14-event-sub">${first.location||"Local a confirmar"}</div>
+        <div class="v14-event-info-grid">
+          <div class="v14-info-pair"><small>Status</small><b>${eventStatusLabel(first.status)}</b></div>
+          <div class="v14-info-pair"><small>Escalados</small><b>${(V8.schedules||[]).filter(s=>Number(s.event_id)===Number(first.id)&&s.status!=="replaced").length}</b></div>
+          <div class="v14-big-time">${first.start_time?.slice(0,5)||"--:--"}</div>
+        </div>
+        <div class="v14-card-actions">
+          <button class="v14-outline" onclick="event.stopPropagation();navigateLine('eventos')">Ver eventos</button>
+          <button class="v14-solid" onclick="event.stopPropagation();navigateLine('escalas')">Abrir escalas</button>
+        </div>
+      </article>`:`<div class="v14-events-empty">Nenhum evento futuro.</div>`}
+    </div>
+
+    <div>
+      <div class="v14-section-title">Resumo das escalas</div>
+      <article class="panel v14-section-card">
+        <div class="v14-compact-list">
+          <div class="v14-compact-row"><div><b>Confirmadas</b><small>Presença garantida</small></div><span class="status green">${confirmed}</span></div>
+          <div class="v14-compact-row"><div><b>Pendentes</b><small>Aguardando resposta</small></div><span class="status yellow">${pending}</span></div>
+          <div class="v14-compact-row"><div><b>Recusadas</b><small>Não poderão servir</small></div><span class="status red">${declined}</span></div>
+        </div>
+        <button class="primary" style="width:100%;margin-top:14px" onclick="navigateLine('escalas')">Gerenciar escalas</button>
+      </article>
+    </div>
+  </section>
+
+  <div class="v14-section-title">Eventos para se planejar</div>
+  <section class="v14-events-grid">
+    ${upcoming.slice(1,5).map(e=>v14EventCard(e)).join("")||`<div class="v14-events-empty">Nenhum outro evento programado.</div>`}
+  </section>`;
+};
+
+window.eventsPage=async function(){
+  const events=[...(V8.events||[])].sort((a,b)=>String(a.event_date).localeCompare(String(b.event_date)));
+  return `<div class="page-toolbar">
+    <div class="page-title"><h2>Eventos</h2><p>Próximos encontros e programações da LINE.</p></div>
+    ${isMaster()?`<button class="primary" onclick="openEventModal()">+ Novo evento</button>`:""}
+  </div>
+  <section class="v14-events-grid">
+    ${events.length?events.map(e=>v14EventCard(e,{meta:{team:"LINE",role:eventStatusLabel(e.status)}})).join(""):`<div class="v14-events-empty">Nenhum evento cadastrado.</div>`}
+  </section>`;
+};
+
+const v14SchedulesCore=window.schedulesPage;
+window.schedulesPage=async function(){
+  const markup=await v14SchedulesCore();
+  if(!isMaster()){
+    return markup
+      .replace("<h2>Minhas escalas</h2>","<h2>Minhas escalas</h2>")
+      .replace("Confirme ou recuse suas participações.","Tudo o que você precisa para servir, em um só lugar.");
+  }
+  return markup
+    .replace("<h2>Escalas inteligentes</h2>","<h2>Escalas</h2>")
+    .replace("Veja a disponibilidade real da equipe e monte a escala com a LINE IA.","Escale todos por equipe usando disponibilidade e inteligência da LINE.")
+    .replace("Gerar sugestão de escala","Gerar escalas automaticamente");
+};
+
+window.notificationsPage=async function(){
+  const items=V8.notifications||[];
+  return `<div class="page-toolbar">
+    <div class="page-title"><h2>Notificações</h2><p>Veja avisos, escalas e confirmações pendentes.</p></div>
+    <button class="action-btn" onclick="enableLinePushNotifications()">${icon("bell-ring")} Ativar no celular</button>
+  </div>
+  <article class="panel">
+    ${items.length?items.map(n=>`<div class="notification-item ${n.read_at?"read":"unread"} clickable" onclick="openNotificationDetail(${n.id})">
+      <div class="notification-icon">${icon(n.type==="schedule"?"calendar-check":"bell")}</div>
+      <div><b>${n.title}</b><p>${n.message}</p></div>
+      ${n.read_at?`<span class="notification-time">${new Date(n.created_at).toLocaleDateString("pt-BR")}</span>`:`<span class="notification-dot"></span>`}
+    </div>`).join(""):`<div class="notification-empty">Nenhuma notificação por enquanto.</div>`}
+  </article>`;
+};
+
+/* keep current functional bottom dock, only redefine labels/active states */
+window.mobileNav=function(){
+  const items=[
+    ["dashboard","house","Home"],
+    ["eventos","calendar-days","Eventos"],
+    ["escalas","calendar-check","Escalas"],
+    ["manual","book-open-text","Manual"]
+  ];
+  const activePrimary=items.some(([r])=>route===r);
+  return `<div class="mobile-dock-wrap-v125">
+    <nav class="mobile-nav mobile-dock-v125">
+      ${items.map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">
+        <span class="mobile-dock-icon-v125">${icon(i)}</span>
+        <span class="mobile-dock-label-v125">${l}</span>
+      </a>`).join("")}
+    </nav>
+    <button class="mobile-plus-v125 ${!activePrimary?"active":""}" onclick="mobileMoreOpenV122()" aria-label="Mais">${icon("plus")}</button>
+  </div>`;
+};
+
+
+
+/* LINE v14.1 — tela inicial */
+window.authChoiceScreenV141=function(){
+  return `<main class="v141-auth-shell">
+    <section class="v141-auth-visual">
+      <div class="v141-auth-brand">
+        <div class="v141-auth-brand-mark">L</div>
+        <div class="v141-auth-brand-copy"><b>LINE</b><span>INTERLIGADOS</span></div>
+      </div>
+
+      <div class="v141-auth-hero">
+        <div class="v141-auth-radio">${icon("radio-tower")}</div>
+        <h1>LINE<span>INTERLIGADOS</span></h1>
+        <p>Organize, produza e sirva com excelência. Sua rotina da equipe em um só lugar.</p>
+      </div>
+
+      <div class="v141-auth-features">
+        <div class="v141-auth-feature"><i>${icon("users")}</i><b>Equipes</b><span>Gestão completa</span></div>
+        <div class="v141-auth-feature"><i>${icon("calendar-check")}</i><b>Escalas</b><span>Automatizadas</span></div>
+        <div class="v141-auth-feature"><i>${icon("bell")}</i><b>Notificações</b><span>Push & lembretes</span></div>
+        <div class="v141-auth-feature"><i>${icon("shield-check")}</i><b>Segurança</b><span>Dados protegidos</span></div>
+      </div>
+    </section>
+
+    <section class="v141-auth-panel">
+      <div class="v141-auth-kicker">MÍDIA • INTERLIGADOS</div>
+      <h2>Bem-vindo à <span>LINE</span></h2>
+      <p>Acesse sua conta para continuar organizando e servindo com excelência.</p>
+      <div class="v141-auth-choice">
+        <button class="v141-primary" onclick="authMode='login';render()">Entrar</button>
+        <button class="v141-secondary" onclick="authMode='signup';render()">Criar conta</button>
+      </div>
+      <div class="v141-auth-note">Gestão da LINE dos Interligados em um só lugar.</div>
+    </section>
+  </main>`;
 };
 
 </script>
