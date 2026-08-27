@@ -7370,6 +7370,247 @@ img,svg,video,canvas{max-width:100%}
   }
 }
 
+
+/* ==========================================================
+   LINE v14.7 — CLEAN LED + AVAILABILITY POLISH
+   ========================================================== */
+
+/* 1) REMOVE O EFEITO LED GROSSEIRO DA v14.6 */
+.v146-led-loop::before,
+.mobile-nav.mobile-dock-v125 a.active::after{
+  display:none!important;
+  content:none!important;
+}
+
+/* 2) NOVO HIGHLIGHT: feixe curto, discreto e premium */
+@keyframes v147BeamMove{
+  0%{offset-distance:0%}
+  100%{offset-distance:100%}
+}
+@keyframes v147BeamGlow{
+  0%,100%{opacity:.55;filter:blur(.2px)}
+  50%{opacity:1;filter:blur(0)}
+}
+
+.v147-light-beam{
+  position:relative!important;
+  overflow:visible!important;
+  isolation:isolate!important;
+}
+
+.v147-light-beam::after{
+  content:"";
+  position:absolute;
+  width:34px;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,#77d2ff,#ffffff,#2788ff,transparent);
+  box-shadow:
+    0 0 8px rgba(91,187,255,.72),
+    0 0 15px rgba(22,119,255,.38);
+  pointer-events:none;
+  z-index:5;
+  opacity:0;
+  offset-path:rect(-2px calc(100% + 2px) calc(100% + 2px) -2px round 14px);
+  offset-rotate:0deg;
+}
+
+.v147-light-beam:hover::after,
+.v147-light-beam:focus-visible::after{
+  opacity:1;
+  animation:
+    v147BeamMove 1.65s linear infinite,
+    v147BeamGlow 1.1s ease-in-out infinite;
+}
+
+/* Apenas o item ativo da homebar ganha um brilho bem sutil */
+.mobile-nav.mobile-dock-v125 a.active{
+  box-shadow:
+    inset 0 0 0 1px rgba(73,166,255,.30),
+    0 0 18px rgba(22,119,255,.08)!important;
+}
+
+/* ==========================================================
+   3) DISPONIBILIDADE — NOVO PADRÃO
+   ========================================================== */
+
+.availability-kpis{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  width:100%!important;
+}
+
+.availability-kpi{
+  min-height:104px!important;
+  padding:16px 18px!important;
+  display:grid!important;
+  grid-template-columns:46px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:13px!important;
+  border-radius:18px!important;
+  border:1px solid var(--border)!important;
+  background:var(--panel)!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  position:relative!important;
+}
+
+.availability-kpi::after{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  opacity:.8;
+}
+
+.availability-kpi.available::after{background:#22c55e}
+.availability-kpi.unavailable::after{background:#ef4444}
+.availability-kpi.pending::after{background:#f59e0b}
+
+.availability-kpi>span{
+  width:46px!important;
+  height:46px!important;
+  min-width:46px!important;
+  border-radius:14px!important;
+  display:grid!important;
+  place-items:center!important;
+  margin:0!important;
+}
+
+.availability-kpi>span svg{
+  width:20px!important;
+  height:20px!important;
+}
+
+.availability-kpi>div{
+  min-width:0!important;
+}
+
+.availability-kpi small{
+  display:block!important;
+  margin:0 0 4px!important;
+  font-size:13px!important;
+  line-height:1.25!important;
+  font-weight:650!important;
+  color:var(--muted)!important;
+}
+
+.availability-kpi b{
+  display:block!important;
+  font-size:27px!important;
+  line-height:1!important;
+  letter-spacing:-.035em!important;
+  color:var(--text)!important;
+}
+
+.availability-kpi.available>span{
+  background:rgba(34,197,94,.10)!important;
+  color:#4ade80!important;
+}
+.availability-kpi.unavailable>span{
+  background:rgba(239,68,68,.09)!important;
+  color:#fb7185!important;
+}
+.availability-kpi.pending>span{
+  background:rgba(245,158,11,.10)!important;
+  color:#fbbf24!important;
+}
+
+/* Disponibilidade no modo claro */
+html[data-theme="light"] .availability-kpi{
+  background:#fff!important;
+  border-color:rgba(11,21,32,.08)!important;
+}
+html[data-theme="light"] .availability-kpi small{
+  color:#667085!important;
+}
+html[data-theme="light"] .availability-kpi b{
+  color:#0b1520!important;
+}
+
+/* 4) Outros pequenos ajustes visuais */
+.availability-management-panel .panel-head{
+  margin-bottom:16px!important;
+}
+.availability-management-panel .panel-title{
+  font-size:17px!important;
+}
+.availability-filter-grid{
+  gap:12px!important;
+}
+.availability-filter-grid .field label{
+  font-size:12px!important;
+}
+.availability-filter-grid .field select{
+  min-height:46px!important;
+  font-size:13px!important;
+}
+.availability-management-panel .primary,
+.availability-management-panel .action-btn{
+  min-height:46px!important;
+}
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+@media(max-width:760px){
+
+  .availability-kpis{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .availability-kpi{
+    min-height:82px!important;
+    padding:13px 14px!important;
+    grid-template-columns:40px minmax(0,1fr) auto!important;
+    gap:11px!important;
+  }
+
+  .availability-kpi>span{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    border-radius:12px!important;
+  }
+
+  .availability-kpi>span svg{
+    width:18px!important;
+    height:18px!important;
+  }
+
+  .availability-kpi small{
+    font-size:12px!important;
+    margin-bottom:2px!important;
+  }
+
+  .availability-kpi b{
+    font-size:24px!important;
+  }
+
+  /* coloca o número à direita sem quebrar a leitura */
+  .availability-kpi>div{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:12px!important;
+  }
+
+  .availability-kpi>div small{
+    margin:0!important;
+  }
+
+  .availability-kpi>div b{
+    margin-left:auto!important;
+  }
+
+  /* No toque, LED não fica rodando sem necessidade */
+  .v147-light-beam::after{
+    display:none!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11374,7 +11615,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.6 Home Polish + Manual Assistant iniciado");
+ console.info("LINE Interligados v14.7 Clean LED + Availability iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11382,7 +11623,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.6",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.7",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -12942,6 +13183,31 @@ if(typeof v146RenderCore==="function"){
     setTimeout(v146ApplyLedClasses,120);
     return result;
   }
+}
+
+
+
+/* LINE v14.7 — aplica o novo feixe discreto */
+window.v147ApplyLightBeam=function(){
+  document.querySelectorAll(
+    '.primary, .v14-solid, .v14-outline, .action-btn, .v143-manage-btn, .ai-generate-btn, .v145-robot-copy button'
+  ).forEach(el=>{
+    el.classList.remove("v146-led-loop");
+    el.classList.add("v147-light-beam");
+  });
+};
+
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(v147ApplyLightBeam,180);
+});
+
+const v147RenderCore = window.render;
+if(typeof v147RenderCore==="function"){
+  window.render = async function(...args){
+    const result = await v147RenderCore.apply(this,args);
+    setTimeout(v147ApplyLightBeam,100);
+    return result;
+  };
 }
 
 </script>
