@@ -7117,6 +7117,259 @@ img,svg,video,canvas{max-width:100%}
   z-index:1!important;
 }
 
+
+/* ==========================================================
+   LINE v14.6 — HOME POLISH + LED LOOP + ASSISTENTE EDUCADO
+   ========================================================== */
+
+/* Remove saudação antiga do topbar para evitar duplicidade */
+.topbar .welcome{
+  display:none!important;
+}
+
+/* Mais respiro no topo já que a saudação principal fica no dashboard */
+.topbar{
+  min-height:70px!important;
+}
+
+/* Tipografia secundária mais legível */
+.v14-mini-stat small,
+.stat label,
+.v14-info-pair small,
+.v14-event-sub,
+.v14-compact-row small,
+.v143-scale-copy small,
+.v145-history-person small,
+.v145-history-meta small,
+.v145-robot-copy span,
+.v145-assistant-title small,
+.panel p,
+.page-title p{
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+
+.v14-mini-stat strong,
+.stat strong{
+  font-size:28px!important;
+}
+
+.v14-compact-row b,
+.v143-scale-copy b{
+  font-size:15px!important;
+}
+
+/* Cards do dashboard: altura automática e sem vazios exagerados */
+.master-next-card-v14,
+.v14-section-card{
+  min-height:auto!important;
+  height:auto!important;
+}
+
+.master-next-card-v14{
+  display:block!important;
+}
+
+.master-next-card-v14 .v14-card-actions{
+  margin-top:24px!important;
+  padding-top:0!important;
+}
+
+.v14-section-card .primary{
+  margin-top:18px!important;
+}
+
+/* Corrige sobreposição de "Eventos para se planejar" */
+.v14-master-grid{
+  margin-bottom:26px!important;
+}
+
+.v14-section-title{
+  display:block!important;
+  position:relative!important;
+  z-index:2!important;
+  margin-top:30px!important;
+  margin-bottom:12px!important;
+  clear:both!important;
+}
+
+.v14-events-grid{
+  position:relative!important;
+  z-index:1!important;
+  margin-top:0!important;
+}
+
+.v14-events-empty{
+  min-height:96px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:22px!important;
+}
+
+/* Card de próximo evento mais equilibrado */
+.master-next-card-v14 .v14-event-info-grid{
+  margin-top:22px!important;
+  align-items:end!important;
+}
+.master-next-card-v14 .v14-big-time{
+  align-self:end!important;
+}
+.master-next-card-v14 .v14-card-actions{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+}
+
+/* ==========================================================
+   LOOP LED — inspirado no anel luminoso de referência
+   ========================================================== */
+@keyframes v146LedOrbit{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+@keyframes v146LedPulse{
+  0%,100%{filter:drop-shadow(0 0 5px rgba(75,170,255,.40))}
+  50%{filter:drop-shadow(0 0 12px rgba(75,170,255,.85))}
+}
+
+.v146-led-loop{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:visible!important;
+}
+
+.v146-led-loop::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:inherit;
+  padding:2px;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg 235deg,
+      rgba(68,154,255,.10) 245deg,
+      #67c7ff 260deg,
+      #ffffff 272deg,
+      #2e86ff 286deg,
+      rgba(68,154,255,.12) 305deg,
+      transparent 325deg 360deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  opacity:0;
+  z-index:2;
+  animation:v146LedOrbit 1.2s linear infinite, v146LedPulse 1.6s ease-in-out infinite;
+  transform-origin:center;
+}
+
+.v146-led-loop:hover::before,
+.v146-led-loop:focus-visible::before,
+.v146-led-loop.is-active-led::before{
+  opacity:1;
+}
+
+/* homebar item ativo com loop contínuo */
+.mobile-nav.mobile-dock-v125 a.active{
+  position:relative!important;
+  overflow:visible!important;
+}
+.mobile-nav.mobile-dock-v125 a.active::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:18px;
+  padding:2px;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0 235deg,
+      #5ec8ff 255deg,
+      #ffffff 270deg,
+      #1677ff 292deg,
+      transparent 315deg 360deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  animation:v146LedOrbit 1.25s linear infinite, v146LedPulse 1.7s ease-in-out infinite;
+}
+
+/* Robô/assistente: mais respiro e sem cortes */
+.v145-robot-card{
+  overflow:visible!important;
+}
+.v145-robot-visual,
+.v145-robot-copy{
+  position:relative!important;
+  z-index:3!important;
+}
+
+/* Assistente mais legível */
+.v145-assistant-answer{
+  font-size:14px!important;
+  line-height:1.7!important;
+}
+.v145-assistant-quick button{
+  font-size:11px!important;
+  line-height:1.25!important;
+}
+.v145-assistant-input input{
+  font-size:14px!important;
+}
+
+/* Mobile */
+@media(max-width:760px){
+  .topbar{
+    min-height:58px!important;
+  }
+
+  .v145-dashboard-greeting h1{
+    font-size:32px!important;
+  }
+  .v145-dashboard-greeting p{
+    font-size:13px!important;
+  }
+
+  .v14-mini-stat small,
+  .stat label,
+  .v14-info-pair small,
+  .v14-event-sub,
+  .v14-compact-row small,
+  .v143-scale-copy small,
+  .v145-history-person small,
+  .v145-history-meta small,
+  .v145-robot-copy span,
+  .page-title p{
+    font-size:12px!important;
+  }
+
+  .master-next-card-v14 .v14-card-actions{
+    grid-template-columns:1fr!important;
+  }
+
+  .v14-master-grid{
+    margin-bottom:20px!important;
+  }
+
+  .v14-section-title{
+    margin-top:24px!important;
+  }
+
+  .v145-robot-card{
+    overflow:visible!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11121,7 +11374,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.5 Dashboard UX + Assistant iniciado");
+ console.info("LINE Interligados v14.6 Home Polish + Manual Assistant iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11129,7 +11382,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.5",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.6",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -12587,6 +12840,109 @@ window.mobileMoreOpenV122=function(){
   document.body.appendChild(wrap);
   refreshIcons();
 };
+
+
+
+/* ==========================================================
+   LINE v14.6 — ASSISTENTE EDUCADO COM BASE NO MANUAL
+   ========================================================== */
+
+window.v146ManualKnowledge = {
+  "o que é a line": "A LINE é a equipe de mídia dos Interligados. Nosso papel é servir com excelência, organização e responsabilidade, entendendo que técnica é importante, mas postura, compromisso e propósito vêm primeiro.",
+  "antes de qualquer função": "Antes de qualquer função, o padrão é chegar com antecedência, conferir sua responsabilidade, verificar equipamento/material necessário, respeitar a liderança, manter comunicação clara e servir com atenção ao culto.",
+  "story": "No Story, a prioridade é cobertura em tempo real com clareza e propósito. Evite excesso de posts sem contexto. Registre momentos importantes, preserve reverência e mantenha coerência visual e textual.",
+  "fotografia": "Na Fotografia, registre a história daquela noite. Priorize momentos reais, expressões, ambiente, culto e pessoas, sem atrapalhar o andamento. Busque variedade de enquadramentos e cuidado com exposição e foco.",
+  "reels": "Em Reels/Vídeo, produza material suficiente para contar o culto depois. Pense em começo, meio e fim; registre cenas de apoio; mantenha estabilidade, áudio quando necessário e atenção à identidade da LINE.",
+  "projeção": "Na Projeção, a operação precisa ser discreta e precisa. Confira letras, vídeos, ordem do culto e comunicação com quem está ministrando. Antecipe transições e evite improvisos desnecessários.",
+  "edição": "Em Edição e Design, comunicação clara e coerente com a identidade é prioridade. Organização de arquivos, padronização visual, revisão de texto e consistência são parte do serviço.",
+  "fluxo de produção": "O fluxo ideal é: planejamento, definição de responsáveis, captação/execução, organização de arquivos, edição quando necessário, revisão e publicação/entrega.",
+  "arquivos": "Organização também faz parte da excelência. Nomeie arquivos de forma clara, mantenha pastas por evento/data/equipe e evite deixar conteúdos importantes soltos em dispositivos pessoais.",
+  "postura": "Postura de quem serve: respeito, pontualidade, responsabilidade, humildade, atenção à liderança e consciência de que o culto não é um evento de produção — a mídia serve ao propósito.",
+  "padrão": "Nosso padrão não é perfeição, é excelência. Se algo falhar, comunique, corrija e aprenda. Não esconda erro nem improvise sem necessidade."
+};
+
+window.v146PolitePrefix = function(){
+  const name = String(currentUser?.name||"").trim().split(/\s+/)[0] || "";
+  return name ? `Claro, ${name}. ` : "Claro. ";
+};
+
+window.v145AssistantAnswer=function(question){
+  const raw=String(question||"").trim();
+  const q=raw.toLowerCase();
+
+  const schedules=(V8.schedules||[]).filter(s=>s.status!=="replaced");
+  const pending=schedules.filter(s=>s.status==="pending");
+  const confirmed=schedules.filter(s=>s.status==="confirmed");
+  const declined=schedules.filter(s=>s.status==="declined");
+  const available=(V8.availability||[]).filter(a=>a.status==="available"||a.available===true);
+  const future=futureEvents();
+  const prefix=v146PolitePrefix();
+
+  for(const [key,answer] of Object.entries(v146ManualKnowledge)){
+    if(q.includes(key) || (key==="reels" && (q.includes("vídeo")||q.includes("video"))) || (key==="arquivos" && q.includes("organiza"))){
+      return `${prefix}${answer}`;
+    }
+  }
+
+  if(q.includes("não confirmou")||q.includes("nao confirmou")||q.includes("pendente")){
+    if(!pending.length)return `${prefix}não há confirmações pendentes neste momento.`;
+    return `${prefix}<b>${pending.length} pessoa(s) ainda estão pendentes.</b><br><br>${pending.slice(0,10).map(s=>{
+      const m=memberById(s.user_id),e=eventById(s.event_id);
+      return `• ${m?.name||"Membro"} — ${e?.name||"Evento"} (${s.role_name||"função"})`;
+    }).join("<br>")}<br><br>Se quiser, também posso resumir por evento ou por equipe.`;
+  }
+
+  if(q.includes("recus")){
+    if(!declined.length)return `${prefix}nenhuma escala foi recusada neste momento.`;
+    return `${prefix}<b>${declined.length} recusa(s) registrada(s).</b><br><br>${declined.slice(0,10).map(s=>{
+      const m=memberById(s.user_id),e=eventById(s.event_id);
+      return `• ${m?.name||"Membro"} — ${e?.name||"Evento"}`;
+    }).join("<br>")}<br><br>Vale conferir se alguma função ficou sem cobertura.`;
+  }
+
+  if(q.includes("dispon")){
+    return `${prefix}há <b>${available.length} registro(s) de disponibilidade positiva</b> no sistema neste momento. Se desejar, posso ajudar você a interpretar isso junto das escalas atuais.`;
+  }
+
+  if(q.includes("próximo")||q.includes("proximo")||q.includes("evento")){
+    const e=future[0];
+    if(!e)return `${prefix}não há evento futuro cadastrado.`;
+    const count=schedules.filter(s=>Number(s.event_id)===Number(e.id)).length;
+    return `${prefix}o próximo evento é <b>${e.name}</b>, em ${formatEventDate(e.event_date)} às ${e.start_time?.slice(0,5)||"--:--"}. Há <b>${count} pessoa(s)</b> escalada(s) até agora.`;
+  }
+
+  if(q.includes("resumo")||q.includes("escala")){
+    return `${prefix}<b>Resumo atual das escalas:</b><br><br>Confirmadas: ${confirmed.length}<br>Pendentes: ${pending.length}<br>Recusadas: ${declined.length}<br>Total registrado: ${schedules.length}<br><br>Se quiser, posso detalhar pendências ou recusas.`;
+  }
+
+  if(q.includes("manual")||q.includes("como servir")||q.includes("orientação")||q.includes("orientacao")){
+    return `${prefix}posso orientar com base no Manual da LINE. Você pode perguntar sobre <b>Story, Fotografia, Reels/Vídeo, Projeção, Edição e Design, postura, fluxo de produção, organização de arquivos</b> ou <b>nosso padrão de excelência</b>.`;
+  }
+
+  return `${prefix}posso ajudar com informações administrativas e também com orientações do Manual da LINE. Tente perguntar, por exemplo: <b>“quem ainda não confirmou?”, “resumo das escalas”, “qual o padrão para Story?”, “como deve ser a postura de quem serve?”</b> ou <b>“qual o fluxo de produção?”</b>.`;
+};
+
+/* Aplica o LED loop aos botões principais já existentes */
+window.v146ApplyLedClasses=function(){
+  document.querySelectorAll(
+    '.v145-led, .primary, .v14-solid, .v14-outline, .v143-manage-btn, .ai-generate-btn, .action-btn'
+  ).forEach(el=>{
+    if(!el.classList.contains("v146-led-loop")) el.classList.add("v146-led-loop");
+  });
+};
+
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(v146ApplyLedClasses,250);
+});
+
+const v146RenderCore = window.render;
+if(typeof v146RenderCore==="function"){
+  window.render = async function(...args){
+    const result = await v146RenderCore.apply(this,args);
+    setTimeout(v146ApplyLedClasses,120);
+    return result;
+  }
+}
 
 </script>
 </body>
