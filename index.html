@@ -6693,6 +6693,430 @@ img,svg,video,canvas{max-width:100%}
   .page-toolbar>.primary,.page-toolbar>.action-btn,.page-toolbar>.ghost-btn{width:100%!important}
 }
 
+
+/* ==========================================================
+   LINE v14.5 — DASHBOARD + MOBILE DOCK + ESCALAS + ASSISTENTE
+   ========================================================== */
+
+/* Remove seletores redundantes Equipes / Membros / Candidaturas */
+.team-hub-tabs-v121,
+.team-hub-tabs{
+  display:none!important;
+}
+
+/* Dashboard greeting + decorative assistant hero */
+.v145-dashboard-hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  align-items:center;
+  gap:20px;
+  margin:8px 0 18px;
+}
+.v145-dashboard-greeting small{
+  display:block;
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.v145-dashboard-greeting h1{
+  margin:0;
+  color:var(--text);
+  font-size:38px;
+  line-height:1.02;
+  font-weight:840;
+  letter-spacing:-.055em;
+}
+.v145-dashboard-greeting p{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+.v145-robot-card{
+  min-height:150px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 70% 42%,rgba(22,119,255,.20),transparent 27%),
+    color-mix(in srgb,var(--panel) 96%,transparent);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 22px;
+}
+.v145-robot-card::before{
+  content:"";
+  position:absolute;
+  width:240px;height:95px;
+  right:-30px;top:28px;
+  border:1px solid rgba(22,119,255,.28);
+  border-radius:50%;
+  transform:rotate(-8deg);
+  box-shadow:0 0 28px rgba(22,119,255,.10);
+}
+.v145-robot-copy{
+  position:relative;z-index:2;max-width:190px
+}
+.v145-robot-copy b{
+  display:block;font-size:16px;color:var(--text);margin-bottom:5px
+}
+.v145-robot-copy span{
+  display:block;font-size:11px;line-height:1.45;color:var(--muted)
+}
+.v145-robot-copy button{
+  margin-top:12px;
+  min-height:38px;
+  padding:0 13px;
+  border:1px solid rgba(22,119,255,.35);
+  border-radius:11px;
+  background:rgba(22,119,255,.10);
+  color:#4da3ff;
+  font-size:11px;
+  font-weight:800;
+}
+.v145-robot-visual{
+  position:relative;z-index:2;
+  width:86px;height:86px;
+  border-radius:27px;
+  display:grid;place-items:center;
+  color:#64b5ff;
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(22,119,255,.15));
+  border:1px solid rgba(91,177,255,.30);
+  box-shadow:0 0 36px rgba(22,119,255,.16);
+}
+.v145-robot-visual svg{width:45px!important;height:45px!important}
+
+/* Dashboard entrance animation */
+@keyframes v145DashboardIn{
+  from{opacity:0;transform:translateY(12px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.v145-dashboard-enter{
+  animation:v145DashboardIn .48s cubic-bezier(.2,.8,.2,1) both;
+}
+.v145-dashboard-enter:nth-child(2){animation-delay:.05s}
+.v145-dashboard-enter:nth-child(3){animation-delay:.10s}
+.v145-dashboard-enter:nth-child(4){animation-delay:.15s}
+
+/* "Fita LED" animada em botões de destaque */
+@keyframes v145LedSpin{to{transform:rotate(1turn)}}
+.v145-led{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+}
+.v145-led::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:inherit;
+  z-index:-2;
+  opacity:0;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg 235deg,
+    #0b78ff 255deg,
+    #8bd6ff 280deg,
+    #156fff 310deg,
+    transparent 340deg
+  );
+  transition:opacity .18s ease;
+}
+.v145-led::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:calc(13px - 2px);
+  z-index:-1;
+  background:var(--panel);
+}
+.v145-led.v145-led-solid::after{
+  background:var(--v14-blue);
+}
+.v145-led:hover::before,
+.v145-led:focus-visible::before{
+  opacity:1;
+  animation:v145LedSpin 1.05s linear infinite;
+}
+.v145-led:hover{
+  box-shadow:0 0 24px rgba(22,119,255,.22)!important;
+}
+
+/* New schedule history page */
+.v145-history-grid{
+  display:grid;
+  gap:14px;
+}
+.v145-history-event{
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:var(--panel);
+  padding:18px;
+}
+.v145-history-event-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.v145-history-event-head h3{
+  margin:0;font-size:18px;letter-spacing:-.03em
+}
+.v145-history-event-head p{
+  margin:5px 0 0;font-size:11px;color:var(--muted)
+}
+.v145-history-time{
+  font-size:25px;font-weight:820;color:var(--v14-blue);white-space:nowrap
+}
+.v145-history-list{
+  display:grid;
+  gap:8px;
+  margin-top:13px;
+}
+.v145-history-row{
+  display:grid;
+  grid-template-columns:minmax(0,1.4fr) minmax(110px,.7fr) minmax(100px,.6fr) auto;
+  align-items:center;
+  gap:12px;
+  padding:11px 12px;
+  border-radius:14px;
+  background:color-mix(in srgb,var(--text) 2.3%,transparent);
+}
+.v145-history-person{
+  display:flex;align-items:center;gap:10px;min-width:0
+}
+.v145-history-avatar{
+  width:36px;height:36px;min-width:36px;border-radius:50%;
+  display:grid;place-items:center;
+  background:color-mix(in srgb,var(--v14-blue) 11%,transparent);
+  color:#68b6ff;font-size:11px;font-weight:800
+}
+.v145-history-person b{
+  display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.v145-history-person small,
+.v145-history-meta small{
+  display:block;font-size:10px;color:var(--muted);margin-top:2px
+}
+.v145-history-meta b{display:block;font-size:12px}
+.v145-history-empty{
+  padding:24px;text-align:center;color:var(--muted);
+  border:1px dashed var(--border);border-radius:17px;font-size:13px
+}
+
+/* Master Assistant */
+.v145-assistant-bg{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:grid;
+  place-items:center;
+  padding:18px;
+}
+.v145-assistant{
+  width:min(620px,100%);
+  max-height:82dvh;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:26px;
+  background:var(--panel);
+  box-shadow:0 28px 90px rgba(0,0,0,.35);
+  padding:20px;
+}
+.v145-assistant-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.v145-assistant-title{
+  display:flex;align-items:center;gap:11px
+}
+.v145-assistant-icon{
+  width:43px;height:43px;border-radius:14px;
+  display:grid;place-items:center;color:#62b5ff;
+  background:rgba(22,119,255,.11)
+}
+.v145-assistant-icon svg{width:22px!important;height:22px!important}
+.v145-assistant-title b{display:block;font-size:16px}
+.v145-assistant-title small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.v145-assistant-head>button{
+  width:38px;height:38px;border-radius:12px;border:1px solid var(--border);
+  background:transparent;color:var(--text)
+}
+.v145-assistant-quick{
+  display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 12px
+}
+.v145-assistant-quick button{
+  min-height:36px;padding:0 11px;border-radius:11px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--text);font-size:10px;font-weight:700
+}
+.v145-assistant-answer{
+  min-height:100px;padding:15px;border-radius:16px;
+  background:color-mix(in srgb,var(--v14-blue) 5%,var(--panel));
+  border:1px solid color-mix(in srgb,var(--v14-blue) 12%,var(--border));
+  font-size:13px;line-height:1.6;color:var(--text)
+}
+.v145-assistant-input{
+  display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px
+}
+.v145-assistant-input input{
+  min-width:0;height:44px;border-radius:12px;border:1px solid var(--border);
+  background:transparent;color:var(--text);padding:0 13px
+}
+.v145-assistant-input button{
+  min-width:88px;border:0;border-radius:12px;background:var(--v14-blue);color:#fff;font-weight:800
+}
+
+/* Mobile dock rebuilt */
+@media(max-width:760px){
+  .v145-dashboard-hero{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    margin-top:6px!important;
+  }
+  .v145-dashboard-greeting h1{
+    font-size:34px!important;
+  }
+  .v145-dashboard-greeting small{
+    display:none!important;
+  }
+  .v145-dashboard-greeting p{
+    font-size:12px!important;
+  }
+  .v145-robot-card{
+    min-height:112px!important;
+    padding:15px!important;
+    border-radius:20px!important;
+  }
+  .v145-robot-copy b{font-size:14px!important}
+  .v145-robot-copy span{font-size:10px!important}
+  .v145-robot-visual{
+    width:70px!important;height:70px!important;border-radius:22px!important
+  }
+  .v145-robot-visual svg{width:36px!important;height:36px!important}
+
+  .mobile-dock-wrap-v125{
+    left:10px!important;
+    right:10px!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    max-width:calc(100vw - 20px)!important;
+    gap:8px!important;
+    align-items:center!important;
+    transition:opacity .18s ease,transform .18s ease!important;
+  }
+  .mobile-nav.mobile-dock-v125{
+    height:64px!important;
+    padding:7px!important;
+    border-radius:23px!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:3px!important;
+  }
+  .mobile-nav.mobile-dock-v125 a{
+    width:100%!important;
+    min-width:0!important;
+    height:50px!important;
+    border-radius:16px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:2px!important;
+    padding:0 3px!important;
+  }
+  .mobile-dock-icon-v125{
+    height:22px!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+  .mobile-dock-icon-v125 svg{
+    width:21px!important;height:21px!important
+  }
+  .mobile-dock-label-v125{
+    display:none!important;
+    max-width:none!important;
+    font-size:9px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  .mobile-nav.mobile-dock-v125 a.active .mobile-dock-label-v125{
+    display:block!important;
+  }
+  .mobile-nav.mobile-dock-v125 a.active{
+    background:rgba(22,119,255,.10)!important;
+    box-shadow:inset 0 0 0 1px rgba(83,174,255,.26)!important;
+  }
+  .mobile-plus-v125{
+    width:62px!important;
+    height:62px!important;
+    min-width:62px!important;
+    flex:0 0 62px!important;
+    border-radius:50%!important;
+  }
+
+  body.v145-more-open .mobile-dock-wrap-v125{
+    opacity:0!important;
+    transform:translateY(20px)!important;
+    pointer-events:none!important;
+  }
+  .mobile-more-sheet-bg-v122{
+    z-index:12000!important;
+    align-items:flex-end!important;
+  }
+  .mobile-more-sheet-v122{
+    width:100%!important;
+    max-width:100%!important;
+    max-height:82dvh!important;
+    overflow:auto!important;
+    padding-bottom:max(24px,env(safe-area-inset-bottom))!important;
+    border-radius:28px 28px 0 0!important;
+  }
+
+  .v145-history-row{
+    grid-template-columns:1fr auto!important;
+    gap:9px!important;
+  }
+  .v145-history-meta{
+    grid-column:1/2!important;
+    margin-left:46px!important;
+  }
+  .v145-history-row>.status{
+    grid-column:2/3!important;
+    grid-row:1/3!important;
+  }
+  .v145-history-event-head h3{font-size:16px!important}
+  .v145-history-time{font-size:21px!important}
+
+  .v145-assistant-bg{
+    align-items:flex-end!important;
+    padding:0!important;
+  }
+  .v145-assistant{
+    width:100%!important;
+    max-height:86dvh!important;
+    border-radius:28px 28px 0 0!important;
+    padding:18px 16px max(22px,env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* Never overlap sections */
+.v14-section-title{
+  position:relative!important;
+  z-index:1!important;
+  clear:both!important;
+}
+.v14-master-grid,
+.v14-events-grid,
+.v14-section-card,
+.master-next-card-v14{
+  position:relative!important;
+  z-index:1!important;
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -10697,7 +11121,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.4 Layout Unification iniciado");
+ console.info("LINE Interligados v14.5 Dashboard UX + Assistant iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -10705,7 +11129,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.4",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.5",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -11871,6 +12295,297 @@ window.authChoiceScreenV141=function(){
       <div class="v141-auth-note">Gestão da LINE dos Interligados em um só lugar.</div>
     </section>
   </main>`;
+};
+
+
+
+/* ==========================================================
+   LINE v14.5 — UX requested updates
+   ========================================================== */
+
+window.teamHubTabsHTML=function(){ return ""; };
+
+window.v145StatusClass=function(status){
+  if(status==="confirmed")return "green";
+  if(status==="declined")return "red";
+  return "yellow";
+};
+window.v145StatusText=function(status){
+  if(status==="confirmed")return "Confirmada";
+  if(status==="declined")return "Recusada";
+  return "Pendente";
+};
+
+window.scheduleHistoryPageV145=async function(){
+  const schedules=[...(V8.schedules||[])].filter(s=>s.status!=="replaced");
+  const grouped={};
+  schedules.forEach(s=>{
+    const id=Number(s.event_id);
+    (grouped[id] ||= []).push(s);
+  });
+
+  const ids=Object.keys(grouped).map(Number).sort((a,b)=>{
+    const ea=eventById(a),eb=eventById(b);
+    return String(eb?.event_date||"").localeCompare(String(ea?.event_date||""));
+  });
+
+  return `<div class="page-toolbar">
+    <div class="page-title">
+      <h2>Escalas registradas</h2>
+      <p>Acompanhe quem foi escalado e o status de confirmação de cada pessoa.</p>
+    </div>
+    <button class="action-btn v145-led" onclick="navigateLine('escalas')">${icon("sparkles")} Gerar nova escala</button>
+  </div>
+
+  <section class="v145-history-grid">
+    ${ids.length?ids.map(eventId=>{
+      const e=eventById(eventId);
+      const rows=grouped[eventId]||[];
+      return `<article class="v145-history-event">
+        <div class="v145-history-event-head">
+          <div>
+            <h3>${e?.name||"Evento"}</h3>
+            <p>${e?.event_date?formatEventDate(e.event_date):"Data não informada"} • ${e?.location||"Local a confirmar"}</p>
+          </div>
+          <div class="v145-history-time">${e?.start_time?.slice(0,5)||"--:--"}</div>
+        </div>
+        <div class="v145-history-list">
+          ${rows.map(s=>{
+            const m=memberById(s.user_id);
+            const t=teamById(s.team_id);
+            const initials=String(m?.name||"M").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+            return `<div class="v145-history-row">
+              <div class="v145-history-person">
+                <span class="v145-history-avatar">${initials}</span>
+                <div><b>${m?.name||"Membro"}</b><small>${s.role_name||"Função não informada"}</small></div>
+              </div>
+              <div class="v145-history-meta"><b>${t?.name||"LINE"}</b><small>Equipe</small></div>
+              <div class="v145-history-meta"><b>${s.role_name||"Servir"}</b><small>Função</small></div>
+              <span class="status ${v145StatusClass(s.status)}">${v145StatusText(s.status)}</span>
+            </div>`;
+          }).join("")}
+        </div>
+      </article>`;
+    }).join(""):`<div class="v145-history-empty">Nenhuma escala registrada por enquanto.</div>`}
+  </section>`;
+};
+
+window.v145AssistantAnswer=function(question){
+  const q=String(question||"").toLowerCase();
+  const schedules=(V8.schedules||[]).filter(s=>s.status!=="replaced");
+  const pending=schedules.filter(s=>s.status==="pending");
+  const confirmed=schedules.filter(s=>s.status==="confirmed");
+  const declined=schedules.filter(s=>s.status==="declined");
+  const available=(V8.availability||[]).filter(a=>a.status==="available"||a.available===true);
+  const future=futureEvents();
+
+  if(q.includes("não confirmou")||q.includes("pendente")){
+    if(!pending.length)return "Não há confirmações pendentes neste momento.";
+    return `<b>${pending.length} pessoa(s) ainda estão pendentes.</b><br><br>${pending.slice(0,8).map(s=>{
+      const m=memberById(s.user_id),e=eventById(s.event_id);
+      return `• ${m?.name||"Membro"} — ${e?.name||"Evento"} (${s.role_name||"função"})`;
+    }).join("<br>")}`;
+  }
+  if(q.includes("recus")){
+    if(!declined.length)return "Nenhuma escala recusada neste momento.";
+    return `<b>${declined.length} recusa(s) registrada(s).</b><br><br>${declined.slice(0,8).map(s=>{
+      const m=memberById(s.user_id),e=eventById(s.event_id);
+      return `• ${m?.name||"Membro"} — ${e?.name||"Evento"}`;
+    }).join("<br>")}`;
+  }
+  if(q.includes("dispon")){
+    return `<b>${available.length} registro(s) de disponibilidade positiva</b> estão cadastrados no sistema neste momento.`;
+  }
+  if(q.includes("próximo")||q.includes("evento")){
+    const e=future[0];
+    if(!e)return "Não há evento futuro cadastrado.";
+    const count=schedules.filter(s=>Number(s.event_id)===Number(e.id)).length;
+    return `<b>${e.name}</b><br>${formatEventDate(e.event_date)} às ${e.start_time?.slice(0,5)||"--:--"}<br>${count} pessoa(s) escalada(s).`;
+  }
+  if(q.includes("resumo")||q.includes("escala")){
+    return `<b>Resumo atual das escalas</b><br><br>Confirmadas: ${confirmed.length}<br>Pendentes: ${pending.length}<br>Recusadas: ${declined.length}<br>Total registrado: ${schedules.length}`;
+  }
+  return `Posso consultar os dados atuais da LINE para você. Tente perguntar sobre <b>pendências, recusas, disponibilidade, próximo evento</b> ou peça um <b>resumo das escalas</b>.`;
+};
+
+window.v145AskAssistant=function(text){
+  const input=document.getElementById("v145AssistantInput");
+  const q=text||input?.value||"";
+  const answer=document.getElementById("v145AssistantAnswer");
+  if(answer)answer.innerHTML=v145AssistantAnswer(q);
+  if(input)input.value=q;
+};
+
+window.openLineAssistantV145=function(){
+  if(!isMaster())return;
+  document.getElementById("v145AssistantBg")?.remove();
+  const bg=document.createElement("div");
+  bg.id="v145AssistantBg";
+  bg.className="v145-assistant-bg";
+  bg.innerHTML=`<section class="v145-assistant">
+    <div class="v145-assistant-head">
+      <div class="v145-assistant-title">
+        <span class="v145-assistant-icon">${icon("bot")}</span>
+        <div><b>Assistente LINE</b><small>Auxiliar administrativo dos Masters</small></div>
+      </div>
+      <button onclick="document.getElementById('v145AssistantBg')?.remove()">${icon("x")}</button>
+    </div>
+
+    <div class="v145-assistant-quick">
+      <button onclick="v145AskAssistant('Quem ainda não confirmou?')">Quem não confirmou?</button>
+      <button onclick="v145AskAssistant('Resumo das escalas')">Resumo das escalas</button>
+      <button onclick="v145AskAssistant('Próximo evento')">Próximo evento</button>
+      <button onclick="v145AskAssistant('Recusas')">Recusas</button>
+      <button onclick="v145AskAssistant('Disponibilidade')">Disponibilidade</button>
+    </div>
+
+    <div id="v145AssistantAnswer" class="v145-assistant-answer">
+      Olá! Eu consulto os dados atuais da LINE para ajudar na administração. Escolha uma pergunta acima ou escreva abaixo.
+    </div>
+    <div class="v145-assistant-input">
+      <input id="v145AssistantInput" placeholder="Ex.: quem ainda não confirmou?" onkeydown="if(event.key==='Enter')v145AskAssistant()">
+      <button onclick="v145AskAssistant()">Perguntar</button>
+    </div>
+  </section>`;
+  bg.addEventListener("click",e=>{if(e.target===bg)bg.remove()});
+  document.body.appendChild(bg);
+  refreshIcons();
+};
+
+window.dashboard=async function(){
+  const upcoming=futureEvents();
+  const first=upcoming[0];
+  const members=(V8.members||[]).filter(m=>m.active).length;
+  const pending=(V8.schedules||[]).filter(s=>s.status==="pending").length;
+  const confirmed=(V8.schedules||[]).filter(s=>s.status==="confirmed").length;
+  const declined=(V8.schedules||[]).filter(s=>s.status==="declined").length;
+
+  return `<section class="v145-dashboard-hero v145-dashboard-enter">
+    <div class="v145-dashboard-greeting">
+      <h1>Olá, ${v14FirstName()}! 👋</h1>
+      <p>Sua visão geral da equipe LINE.</p>
+    </div>
+    <article class="v145-robot-card">
+      <div class="v145-robot-copy">
+        <b>Assistente LINE</b>
+        <span>Consulte pendências, escalas, eventos e disponibilidade.</span>
+        <button class="v145-led" onclick="openLineAssistantV145()">Abrir assistente</button>
+      </div>
+      <div class="v145-robot-visual">${icon("bot")}</div>
+    </article>
+  </section>
+
+  <section class="v14-master-stats v145-dashboard-enter">
+    <div class="v14-mini-stat" onclick="openHomeInsight('members')"><small>Membros ativos</small><strong>${members}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('events')"><small>Próximos eventos</small><strong>${upcoming.length}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('pending')"><small>Pendentes</small><strong>${pending}</strong></div>
+    <div class="v14-mini-stat" onclick="openHomeInsight('confirmed')"><small>Confirmados</small><strong>${confirmed}</strong></div>
+  </section>
+
+  <section class="v14-master-grid v145-dashboard-enter">
+    <div>
+      <div class="v14-section-title">Próximo evento</div>
+      ${first?`<article class="master-next-card-v14">
+        <div class="v14-event-date">${formatEventDate(first.event_date)}</div>
+        <h3 class="v14-event-name">${first.name}</h3>
+        <div class="v14-event-sub">${first.location||"Local a confirmar"}</div>
+        <div class="v14-event-info-grid">
+          <div class="v14-info-pair"><small>Status</small><b>${eventStatusLabel(first.status)}</b></div>
+          <div class="v14-info-pair"><small>Escalados</small><b>${(V8.schedules||[]).filter(s=>Number(s.event_id)===Number(first.id)&&s.status!=="replaced").length}</b></div>
+          <div class="v14-big-time">${first.start_time?.slice(0,5)||"--:--"}</div>
+        </div>
+        <div class="v14-card-actions">
+          <button class="v14-outline v145-led" onclick="navigateLine('eventos')">Ver eventos</button>
+          <button class="v14-solid v145-led v145-led-solid" onclick="navigateLine('historico-escalas')">Abrir escalas</button>
+        </div>
+      </article>`:`<div class="v14-events-empty">Nenhum evento futuro.</div>`}
+    </div>
+
+    <div>
+      <div class="v14-section-title">Resumo das escalas</div>
+      <article class="panel v14-section-card">
+        <div class="v14-compact-list">
+          <div class="v14-compact-row"><div><b>Confirmadas</b><small>Presença garantida</small></div><span class="status green">${confirmed}</span></div>
+          <div class="v14-compact-row"><div><b>Pendentes</b><small>Aguardando resposta</small></div><span class="status yellow">${pending}</span></div>
+          <div class="v14-compact-row"><div><b>Recusadas</b><small>Não poderão servir</small></div><span class="status red">${declined}</span></div>
+        </div>
+        <button class="primary v145-led v145-led-solid" style="width:100%;margin-top:14px" onclick="navigateLine('historico-escalas')">Gerenciar escalas</button>
+      </article>
+    </div>
+  </section>
+
+  <div class="v14-section-title v145-dashboard-enter">Eventos para se planejar</div>
+  <section class="v14-events-grid v145-dashboard-enter">
+    ${upcoming.slice(1,5).map(e=>v14EventCard(e)).join("")||`<div class="v14-events-empty">Nenhum outro evento programado.</div>`}
+  </section>`;
+};
+
+const v145PageCore=window.page;
+window.page=async function(){
+  if(route==="historico-escalas")return isMaster()?await scheduleHistoryPageV145():generic("Acesso restrito","Esta área é exclusiva dos administradores Master.");
+  return await v145PageCore();
+};
+
+window.mobileNav=function(){
+  const items=[
+    ["dashboard","house","Home"],
+    ["eventos","calendar-days","Eventos"],
+    ["escalas","calendar-check","Escalas"],
+    ["manual","book-open-text","Manual"]
+  ];
+  return `<div class="mobile-dock-wrap-v125">
+    <nav class="mobile-nav mobile-dock-v125">
+      ${items.map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}">
+        <span class="mobile-dock-icon-v125">${icon(i)}</span>
+        <span class="mobile-dock-label-v125">${l}</span>
+      </a>`).join("")}
+    </nav>
+    <button class="mobile-plus-v125" onclick="mobileMoreOpenV122()" aria-label="Mais">${icon("plus")}</button>
+  </div>`;
+};
+
+window.mobileMoreCloseV145=function(){
+  document.getElementById("mobileMoreV122")?.remove();
+  document.body.classList.remove("v145-more-open");
+};
+
+window.mobileMoreOpenV122=function(){
+  const old=document.getElementById("mobileMoreV122");
+  if(old){mobileMoreCloseV145();return}
+
+  const masterExtra=isMaster()
+    ?[
+      ["calendario","calendar","Calendário"],
+      ["candidaturas","user-round-search","Candidaturas"],
+      ["membros","users","Membros"],
+      ["indicadores","chart-no-axes-combined","Indicadores"],
+      ["notificacoes","bell","Notificações"],
+      ["configuracoes","settings","Configurações"]
+    ]
+    :[
+      ["calendario","calendar","Calendário"],
+      ["notificacoes","bell","Notificações"],
+      ["configuracoes","settings","Configurações"]
+    ];
+
+  document.body.classList.add("v145-more-open");
+  const wrap=document.createElement("div");
+  wrap.id="mobileMoreV122";
+  wrap.className="mobile-more-sheet-bg-v122";
+  wrap.innerHTML=`<div class="mobile-more-sheet-v122">
+    <div class="mobile-more-handle-v122"></div>
+    <div class="mobile-more-head-v122">
+      <div><b>Mais opções</b><small>Acesso rápido</small></div>
+      <button onclick="mobileMoreCloseV145()">${icon("x")}</button>
+    </div>
+    <div class="mobile-more-grid-v122">
+      ${masterExtra.map(([r,i,l])=>`<button onclick="mobileMoreCloseV145();navigateLine('${r}')"><span>${icon(i)}</span><b>${l}</b></button>`).join("")}
+      ${isMaster()?`<button onclick="mobileMoreCloseV145();openLineAssistantV145()"><span>${icon("bot")}</span><b>Assistente LINE</b></button>`:""}
+    </div>
+  </div>`;
+  wrap.addEventListener("click",e=>{if(e.target===wrap)mobileMoreCloseV145()});
+  document.body.appendChild(wrap);
+  refreshIcons();
 };
 
 </script>
