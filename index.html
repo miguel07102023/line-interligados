@@ -6596,6 +6596,103 @@ img,svg,video,canvas{max-width:100%}
   .mobile-dock-wrap-v125{left:10px!important;right:10px!important;max-width:calc(100vw - 20px)!important}
 }
 
+/* ==========================================================
+   LINE v14.4 — UNIFICAÇÃO DE LAYOUTS
+   ========================================================== */
+@media(min-width:761px){
+  .main{padding:0 28px 40px!important}
+  .main>*:not(.topbar){max-width:1240px!important;width:100%!important}
+  .topbar{max-width:1240px!important;margin:0 auto!important;padding-left:0!important;padding-right:0!important}
+  .sidebar{width:228px!important}
+  .nav a{font-size:13px!important}
+}
+.v14-master-stats{gap:14px!important;margin:14px 0 22px!important}
+.v14-mini-stat{min-height:118px!important;padding:18px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.v14-mini-stat small{font-size:12px!important}
+.v14-mini-stat strong{font-size:30px!important;margin-top:7px!important}
+.v14-master-grid{grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr)!important;gap:18px!important;align-items:stretch!important}
+.v14-master-grid>div{min-width:0!important}
+.master-next-card-v14{min-height:100%!important;display:flex!important;flex-direction:column!important}
+.master-next-card-v14 .v14-event-info-grid{margin-top:22px!important}
+.master-next-card-v14 .v14-card-actions{margin-top:auto!important;padding-top:20px!important}
+.v14-section-card{min-height:100%!important;display:flex!important;flex-direction:column!important}
+.v14-section-card .primary{margin-top:auto!important}
+.v14-compact-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;column-gap:16px!important}
+.v14-compact-row>div{min-width:0!important}
+.v14-compact-row b,.v14-compact-row small{display:block!important}
+.v14-compact-row small{margin-top:4px!important}
+.v14-compact-row .status{justify-self:end!important}
+
+.v14-events-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}
+.line-event-card-v14{min-height:190px!important}
+.page-toolbar{gap:14px!important}
+.page-toolbar>.primary,.page-toolbar>.action-btn,.page-toolbar>.ghost-btn{flex:0 0 auto!important}
+
+.v143-calendar-layout{grid-template-columns:minmax(0,1fr) 320px!important;gap:18px!important}
+.v143-scale-row{column-gap:16px!important}
+.v143-scale-copy b,.v143-scale-copy small{display:block!important}
+.v143-scale-copy small{margin-top:4px!important}
+
+.ai-panel-premium,.availability-management-panel{border-radius:22px!important;overflow:hidden!important}
+.ai-hero-premium{padding:18px 20px!important;margin-bottom:14px!important}
+.ai-controls{grid-template-columns:1fr 1fr!important;gap:12px!important}
+.ai-generate-btn{width:100%!important}
+.availability-kpis{gap:10px!important}
+.availability-kpi{min-height:86px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.availability-kpi small{font-size:10px!important}
+.availability-kpi b{font-size:22px!important}
+
+.manual-wrap-v121,.manual-grid-v121,.manual-search-v121,.manual-hero-v121{width:100%!important;max-width:100%!important}
+.manual-search-v121{margin-left:0!important;margin-right:0!important}
+.manual-grid-v121{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.manual-card-copy-v121 b{font-size:15px!important}
+.manual-card-copy-v121 small{font-size:12px!important}
+
+.application-card h3,.application-card b{font-size:15px!important}
+.application-card p,.application-card small{font-size:12px!important}
+
+@media(max-width:760px){
+  .main{padding:0 14px calc(104px + env(safe-area-inset-bottom))!important}
+  .topbar{min-height:60px!important;padding:9px 0!important}
+  .v14-app-intro{margin:8px 0 16px!important}
+  .v14-app-intro small{font-size:13px!important}
+  .v14-app-intro h2,.page-title h2{font-size:28px!important;line-height:1.06!important}
+  .page-title p{font-size:13px!important}
+  .v14-section-title{font-size:20px!important;margin:24px 0 10px!important}
+
+  .v14-master-stats{grid-template-columns:1fr 1fr!important;gap:9px!important}
+  .v14-mini-stat{min-height:98px!important;padding:13px!important}
+  .v14-mini-stat small{font-size:11px!important}
+  .v14-mini-stat strong{font-size:24px!important}
+  .v14-master-grid{grid-template-columns:1fr!important;gap:14px!important}
+  .master-next-card-v14{min-height:auto!important}
+
+  .v14-event-info-grid{grid-template-columns:1fr 1fr!important}
+  .v14-card-actions{grid-template-columns:1fr!important}
+  .v14-compact-row{grid-template-columns:minmax(0,1fr) auto!important;column-gap:12px!important}
+  .v14-compact-row b{font-size:14px!important}
+  .v14-compact-row small{font-size:11px!important}
+
+  .v14-events-grid{grid-template-columns:1fr!important;gap:10px!important}
+  .line-event-card-v14{min-height:auto!important}
+
+  .v143-calendar-kpis{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .v143-calendar-layout{grid-template-columns:1fr!important;gap:12px!important}
+  .v143-calendar-side{grid-template-columns:1fr!important}
+
+  .ai-controls{grid-template-columns:1fr!important}
+  .availability-kpis{grid-template-columns:repeat(3,1fr)!important}
+
+  .manual-grid-v121{grid-template-columns:1fr!important}
+  .manual-search-v121{height:48px!important;font-size:14px!important}
+  .manual-card-copy-v121 b{font-size:14px!important}
+  .manual-card-copy-v121 small{font-size:11px!important}
+
+  .team-grid,.profile-grid{grid-template-columns:1fr!important}
+  .page-toolbar{flex-direction:column!important;align-items:stretch!important}
+  .page-toolbar>.primary,.page-toolbar>.action-btn,.page-toolbar>.ghost-btn{width:100%!important}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -10600,7 +10697,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.3 Mobile + Calendar Fix iniciado");
+ console.info("LINE Interligados v14.4 Layout Unification iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -10608,7 +10705,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.3",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.4",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
