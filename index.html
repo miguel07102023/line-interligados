@@ -7680,6 +7680,146 @@ body{overscroll-behavior-x:none!important}
   .main{padding-left:12px!important;padding-right:12px!important}
 }
 
+
+/* ==========================================================
+   LINE v14.9 — MOBILE DOCK CLEARANCE / ACTION VISIBILITY
+   ========================================================== */
+
+@media(max-width:760px){
+
+  :root{
+    --line-mobile-dock-h:72px;
+    --line-mobile-dock-gap:16px;
+    --line-mobile-safe:env(safe-area-inset-bottom);
+    --line-mobile-clearance:calc(var(--line-mobile-dock-h) + var(--line-mobile-dock-gap) + var(--line-mobile-safe));
+  }
+
+  html{
+    scroll-padding-bottom:calc(var(--line-mobile-clearance) + 18px)!important;
+  }
+
+  body{
+    padding-bottom:0!important;
+  }
+
+  /* Dá espaço real no fim da página para o dock não cobrir ações */
+  .main{
+    padding-bottom:calc(var(--line-mobile-clearance) + 46px)!important;
+  }
+
+  /* Homebar menor e mais baixa */
+  .mobile-dock-wrap-v125{
+    left:10px!important;
+    right:10px!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    height:64px!important;
+    max-width:calc(100vw - 20px)!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  .mobile-nav.mobile-dock-v125{
+    height:64px!important;
+    min-height:64px!important;
+    padding:6px!important;
+    border-radius:22px!important;
+  }
+
+  .mobile-nav.mobile-dock-v125 a{
+    height:50px!important;
+    min-height:50px!important;
+    border-radius:16px!important;
+  }
+
+  .mobile-plus-v125{
+    width:60px!important;
+    height:60px!important;
+    min-width:60px!important;
+    flex:0 0 60px!important;
+  }
+
+  /* Nunca deixa os botões do próximo evento escondidos atrás da homebar */
+  .master-next-card-v14{
+    padding-bottom:20px!important;
+  }
+
+  .master-next-card-v14 .v14-card-actions{
+    position:relative!important;
+    z-index:3!important;
+    margin-top:20px!important;
+    padding-bottom:0!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .master-next-card-v14 .v14-card-actions button{
+    width:100%!important;
+    min-height:48px!important;
+    scroll-margin-bottom:calc(var(--line-mobile-clearance) + 18px)!important;
+  }
+
+  /* Dá respiro depois do card para a navegação fixa não invadir a seção seguinte */
+  .v14-master-grid{
+    margin-bottom:34px!important;
+  }
+
+  .v14-master-grid > div:last-child{
+    margin-bottom:0!important;
+  }
+
+  .v14-section-title{
+    margin-top:30px!important;
+  }
+
+  /* Qualquer ação importante perto do fim da tela pode ser trazida acima do dock */
+  .primary,
+  .action-btn,
+  .v14-solid,
+  .v14-outline,
+  .v143-manage-btn,
+  .ai-generate-btn{
+    scroll-margin-bottom:calc(var(--line-mobile-clearance) + 18px)!important;
+  }
+
+  /* Sheets e modal ficam acima do dock sem conflito */
+  body.v145-more-open .mobile-dock-wrap-v125{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  .mobile-more-sheet-bg-v122,
+  .v145-assistant-bg,
+  .modal-bg{
+    z-index:12000!important;
+  }
+
+  /* Evita títulos/sections serem empurrados por conteúdo anterior */
+  .v14-section-title,
+  .v14-events-grid,
+  .v14-events-empty{
+    position:relative!important;
+    z-index:1!important;
+    clear:both!important;
+  }
+}
+
+/* phones menores */
+@media(max-width:390px){
+  .mobile-dock-wrap-v125{
+    left:8px!important;
+    right:8px!important;
+    max-width:calc(100vw - 16px)!important;
+  }
+  .mobile-plus-v125{
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    flex-basis:56px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11684,7 +11824,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.8 Mobile Viewport Fix iniciado");
+ console.info("LINE Interligados v14.9 Mobile Dock Clearance iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11692,7 +11832,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.8",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.9",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
