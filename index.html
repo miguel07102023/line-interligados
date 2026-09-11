@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#070d18">
 <title>LINE Interligados</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7611,6 +7611,75 @@ html[data-theme="light"] .availability-kpi b{
   }
 }
 
+
+/* LINE v14.8 — MOBILE VIEWPORT / ZOOM FIX */
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+html{-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important}
+body{overscroll-behavior-x:none!important}
+*,*::before,*::after{box-sizing:border-box!important;min-width:0}
+
+@media(max-width:760px){
+  input,select,textarea,button{font-size:16px!important}
+  input[type="search"],input[type="email"],input[type="password"],input[type="text"],input[type="tel"],select,textarea{min-height:44px!important}
+
+  #app,.shell,.main,.content,main{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    margin:0!important;overflow-x:hidden!important;transform:none!important;zoom:1!important;
+  }
+
+  .main{
+    width:100vw!important;max-width:100vw!important;
+    padding-left:14px!important;padding-right:14px!important;
+  }
+
+  .main>*:not(.topbar),.topbar,.page-toolbar,.page-title,.panel,
+  .v14-master-grid,.v14-master-stats,.v14-events-grid,.v143-calendar-layout,
+  .v143-calendar-kpis,.availability-kpis,.availability-management-panel,
+  .ai-panel-premium,.manual-grid-v121,.manual-hero-v121,.team-grid,.profile-grid,
+  .v145-history-grid,.v145-dashboard-hero,.v14-mini-stat,.stat,.member-next-card-v14,
+  .master-next-card-v14,.line-event-card-v14,.v14-section-card,.team-card,
+  .application-card,.v143-calendar-main,.v143-calendar-side-card,.availability-kpi,
+  .manual-card-v121,.v145-history-event,.v145-robot-card{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+  }
+
+  h1,h2,h3,h4,p,span,b,strong,small,label{max-width:100%;overflow-wrap:anywhere}
+
+  button,.primary,.action-btn,.ghost-btn,.secondary,.v14-solid,.v14-outline{
+    max-width:100%!important;white-space:normal!important
+  }
+
+  .v14-master-grid,.v14-events-grid,.v143-calendar-layout,.team-grid,.profile-grid,.manual-grid-v121,.ai-controls{
+    grid-template-columns:1fr!important
+  }
+  .v14-master-stats,.v143-calendar-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .availability-kpis{grid-template-columns:1fr!important}
+
+  .v143-calendar-main{overflow:hidden!important}
+  .v143-calendar-grid,.v143-calendar-weekdays{width:100%!important;grid-template-columns:repeat(7,minmax(0,1fr))!important}
+  .v143-day{min-width:0!important;overflow:hidden!important}
+
+  .mobile-dock-wrap-v125{
+    left:10px!important;right:10px!important;width:auto!important;
+    max-width:calc(100vw - 20px)!important
+  }
+  .mobile-nav.mobile-dock-v125{min-width:0!important;max-width:100%!important}
+
+  .modal-bg,.v145-assistant-bg,.mobile-more-sheet-bg-v122{
+    width:100vw!important;max-width:100vw!important;overflow-x:hidden!important
+  }
+  .modal,.v145-assistant,.mobile-more-sheet-v122{
+    width:100%!important;max-width:100%!important;min-width:0!important
+  }
+
+  .v142-auth-page,.v142-auth-visual,.v142-auth-side,.v142-auth-card{
+    width:100%!important;max-width:100%!important;min-width:0!important
+  }
+}
+@media(max-width:390px){
+  .main{padding-left:12px!important;padding-right:12px!important}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11615,7 +11684,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.7 Clean LED + Availability iniciado");
+ console.info("LINE Interligados v14.8 Mobile Viewport Fix iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11623,7 +11692,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.7",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.8",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
