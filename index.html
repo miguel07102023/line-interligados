@@ -7820,6 +7820,166 @@ body{overscroll-behavior-x:none!important}
   }
 }
 
+
+/* ==========================================================
+   LINE v14.10 — iOS SAFE AREA + HORIZONTAL RESET + SMART DOCK
+   ========================================================== */
+
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-x:none!important;
+}
+
+@media(max-width:760px){
+
+  :root{
+    --line-safe-top:env(safe-area-inset-top);
+    --line-safe-right:env(safe-area-inset-right);
+    --line-safe-bottom:env(safe-area-inset-bottom);
+    --line-safe-left:env(safe-area-inset-left);
+  }
+
+  html,body,#app,.shell,.main{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    overflow-x:hidden!important;
+  }
+
+  body{
+    position:relative!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+
+  /* Não usar 100vw no iOS PWA: respeitar visual viewport + safe areas */
+  .main{
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:
+      calc(var(--line-safe-top) + 8px)
+      max(14px,var(--line-safe-right))
+      calc(136px + var(--line-safe-bottom))
+      max(14px,var(--line-safe-left))!important;
+  }
+
+  /* Topbar fica abaixo da barra de status do iPhone */
+  .topbar{
+    width:100%!important;
+    max-width:100%!important;
+    min-height:52px!important;
+    padding:6px 0 8px!important;
+    margin:0 0 4px!important;
+    position:relative!important;
+    top:auto!important;
+  }
+
+  /* O conteúdo nunca começa por baixo da Dynamic Island/status bar */
+  .v145-dashboard-hero,
+  .v14-app-intro,
+  .page-toolbar{
+    margin-top:4px!important;
+  }
+
+  /* Remove qualquer deslocamento horizontal residual */
+  .main>*,
+  .topbar>*,
+  .v145-dashboard-hero>*,
+  .v14-master-stats>*,
+  .v14-master-grid>*{
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  /* Dock normal */
+  .mobile-dock-wrap-v125{
+    left:max(10px,var(--line-safe-left))!important;
+    right:max(10px,var(--line-safe-right))!important;
+    bottom:max(8px,var(--line-safe-bottom))!important;
+    width:auto!important;
+    max-width:none!important;
+    height:62px!important;
+    transition:
+      opacity .18s ease,
+      transform .18s ease,
+      visibility .18s ease!important;
+  }
+
+  .mobile-nav.mobile-dock-v125{
+    height:62px!important;
+    min-height:62px!important;
+  }
+
+  .mobile-plus-v125{
+    width:58px!important;
+    height:58px!important;
+    min-width:58px!important;
+    flex:0 0 58px!important;
+  }
+
+  /* Quando existe ação importante na área inferior, o dock some */
+  body.line-dock-hidden-v1410 .mobile-dock-wrap-v125{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translateY(18px)!important;
+  }
+
+  /* Botões do próximo evento sempre têm respiro */
+  .master-next-card-v14{
+    padding-bottom:18px!important;
+  }
+
+  .master-next-card-v14 .v14-card-actions{
+    position:relative!important;
+    z-index:4!important;
+    margin-top:18px!important;
+    padding-bottom:6px!important;
+  }
+
+  .master-next-card-v14 .v14-card-actions button{
+    min-height:50px!important;
+  }
+
+  /* Evita que qualquer seção seja cortada por dock/floating UI */
+  .v14-master-grid,
+  .v14-events-grid,
+  .v14-section-title,
+  .v14-events-empty{
+    clear:both!important;
+    position:relative!important;
+  }
+
+  /* cards e grids ocupam a viewport visual real */
+  .v145-robot-card,
+  .v14-mini-stat,
+  .master-next-card-v14,
+  .v14-section-card,
+  .line-event-card-v14,
+  .panel{
+    width:100%!important;
+    max-width:100%!important;
+  }
+
+  /* iOS input zoom safety */
+  input,select,textarea{
+    font-size:16px!important;
+  }
+}
+
+/* telas muito estreitas */
+@media(max-width:390px){
+  .main{
+    padding-left:max(12px,var(--line-safe-left))!important;
+    padding-right:max(12px,var(--line-safe-right))!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11824,7 +11984,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.9 Mobile Dock Clearance iniciado");
+ console.info("LINE Interligados v14.10 iOS Safe Area + Smart Dock iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11832,7 +11992,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.9",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.10",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -13415,6 +13575,79 @@ if(typeof v147RenderCore==="function"){
   window.render = async function(...args){
     const result = await v147RenderCore.apply(this,args);
     setTimeout(v147ApplyLightBeam,100);
+    return result;
+  };
+}
+
+
+
+/* ==========================================================
+   LINE v14.10 — MOBILE VIEWPORT + SMART DOCK
+   ========================================================== */
+
+window.v1410ResetHorizontalViewport=function(){
+  try{
+    document.documentElement.scrollLeft=0;
+    document.body.scrollLeft=0;
+    window.scrollTo({left:0,top:window.scrollY,behavior:"auto"});
+  }catch(_){}
+};
+
+window.v1410UpdateDockVisibility=function(){
+  if(window.innerWidth>760){
+    document.body.classList.remove("line-dock-hidden-v1410");
+    return;
+  }
+
+  const dock=document.querySelector(".mobile-dock-wrap-v125");
+  if(!dock)return;
+
+  /* Se menu+, modal ou assistente está aberto, dock já deve desaparecer */
+  if(
+    document.body.classList.contains("v145-more-open") ||
+    document.querySelector(".modal-bg") ||
+    document.getElementById("v145AssistantBg")
+  ){
+    document.body.classList.add("line-dock-hidden-v1410");
+    return;
+  }
+
+  /* Esconde quando os botões principais do próximo evento entram na região do dock */
+  const actions=document.querySelector(".master-next-card-v14 .v14-card-actions");
+  if(actions){
+    const r=actions.getBoundingClientRect();
+    const visualH=window.visualViewport?.height || window.innerHeight;
+    const dockZoneTop=visualH-112;
+    const overlapsDockZone = r.bottom > dockZoneTop && r.top < visualH;
+    document.body.classList.toggle("line-dock-hidden-v1410", overlapsDockZone);
+    return;
+  }
+
+  document.body.classList.remove("line-dock-hidden-v1410");
+};
+
+window.v1410MobileLayoutRefresh=function(){
+  v1410ResetHorizontalViewport();
+  requestAnimationFrame(v1410UpdateDockVisibility);
+};
+
+window.addEventListener("resize",v1410MobileLayoutRefresh,{passive:true});
+window.addEventListener("orientationchange",()=>setTimeout(v1410MobileLayoutRefresh,150),{passive:true});
+window.addEventListener("scroll",v1410UpdateDockVisibility,{passive:true});
+if(window.visualViewport){
+  visualViewport.addEventListener("resize",v1410MobileLayoutRefresh,{passive:true});
+  visualViewport.addEventListener("scroll",v1410UpdateDockVisibility,{passive:true});
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(v1410MobileLayoutRefresh,120);
+  setTimeout(v1410MobileLayoutRefresh,500);
+});
+
+const v1410RenderCore=window.render;
+if(typeof v1410RenderCore==="function"){
+  window.render=async function(...args){
+    const result=await v1410RenderCore.apply(this,args);
+    setTimeout(v1410MobileLayoutRefresh,80);
     return result;
   };
 }
