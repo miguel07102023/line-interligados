@@ -8514,6 +8514,275 @@ html[data-theme="light"] .v1412-auth-theme{
   .sidebar{width:96px!important;min-width:96px!important;}
 }
 
+
+/* ==========================================================
+   LINE v14.15 — DESKTOP FULLSCREEN / WORKSPACE COMPLETO
+   ESCOPO: somente desktop >= 1100px
+   ========================================================== */
+@media (min-width:1100px){
+
+  :root{
+    --v1415-sidebar:92px;
+    --v1415-gap:16px;
+  }
+
+  html,body{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+
+  /* Estrutura ocupa a viewport inteira */
+  .app-shell,
+  .shell{
+    width:100vw!important;
+    max-width:100vw!important;
+    min-height:100vh!important;
+    display:grid!important;
+    grid-template-columns:var(--v1415-sidebar) minmax(0,1fr)!important;
+    gap:0!important;
+  }
+
+  /* Sidebar compacta, mas sem letras quebradas */
+  .sidebar{
+    width:var(--v1415-sidebar)!important;
+    min-width:var(--v1415-sidebar)!important;
+    max-width:var(--v1415-sidebar)!important;
+    height:100dvh!important;
+    padding:18px 10px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+  }
+
+  .sidebar .nav a,
+  .sidebar .nav-item,
+  .sidebar .side-link,
+  .sidebar [data-page]{
+    width:60px!important;
+    min-width:60px!important;
+    max-width:60px!important;
+    height:54px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding:0!important;
+    font-size:0!important; /* elimina letras/textos quebrados */
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:0!important;
+  }
+
+  .sidebar .nav a svg,
+  .sidebar .nav-item svg,
+  .sidebar .side-link svg,
+  .sidebar [data-page] svg{
+    width:22px!important;
+    height:22px!important;
+    margin:0!important;
+    flex:0 0 22px!important;
+  }
+
+  .sidebar .nav a span,
+  .sidebar .nav-item span,
+  .sidebar .side-link span,
+  .sidebar [data-page] span{
+    display:none!important;
+  }
+
+  /* Main agora usa TODA largura restante */
+  .main{
+    width:calc(100vw - var(--v1415-sidebar))!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:18px 22px 36px!important;
+  }
+
+  .main>*:not(.topbar){
+    width:100%!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  .topbar{
+    width:100%!important;
+    max-width:none!important;
+    margin:0 0 var(--v1415-gap)!important;
+  }
+
+  /* Dashboard principal distribuído pela tela */
+  .v145-dashboard-hero{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1.5fr) minmax(360px,.7fr)!important;
+    gap:var(--v1415-gap)!important;
+    align-items:stretch!important;
+    margin-bottom:var(--v1415-gap)!important;
+  }
+
+  .v145-dashboard-greeting,
+  .v145-robot-card{
+    min-height:170px!important;
+    height:100%!important;
+  }
+
+  .v145-dashboard-greeting{
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    padding:10px 8px!important;
+  }
+
+  .v145-dashboard-greeting h1{
+    font-size:clamp(38px,3vw,58px)!important;
+    line-height:1!important;
+  }
+
+  .v145-dashboard-greeting p{
+    font-size:16px!important;
+    margin-top:10px!important;
+  }
+
+  /* KPIs ocupam a faixa completa */
+  .v14-master-stats{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:var(--v1415-gap)!important;
+    margin:0 0 var(--v1415-gap)!important;
+  }
+
+  .v14-mini-stat{
+    min-height:140px!important;
+    width:100%!important;
+    padding:22px!important;
+  }
+
+  .v14-mini-stat small{
+    font-size:13px!important;
+  }
+
+  .v14-mini-stat strong{
+    font-size:34px!important;
+  }
+
+  /* Próximo evento + resumo preenchem a largura */
+  .v14-master-grid{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1.65fr) minmax(360px,.75fr)!important;
+    gap:var(--v1415-gap)!important;
+    align-items:stretch!important;
+    margin-bottom:var(--v1415-gap)!important;
+  }
+
+  .v14-master-grid>div{
+    min-width:0!important;
+    width:100%!important;
+  }
+
+  .master-next-card-v14,
+  .v14-section-card{
+    width:100%!important;
+    height:100%!important;
+    min-height:330px!important;
+    padding:26px!important;
+  }
+
+  .master-next-card-v14 .v14-event-name{
+    font-size:28px!important;
+  }
+
+  .master-next-card-v14 .v14-big-time{
+    font-size:42px!important;
+  }
+
+  .v14-section-card .v14-compact-row{
+    padding:17px 0!important;
+  }
+
+  /* Eventos planejados também ocupam toda largura */
+  .v14-section-title{
+    width:100%!important;
+    font-size:22px!important;
+    margin:24px 0 12px!important;
+  }
+
+  .v14-events-grid{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:var(--v1415-gap)!important;
+  }
+
+  .v14-events-empty{
+    width:100%!important;
+    min-height:160px!important;
+    grid-column:1/-1!important;
+  }
+
+  /* Demais páginas */
+  .v143-calendar-layout{
+    width:100%!important;
+    grid-template-columns:minmax(0,1fr) 340px!important;
+    gap:var(--v1415-gap)!important;
+  }
+
+  .ai-controls{
+    width:100%!important;
+    grid-template-columns:1fr 1fr!important;
+  }
+
+  .team-grid,
+  .profile-grid,
+  .applications-grid,
+  .members-grid{
+    width:100%!important;
+    max-width:none!important;
+  }
+
+  .manual-grid-v121{
+    width:100%!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  /* Painéis não ficam presos a max-width legado */
+  .panel,
+  .card,
+  .v145-robot-card,
+  .master-next-card-v14,
+  .v14-section-card,
+  .line-event-card-v14,
+  .v143-calendar-main,
+  .v143-calendar-side-card,
+  .availability-management-panel,
+  .ai-panel-premium{
+    max-width:none!important;
+  }
+}
+
+/* telas desktop muito largas */
+@media (min-width:1600px){
+  .main{
+    padding-left:28px!important;
+    padding-right:28px!important;
+  }
+
+  .v145-dashboard-hero{
+    grid-template-columns:minmax(0,1.7fr) minmax(420px,.65fr)!important;
+  }
+
+  .v14-master-grid{
+    grid-template-columns:minmax(0,1.8fr) minmax(420px,.65fr)!important;
+  }
+
+  .v14-events-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -12526,7 +12795,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.14 Desktop Modular iniciado");
+ console.info("LINE Interligados v14.15 Desktop Fullscreen iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -12534,7 +12803,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.14",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.15",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
