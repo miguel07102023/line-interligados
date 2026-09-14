@@ -8110,6 +8110,117 @@ html,body{
   }
 }
 
+
+/* ==========================================================
+   LINE v14.12 — AUTH THEME BUTTON FIX
+   ========================================================== */
+
+.v142-auth-page{
+  position:relative!important;
+}
+
+.v1412-auth-theme{
+  position:fixed;
+  top:max(18px,calc(env(safe-area-inset-top) + 10px));
+  right:max(18px,calc(env(safe-area-inset-right) + 12px));
+  z-index:5000;
+  min-width:100px;
+  height:46px;
+  padding:0 14px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  background:color-mix(in srgb,var(--panel) 94%,transparent);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.v1412-auth-theme svg{
+  width:18px!important;
+  height:18px!important;
+}
+.v1412-auth-theme:active{
+  transform:scale(.97);
+}
+
+html[data-theme="light"] .v1412-auth-theme{
+  background:rgba(255,255,255,.90)!important;
+  color:#0b1520!important;
+  border-color:rgba(11,21,32,.09)!important;
+}
+
+@media(max-width:860px){
+  .v1412-auth-theme{
+    top:max(14px,calc(env(safe-area-inset-top) + 8px));
+    right:max(14px,calc(env(safe-area-inset-right) + 10px));
+    min-width:46px;
+    width:46px;
+    padding:0;
+    border-radius:14px;
+  }
+  .v1412-auth-theme span{
+    display:none;
+  }
+
+  /* Dá espaço para o botão não colidir com a marca na entrada */
+  .v142-auth-visual{
+    padding-top:calc(max(24px,env(safe-area-inset-top)) + 48px)!important;
+  }
+}
+
+
+/* ==========================================================
+   LINE v14.13 — HOMEBAR PERSISTENTE NO MOBILE
+   ========================================================== */
+
+@media(max-width:760px){
+
+  /* A homebar fica sempre fixa e visível durante o scroll */
+  .mobile-dock-wrap-v125{
+    position:fixed!important;
+    display:flex!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:none!important;
+    z-index:9000!important;
+  }
+
+  /* Neutraliza a lógica antiga que escondia a barra ao rolar */
+  body.line-dock-hidden-v1410 .mobile-dock-wrap-v125{
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:none!important;
+  }
+
+  /* Só some quando um overlay real estiver aberto */
+  body.v145-more-open .mobile-dock-wrap-v125,
+  body.line-overlay-open-v1413 .mobile-dock-wrap-v125{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translateY(18px)!important;
+  }
+
+  /* Mantém espaço suficiente no conteúdo para não ficar por baixo da homebar */
+  .main{
+    padding-bottom:calc(138px + env(safe-area-inset-bottom))!important;
+  }
+
+  /* Seções finais nunca ficam cobertas pela barra */
+  .main > *:last-child{
+    margin-bottom:24px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -8594,6 +8705,14 @@ document.addEventListener("click",(e)=>{
 
 function authPage(){
   return `<div class="auth-page app-auth-page v142-auth-page">
+    <button type="button"
+      class="v1412-auth-theme"
+      onclick="toggleLineTheme()"
+      aria-label="${getLineTheme()==="dark"?"Ativar modo claro":"Ativar modo escuro"}"
+      title="${getLineTheme()==="dark"?"Modo claro":"Modo escuro"}">
+      ${icon(getLineTheme()==="dark"?"sun":"moon")}
+      <span>${getLineTheme()==="dark"?"Claro":"Escuro"}</span>
+    </button>
     <section class="v142-auth-visual">
       <div class="v142-auth-top">
         <div class="v142-brand-mark">L</div>
@@ -12114,7 +12233,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.11 Header + Sticky Sidebar iniciado");
+ console.info("LINE Interligados v14.13 Homebar Persistent iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -12122,7 +12241,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.11",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.13",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -13813,7 +13932,7 @@ window.v1411SyncDashboardHeader=function(){
     const actions=document.createElement("div");
     actions.className="v1411-mobile-actions";
     actions.innerHTML=`
-      <button type="button" aria-label="Alternar tema" onclick="toggleTheme()">${icon("sun")}</button>
+      <button type="button" aria-label="Alternar tema" onclick="toggleLineTheme()">${icon(getLineTheme()==="dark"?"sun":"moon")}</button>
       <button type="button" aria-label="Notificações" onclick="navigateLine('notificacoes')">${icon("bell")}</button>
     `;
     row.appendChild(actions);
@@ -13830,6 +13949,57 @@ if(typeof v1411RenderCore==="function"){
   window.render=async function(...args){
     const result=await v1411RenderCore.apply(this,args);
     setTimeout(v1411SyncDashboardHeader,60);
+    return result;
+  };
+}
+
+
+
+/* ==========================================================
+   LINE v14.13 — HOMEBAR SEM SUMIR NO SCROLL
+   ========================================================== */
+
+window.v1413KeepDockVisible=function(){
+  if(window.innerWidth>760)return;
+
+  /* Remove qualquer estado antigo de ocultação baseado em scroll */
+  document.body.classList.remove("line-dock-hidden-v1410");
+
+  const dock=document.querySelector(".mobile-dock-wrap-v125");
+  if(!dock)return;
+
+  const overlayOpen =
+    document.body.classList.contains("v145-more-open") ||
+    !!document.querySelector(".modal-bg") ||
+    !!document.getElementById("v145AssistantBg");
+
+  document.body.classList.toggle("line-overlay-open-v1413", overlayOpen);
+};
+
+/* Substitui o comportamento antigo de smart dock */
+window.v1410UpdateDockVisibility=function(){
+  v1413KeepDockVisible();
+};
+
+window.addEventListener("scroll",v1413KeepDockVisible,{passive:true});
+window.addEventListener("resize",v1413KeepDockVisible,{passive:true});
+window.addEventListener("orientationchange",()=>setTimeout(v1413KeepDockVisible,120),{passive:true});
+
+if(window.visualViewport){
+  visualViewport.addEventListener("resize",v1413KeepDockVisible,{passive:true});
+  visualViewport.addEventListener("scroll",v1413KeepDockVisible,{passive:true});
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(v1413KeepDockVisible,100);
+  setTimeout(v1413KeepDockVisible,400);
+});
+
+const v1413RenderCore=window.render;
+if(typeof v1413RenderCore==="function"){
+  window.render=async function(...args){
+    const result=await v1413RenderCore.apply(this,args);
+    setTimeout(v1413KeepDockVisible,80);
     return result;
   };
 }
