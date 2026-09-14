@@ -8221,6 +8221,299 @@ html[data-theme="light"] .v1412-auth-theme{
   }
 }
 
+
+/* ==========================================================
+   LINE v14.14 — DESKTOP MODULAR COMMAND CENTER
+   Referência: workspace modular enviado pelo usuário
+   ESCOPO: SOMENTE DESKTOP >= 1100px
+   ========================================================== */
+@media (min-width:1100px){
+
+  :root{
+    --v1414-gap:14px;
+    --v1414-radius:26px;
+    --v1414-panel:var(--panel);
+    --v1414-line:var(--border);
+  }
+
+  /* Shell */
+  body{
+    overflow-x:hidden!important;
+  }
+  .app-shell{
+    min-height:100vh!important;
+    display:grid!important;
+    grid-template-columns:88px minmax(0,1fr)!important;
+    background:var(--bg)!important;
+  }
+
+  /* Sidebar vira trilho compacto, como na referência */
+  .sidebar{
+    position:sticky!important;
+    top:0!important;
+    left:0!important;
+    width:88px!important;
+    min-width:88px!important;
+    height:100vh!important;
+    padding:18px 10px!important;
+    border-right:1px solid var(--v1414-line)!important;
+    background:color-mix(in srgb,var(--panel) 92%,var(--bg))!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    z-index:120!important;
+  }
+  .sidebar .brand,
+  .sidebar .logo,
+  .sidebar .sidebar-brand{
+    width:54px!important;
+    min-width:54px!important;
+    height:54px!important;
+    margin:0 auto 18px!important;
+    overflow:hidden!important;
+  }
+  .sidebar nav,
+  .sidebar .nav,
+  .sidebar .sidebar-nav{
+    gap:8px!important;
+  }
+  .sidebar button,
+  .sidebar a{
+    min-width:0!important;
+  }
+  .sidebar .nav-item,
+  .sidebar .side-link,
+  .sidebar [data-page]{
+    width:58px!important;
+    min-width:58px!important;
+    height:54px!important;
+    margin:0 auto 8px!important;
+    padding:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border-radius:18px!important;
+    position:relative!important;
+  }
+  .sidebar .nav-item span,
+  .sidebar .side-link span,
+  .sidebar [data-page] span:not(.badge){
+    display:none!important;
+  }
+  .sidebar .nav-item svg,
+  .sidebar .side-link svg,
+  .sidebar [data-page] svg{
+    width:21px!important;
+    height:21px!important;
+    margin:0!important;
+  }
+  .sidebar .nav-item.active,
+  .sidebar .side-link.active,
+  .sidebar [data-page].active{
+    background:color-mix(in srgb,var(--accent) 15%,var(--panel))!important;
+    border:1px solid color-mix(in srgb,var(--accent) 58%,transparent)!important;
+    box-shadow:0 0 26px color-mix(in srgb,var(--accent) 20%,transparent)!important;
+  }
+  .sidebar .user-card,
+  .sidebar .profile-card,
+  .sidebar .sidebar-user{
+    width:58px!important;
+    min-width:58px!important;
+    padding:7px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    border-radius:18px!important;
+  }
+  .sidebar .user-card > *:not(img):not(.avatar),
+  .sidebar .profile-card > *:not(img):not(.avatar),
+  .sidebar .sidebar-user > *:not(img):not(.avatar){
+    display:none!important;
+  }
+
+  /* Área de trabalho */
+  .main{
+    width:auto!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:18px 22px 34px!important;
+  }
+
+  /* Header em módulo próprio */
+  .main-header,
+  .page-header,
+  .topbar{
+    min-height:74px!important;
+    padding:12px 16px!important;
+    margin-bottom:var(--v1414-gap)!important;
+    border:1px solid var(--v1414-line)!important;
+    border-radius:var(--v1414-radius)!important;
+    background:var(--v1414-panel)!important;
+    box-shadow:0 14px 40px rgba(0,0,0,.045)!important;
+  }
+
+  /* Conteúdo principal: painel grande com módulos internos */
+  .page,
+  .page-content,
+  .content{
+    min-width:0!important;
+  }
+
+  /* Cards passam a compartilhar o mesmo acabamento */
+  .card,
+  .panel,
+  .stat-card,
+  .event-card,
+  .calendar-card,
+  .assistant-card,
+  .summary-card,
+  .dashboard-card,
+  .v145-assistant-card{
+    border-radius:var(--v1414-radius)!important;
+    border:1px solid var(--v1414-line)!important;
+    background:var(--v1414-panel)!important;
+    box-shadow:none!important;
+  }
+
+  /* Dashboard: composição assimétrica/modular */
+  #dashboardPage,
+  .dashboard-page,
+  [data-view="dashboard"]{
+    gap:var(--v1414-gap)!important;
+  }
+  .dashboard-grid,
+  .dashboard-layout{
+    display:grid!important;
+    grid-template-columns:minmax(0,1.55fr) minmax(310px,.65fr)!important;
+    gap:var(--v1414-gap)!important;
+    align-items:stretch!important;
+  }
+  .stats-grid{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:var(--v1414-gap)!important;
+  }
+  .stat-card{
+    min-height:132px!important;
+    padding:22px!important;
+  }
+
+  /* Próximo evento como módulo hero */
+  .next-event-card,
+  .next-event,
+  #nextEventCard{
+    min-height:330px!important;
+    padding:26px!important;
+    position:relative!important;
+    overflow:hidden!important;
+  }
+  .next-event-card::after,
+  .next-event::after,
+  #nextEventCard::after{
+    content:"";
+    position:absolute;
+    width:360px;
+    height:360px;
+    right:-120px;
+    top:-145px;
+    border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);
+    border-radius:50%;
+    pointer-events:none;
+  }
+
+  /* Assistente vira módulo lateral */
+  .v145-assistant-card,
+  .assistant-card{
+    min-height:210px!important;
+    padding:24px!important;
+    overflow:hidden!important;
+  }
+
+  /* Resumos laterais e inferiores */
+  .schedule-summary,
+  .summary-card{
+    min-height:250px!important;
+    padding:22px!important;
+  }
+
+  /* Eventos */
+  .events-grid,
+  .event-list{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(260px,1fr))!important;
+    gap:var(--v1414-gap)!important;
+  }
+  .event-card{
+    min-height:230px!important;
+    padding:22px!important;
+  }
+
+  /* Calendário: área grande + coluna lateral */
+  .calendar-layout,
+  .calendar-grid{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 300px!important;
+    gap:var(--v1414-gap)!important;
+    align-items:stretch!important;
+  }
+  .calendar-card{
+    min-height:680px!important;
+    padding:22px!important;
+  }
+
+  /* Escalas / LINE IA */
+  .line-ai-card,
+  .ai-scale-card{
+    border-radius:var(--v1414-radius)!important;
+    padding:22px!important;
+  }
+  .scales-grid,
+  .scale-layout{
+    display:grid!important;
+    grid-template-columns:minmax(0,1.45fr) minmax(300px,.55fr)!important;
+    gap:var(--v1414-gap)!important;
+  }
+
+  /* Membros / equipes / candidaturas */
+  .members-grid,
+  .teams-grid,
+  .applications-grid{
+    gap:var(--v1414-gap)!important;
+  }
+
+  /* Tipografia desktop mais limpa */
+  h1{font-size:clamp(30px,2.15vw,42px)!important;line-height:1.02!important;letter-spacing:-.045em!important;}
+  h2{font-size:clamp(22px,1.55vw,30px)!important;line-height:1.08!important;letter-spacing:-.035em!important;}
+  h3{font-size:18px!important;line-height:1.2!important;}
+  .muted,.subtitle,.page-subtitle{font-size:14px!important;line-height:1.5!important;}
+
+  /* Botões: compactos e integrados */
+  .btn,
+  button.primary,
+  .primary-btn{
+    border-radius:16px!important;
+    min-height:44px!important;
+  }
+
+  /* O mobile dock nunca entra no desktop */
+  .mobile-dock-wrap-v125,
+  .v145-more-sheet,
+  .v145-more-backdrop{
+    display:none!important;
+  }
+
+  /* Evita larguras antigas fixas quebrando o mosaico */
+  .main *{
+    max-width:100%;
+  }
+}
+
+/* Desktop amplo: dá mais respiro sem afetar tablet/mobile */
+@media (min-width:1440px){
+  .main{padding:22px 28px 40px!important;}
+  .app-shell{grid-template-columns:96px minmax(0,1fr)!important;}
+  .sidebar{width:96px!important;min-width:96px!important;}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -12233,7 +12526,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.13 Homebar Persistent iniciado");
+ console.info("LINE Interligados v14.14 Desktop Modular iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -12241,7 +12534,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.13",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.14",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
