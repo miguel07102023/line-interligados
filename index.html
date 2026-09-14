@@ -7980,6 +7980,136 @@ html,body{
   }
 }
 
+
+/* ==========================================================
+   LINE v14.11 — MOBILE HEADER INLINE + STICKY SIDEBAR
+   ========================================================== */
+
+/* Desktop sidebar permanece visível enquanto a página rola */
+@media(min-width:761px){
+  .shell{
+    align-items:start!important;
+  }
+  .sidebar{
+    position:sticky!important;
+    top:0!important;
+    height:100dvh!important;
+    max-height:100dvh!important;
+    overflow-y:auto!important;
+    align-self:start!important;
+    z-index:120!important;
+  }
+  .sidebar::-webkit-scrollbar{width:4px}
+  .sidebar::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.08);
+    border-radius:999px;
+  }
+}
+
+/* Ações móveis criadas dentro da saudação */
+.v1411-greeting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+}
+.v1411-greeting-row h1{
+  margin:0!important;
+  min-width:0;
+}
+.v1411-mobile-actions{
+  display:none;
+}
+.v1411-mobile-actions button{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--text);
+  display:grid;
+  place-items:center;
+  padding:0;
+}
+.v1411-mobile-actions button svg{
+  width:21px!important;
+  height:21px!important;
+}
+
+@media(max-width:760px){
+
+  /* No Dashboard, o topbar antigo deixa de ocupar uma linha isolada */
+  body.line-dashboard-v1411 .topbar{
+    display:none!important;
+  }
+
+  body.line-dashboard-v1411 .v145-dashboard-hero{
+    margin-top:0!important;
+  }
+
+  body.line-dashboard-v1411 .v145-dashboard-greeting{
+    position:relative!important;
+    width:100%!important;
+  }
+
+  .v1411-greeting-row{
+    align-items:center!important;
+    gap:10px!important;
+  }
+
+  .v1411-greeting-row h1{
+    font-size:31px!important;
+    line-height:1.02!important;
+    letter-spacing:-.045em!important;
+    flex:1 1 auto!important;
+    white-space:nowrap!important;
+  }
+
+  .v1411-mobile-actions{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:7px!important;
+    flex:0 0 auto!important;
+  }
+
+  .v1411-mobile-actions button{
+    width:43px!important;
+    height:43px!important;
+    min-width:43px!important;
+    border-radius:14px!important;
+  }
+
+  .v1411-mobile-actions button svg{
+    width:20px!important;
+    height:20px!important;
+  }
+
+  body.line-dashboard-v1411 .v145-dashboard-greeting p{
+    margin-top:8px!important;
+    font-size:13px!important;
+  }
+
+  /* Mantém a saudação abaixo da status bar do iPhone */
+  body.line-dashboard-v1411 .main{
+    padding-top:calc(env(safe-area-inset-top) + 12px)!important;
+  }
+}
+
+/* Telefones estreitos: preserva a mesma linha sem estourar */
+@media(max-width:390px){
+  .v1411-greeting-row h1{
+    font-size:27px!important;
+  }
+  .v1411-mobile-actions button{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+  }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11984,7 +12114,7 @@ window.linePulseActionV136 = function(el){
 })();
 
 addEventListener("DOMContentLoaded",()=>{
- console.info("LINE Interligados v14.10 iOS Safe Area + Smart Dock iniciado");
+ console.info("LINE Interligados v14.11 Header + Sticky Sidebar iniciado");
  checkLocalFileProtocol();
  initializeApp();
 });
@@ -11992,7 +12122,7 @@ addEventListener("DOMContentLoaded",()=>{
 if("serviceWorker" in navigator && location.protocol!=="file:"){
   window.addEventListener("load",async()=>{
     try{
-      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.10",{updateViaCache:"none"});
+      const registration=await navigator.serviceWorker.register("./service-worker.js?v=14.11",{updateViaCache:"none"});
       await registration.update();
 
       // Quando uma nova versão assumir o controle, recarrega uma única vez.
@@ -13648,6 +13778,58 @@ if(typeof v1410RenderCore==="function"){
   window.render=async function(...args){
     const result=await v1410RenderCore.apply(this,args);
     setTimeout(v1410MobileLayoutRefresh,80);
+    return result;
+  };
+}
+
+
+
+/* ==========================================================
+   LINE v14.11 — Dashboard header actions
+   ========================================================== */
+
+window.v1411SyncDashboardHeader=function(){
+  const isDash = route==="dashboard";
+  document.body.classList.toggle("line-dashboard-v1411", isDash);
+
+  document.querySelectorAll(".v1411-mobile-actions").forEach(el=>{
+    if(!isDash) el.remove();
+  });
+
+  if(!isDash) return;
+
+  const greeting=document.querySelector(".v145-dashboard-greeting");
+  const h1=greeting?.querySelector("h1");
+  if(!greeting || !h1) return;
+
+  let row=greeting.querySelector(".v1411-greeting-row");
+  if(!row){
+    row=document.createElement("div");
+    row.className="v1411-greeting-row";
+
+    h1.parentNode.insertBefore(row,h1);
+    row.appendChild(h1);
+
+    const actions=document.createElement("div");
+    actions.className="v1411-mobile-actions";
+    actions.innerHTML=`
+      <button type="button" aria-label="Alternar tema" onclick="toggleTheme()">${icon("sun")}</button>
+      <button type="button" aria-label="Notificações" onclick="navigateLine('notificacoes')">${icon("bell")}</button>
+    `;
+    row.appendChild(actions);
+    refreshIcons();
+  }
+};
+
+document.addEventListener("DOMContentLoaded",()=>{
+  setTimeout(v1411SyncDashboardHeader,120);
+});
+
+const v1411RenderCore=window.render;
+if(typeof v1411RenderCore==="function"){
+  window.render=async function(...args){
+    const result=await v1411RenderCore.apply(this,args);
+    setTimeout(v1411SyncDashboardHeader,60);
     return result;
   };
 }
