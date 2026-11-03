@@ -9045,6 +9045,77 @@ html[data-theme="light"] .status.status-concluded-v1416{
 .line-export-btn-v1418{border:1px solid #2782ef;background:#1161c8;color:#fff;padding:10px 15px;border-radius:12px;font-weight:700;cursor:pointer;font-size:13px}
 .line-export-btn-v1418:hover{background:#2178e9}
 .line-export-btn-v1418:disabled{opacity:.45;cursor:not-allowed}
+
+/* LINE v14.18.2 — Legibilidade desktop e mobile
+   Escopo: tipografia, espaçamento e navegação. Sem mudanças em dados/autenticação. */
+@media (min-width: 1100px) {
+  .availability-person-row {
+    min-height: 72px !important;
+    padding: 14px 18px !important;
+    gap: 22px !important;
+  }
+  .availability-person-main { gap: 15px !important; flex: 1; }
+  .availability-person-main .avatar {
+    width: 44px !important; height: 44px !important;
+    min-width: 44px !important; font-size: 13px !important;
+  }
+  .availability-person-main b {
+    font-size: 15px !important; line-height: 1.35 !important;
+    margin-bottom: 5px !important;
+  }
+  .availability-person-main small {
+    font-size: 12px !important; line-height: 1.45 !important;
+  }
+  .availability-status-pill {
+    font-size: 12px !important; padding: 10px 15px !important;
+    gap: 8px !important; font-weight: 750 !important;
+  }
+  .availability-status-pill svg { width: 16px !important; height: 16px !important; }
+  .availability-kpi small { font-size: 12px !important; }
+  .availability-kpi b { font-size: 25px !important; }
+  .availability-roster-empty { font-size: 14px !important; }
+  .availability-management-panel { padding: 22px !important; }
+  .availability-filter-grid label, .availability-management label {
+    font-size: 13px !important;
+  }
+  .availability-management select, .availability-management input {
+    font-size: 14px !important; min-height: 42px;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .nav a .nav-label-v126 {
+    font-size: 14px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .user-card .sidebar-user-copy-v126 b {
+    font-size: 13px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .user-card .sidebar-user-copy-v126 small {
+    font-size: 11px !important;
+  }
+  .shell .page-title p { font-size: 15px !important; }
+  .shell .panel-title { font-size: 17px !important; }
+}
+@media (min-width: 761px) and (max-width: 1099px) {
+  .availability-person-main b { font-size: 14px !important; }
+  .availability-person-main small { font-size: 11px !important; }
+  .availability-status-pill { font-size: 11px !important; padding: 9px 12px !important; }
+}
+@media (max-width: 760px) {
+  .availability-person-main b {
+    font-size: 12px !important; line-height: 1.3 !important;
+    white-space: normal !important;
+  }
+  .availability-person-main small {
+    font-size: 10px !important; max-width: none !important;
+    white-space: normal !important; line-height: 1.4 !important;
+  }
+  .availability-person-main .avatar {
+    width: 40px !important; height: 40px !important; min-width: 40px !important;
+  }
+  .availability-person-row { gap: 8px !important; }
+  .availability-status-pill { font-size: 10px !important; padding: 8px !important; }
+  .availability-status-pill svg { width: 13px !important; height: 13px !important; }
+  .availability-kpi small { font-size: 10px !important; }
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
