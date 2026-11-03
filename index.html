@@ -9303,6 +9303,54 @@ html[data-theme="light"] .status.status-concluded-v1416{
   .table td .status{font-size:11px !important}
   .table td .member-cell .avatar{width:36px !important;height:36px !important;min-width:36px !important}
 }
+
+/* LINE v14.19 — Sistema visual consolidado de desktop.
+   Regras explícitas anulam o antigo modo ícones de v14.15. */
+@media(min-width:1100px){
+  .shell.line-fixed-desktop{display:grid!important;grid-template-columns:268px minmax(0,1fr)!important;width:100%!important;max-width:100%!important;min-height:100vh!important;gap:0!important;--v1415-sidebar:268px!important;--line-sidebar-current:268px!important}
+  .shell.line-fixed-desktop>.sidebar{position:sticky!important;top:0!important;box-sizing:border-box!important;width:268px!important;min-width:268px!important;max-width:268px!important;height:100vh!important;height:100dvh!important;padding:20px 12px 14px!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important}
+  .shell.line-fixed-desktop .sidebar .brand{display:flex!important;align-items:center!important;justify-content:flex-start!important;height:64px!important;min-height:64px!important;width:100%!important;padding:0 10px!important;margin:0 0 14px!important;overflow:visible!important}
+  .shell.line-fixed-desktop .sidebar .brand .logo-box{display:none!important}
+  .shell.line-fixed-desktop .sidebar .brand .brand-copy-v126{display:flex!important;flex-direction:column!important;gap:4px!important;opacity:1!important;max-width:none!important;min-width:0!important;margin:0!important;overflow:visible!important}
+  .shell.line-fixed-desktop .sidebar .brand .brand-copy-v126 strong{font-size:22px!important;line-height:1.1!important}
+  .shell.line-fixed-desktop .sidebar .brand .brand-copy-v126 small{font-size:12px!important;letter-spacing:.14em!important}
+  .shell.line-fixed-desktop .sidebar-toggle-v126{display:none!important}
+  .shell.line-fixed-desktop .sidebar .nav{display:flex!important;flex-direction:column!important;gap:5px!important;width:100%!important;min-width:0!important;flex:0 0 auto!important;padding:0!important}
+  .shell.line-fixed-desktop .sidebar .nav a{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;min-width:0!important;max-width:100%!important;height:48px!important;min-height:48px!important;margin:0!important;padding:0 14px!important;gap:16px!important;font-size:15px!important;overflow:visible!important;border-radius:12px!important}
+  .shell.line-fixed-desktop .sidebar .nav a svg{width:21px!important;height:21px!important;min-width:21px!important;flex:0 0 21px!important}
+  .shell.line-fixed-desktop .sidebar .nav a span.nav-label-v126{display:inline!important;visibility:visible!important;opacity:1!important;transform:none!important;flex:1 1 auto!important;max-width:none!important;width:auto!important;min-width:0!important;overflow:visible!important;white-space:nowrap!important;font-size:15px!important;font-weight:550!important;line-height:1.4!important}
+  .shell.line-fixed-desktop .sidebar .nav a span.nav-badge{display:inline-flex!important}
+  .shell.line-fixed-desktop .sidebar-bottom{width:100%!important;min-width:0!important;margin-top:auto!important;padding:12px 0 0!important;display:flex!important;flex-direction:column!important;gap:8px!important}
+  .shell.line-fixed-desktop .sidebar .user-card{box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important;min-height:70px!important;height:auto!important;padding:10px 12px!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important}
+  .shell.line-fixed-desktop .sidebar .user-card>.sidebar-user-copy-v126{display:flex!important;flex-direction:column!important;flex:1!important;min-width:0!important;max-width:none!important;opacity:1!important;visibility:visible!important;overflow:hidden!important;gap:3px!important}
+  .shell.line-fixed-desktop .sidebar .user-card>.sidebar-user-copy-v126 b{display:block!important;color:var(--text)!important;font-size:15px!important;font-weight:700!important;line-height:1.3!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .shell.line-fixed-desktop .sidebar .user-card>.sidebar-user-copy-v126 small{display:block!important;font-size:12px!important;line-height:1.3!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .shell.line-fixed-desktop .sidebar .user-card>.sidebar-user-copy-v126 .online{display:none!important}
+  .shell.line-fixed-desktop .sidebar .user-card .avatar{width:42px!important;height:42px!important;min-width:42px!important}
+  .shell.line-fixed-desktop .sidebar .logout{box-sizing:border-box!important;width:100%!important;min-width:0!important;height:46px!important;min-height:46px!important;margin:0!important;padding:0 16px!important;justify-content:flex-start!important;gap:14px!important;font-size:15px!important}
+  .shell.line-fixed-desktop .sidebar .logout .nav-label-v126{display:inline!important;font-size:15px!important;opacity:1!important;max-width:none!important}
+  .shell.line-fixed-desktop>.main{box-sizing:border-box!important;margin:0!important;width:100%!important;max-width:none!important;min-width:0!important;padding:20px clamp(22px,2.5vw,44px) 40px!important}
+  .shell.line-fixed-desktop .topbar{box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;width:100%!important;min-height:70px!important;margin-bottom:24px!important;padding:12px 18px!important;overflow:visible!important}
+  .shell.line-fixed-desktop .topbar>.welcome{display:none!important}
+  .shell.line-fixed-desktop .topbar>.search{display:flex!important;flex:0 1 420px!important;width:min(420px,45%)!important;min-width:220px!important;height:44px!important;margin-right:auto!important}
+  .shell.line-fixed-desktop .topbar>.search input{font-size:15px!important}
+  .shell.line-fixed-desktop .topbar>.top-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:12px!important;margin-left:auto!important;flex:0 0 auto!important}
+  .shell.line-fixed-desktop .topbar .top-user{display:none!important}
+  .shell.line-fixed-desktop .topbar .theme-switch{display:block!important}
+  .shell.line-fixed-desktop .topbar .icon-btn{width:44px!important;height:44px!important}
+  .shell.line-fixed-desktop .table th{font-size:12px!important;padding:16px!important}
+  .shell.line-fixed-desktop .table td{font-size:15px!important;padding:15px 16px!important}
+  .shell.line-fixed-desktop .table .member-cell b{font-size:16px!important;line-height:1.45!important;font-weight:650!important}
+  .shell.line-fixed-desktop .table .member-cell .avatar{width:42px!important;height:42px!important;min-width:42px!important}
+  .shell.line-fixed-desktop .table td .status{font-size:12px!important}
+  .shell.line-fixed-desktop .kanban-col-head,.shell.line-fixed-desktop .kanban-col-head-v12{font-size:14px!important}
+  .shell.line-fixed-desktop .task-card,.shell.line-fixed-desktop .task-card-v12{font-size:14px!important}
+  .shell.line-fixed-desktop .board-empty-v12,.shell.line-fixed-desktop .task-add-v12{font-size:13px!important}
+  .shell.line-fixed-desktop .action-btn,.shell.line-fixed-desktop .primary,.shell.line-fixed-desktop .secondary{font-size:14px!important}
+}
+@media(min-width:761px) and (max-width:1099px){
+  .shell.line-fixed-desktop .sidebar .nav a span.nav-label-v126{display:inline!important}
+}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -10342,22 +10390,22 @@ window.toggleDesktopSidebarV126=function(){
 };
 
 function shell(content){
- const u=currentUser;return `<div class="shell ${getSidebarCollapsedV126()?"sidebar-collapsed-v126":""}">
+ const u=currentUser;return `<div class="shell line-fixed-desktop">
  <aside class="sidebar">
   <div class="brand">
     <div class="logo-box generic-line-logo" aria-label="LINE"><span>L</span></div>
     <div class="brand-copy-v126"><strong>LINE</strong><small>Interligados</small></div>
-    <button class="sidebar-toggle-v126" onclick="toggleDesktopSidebarV126()" aria-label="Recolher ou expandir menu" title="Recolher/expandir menu">${icon("menu")}</button>
+    
   </div>
   <nav class="nav">${nav.filter(([r])=>isMaster() || !["membros","equipes","candidaturas","indicadores"].includes(r)).map(([r,i,l])=>`<a href="#${r}" onclick="event.preventDefault();navigateLine('${r}')" class="${route===r?"active":""}" title="${l}">${icon(i)}<span class="nav-label-v126">${l}</span>${r==="notificacoes" && unreadCount()>0?`<span class="nav-badge">${unreadCount()}</span>`:""}</a>`).join("")}</nav>
   <div class="sidebar-bottom"><div class="user-card clickable" onclick="openRealProfileModal()" title="${u.name}">${avatarHTML(u)}<div class="sidebar-user-copy-v126"><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":"Membro • "+u.area}</small><div class="online">Online</div></div></div><button class="logout" onclick="logout()" title="Sair">${icon("log-out")}<span class="nav-label-v126">Sair</span></button></div>
  </aside>
- <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="top-actions"><div class="theme-switch">
+ <main class="main"><div class="topbar"><div class="welcome"><h1>${routeTitle()}</h1><p>${routeSubtitle()}</p></div><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><div class="top-actions"><div class="theme-switch">
   <button class="theme-pill" onclick="toggleLineTheme()" aria-label="${getLineTheme()==="dark"?"Ativar modo claro":"Ativar modo escuro"}" title="${getLineTheme()==="dark"?"Modo claro":"Modo escuro"}">
     <span class="theme-pill-icon">${icon(getLineTheme()==="dark"?"sun":"moon")}</span>
     <span class="theme-pill-label">${getLineTheme()==="dark"?"Claro":"Escuro"}</span>
   </button>
-</div><div class="search"><input id="globalSearch" placeholder="Buscar..." autocomplete="off" oninput="globalSearch(this.value)" onfocus="globalSearch(this.value)">${icon("search")}</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
+</div><button class="icon-btn" onclick="toggleNotifications(event)" aria-label="Notificações" style="position:relative">${icon("bell")}<span class="nav-badge" style="position:absolute;right:-5px;top:-5px;${unreadCount()?"":"display:none"}">${unreadCount()}</span></button><div class="top-user clickable" onclick="openRealProfileModal()">${avatarHTML(u)}<div><b>${u.name}</b><small>${u.name==="Michel Macedo"?"Líder Geral":u.role==="master"?"Master Admin":u.area}</small></div></div></div></div>${content}</main>${mobileNav()}</div>`
 }
 function titles(){return{dashboard:`Olá, ${currentUser.name.split(" ")[0]}! 👋`,eventos:"Eventos",calendario:"Calendário",escalas:"Escalas",membros:"Membros",equipes:"Equipes",indicadores:"Indicadores",notificacoes:"Notificações",configuracoes:"Configurações"}}
 function subtitles(){return{dashboard:"Sua visão geral da equipe Line.",eventos:"Organize todas as programações da equipe.",calendario:"Veja datas, eventos e escalas em um calendário real.",escalas:"Acompanhe responsáveis e confirmações.",membros:"Gerencie integrantes, áreas e permissões.",equipes:"Organize os membros por área.",indicadores:"Acompanhe participação e desempenho.",notificacoes:"Veja avisos e confirmações pendentes.",configuracoes:"Ajuste sua conta e preferências."}}
