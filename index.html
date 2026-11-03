@@ -9481,6 +9481,37 @@ html[data-theme="light"] .line-glass-day.has-events{background:rgba(255,255,255,
 html[data-theme="light"] .line-glass-actions button,html[data-theme="light"] .line-glass-month-event{color:#152a42;background:rgba(255,255,255,.62);border-color:#b7cfe8}
 html[data-theme="light"] .line-glass-weekdays span,html[data-theme="light"] .line-glass-eyebrow,html[data-theme="light"] .line-glass-footer span,html[data-theme="light"] .line-glass-month-event span,html[data-theme="light"] .line-glass-month-event small,html[data-theme="light"] .line-glass-event span{color:#45617e}
 
+
+/* LINE v14.19.4 — feixe que acompanha o perímetro real do botão */
+.v147-light-beam::after{content:none!important;display:none!important;animation:none!important}
+@keyframes linePerimeterTrace {from{stroke-dashoffset:0}to{stroke-dashoffset:-100}}
+.line-perimeter-btn{position:relative!important;isolation:isolate!important}
+.line-perimeter-svg{
+ position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+ pointer-events:none;z-index:4;opacity:0;transition:opacity .18s ease;
+}
+.line-perimeter-btn:hover .line-perimeter-svg,
+.line-perimeter-btn:focus-visible .line-perimeter-svg{opacity:1}
+.line-perimeter-svg .line-perimeter-track{fill:none;stroke:rgba(110,194,255,.22);stroke-width:1.2}
+.line-perimeter-svg .line-perimeter-glow{
+ fill:none;stroke:#37a8ff;stroke-width:5;stroke-linecap:round;
+ stroke-dasharray:13 87;filter:drop-shadow(0 0 4px #238fff);
+ animation:linePerimeterTrace 3s linear infinite;animation-play-state:paused;
+}
+.line-perimeter-svg .line-perimeter-core{
+ fill:none;stroke:#e5f8ff;stroke-width:2;stroke-linecap:round;
+ stroke-dasharray:13 87;
+ animation:linePerimeterTrace 3s linear infinite;animation-play-state:paused;
+}
+.line-perimeter-btn:hover .line-perimeter-glow,
+.line-perimeter-btn:hover .line-perimeter-core,
+.line-perimeter-btn:focus-visible .line-perimeter-glow,
+.line-perimeter-btn:focus-visible .line-perimeter-core{animation-play-state:running}
+@media (prefers-reduced-motion:reduce){
+ .line-perimeter-svg .line-perimeter-glow,.line-perimeter-svg .line-perimeter-core{animation:none!important}
+ .line-perimeter-svg{transition:none!important}
+}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -15548,6 +15579,40 @@ window.exportLineSchedulePNG1418=async function(eventId){
    if(pages>1)alert(`Escala exportada em ${pages} imagens de 1080 × 1350. Seu navegador pode solicitar autorização para múltiplos downloads.`);
  }catch(err){console.error('Exportação LINE:',err);alert('Não foi possível gerar a imagem. Tente novamente.')}
 };
+</script>
+<script>
+/* LINE v14.19.4: SVG usa dimensões reais do botão, sem deformar os cantos. */
+(function(){
+  const SELECTOR='button.v14-solid,button.primary';
+  function enhance(button){
+    if(!button || button.querySelector('.line-perimeter-svg'))return;
+    // O efeito é reservado à ação principal "Abrir escalas".
+    if(!/abrir escalas/i.test(button.textContent||''))return;
+    const w=Math.max(20,Math.round(button.getBoundingClientRect().width));
+    const h=Math.max(20,Math.round(button.getBoundingClientRect().height));
+    const r=Math.min(12,Math.floor((h-4)/2));
+    const ns='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(ns,'svg');
+    svg.setAttribute('class','line-perimeter-svg');
+    svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svg.setAttribute('preserveAspectRatio','none');
+    svg.setAttribute('aria-hidden','true');
+    for(const klass of ['line-perimeter-track','line-perimeter-glow','line-perimeter-core']){
+      const rect=document.createElementNS(ns,'rect');
+      rect.setAttribute('class',klass);
+      rect.setAttribute('x','3');rect.setAttribute('y','3');
+      rect.setAttribute('width',String(w-6));rect.setAttribute('height',String(h-6));
+      rect.setAttribute('rx',String(r));rect.setAttribute('ry',String(r));
+      rect.setAttribute('pathLength','100');
+      svg.appendChild(rect);
+    }
+    button.classList.add('line-perimeter-btn');
+    button.appendChild(svg);
+  }
+  function handle(e){const btn=e.target.closest?.(SELECTOR);if(btn)enhance(btn)}
+  document.addEventListener('pointerover',handle,true);
+  document.addEventListener('focusin',handle,true);
+})();
 </script>
 </body>
 </html>
