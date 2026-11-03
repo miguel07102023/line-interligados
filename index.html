@@ -9351,6 +9351,34 @@ html[data-theme="light"] .status.status-concluded-v1416{
 @media(min-width:761px) and (max-width:1099px){
   .shell.line-fixed-desktop .sidebar .nav a span.nav-label-v126{display:inline!important}
 }
+
+/* LINE v14.19.1 — sidebar presa à viewport, sem terminar junto ao conteúdo */
+@media (min-width:1100px) {
+  .shell.line-fixed-desktop {
+    grid-template-columns:268px minmax(0,1fr)!important;
+    align-items:start!important;
+  }
+  .shell.line-fixed-desktop > .sidebar {
+    position:fixed!important;
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    right:auto!important;
+    height:100vh!important;
+    height:100dvh!important;
+    min-height:0!important;
+    max-height:100dvh!important;
+    width:268px!important;
+    min-width:268px!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain;
+    z-index:30!important;
+  }
+  .shell.line-fixed-desktop > .main {
+    grid-column:2!important;
+    min-width:0!important;
+  }
+}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
