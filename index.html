@@ -9202,6 +9202,107 @@ html[data-theme="light"] .status.status-concluded-v1416{
   .task-mini-meta{font-size:10px!important}
 }
 
+
+/* LINE v14.18.4 — Correção efetiva das duas áreas observadas */
+@media (min-width:1100px) {
+  /* Sincroniza a largura real do menu com a coluna do layout. */
+  .shell:not(.sidebar-collapsed-v126) {
+    --line-sidebar-current: 292px !important;
+    grid-template-columns:292px minmax(0,1fr) !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) > .sidebar {
+    box-sizing:border-box !important;
+    width:292px !important;
+    min-width:292px !important;
+    max-width:292px !important;
+    padding:16px 12px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .nav a {
+    box-sizing:border-box !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    padding:0 16px !important;
+    overflow:visible !important;
+    gap:15px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .nav a .nav-label-v126 {
+    display:inline-block !important;
+    flex:1 1 auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    transform:none !important;
+    overflow:visible !important;
+    white-space:nowrap !important;
+    text-overflow:clip !important;
+    font-size:15px !important;
+    line-height:1.4 !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .nav a svg {
+    flex:0 0 22px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .brand {
+    gap:10px !important;
+  }
+  .shell:not(.sidebar-collapsed-v126) .sidebar .brand .brand-copy-v126 {
+    min-width:0 !important;
+    margin-left:0 !important;
+  }
+  /* A tabela de membros estava herdando 10px do CSS original. */
+  .table {
+    font-size:14px !important;
+  }
+  .table th {
+    font-size:12px !important;
+    padding:16px 14px !important;
+    letter-spacing:.025em !important;
+  }
+  .table td {
+    font-size:14px !important;
+    line-height:1.5 !important;
+    padding:15px 14px !important;
+    vertical-align:middle !important;
+  }
+  .table td .member-cell {
+    gap:13px !important;
+    min-height:42px !important;
+  }
+  .table td .member-cell b {
+    font-size:15px !important;
+    font-weight:700 !important;
+    line-height:1.45 !important;
+    white-space:normal !important;
+  }
+  .table td .member-cell .avatar {
+    width:42px !important;
+    height:42px !important;
+    min-width:42px !important;
+    font-size:13px !important;
+  }
+  .table td .status {
+    font-size:12px !important;
+    padding:7px 11px !important;
+    font-weight:700 !important;
+  }
+  .table-wrap {overflow-x:auto !important}
+  .table {min-width:1080px !important}
+}
+@media (min-width:761px) and (max-width:1099px){
+  .table th{font-size:11px !important}
+  .table td{font-size:13px !important}
+  .table td .member-cell b{font-size:14px !important}
+  .table td .status{font-size:11px !important}
+}
+@media (max-width:760px){
+  .table th{font-size:11px !important}
+  .table td{font-size:12px !important}
+  .table td .member-cell b{font-size:13px !important}
+  .table td .status{font-size:11px !important}
+  .table td .member-cell .avatar{width:36px !important;height:36px !important;min-width:36px !important}
+}
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -10223,9 +10324,9 @@ window.getSidebarCollapsedV126=function(){
   // v14.18.3: migração única — abre o menu para todos após a atualização.
   // Depois disso, respeita a escolha manual de cada pessoa.
   try {
-    if(localStorage.getItem("line_sidebar_readable_v14183")!=="1"){
+    if(localStorage.getItem("line_sidebar_readable_v14184")!=="1"){
       localStorage.setItem("line_sidebar_collapsed","0");
-      localStorage.setItem("line_sidebar_readable_v14183","1");
+      localStorage.setItem("line_sidebar_readable_v14184","1");
     }
     return localStorage.getItem("line_sidebar_collapsed")==="1";
   } catch(error) {
