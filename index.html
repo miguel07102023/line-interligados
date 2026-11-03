@@ -8448,8 +8448,7 @@ html[data-theme="light"] .v1412-auth-theme{
   }
 
   /* Calendário: área grande + coluna lateral */
-  .calendar-layout,
-  .calendar-grid{
+  .calendar-layout{
     display:grid!important;
     grid-template-columns:minmax(0,1fr) 300px!important;
     gap:var(--v1414-gap)!important;
@@ -9379,6 +9378,109 @@ html[data-theme="light"] .status.status-concluded-v1416{
     min-width:0!important;
   }
 }
+
+/* LINE v14.19.2 — calendário sete colunas e tipografia consistente */
+:root { --line-body-font: 15px; --line-secondary-font: 14px; }
+@media (min-width:761px) {
+  .calendar-shell { display:grid!important; grid-template-columns:minmax(0,1fr) 280px!important; align-items:start!important; gap:18px!important; }
+  .calendar-panel { min-width:0!important; padding:20px!important; }
+  .calendar-grid, .weekdays { display:grid!important; grid-template-columns:repeat(7,minmax(0,1fr))!important; gap:0!important; }
+  .calendar-grid { width:100%!important; align-items:stretch!important; }
+  .calendar-grid > .day { box-sizing:border-box!important; min-width:0!important; min-height:110px!important; padding:10px!important; }
+  .calendar-header h3 { font-size:20px!important; }
+  .calendar-header .cal-nav button { font-size:14px!important; min-width:42px!important; height:42px!important; }
+  .weekdays > div { font-size:13px!important; padding:12px 4px!important; }
+  .day-num { font-size:14px!important; width:30px!important; height:30px!important; }
+  .cal-event { font-size:12px!important; line-height:1.4!important; padding:7px!important; white-space:normal!important; overflow-wrap:anywhere!important; }
+  .calendar-side .panel-title { font-size:17px!important; }
+  .side-event b { font-size:14px!important; }
+  .side-event p { font-size:13px!important; line-height:1.5!important; }
+}
+@media (min-width:761px) and (max-width:1250px) {
+  .calendar-shell { grid-template-columns:minmax(0,1fr)!important; }
+  .calendar-side { width:100%!important; }
+}
+@media (max-width:760px) {
+  .calendar-shell { display:block!important; }
+  .calendar-panel { padding:12px!important; overflow-x:auto!important; }
+  .calendar-grid,.weekdays { display:grid!important; grid-template-columns:repeat(7,minmax(0,1fr))!important; min-width:490px!important; }
+  .calendar-grid > .day { min-height:82px!important; padding:5px!important; min-width:0!important; }
+  .calendar-header h3 { font-size:17px!important; }
+  .weekdays > div { font-size:12px!important; }
+  .day-num { font-size:12px!important; }
+  .cal-event { font-size:11px!important; white-space:normal!important; overflow-wrap:anywhere!important; }
+  .calendar-side { margin-top:14px!important; }
+}
+/* Escala tipográfica: texto comum 15px; secundário 14px; títulos maiores. */
+@media (min-width:761px) {
+  .stat label,.stat small,.legend-row,.donut-copy small { font-size:14px!important; line-height:1.45!important; }
+  .stat strong { font-size:28px!important; line-height:1.2!important; }
+  .panel-title { font-size:18px!important; line-height:1.35!important; }
+  .page-title h2 { font-size:30px!important; }
+  .page-title p { font-size:15px!important; line-height:1.5!important; }
+  .stats .stat { min-height:130px!important; padding:20px!important; }
+  .legend { gap:12px!important; }
+  .legend-row { gap:12px!important; }
+  .calendar-panel,.calendar-side,.panel { box-sizing:border-box!important; }
+  .team-board-title p,.board-empty-v12,.task-add-v12 { font-size:14px!important; }
+  .kanban-col-head-v12 { font-size:15px!important; }
+  .board-view-tabs button,.board-filter-row button { font-size:14px!important; }
+  .table th { font-size:13px!important; }
+  .table td,.table td .member-cell b { font-size:15px!important; }
+  .table td .status { font-size:13px!important; }
+  .availability-person-main b { font-size:15px!important; }
+  .availability-person-main small,.availability-status-pill { font-size:14px!important; }
+}
+@media (max-width:760px) {
+  .stat label,.stat small,.legend-row { font-size:12px!important; }
+  .panel-title { font-size:16px!important; }
+  .page-title p { font-size:14px!important; }
+}
+
+/* LINE v14.19.3 — Calendário de cartões com efeito de vidro */
+.line-glass-calendar{--glass-border:rgba(183,214,255,.18);padding:24px;border:1px solid var(--glass-border);border-radius:28px;background:radial-gradient(ellipse at 12% 0%,rgba(54,130,255,.16),transparent 44%),linear-gradient(145deg,#0d1b2e,#071321 72%);box-shadow:0 20px 55px rgba(0,0,0,.16);color:#eef5ff}
+.line-glass-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+.line-glass-eyebrow{font-size:14px;color:#9fc3ee;font-weight:600}
+.line-glass-header h3{font-size:32px;line-height:1.15;margin-top:4px;text-transform:capitalize;color:#fff}
+.line-glass-actions{display:flex;gap:8px;align-items:center}
+.line-glass-actions button{display:grid;place-items:center;min-width:44px;height:44px;padding:0 12px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.17);border-radius:13px;color:#fff;font-size:14px;cursor:pointer}
+.line-glass-actions button:hover{background:rgba(255,255,255,.16)}
+.line-glass-scroll{overflow-x:auto;max-width:100%}
+.line-glass-weekdays,.line-glass-grid{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:12px!important}
+.line-glass-weekdays{margin-bottom:12px}
+.line-glass-weekdays span{text-align:center;font-size:13px;font-weight:700;letter-spacing:.04em;color:#aac1db;padding:6px}
+.line-glass-day{min-width:0;min-height:150px;display:flex;flex-direction:column;gap:10px;padding:16px 12px;border-radius:21px;border:1px solid rgba(255,255,255,.17);background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045));backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transition:background .2s,border-color .2s}
+.line-glass-day:hover{background:rgba(255,255,255,.17);border-color:rgba(180,219,255,.4)}
+.line-glass-day.is-outside{opacity:.37}
+.line-glass-day.is-today{border-color:#66b6ff;box-shadow:inset 0 0 0 1px #66b6ff,0 0 0 1px rgba(102,182,255,.1)}
+.line-glass-day.has-events{background:linear-gradient(145deg,rgba(207,229,255,.23),rgba(102,157,225,.09))}
+.line-glass-day.mint.has-events{background:linear-gradient(145deg,rgba(115,242,201,.18),rgba(255,255,255,.06))}
+.line-glass-day.violet.has-events{background:linear-gradient(145deg,rgba(193,161,255,.21),rgba(255,255,255,.06))}
+.line-glass-day.coral.has-events{background:linear-gradient(145deg,rgba(255,175,154,.19),rgba(255,255,255,.06))}
+.line-glass-date{font-size:31px;font-weight:650;line-height:1.1;color:#eef5ff;font-variant-numeric:tabular-nums}
+.line-glass-day.has-events .line-glass-date{color:#b9dfff}
+.line-glass-day.mint .line-glass-date{color:#86edca}
+.line-glass-day.violet .line-glass-date{color:#d3b5ff}
+.line-glass-day.coral .line-glass-date{color:#ffb3a3}
+.line-glass-events{display:flex;flex-direction:column;gap:6px}
+.line-glass-event{border:0;background:transparent;color:#f0f7ff;text-align:left;padding:0;font-size:13px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;cursor:pointer}
+.line-glass-event span{font-size:11px;color:#b7cde6;display:block;font-weight:500}
+.line-glass-event:hover{text-decoration:underline}
+.line-glass-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.15);font-size:15px}
+.line-glass-footer span{font-size:13px;color:#aec5df}
+.line-glass-month-events{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.line-glass-month-event{display:flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid rgba(255,255,255,.17);border-radius:12px;background:rgba(255,255,255,.07);color:#fff;font-size:13px;text-align:left;cursor:pointer}
+.line-glass-month-event span,.line-glass-month-event small{color:#aec5df;font-size:12px}
+.line-glass-month-event:hover{background:rgba(255,255,255,.15)}
+@media(max-width:1250px){.line-glass-weekdays,.line-glass-grid{gap:8px!important}.line-glass-day{min-height:128px;padding:12px 9px;border-radius:16px}.line-glass-date{font-size:26px}}
+@media(max-width:760px){.line-glass-calendar{padding:14px;border-radius:18px}.line-glass-header h3{font-size:24px}.line-glass-header{align-items:flex-start}.line-glass-actions button{min-width:36px;height:38px;padding:0 8px}.line-glass-weekdays,.line-glass-grid{min-width:665px;gap:7px!important}.line-glass-day{min-height:115px;padding:9px 7px}.line-glass-date{font-size:23px}.line-glass-event{font-size:12px}.line-glass-footer{font-size:14px}}
+html[data-theme="light"] .line-glass-calendar{background:linear-gradient(145deg,#eaf3ff,#d7e7fa);color:#14283f;border-color:#b7cfe8}
+html[data-theme="light"] .line-glass-header h3,html[data-theme="light"] .line-glass-date,html[data-theme="light"] .line-glass-event,html[data-theme="light"] .line-glass-footer,html[data-theme="light"] .line-glass-month-event{color:#152a42}
+html[data-theme="light"] .line-glass-day{background:rgba(255,255,255,.56);border-color:rgba(50,92,144,.22)}
+html[data-theme="light"] .line-glass-day.has-events{background:rgba(255,255,255,.84)}
+html[data-theme="light"] .line-glass-actions button,html[data-theme="light"] .line-glass-month-event{color:#152a42;background:rgba(255,255,255,.62);border-color:#b7cfe8}
+html[data-theme="light"] .line-glass-weekdays span,html[data-theme="light"] .line-glass-eyebrow,html[data-theme="light"] .line-glass-footer span,html[data-theme="light"] .line-glass-month-event span,html[data-theme="light"] .line-glass-month-event small,html[data-theme="light"] .line-glass-event span{color:#45617e}
+
 </style>
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -11677,24 +11779,34 @@ window.deleteEvent = async function(id){
 };
 
 window.calendarPage = async function(){
-  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7,prevLast=new Date(y,m,0).getDate();
-  let cells=[];
-  for(let i=0;i<42;i++){
-    let day,cm=m,cy=y,muted=false;
-    if(i<start){day=prevLast-start+i+1;cm=m-1;muted=true}
-    else if(i>=start+last.getDate()){day=i-(start+last.getDate())+1;cm=m+1;muted=true}
-    else day=i-start+1;
-    const d=new Date(cy,cm,day),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-    const evs=V8.events.filter(e=>e.event_date===iso);
-    cells.push(`<div class="day ${muted?"muted":""} ${d.toDateString()===new Date().toDateString()?"line-today-v121":""}"><div class="day-num">${day}</div>${evs.map(e=>`<div class="cal-event ${e.status==="open_schedule"?"yellow":e.status==="confirmed"?"blue":"purple"} clickable" data-event-open="${e.id}">${e.start_time?.slice(0,5)||""} ${e.name}</div>`).join("")}</div>`)
-  }
+  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
+  const first=new Date(y,m,1),last=new Date(y,m+1,0);
+  const offset=(first.getDay()+6)%7;
+  const count=Math.ceil((offset+last.getDate())/7)*7;
+  const today=new Date();
+  const events=V8.events||[];
+  const escapeText=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch]);
   const month=calendarCursor.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
-  const thisMonth=V8.events.filter(e=>{const d=new Date(e.event_date+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y});
-  return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Eventos reais do Supabase nas datas corretas.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
-  <section class="calendar-shell"><article class="panel calendar-panel"><div class="calendar-header"><h3 style="text-transform:capitalize">${month}</h3><div class="cal-nav"><button onclick="moveMonth(-1)">${icon("chevron-left")}</button><button onclick="goToday()">Hoje</button><button onclick="moveMonth(1)">${icon("chevron-right")}</button></div></div><div class="weekdays">${["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(x=>`<div>${x}</div>`).join("")}</div><div class="calendar-grid">${cells.join("")}</div></article>
-  <aside class="panel calendar-side"><div class="panel-head"><div class="panel-title">${icon("calendar-days")}Eventos do mês</div></div>${thisMonth.length?thisMonth.map(e=>`<div class="side-event clickable" data-event-open="${e.id}"><b>${e.name}</b><p>${formatEventDate(e.event_date)} • ${e.start_time?.slice(0,5)||""}</p><p>${e.location||"—"}</p></div>`).join(""):`<p style="font-size:10px;color:var(--muted)">Nenhum evento neste mês.</p>`}</aside></section>`;
-}
-
+  const thisMonth=events.filter(e=>String(e.event_date||"").startsWith(`${y}-${String(m+1).padStart(2,"0")}-`));
+  const cells=[];
+  for(let i=0;i<count;i++){
+    const d=new Date(y,m,1-offset+i);
+    const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const muted=d.getMonth()!==m;
+    const isToday=d.toDateString()===today.toDateString();
+    const dayEvents=events.filter(e=>e.event_date===iso);
+    const tone=dayEvents.length?(["blue","mint","violet","coral"][dayEvents[0].id%4]||"blue"):"";
+    const eventMarkup=dayEvents.map(e=>`<button type="button" class="line-glass-event" data-event-open="${Number(e.id)}" title="${escapeText(e.name)}"><span>${escapeText(e.start_time?.slice(0,5)||"")}</span>${escapeText(e.name)}</button>`).join("");
+    cells.push(`<div class="line-glass-day ${muted?"is-outside":""} ${isToday?"is-today":""} ${dayEvents.length?"has-events":""} ${tone}" aria-label="${escapeText(iso)}"><span class="line-glass-date">${d.getDate()}</span><div class="line-glass-events">${eventMarkup}</div></div>`);
+  }
+  return `<div class="page-toolbar"><div class="page-title"><h2>Agenda da equipe</h2><p>Programações e escalas organizadas por data.</p></div>${isMaster()?`<button class="primary" onclick="openEventModal()">+ Criar evento</button>`:""}</div>
+  <section class="line-glass-calendar" aria-label="Agenda mensal da equipe">
+    <div class="line-glass-header"><div><span class="line-glass-eyebrow">Agenda LINE</span><h3>${escapeText(month)}</h3></div><div class="line-glass-actions"><button type="button" onclick="moveMonth(-1)" aria-label="Mês anterior">${icon("chevron-left")}</button><button type="button" onclick="goToday()">Hoje</button><button type="button" onclick="moveMonth(1)" aria-label="Próximo mês">${icon("chevron-right")}</button></div></div>
+    <div class="line-glass-scroll"><div class="line-glass-weekdays">${["SEG","TER","QUA","QUI","SEX","SÁB","DOM"].map(x=>`<span>${x}</span>`).join("")}</div><div class="line-glass-grid">${cells.join("")}</div></div>
+    <div class="line-glass-footer"><strong>Eventos do mês</strong><span>${thisMonth.length} ${thisMonth.length===1?"programação":"programações"}</span></div>
+    ${thisMonth.length?`<div class="line-glass-month-events">${thisMonth.sort((a,b)=>String(a.event_date).localeCompare(String(b.event_date))).map(e=>`<button type="button" class="line-glass-month-event" data-event-open="${Number(e.id)}"><span>${escapeText(formatEventDate(e.event_date))}</span><strong>${escapeText(e.name)}</strong><small>${escapeText(e.start_time?.slice(0,5)||"--:--")}</small></button>`).join("")}</div>`:""}
+  </section>`;
+};
 
 window.availabilityStatusMeta=function(status){
   if(status==="available")return {label:"Disponível",icon:"circle-check",className:"available"};
