@@ -11727,6 +11727,52 @@ window.openEventModal = function(eventId=null){
     <div class="field full"><label>Status</label><select id="eStatus">${[["planning","Planejamento"],["open_schedule","Escala aberta"],["confirmed","Confirmado"],["finished","Finalizado"],["cancelled","Cancelado"]].map(([v,l])=>`<option value="${v}" ${e?.status===v?"selected":""}>${l}</option>`).join("")}</select></div>
   </div><div class="modal-actions"><button class="secondary" onclick="closeModal()">Cancelar</button><button class="primary" onclick="saveEvent(${eventId||"null"})">${e?"Salvar":"Criar evento"}</button></div></div></div>`);
 }
+
+/* LINE v14.20 — Push de etapas da escala.
+   Requer Edge Function send-line-push com verificação de permissão Master no servidor.
+   Tags estáveis permitem deduplicação no serviço de envio. */
+window.linePushBatchV1420=async function(event,kind,userIds,title,message){
+  if(!isMaster()||!event?.id)return {ok:false,error:"Permissão insuficiente"};
+  const ids=[...new Set((userIds||[]).filter(Boolean))];
+  if(!ids.length)return {ok:true,skipped:true};
+  const {data,error}=await supabaseClient.functions.invoke("send-line-push",{
+    body:{
+      user_ids:ids,title,body_template:message,role_by_user:{},
+      url:"/#escalas",event_id:event.id,
+      tag:`line-${kind}-${event.id}`
+    }
+  });
+  if(error){console.warn("LINE Push "+kind,error);return {ok:false,error:error.message}}
+  return {ok:true,data};
+};
+window.lineActiveMembersV1420=async function(){
+  const {data,error}=await supabaseClient.from("profiles").select("id").eq("active",true);
+  if(error)throw error;
+  return (data||[]).map(p=>p.id);
+};
+window.linePushEventTransitionV1420=async function(event,oldStatus){
+  if(!event||event.status===oldStatus)return;
+  let kind,title,body;
+  if(event.status==="open_schedule"){
+    kind="open";title="Escala aberta! 💙";
+    body=`A disponibilidade para ${event.name} está aberta! Acesse o LINE e informe sua disponibilidade.`;
+  }else if(oldStatus==="open_schedule"){
+    kind="closed";title="Escala encerrada! 🔒";
+    body=`O prazo de disponibilidade para ${event.name} foi encerrado. Acompanhe as próximas atualizações pelo LINE.`;
+  }else return;
+  const ids=await lineActiveMembersV1420();
+  return linePushBatchV1420(event,kind,ids,title,body);
+};
+window.linePushNotSelectedV1420=async function(event,selectedRows){
+  if(!event?.id)return;
+  const selected=new Set((selectedRows||[]).map(s=>String(s.user_id)));
+  const {data,error}=await supabaseClient.from("availability").select("user_id,status").eq("event_id",event.id);
+  if(error){console.warn("Não foi possível consultar a disponibilidade:",error);return {ok:false,error:error.message}}
+  const ids=[...new Set((data||[]).filter(a=>a.status==="available"&&!selected.has(String(a.user_id))).map(a=>a.user_id))];
+  return linePushBatchV1420(event,"not-selected",ids,"Sobre sua escala 💙",
+    `Você não foi escalado para ${event.name} desta vez. Obrigado por informar sua disponibilidade! Continue acompanhando as próximas programações pelo LINE.`);
+};
+
 window.saveEvent = async function(eventId=null){
   const payload={
     name:document.getElementById("eName").value.trim(),
@@ -11739,10 +11785,16 @@ window.saveEvent = async function(eventId=null){
     created_by:currentUser.id
   };
   if(!payload.name||!payload.event_date||!payload.start_time)return alert("Preencha nome, data e horário.");
+  const previousStatus=eventId?eventById(Number(eventId))?.status:null;
   let response;
-  if(eventId)response=await supabaseClient.from("events").update(payload).eq("id",eventId);
-  else response=await supabaseClient.from("events").insert(payload);
+  if(eventId)response=await supabaseClient.from("events").update(payload).eq("id",eventId).select("id,name,status");
+  else response=await supabaseClient.from("events").insert(payload).select("id,name,status");
   if(response.error){console.error(response.error);alert("Não foi possível salvar o evento.");return}
+  const savedEvent={...payload,id:response.data?.[0]?.id||eventId};
+  try{
+    const push=await linePushEventTransitionV1420(savedEvent,previousStatus);
+    if(push&&!push.ok)console.warn("O evento foi salvo, mas o Push não foi confirmado:",push.error);
+  }catch(pushError){console.warn("Evento salvo, mas não foi possível enviar Push:",pushError)}
   await writeLog(eventId?`Atualizou o evento ${payload.name}`:`Criou o evento ${payload.name}`,"event",eventId||"",payload);
   closeModal();await ensureV8State(true);await render();
 }
@@ -12404,9 +12456,14 @@ window.publishAISchedule = async function(eventId){
 
   // Push PWA (Safari Home Screen / Android)
   await sendSchedulePushV13(data||[],event);
+  // O aviso de não selecionado é enviado somente após a publicação da escala.
+  try{
+    const notSelectedPush=await linePushNotSelectedV1420(event,data||[]);
+    if(notSelectedPush&&!notSelectedPush.ok)console.warn("Push não escalados:",notSelectedPush.error);
+  }catch(pushError){console.warn("Não foi possível enviar Push aos não escalados:",pushError)}
 
   await writeLog(`Publicou escala automática de ${event.name}`,"schedule",event.id,{assignments:rows.length});
-  V8.aiPreview=[];await ensureV8State(true);alert("Escala aplicada com sucesso. Os membros já receberam a notificação interna.");await render();
+  V8.aiPreview=[];await ensureV8State(true);alert("Escala aplicada com sucesso. Os avisos Push foram solicitados; confira a entrega nos logs do serviço.");await render();
 }
 
 window.notificationsPage = async function(){
@@ -13307,7 +13364,7 @@ window.pwaSettingsPanelV13 = function(){
       <button class="action-btn" onclick="installLinePWA()">${icon("download")} Instalar</button>
     </div>
     <div class="setting-line">
-      <div><b>Notificações da escala</b><small>Receba no celular quando você for escalado, mesmo com o app fechado.</small></div>
+      <div><b>Notificações da escala</b><small>Receba avisos de abertura, encerramento, seleção e não seleção da escala, mesmo com o app fechado.</small></div>
       <button class="action-btn" onclick="enableLinePushNotifications()">${icon("bell-ring")} Ativar</button>
     </div>
     <div class="setting-line">
@@ -15004,7 +15061,7 @@ window.mobileMoreOpenV122=function(){
     </div>
     <div class="mobile-more-grid-v122">
       ${masterExtra.map(([r,i,l])=>`<button onclick="mobileMoreCloseV145();navigateLine('${r}')"><span>${icon(i)}</span><b>${l}</b></button>`).join("")}
-      ${isMaster()?`<button onclick="mobileMoreCloseV145();openLineAssistantV145()"><span>${icon("bot")}</span><b>Assistente LINE</b></button>`:""}
+      <button onclick="mobileMoreCloseV145();openLineAssistantV145()"><span>${icon("bot")}</span><b>LINE AI 2.0</b></button>
     </div>
   </div>`;
   wrap.addEventListener("click",e=>{if(e.target===wrap)mobileMoreCloseV145()});
@@ -15614,5 +15671,126 @@ window.exportLineSchedulePNG1418=async function(eventId){
   document.addEventListener('focusin',handle,true);
 })();
 </script>
+
+<style>
+#lineAiFab20{position:fixed;right:22px;bottom:22px;z-index:9000;border:1px solid #398cdb;border-radius:999px;background:#1266c3;color:#fff;box-shadow:0 12px 35px #0008;padding:13px 18px;font:600 15px system-ui;cursor:pointer}
+#lineAiPanel20{position:fixed;inset:0;z-index:10010;background:#000a;display:flex;align-items:center;justify-content:center;padding:14px}
+#lineAiBox20{display:flex;flex-direction:column;width:min(760px,100%);height:min(740px,92dvh);border:1px solid #294969;border-radius:18px;background:#0c1726;color:#f4f8ff;font:15px/1.5 system-ui;overflow:hidden}
+#lineAiHead20{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #294969}
+#lineAiHead20 small{display:block;color:#9bb2cd;font-size:13px}
+#lineAiClose20{background:transparent;color:#fff;border:0;font-size:26px;cursor:pointer}
+#lineAiMessages20{flex:1;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:13px}
+.line-ai-bubble20{white-space:pre-wrap;overflow-wrap:anywhere;max-width:94%;padding:12px 15px;border-radius:14px;background:#182a40;font-size:15px}
+.line-ai-user20{align-self:flex-end;background:#125ba8}
+.line-ai-sources20{padding:0 15px 10px;display:flex;flex-wrap:wrap;gap:8px}
+.line-ai-sources20 a{color:#b4d9ff;font-size:13px}
+#lineAiForm20{display:flex;gap:8px;padding:14px;border-top:1px solid #294969}
+#lineAiInput20{flex:1;min-width:0;border:1px solid #36506b;background:#0b2036;color:white;border-radius:10px;padding:12px;font:15px system-ui}
+#lineAiSend20{border:0;border-radius:10px;background:#1976d2;color:#fff;padding:10px 18px;font:600 15px system-ui;cursor:pointer}
+#lineAiSend20:disabled{opacity:.55;cursor:wait}
+@media(max-width:760px){#lineAiFab20{bottom:84px;right:12px}#lineAiBox20{height:95dvh}#lineAiPanel20{padding:6px}}
+</style>
+<script>
+/* LINE AI 2.0: interface; nunca contém chave privada ou dados administrativos. */
+(function(){
+  "use strict";
+  let history20=[];
+  let busy20=false;
+  function ensureFab20(){
+    const existing=document.getElementById("lineAiFab20");
+    if(typeof currentUser==="undefined" || !currentUser){
+      if(existing)existing.remove();
+      return;
+    }
+    if(existing)return;
+    const btn=document.createElement("button");
+    btn.id="lineAiFab20";btn.type="button";btn.textContent="✦ LINE AI";
+    btn.addEventListener("click",open20);
+    document.body.appendChild(btn);
+  }
+  function append20(role,text,sources){
+    const area=document.getElementById("lineAiMessages20");if(!area)return;
+    const el=document.createElement("div");
+    el.className="line-ai-bubble20"+(role==="user"?" line-ai-user20":"");
+    el.textContent=text;
+    area.appendChild(el);
+    if(Array.isArray(sources)&&sources.length){
+      const links=document.createElement("div");links.className="line-ai-sources20";
+      for(const source of sources.slice(0,6)){
+        try{
+          const url=new URL(source.url);
+          if(url.protocol!=="https:")continue;
+          const a=document.createElement("a");
+          a.href=url.href;a.target="_blank";a.rel="noopener noreferrer";
+          a.textContent=String(source.title||url.hostname).slice(0,85);
+          links.appendChild(a);
+        }catch(_){}
+      }
+      area.appendChild(links);
+    }
+    area.scrollTop=area.scrollHeight;
+  }
+  function open20(){
+    if(!currentUser)return;
+    document.getElementById("v145AssistantBg")?.remove();
+    if(document.getElementById("lineAiPanel20"))return;
+    const panel=document.createElement("div");panel.id="lineAiPanel20";
+    panel.innerHTML='<section id="lineAiBox20" role="dialog" aria-modal="true" aria-label="LINE AI 2.0"><header id="lineAiHead20"><div><strong>✦ LINE AI 2.0</strong><small>Referências, criatividade e informações autorizadas</small></div><button type="button" id="lineAiClose20" aria-label="Fechar">×</button></header><div id="lineAiMessages20" aria-live="polite"></div><form id="lineAiForm20"><input id="lineAiInput20" maxlength="1500" placeholder="Pergunte ou peça referências do YouTube..." aria-label="Pergunta"><button id="lineAiSend20" type="submit">Enviar</button></form></section>';
+    panel.addEventListener("click",e=>{if(e.target===panel)panel.remove()});
+    document.body.appendChild(panel);
+    panel.querySelector("#lineAiClose20").onclick=()=>panel.remove();
+    panel.querySelector("#lineAiForm20").addEventListener("submit",ask20);
+    append20("assistant","Olá! Posso pesquisar referências públicas, ajudar na produção e consultar informações permitidas do LINE. Para assuntos administrativos, é necessário acesso Master.");
+    panel.querySelector("#lineAiInput20").focus();
+  }
+  async function ask20(event){
+    event.preventDefault();
+    if(busy20)return;
+    const input=document.getElementById("lineAiInput20");
+    const q=input?.value.trim();
+    if(!q)return;
+    input.value="";append20("user",q);
+    busy20=true;
+    const send=document.getElementById("lineAiSend20");if(send)send.disabled=true;
+    try{
+      const {data:{session},error}=await supabaseClient.auth.getSession();
+      if(error||!session?.access_token)throw new Error("Faça login novamente para usar a IA.");
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),45000);
+      let response;
+      try{
+        response=await fetch("/api/line-ai",{
+          method:"POST",
+          headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},
+          body:JSON.stringify({message:q,history:history20.slice(-8)}),
+          signal:controller.signal
+        });
+      }finally{clearTimeout(timeout)}
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(data.error||"Não foi possível consultar a IA.");
+      const answer=String(data.answer||"Não encontrei uma resposta.");
+      append20("assistant",answer,data.sources);
+      history20.push({role:"user",content:q},{role:"assistant",content:answer});
+      history20=history20.slice(-8);
+    }catch(error){
+      append20("assistant",error.name==="AbortError"?"A pesquisa demorou demais. Tente novamente.":error.message);
+    }finally{
+      busy20=false;
+      const btn=document.getElementById("lineAiSend20");if(btn)btn.disabled=false;
+    }
+  }
+  window.openLineAssistantV145=open20;
+  const oldRender=window.render;
+  if(typeof oldRender==="function"){
+    window.render=async function(...args){
+      const result=await oldRender.apply(this,args);
+      ensureFab20();
+      return result;
+    };
+  }
+  document.addEventListener("DOMContentLoaded",()=>setTimeout(ensureFab20,800));
+})();
+</script>
+
 </body>
 </html>
